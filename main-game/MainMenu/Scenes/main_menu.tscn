@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://cql06pslengwj"]
+
+[ext_resource type="Texture2D" uid="uid://cfdf3r7lsipyj" path="res://MainMenu/Assets/Main_Menu.png" id="1_8urfj"]
+[ext_resource type="Script" uid="uid://djpt2l6xj3d78" path="res://MainMenu/Scenes/main_menu.gd" id="1_v1kw2"]
+
+[node name="Main_Menu" type="Node2D" unique_id=1314528150]
+script = ExtResource("1_v1kw2")
+
+[node name="MainMenu" type="Sprite2D" parent="." unique_id=604601179]
+position = Vector2(959.9999, 540)
+scale = Vector2(0.9999999, 0.9999999)
+texture = ExtResource("1_8urfj")
+
+[node name="Control" type="Control" parent="." unique_id=1763362267]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1922.0
+offset_bottom = 1086.0
+
+[node name="Start" type="Button" parent="Control" unique_id=470115809]
+layout_mode = 0
+offset_left = 1023.0
+offset_top = 514.0
+offset_right = 1193.0
+offset_bottom = 559.0
+theme_override_colors/font_color = Color(0.8395044, 0.9182915, 0.59458166, 1)
+text = "Start"
