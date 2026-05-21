@@ -25,3 +25,10 @@ offset_right = 1193.0
 offset_bottom = 559.0
 theme_override_colors/font_color = Color(0.8395044, 0.9182915, 0.59458166, 1)
 text = "Start"
+
+[node name="TextEdit" type="TextEdit" parent="." unique_id=1030892516]
+offset_left = 69.0
+offset_top = 222.0
+offset_right = 583.0
+offset_bottom = 559.0
+text = "GAME NAME"
