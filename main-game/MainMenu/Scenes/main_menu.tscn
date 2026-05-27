@@ -14,8 +14,10 @@ texture = ExtResource("1_8urfj")
 [node name="Control" type="Control" parent="." unique_id=1763362267]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 1922.0
-offset_bottom = 1086.0
+offset_left = -38.0
+offset_top = 1.0
+offset_right = 1884.0
+offset_bottom = 1087.0
 
 [node name="Start" type="Button" parent="Control" unique_id=470115809]
 layout_mode = 0
@@ -29,6 +31,6 @@ text = "Start"
 [node name="TextEdit" type="TextEdit" parent="." unique_id=1030892516]
 offset_left = 69.0
 offset_top = 222.0
-offset_right = 583.0
-offset_bottom = 559.0
+offset_right = 549.0
+offset_bottom = 536.0
 text = "GAME NAME"
