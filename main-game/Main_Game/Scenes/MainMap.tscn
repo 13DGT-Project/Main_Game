@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bceavslxbt8c0"]
+
+[ext_resource type="PackedScene" uid="uid://b36oqwlckwse6" path="res://Main_Game/Scenes/MainMapCollisions.tscn" id="1_yo6e0"]
+[ext_resource type="PackedScene" uid="uid://bwyo8lx2dhog3" path="res://Characters/Assets/Scenes/Main_Character.tscn" id="2_uesp6"]
+
+[node name="Node3D" type="Node3D" unique_id=1238944493]
+
+[node name="JPCandsurroundingssprint1" parent="." unique_id=692184585 instance=ExtResource("1_yo6e0")]
+
+[node name="CharacterBody3D" parent="." unique_id=2081134322 instance=ExtResource("2_uesp6")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -65.677, 1.6212705, -39.321)
