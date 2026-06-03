@@ -31,14 +31,14 @@ func _unhandled_input(event):
 
 
 func _physics_process(delta: float) -> void:
-	%InteractText.hide()
-	if %SeeCast.is_colliding():
-		var target = %SeeCast.get_collider()
-		if target != null and target.has_method("interact"):
-			print("You can pick up this item")
-			%InteractText.show()
-			if Input.is_action_just_pressed("Interact"):
-				target.interact()
+#	%InteractText.hide()
+#	if %SeeCast.is_colliding():
+#		var target = %SeeCast.get_collider()
+#		if target != null and target.has_method("interact"):
+#			print("You can pick up this item")
+#			%InteractText.show()
+#			if Input.is_action_just_pressed("Interact"):
+#				target.interact()
 		
 		
 		
