@@ -19,6 +19,15 @@ offset_top = -5.0
 offset_right = 1921.0
 offset_bottom = 1081.0
 
+[node name="Quit" type="Button" parent="Control" unique_id=298145045]
+layout_mode = 0
+offset_left = 1007.0
+offset_top = 623.0
+offset_right = 1177.0
+offset_bottom = 668.0
+theme_override_colors/font_color = Color(0.8395044, 0.9182915, 0.59458166, 1)
+text = "Start"
+
 [node name="Start" type="Button" parent="Control" unique_id=470115809]
 layout_mode = 0
 offset_left = 1023.0
