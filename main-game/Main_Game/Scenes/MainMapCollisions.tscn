@@ -1488,9 +1488,9 @@ data = PackedVector3Array(0, 883.95416, 288.84988, 0, 903.6023, 289.0699, 19.799
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TPX_Buildings_001/TPX_Buildings_721_001/StaticBody3D" index="0" unique_id=1260897501]
 shape = SubResource("ConcavePolygonShape3D_qjsbv")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Cube" parent_id_path=PackedInt32Array(866525732) index="0" unique_id=1875525339]
+[node name="StaticBody3D" type="StaticBody3D" parent="Cube" parent_id_path=PackedInt32Array(866525732) index="0" unique_id=1305125691]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube/StaticBody3D" index="0" unique_id=676271686]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Cube/StaticBody3D" index="0" unique_id=508595443]
 shape = SubResource("ConcavePolygonShape3D_c7kdp")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="TPX_Buildings/TPX_Buildings_1009" parent_id_path=PackedInt32Array(1826210892) index="0" unique_id=1973086198]
