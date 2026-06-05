@@ -23,3 +23,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6877722, -0.1474787)
 
 [node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D" unique_id=1148805549]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -7.9349014e-08, -0.9999999, 0, 1.8152939, -4.371138e-08, 0, 0, 0.097807765)
