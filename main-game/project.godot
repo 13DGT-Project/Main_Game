@@ -14,6 +14,10 @@ config/name="MainGame"
 run/main_scene="uid://cql06pslengwj"
 config/features=PackedStringArray("4.6", "Forward Plus")
 
+[autoload]
+
+Inventory="*uid://b2sa8ombqgney"
+
 [display]
 
 window/size/viewport_width=1920
