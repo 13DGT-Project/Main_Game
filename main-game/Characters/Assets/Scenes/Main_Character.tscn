@@ -21,6 +21,6 @@ shape = SubResource("ConvexPolygonShape3D_obmdt")
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=2106127292]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6877722, -0.1474787)
 
-[node name="RayCast3D" type="RayCast3D" parent="Head/Camera3D" unique_id=1148805549]
+[node name="SeeCast" type="RayCast3D" parent="Head/Camera3D" unique_id=1148805549]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -7.9349014e-08, -0.9999999, 0, 1.8152939, -4.371138e-08, 0, 0, 0.097807765)
+transform = Transform3D(1, 0, 0, 0, -4.744889e-08, -0.9999999, 0, 1.085504, -4.371138e-08, 0, 0, -0.07336104)
