@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://djpt2l6xj3d78" path="res://MainMenu/Scripts/main_menu.gd" id="1_v1kw2"]
 [ext_resource type="Texture2D" uid="uid://b5qhwng0ceot3" path="res://MainMenu/Assets/Main_Menu_withplaceholdertitle.png" id="2_v1kw2"]
+[ext_resource type="Texture2D" uid="uid://rth76m1bmapd" path="res://MainMenu/Assets/Settings icon.svg" id="3_y7nyg"]
 
 [node name="Main_Menu" type="Node2D" unique_id=1314528150]
 script = ExtResource("1_v1kw2")
@@ -16,7 +17,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_left = -1.0
 offset_top = -5.0
-offset_right = 1921.0
+offset_right = 1923.0
 offset_bottom = 1081.0
 
 [node name="Quit" type="Button" parent="Control" unique_id=298145045]
@@ -37,5 +38,16 @@ offset_bottom = 572.0
 theme_override_colors/font_color = Color(0.8395044, 0.9182915, 0.59458166, 1)
 text = "Start"
 
+[node name="Settings" type="Button" parent="Control" unique_id=758998242]
+layout_mode = 0
+offset_left = 1178.0
+offset_top = 660.00006
+offset_right = 2146.0
+offset_bottom = 1388.0
+scale = Vector2(0.100444295, 0.100444295)
+icon = ExtResource("3_y7nyg")
+flat = true
+
 [connection signal="pressed" from="Control/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Control/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Control/Settings" to="." method="_on_settings_pressed"]

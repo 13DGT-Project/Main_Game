@@ -22,6 +22,7 @@ const FOV_CHANGE = 1.5
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Inventory.item_drop.connect(drop_from_player)
 	
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
@@ -39,7 +40,7 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("interact"):
 			print("It's a " + target.name)
 			
-			if target.is_in_group("Interactable"):
+			if target.is_in_group("interactable"):
 				target.interact()
 		
 		
@@ -90,3 +91,8 @@ func _headbob(time) -> Vector3:
 	pos.y = sin(time * BOB_FREQ) * BOB_AMP
 	pos.x = cos(time * BOB_FREQ / 2) * BOB_AMP
 	return pos
+	
+func drop_from_player(item):
+	var forward = -transform.basis.z.normalized()
+	var drop_pos = global_position + forward * 2.0
+	item.global_position = drop_pos
