@@ -1,6 +1,7 @@
 [gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://cce81wbw81nxd"]
 
 [ext_resource type="Texture2D" uid="uid://cv01nclo71wyg" path="res://Characters/GUI/GUI_Assets/pickaxe.png" id="1_23g7r"]
+[ext_resource type="PackedScene" uid="uid://bnje60aomdl3q" path="res://Backend/Resource/Scenes_Interactables/interactables.tscn" id="2_ahlqn"]
 [ext_resource type="PackedScene" uid="uid://iofaki8qdqc8" path="res://Characters/GUI/GUI_Assets/pickaxe.glb" id="2_n1we8"]
 [ext_resource type="Script" uid="uid://brsp00iujlhvc" path="res://Backend/ItemData.gd" id="3_ahlqn"]
 

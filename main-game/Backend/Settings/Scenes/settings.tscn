@@ -1,3 +1,136 @@
 [gd_scene format=3 uid="uid://db00p07x108n7"]
 
+[ext_resource type="Script" uid="uid://c83miq6dc8ok7" path="res://Backend/Settings/Scripts/settings.gd" id="1_sdm28"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_goyac"]
+bg_color = Color(0.5529412, 0.5529412, 0.5529412, 0.87058824)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sdm28"]
+bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="FontVariation" id="FontVariation_goyac"]
+variation_embolden = 1.02
+variation_transform = Transform2D(1.16, 0, 0, 1, 0.03, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hrdgk"]
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
 [node name="Settings" type="Node2D" unique_id=847086219]
+script = ExtResource("1_sdm28")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1914009572]
+
+[node name="Background" type="ColorRect" parent="CanvasLayer" unique_id=1094764590]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1254902, 0.1254902, 0.1254902, 1)
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=585946740]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Home_System" type="Panel" parent="CanvasLayer/Control" unique_id=1021528133]
+layout_mode = 0
+offset_left = 104.00001
+offset_top = 209.0
+offset_right = 594.0
+offset_bottom = 315.0
+scale = Vector2(0.71306205, 0.71306205)
+theme_override_styles/panel = SubResource("StyleBoxFlat_goyac")
+
+[node name="Home" type="Button" parent="CanvasLayer/Control/Home_System" unique_id=1938144548]
+layout_mode = 0
+offset_right = 494.0
+offset_bottom = 108.0
+theme_override_font_sizes/font_size = 40
+text = "Home/System"
+flat = true
+
+[node name="Language" type="Panel" parent="CanvasLayer/Control" unique_id=1827566554]
+layout_mode = 0
+offset_left = 104.00001
+offset_top = 286.0
+offset_right = 594.0
+offset_bottom = 392.0
+scale = Vector2(0.71306205, 0.71306205)
+theme_override_styles/panel = SubResource("StyleBoxFlat_sdm28")
+
+[node name="Language" type="Button" parent="CanvasLayer/Control/Language" unique_id=433260191]
+layout_mode = 0
+offset_right = 494.0
+offset_bottom = 108.0
+theme_override_font_sizes/font_size = 40
+text = "Language"
+flat = true
+
+[node name="Exit_Settings" type="Button" parent="CanvasLayer/Control" unique_id=2103748516]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -71.0
+offset_right = -7.0
+offset_bottom = 77.0
+grow_horizontal = 0
+theme_override_fonts/font = SubResource("FontVariation_goyac")
+theme_override_font_sizes/font_size = 50
+text = "X"
+
+[node name="Home" type="Node2D" parent="CanvasLayer/Control" unique_id=931048285]
+position = Vector2(-1, 0)
+
+[node name="Display" type="Panel" parent="CanvasLayer/Control/Home" unique_id=10531133]
+offset_left = 611.0
+offset_top = 75.000015
+offset_right = 1863.0
+offset_bottom = 179.00002
+theme_override_styles/panel = SubResource("StyleBoxFlat_hrdgk")
+
+[node name="Display" type="Label" parent="CanvasLayer/Control/Home/Display" unique_id=1395562687]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 15.0
+offset_right = 211.0
+offset_bottom = 84.0
+theme_override_font_sizes/font_size = 50
+text = "Display"
+
+[node name="Sound" type="Panel" parent="CanvasLayer/Control/Home" unique_id=446976191]
+offset_left = 611.0
+offset_top = 526.0
+offset_right = 1863.0
+offset_bottom = 630.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hrdgk")
+
+[node name="Sound" type="Label" parent="CanvasLayer/Control/Home/Sound" unique_id=2071348144]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 15.0
+offset_right = 211.0
+offset_bottom = 84.0
+theme_override_font_sizes/font_size = 50
+text = "Sound"
+
+[connection signal="pressed" from="CanvasLayer/Control/Home_System/Home" to="." method="_on_home_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Language/Language" to="." method="_on_language_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Exit_Settings" to="." method="_on_exit_settings_pressed"]

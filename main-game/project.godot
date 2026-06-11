@@ -20,7 +20,7 @@ Inventory="*uid://b2sa8ombqgney"
 
 [display]
 
-window/size/viewport_width=1980
+window/size/viewport_width=1920
 window/size/viewport_height=1080
 
 [editor_plugins]
@@ -76,6 +76,7 @@ interact={
 [physics]
 
 3d/physics_engine="Jolt Physics"
+3d/default_gravity=9.810000000000002
 
 [rendering]
 
