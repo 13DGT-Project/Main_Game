@@ -38,6 +38,15 @@ offset_bottom = 572.0
 theme_override_colors/font_color = Color(0.8395044, 0.9182915, 0.59458166, 1)
 text = "Start"
 
+[node name="Instructions" type="Button" parent="Control" unique_id=1259381094]
+layout_mode = 0
+offset_left = 1024.0
+offset_top = 575.0
+offset_right = 1194.0
+offset_bottom = 620.0
+theme_override_colors/font_color = Color(0.8395044, 0.9182915, 0.59458166, 1)
+text = "Instructions"
+
 [node name="Settings" type="Button" parent="Control" unique_id=758998242]
 layout_mode = 0
 offset_left = 1178.0
@@ -50,4 +59,5 @@ flat = true
 
 [connection signal="pressed" from="Control/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Control/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Control/Instructions" to="." method="_on_instructions_pressed"]
 [connection signal="pressed" from="Control/Settings" to="." method="_on_settings_pressed"]

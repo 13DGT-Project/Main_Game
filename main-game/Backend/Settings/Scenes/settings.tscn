@@ -26,6 +26,20 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0igm5"]
+bg_color = Color(0.5529412, 0.5529412, 0.5529412, 0.87058824)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y8q71"]
+bg_color = Color(0.14901961, 0.14901961, 0.14901961, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
 [node name="Settings" type="Node2D" unique_id=847086219]
 script = ExtResource("1_sdm28")
 
@@ -130,6 +144,66 @@ offset_right = 211.0
 offset_bottom = 84.0
 theme_override_font_sizes/font_size = 50
 text = "Sound"
+
+[node name="Languages" type="Node2D" parent="CanvasLayer/Control" unique_id=1641018093]
+visible = false
+position = Vector2(-1, 0)
+
+[node name="Language" type="Panel" parent="CanvasLayer/Control/Languages" unique_id=1661469624]
+offset_left = 861.0
+offset_top = 71.0
+offset_right = 1574.0
+offset_bottom = 175.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hrdgk")
+
+[node name="Language" type="Label" parent="CanvasLayer/Control/Languages/Language" unique_id=1040040761]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.5
+offset_top = -34.5
+offset_right = 128.5
+offset_bottom = 34.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Choose Language"
+
+[node name="English" type="Panel" parent="CanvasLayer/Control/Languages" unique_id=505582681]
+offset_left = 763.0
+offset_top = 298.0
+offset_right = 1253.0
+offset_bottom = 404.0
+scale = Vector2(0.71306205, 0.71306205)
+theme_override_styles/panel = SubResource("StyleBoxFlat_0igm5")
+
+[node name="English" type="Button" parent="CanvasLayer/Control/Languages/English" unique_id=1044843220]
+layout_mode = 0
+offset_right = 494.0
+offset_bottom = 108.0
+theme_override_font_sizes/font_size = 40
+text = "English"
+flat = true
+
+[node name="Chinese" type="Panel" parent="CanvasLayer/Control/Languages" unique_id=413841459]
+offset_left = 1318.0
+offset_top = 298.0
+offset_right = 1808.0
+offset_bottom = 404.0
+scale = Vector2(0.71306205, 0.71306205)
+theme_override_styles/panel = SubResource("StyleBoxFlat_y8q71")
+
+[node name="Chinese" type="Button" parent="CanvasLayer/Control/Languages/Chinese" unique_id=83454255]
+layout_mode = 0
+offset_right = 494.0
+offset_bottom = 108.0
+theme_override_font_sizes/font_size = 40
+text = "简体中文
+Simplified Chinese"
+flat = true
 
 [connection signal="pressed" from="CanvasLayer/Control/Home_System/Home" to="." method="_on_home_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Language/Language" to="." method="_on_language_pressed"]
