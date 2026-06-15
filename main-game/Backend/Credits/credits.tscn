@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://otix6j8vdaqo"]
+
+[ext_resource type="Script" uid="uid://d0ekcp51mb1y5" path="res://Backend/Credits/credits.gd" id="1_7cm2p"]
+
+[sub_resource type="FontVariation" id="FontVariation_hlbt7"]
+variation_embolden = 1.02
+variation_transform = Transform2D(1.16, 0, 0, 1, 0.03, 0)
+
+[node name="Credits" type="Node2D" unique_id=1987840853]
+script = ExtResource("1_7cm2p")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1087540024]
+
+[node name="Background" type="ColorRect" parent="CanvasLayer" unique_id=1411746447]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1254902, 0.1254902, 0.1254902, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=1608171236]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Exit_Settings" type="Button" parent="CanvasLayer/Control" unique_id=271524998]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -71.0
+offset_right = -7.0
+offset_bottom = 77.0
+grow_horizontal = 0
+theme_override_fonts/font = SubResource("FontVariation_hlbt7")
+theme_override_font_sizes/font_size = 50
+text = "X"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer" unique_id=1821886415]
+offset_left = 568.0
+offset_top = 802.0
+offset_right = 1409.0
+offset_bottom = 961.0
+theme_override_font_sizes/normal_font_size = 30
+text = "Sky3D: 
+The Milky Way panorama by ESO/S. Brunier, licensed under CC BY 4.0 and used in original and modified forms."
+horizontal_alignment = 1
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer" unique_id=1192205361]
+offset_left = 847.0
+offset_top = 153.0
+offset_right = 1075.0
+offset_bottom = 201.0
+theme_override_font_sizes/normal_font_size = 30
+text = "Kristree25"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer" unique_id=72765373]
+offset_left = 847.0
+offset_top = 78.0
+offset_right = 1094.0
+offset_bottom = 133.0
+theme_override_font_sizes/font_size = 40
+text = "Developers"
+uppercase = true
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="CanvasLayer" unique_id=2070558089]
+offset_left = 849.0
+offset_top = 322.0
+offset_right = 1077.0
+offset_bottom = 370.0
+theme_override_font_sizes/normal_font_size = 30
+text = "Kristree25"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="CanvasLayer" unique_id=1591977444]
+offset_left = 742.0
+offset_top = 243.0
+offset_right = 1213.0
+offset_bottom = 298.0
+theme_override_font_sizes/font_size = 40
+text = "3D Models and Assets"
+uppercase = true
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=222828974]
+offset_left = 633.0
+offset_top = 689.0
+offset_right = 1335.0
+offset_bottom = 744.0
+theme_override_font_sizes/font_size = 40
+text = "Shaders and World Enviroment"
+uppercase = true
+
+[connection signal="pressed" from="CanvasLayer/Control/Exit_Settings" to="." method="_on_exit_settings_pressed"]

@@ -22,30 +22,39 @@ offset_bottom = 1081.0
 
 [node name="Quit" type="Button" parent="Control" unique_id=298145045]
 layout_mode = 0
-offset_left = 1026.0
-offset_top = 623.0
-offset_right = 1196.0
-offset_bottom = 668.0
+offset_left = 1024.0
+offset_top = 605.0
+offset_right = 1194.0
+offset_bottom = 650.0
 theme_override_colors/font_color = Color(0.8395044, 0.9182915, 0.59458166, 1)
 text = "Quit"
 
 [node name="Start" type="Button" parent="Control" unique_id=470115809]
 layout_mode = 0
 offset_left = 1024.0
-offset_top = 527.0
+offset_top = 515.0
 offset_right = 1194.0
-offset_bottom = 572.0
+offset_bottom = 560.0
 theme_override_colors/font_color = Color(0.8395044, 0.9182915, 0.59458166, 1)
 text = "Start"
 
 [node name="Instructions" type="Button" parent="Control" unique_id=1259381094]
 layout_mode = 0
 offset_left = 1024.0
-offset_top = 575.0
+offset_top = 560.0
 offset_right = 1194.0
-offset_bottom = 620.0
+offset_bottom = 605.0
 theme_override_colors/font_color = Color(0.8395044, 0.9182915, 0.59458166, 1)
 text = "Instructions"
+
+[node name="Credits" type="Button" parent="Control" unique_id=1845499248]
+layout_mode = 0
+offset_left = 1024.0
+offset_top = 650.0
+offset_right = 1194.0
+offset_bottom = 695.0
+theme_override_colors/font_color = Color(0.8395044, 0.9182915, 0.59458166, 1)
+text = "Credits"
 
 [node name="Settings" type="Button" parent="Control" unique_id=758998242]
 layout_mode = 0
@@ -60,4 +69,5 @@ flat = true
 [connection signal="pressed" from="Control/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Control/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Control/Instructions" to="." method="_on_instructions_pressed"]
+[connection signal="pressed" from="Control/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="Control/Settings" to="." method="_on_settings_pressed"]
