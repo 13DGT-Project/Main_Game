@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://c3dy13h2xtsg5"]
+
+[ext_resource type="Script" uid="uid://by655ryc5nuoc" path="res://Backend/Instructions/instruction.gd" id="1_0k0h7"]
+
+[sub_resource type="FontVariation" id="FontVariation_bsn2v"]
+variation_embolden = 1.02
+variation_transform = Transform2D(1.16, 0, 0, 1, 0.03, 0)
+
+[node name="Instruction" type="Node2D" unique_id=1701288013]
+script = ExtResource("1_0k0h7")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=448065479]
+
+[node name="Background" type="ColorRect" parent="CanvasLayer" unique_id=658080938]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1254902, 0.1254902, 0.1254902, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=2122145458]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Exit_Settings" type="Button" parent="CanvasLayer/Control" unique_id=1354518822]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -71.0
+offset_right = -7.0
+offset_bottom = 77.0
+grow_horizontal = 0
+theme_override_fonts/font = SubResource("FontVariation_bsn2v")
+theme_override_font_sizes/font_size = 50
+text = "X"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer" unique_id=2072486134]
+anchors_preset = -1
+anchor_right = 0.2078125
+anchor_bottom = 0.24444444
+offset_left = 661.0
+offset_top = 162.0
+offset_right = 889.0
+offset_bottom = 210.0
+theme_override_font_sizes/normal_font_size = 30
+text = "MOVEMENT: WASD/Arrow Keys
+Interaction: E
+Drop Item: Q
+Hotbar: NUMBER KEYS 1,2,3,4"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label2" type="Label" parent="CanvasLayer" unique_id=1166528964]
+offset_left = 847.0
+offset_top = 78.0
+offset_right = 1094.0
+offset_bottom = 133.0
+theme_override_font_sizes/font_size = 40
+text = "Keys"
+horizontal_alignment = 1
+uppercase = true
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="CanvasLayer/Control/Exit_Settings" to="." method="_on_exit_settings_pressed"]

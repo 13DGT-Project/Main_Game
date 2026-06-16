@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://bceavslxbt8c0"]
 
+[ext_resource type="Script" uid="uid://bmit8l2fe2n6x" path="res://Main_Game/Scripts/main_map.gd" id="1_dafl7"]
 [ext_resource type="PackedScene" uid="uid://b36oqwlckwse6" path="res://Main_Game/Scenes/MainMapCollisions.tscn" id="1_yo6e0"]
 [ext_resource type="PackedScene" uid="uid://bwyo8lx2dhog3" path="res://Characters/Assets/Scenes/Main_Character.tscn" id="2_uesp6"]
 [ext_resource type="Shader" uid="uid://cvd0x7lon1ur6" path="res://addons/sky_3d/shaders/SkyMaterial.gdshader" id="3_b0ubo"]
@@ -15,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://bnje60aomdl3q" path="res://Backend/Resource/Scenes_Interactables/interactables.tscn" id="13_0cgkl"]
 [ext_resource type="Resource" uid="uid://cce81wbw81nxd" path="res://Backend/Resource/Tools/pickaxe.tres" id="14_hkuxq"]
 [ext_resource type="Resource" uid="uid://s11jj4yi3gx5" path="res://Backend/Resource/Tools/hammer.tres" id="15_hfgc8"]
+[ext_resource type="Script" uid="uid://3mbvb3ke4rln" path="res://Main_Game/Scripts/pause_menu.gd" id="17_a5o4l"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0lqai"]
 shader = ExtResource("3_b0ubo")
@@ -31,7 +33,7 @@ shader_parameter/atm_level_params = Vector3(1, 0, 0)
 shader_parameter/atm_thickness = 0.7
 shader_parameter/atm_beta_ray = Vector3(5.804544e-06, 1.3562913e-05, 3.311258e-05)
 shader_parameter/atm_beta_mie = Vector3(3.038e-08, 3.038e-08, 3.038e-08)
-shader_parameter/sun_light_color = Color(0.9963974, 0.91407675, 0.87282634, 1)
+shader_parameter/sun_light_color = Color(0.99617726, 0.90882784, 0.8650576, 1)
 shader_parameter/sun_disk_color = Color(0.996094, 0.541334, 0.140076, 1)
 shader_parameter/sun_disk_intensity = 30.0
 shader_parameter/sun_disk_size = 0.02
@@ -45,7 +47,7 @@ shader_parameter/moon_texture_flip_u = false
 shader_parameter/moon_texture_flip_v = false
 shader_parameter/moon_size = 0.07
 shader_parameter/atm_moon_mie_tint = Color(0.137255, 0.184314, 0.292196, 1)
-shader_parameter/atm_moon_mie_intensity = 0.7
+shader_parameter/atm_moon_mie_intensity = 0.0
 shader_parameter/atm_moon_partial_mie_phase = Vector3(0.36, 1.64, 1.6)
 shader_parameter/starmap_color = Color(0.709804, 0.709804, 0.709804, 0.854902)
 shader_parameter/starmap_texture = ExtResource("9_5sgqi")
@@ -53,7 +55,7 @@ shader_parameter/starmap_flip_u = false
 shader_parameter/starmap_flip_v = false
 shader_parameter/starmap_alignment = Vector3(2.68288, -0.25891, 0.40101)
 shader_parameter/star_rotation_offset = 9.38899
-shader_parameter/star_rotation = -7.411172896291611
+shader_parameter/star_rotation = -7.530517287627
 shader_parameter/star_tilt = -2.2846464628360894
 shader_parameter/star_field_color = Color(1, 1, 1, 1)
 shader_parameter/star_field_texture = ExtResource("8_a5o4l")
@@ -69,8 +71,8 @@ shader_parameter/cirrus_absorption = 2.0
 shader_parameter/cirrus_sky_tint_fade = 0.5
 shader_parameter/cirrus_size = 1.0
 shader_parameter/cirrus_uv = Vector2(0.16, 0.11)
-shader_parameter/cirrus_position1 = Vector2(0.11161142, 0.11161142)
-shader_parameter/cirrus_position2 = Vector2(0.11161142, 0.11161142)
+shader_parameter/cirrus_position1 = Vector2(0.6304892, 0.6304892)
+shader_parameter/cirrus_position2 = Vector2(0.6304892, 0.6304892)
 shader_parameter/cirrus_texture = ExtResource("4_0cgkl")
 shader_parameter/cumulus_visible = true
 shader_parameter/cumulus_intensity = 0.6
@@ -80,7 +82,7 @@ shader_parameter/cumulus_absorption = 2.0
 shader_parameter/cumulus_noise_freq = 2.7
 shader_parameter/cumulus_sky_tint_fade = 0.0
 shader_parameter/cumulus_size = 0.5
-shader_parameter/cumulus_position = Vector2(0.55799484, 0.55799484)
+shader_parameter/cumulus_position = Vector2(13.172168, 13.172168)
 shader_parameter/cumulus_texture = ExtResource("5_hkuxq")
 shader_parameter/cumulus_partial_mie_phase = Vector3(0.957564, 1.042436, 0.412)
 shader_parameter/cumulus_mie_intensity = 1.0
@@ -90,7 +92,7 @@ shader_parameter/azimuthal_grid_rotation_offset = 0.03
 shader_parameter/show_equatorial_grid = false
 shader_parameter/equatorial_grid_color = Color(0, 0.75, 1, 1)
 shader_parameter/equatorial_grid_rotation_offset = 0.03
-shader_parameter/moon_matrix = Basis(0.91797113, 0.2998046, -0.25970435, 0.14262831, -0.8604504, -0.48916513, -0.37011662, 0.4119982, -0.83262914)
+shader_parameter/moon_matrix = Basis(0.21440166, -0.73826987, 0.63952297, -0.22270347, -0.67445195, -0.7039302, 0.951018, 0.008499832, -0.30901885)
 
 [sub_resource type="Sky" id="Sky_0iiq7"]
 sky_material = SubResource("ShaderMaterial_0lqai")
@@ -99,14 +101,18 @@ sky_material = SubResource("ShaderMaterial_0lqai")
 background_mode = 2
 sky = SubResource("Sky_0iiq7")
 ambient_light_source = 3
-ambient_light_color = Color(0.8070158, 0.74034154, 0.7069315, 1)
+ambient_light_color = Color(0.80135655, 0.73108995, 0.69587976, 1)
 reflected_light_source = 2
 tonemap_mode = 3
 tonemap_white = 6.0
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_p3tu5"]
 
-[node name="Node3D" type="Node3D" unique_id=1238944493]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hfgc8"]
+bg_color = Color(0.5424403, 0.62951076, 0.5299343, 1)
+
+[node name="MainGame" type="Node3D" unique_id=1238944493]
+script = ExtResource("1_dafl7")
 
 [node name="JPCandsurroundingssprint2" parent="." unique_id=692184585 instance=ExtResource("1_yo6e0")]
 
@@ -117,33 +123,33 @@ transform = Transform3D(0.15, 0, 0, 0, 0.18437982, 0, 0, 0, 0.15, -44.034634, 1.
 environment = SubResource("Environment_pb581")
 camera_attributes = SubResource("CameraAttributesPractical_p3tu5")
 script = ExtResource("10_ekdt5")
-current_time = 11.262637777777533
+current_time = 11.258542222242221
 wind_direction = 2.35619451204804
 metadata/_custom_type_script = "uid://deo0gxkmk2ahd"
 
 [node name="SunLight" type="DirectionalLight3D" parent="Sky3D" unique_id=1813676179]
-transform = Transform3D(-0.95991236, -0.114904515, 0.25566617, 0, 0.91211534, 0.4099337, -0.28030026, 0.39350042, -0.8755508, 0.25566617, 0.4099337, -0.8755508)
-light_color = Color(0.9963974, 0.91407675, 0.87282634, 1)
+transform = Transform3D(-0.95812935, -0.11580323, 0.2618735, 0, 0.9145682, 0.4044317, -0.28633568, 0.38749787, -0.87627465, 0.2618735, 0.4044317, -0.87627465)
+light_color = Color(0.99617726, 0.90882784, 0.8650576, 1)
 shadow_enabled = true
 
 [node name="MoonLight" type="DirectionalLight3D" parent="Sky3D" unique_id=1752075758]
-transform = Transform3D(0, -0.92898524, -0.37011662, -0.89627796, -0.16414401, 0.4119982, -0.44349268, 0.3317274, -0.8326291, -0.37011662, 0.4119982, -0.8326291)
+transform = Transform3D(0, -0.30913574, 0.9510179, -0.9996219, 0.02614869, 0.008499834, -0.027495475, -0.9506584, -0.30901885, 0.9510179, 0.008499834, -0.30901885)
 light_color = Color(0.572549, 0.776471, 0.956863, 1)
 light_energy = 0.0
 
 [node name="SkyDome" type="Node" parent="Sky3D" unique_id=1862388921]
 script = ExtResource("11_nnq3c")
-sun_azimuth = -0.2841069
-sun_altitude = -1.148415
-moon_azimuth = -5.8649015
-moon_altitude = -1.1461504
+sun_azimuth = -0.29040018
+sun_altitude = -1.154439
+moon_azimuth = -1.2566234
+moon_altitude = -1.5622964
 wind_direction = 2.35619451204804
 
 [node name="TimeOfDay" type="Node" parent="Sky3D" unique_id=281941122]
 script = ExtResource("12_ayovu")
 dome_path = NodePath("../SkyDome")
-current_time = 11.262637777777533
-day = 12
+current_time = 11.258542222242221
+day = 19
 month = 6
 year = 2026
 latitude = -0.7138501360411927
@@ -157,3 +163,82 @@ item_data = ExtResource("14_hkuxq")
 [node name="Interactables2" parent="." unique_id=2093867254 instance=ExtResource("13_0cgkl")]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, -43.282757, 1.7028499, -17.63685)
 item_data = ExtResource("15_hfgc8")
+
+[node name="PauseMenu" type="Control" parent="." unique_id=1549127843]
+process_mode = 2
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("17_a5o4l")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu" unique_id=1765019874]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1.1755697, 1.1755697, 0.19215687)
+
+[node name="PanelContainer" type="PanelContainer" parent="PauseMenu" unique_id=1712582431]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -395.0
+offset_top = -215.5
+offset_right = 395.0
+offset_bottom = 215.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hfgc8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu" unique_id=1925421702]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="PauseMenu" type="Label" parent="PauseMenu/VBoxContainer" unique_id=597436658]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.15294118, 0.06666667, 0.16862746, 1)
+theme_override_font_sizes/font_size = 40
+text = "Pause Menu"
+
+[node name="Resume" type="Button" parent="PauseMenu/VBoxContainer" unique_id=1121274128]
+layout_mode = 2
+text = "Resume"
+
+[node name="MainMenu" type="Button" parent="PauseMenu/VBoxContainer" unique_id=224531091]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Settings" type="Button" parent="PauseMenu/VBoxContainer" unique_id=1173057765]
+layout_mode = 2
+text = "Settings"
+
+[node name="Help" type="Button" parent="PauseMenu/VBoxContainer" unique_id=999231657]
+layout_mode = 2
+text = "Help"
+
+[node name="Quit" type="Button" parent="PauseMenu/VBoxContainer" unique_id=1468227391]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="PauseMenu/VBoxContainer/Resume" to="PauseMenu" method="_on_resume_pressed"]

@@ -22,7 +22,8 @@ func _on_settings_pressed() -> void:
 	get_tree().change_scene_to_file("res://Backend/Settings/Scenes/settings.tscn")
 
 func _on_instructions_pressed() -> void:
-	pass # Replace with function body.
+	get_tree().change_scene_to_file("res://Backend/Instructions/instruction.tscn")
+
 	
 	
 func _on_credits_pressed() -> void:
