@@ -2,7 +2,7 @@ extends Control
 
 
 @onready var main_buttons = $VBoxContainer
-@onready var pause_menu = $PauseMenu
+@onready var pause_menu = $"."
 
 func _ready():
 	visible = false
@@ -20,7 +20,7 @@ func _process(_delta):
 		pause_menu.show()
 		get_tree().paused = !get_tree().paused
 		visible = get_tree().paused
-		
+			
 		if get_tree().paused:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		else:
@@ -33,3 +33,18 @@ func _on_resume_pressed() -> void:
 	visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
+
+
+func _on_main_menu_pressed() -> void:
+	get_tree().paused = false
+	visible = false
+	get_tree().change_scene_to_file("res://MainMenu/Scenes/main_menu.tscn")
+	
+func _on_settings_pressed() -> void:
+	pass
+	
+func _on_help_pressed() -> void:
+	pass # Replace with function body.
+
+func _on_quit_pressed() -> void:
+	get_tree().quit()
