@@ -46,14 +46,15 @@ text = "X"
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer" unique_id=2072486134]
 anchors_preset = -1
-anchor_right = 0.2078125
-anchor_bottom = 0.24444444
+anchor_right = 1.0
+anchor_bottom = 1.0
 offset_left = 661.0
 offset_top = 162.0
-offset_right = 889.0
-offset_bottom = 210.0
+offset_right = -632.0
+offset_bottom = -606.0
 theme_override_font_sizes/normal_font_size = 30
 text = "MOVEMENT: WASD/Arrow Keys
+Sprint: Shift
 Interaction: E
 Drop Item: Q
 Hotbar: NUMBER KEYS 1,2,3,4"
