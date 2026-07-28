@@ -1,13 +1,24 @@
 [gd_scene format=3 uid="uid://bkk42uixsgsos"]
 
-[ext_resource type="PackedScene" uid="uid://1kp2r7gin7af" path="res://Main_Game/Assets/n_block.glb" id="1_3q8vs"]
+[ext_resource type="PackedScene" uid="uid://oor4dn6sfr4q" path="res://Main_Game/Scenes/n_blockcollisions.tscn" id="1_3q8vs"]
+[ext_resource type="PackedScene" uid="uid://bwyo8lx2dhog3" path="res://Characters/Assets/Scenes/Main_Character.tscn" id="2_edxsg"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_3q8vs"]
 
-[node name="N_BLOCK" type="Node3D" unique_id=527080099]
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_edxsg"]
+data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
-[node name="n_block" parent="." unique_id=296384747 instance=ExtResource("1_3q8vs")]
+[node name="N_BLOCK" type="Node3D" unique_id=527080099]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1706901203]
 transform = Transform3D(0.7066379, 0, 0.046981495, 0, 1.1633617, 0, -0.48535016, 0, 0.06840196, 6.178463, 1.23698, 4.044885)
 mesh = SubResource("BoxMesh_3q8vs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1288261141]
+transform = Transform3D(0.7066379, 0, 0.046981495, 0, 1.1633617, 0, -0.48535016, 0, 0.06840196, 6.178463, 1.23698, 4.044885)
+shape = SubResource("ConcavePolygonShape3D_edxsg")
+
+[node name="n_block2" parent="." unique_id=296384747 instance=ExtResource("1_3q8vs")]
+
+[node name="CharacterBody3D" parent="." unique_id=2081134322 instance=ExtResource("2_edxsg")]
+transform = Transform3D(-0.28221706, 0, -0.41273907, 0, 0.5, 0, 0.41273907, 0, -0.28221706, 6.8254585, 1.2664486, 4.2161913)

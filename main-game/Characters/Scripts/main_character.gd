@@ -94,5 +94,5 @@ func _headbob(time) -> Vector3:
 	
 func drop_from_player(item):
 	var forward = -transform.basis.z.normalized()
-	var drop_pos = global_position + forward * 2.0
+	var drop_pos = global_position - forward * 2.0
 	item.global_position = drop_pos

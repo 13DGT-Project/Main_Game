@@ -3943,6 +3943,9 @@ shape = SubResource("ConcavePolygonShape3D_4vfni")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TPX_Buildings/TPX_Buildings_997/StaticBody3D" index="0" unique_id=1171858357]
 shape = SubResource("ConcavePolygonShape3D_1raqw")
 
+[node name="TPX_RoadsOutlines_17" parent="TPX_RoadsOutlines" parent_id_path=PackedInt32Array(918686111) index="51" unique_id=65724003]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -0.07678223, -0.05758667, -0.00030517578)
+
 [node name="StaticBody3D" type="StaticBody3D" parent="TPX_Ground/TPX_Ground_0" parent_id_path=PackedInt32Array(343952524) index="0" unique_id=1364769264]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TPX_Ground/TPX_Ground_0/StaticBody3D" index="0" unique_id=295399192]
