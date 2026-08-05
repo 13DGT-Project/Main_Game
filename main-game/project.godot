@@ -78,6 +78,10 @@ Escape={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://Backend/Settings/Localization/Localisation_Godot - Sheet1.en.translation", "res://Backend/Settings/Localization/Localisation_Godot - Sheet1.es.translation", "res://Backend/Settings/Localization/Localisation_Godot - Sheet1.ja.translation", "res://Backend/Settings/Localization/Localisation_Godot - Sheet1.zh.translation")
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
