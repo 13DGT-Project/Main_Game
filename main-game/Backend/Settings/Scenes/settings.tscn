@@ -111,7 +111,6 @@ theme_override_font_sizes/font_size = 50
 text = "X"
 
 [node name="Home" type="Node2D" parent="CanvasLayer/Control" unique_id=931048285]
-visible = false
 position = Vector2(-1, 0)
 
 [node name="Display" type="Panel" parent="CanvasLayer/Control/Home" unique_id=10531133]
@@ -128,7 +127,7 @@ offset_top = 15.0
 offset_right = 211.0
 offset_bottom = 84.0
 theme_override_font_sizes/font_size = 50
-text = "Display"
+text = "SETTINGS_HOME_DISPLAY_TITLE"
 
 [node name="Sound" type="Panel" parent="CanvasLayer/Control/Home" unique_id=446976191]
 offset_left = 611.0
@@ -144,9 +143,10 @@ offset_top = 15.0
 offset_right = 211.0
 offset_bottom = 84.0
 theme_override_font_sizes/font_size = 50
-text = "Sound"
+text = "SETTINGS_HOME_SOUND_TITLE"
 
 [node name="Languages" type="Node2D" parent="CanvasLayer/Control" unique_id=1641018093]
+visible = false
 position = Vector2(-1, 0)
 
 [node name="Language" type="Panel" parent="CanvasLayer/Control/Languages" unique_id=1661469624]

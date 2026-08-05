@@ -9,8 +9,19 @@ extends Node2D
 @onready var language_panel_japanese = $CanvasLayer/Control/Languages/Japanese
 @onready var language_panel_spanish = $CanvasLayer/Control/Languages/Spanish
 
+
 func _ready() -> void:
-	TranslationServer.set_locale("en")
+	var locale = TranslationServer.get_locale()
+
+	if locale.begins_with("en"):
+		set_selected_language(language_panel_english)
+	elif locale.begins_with("zh"):
+		set_selected_language(language_panel_chinese)
+	elif locale.begins_with("ja"):
+		set_selected_language(language_panel_japanese)
+	elif locale.begins_with("es"):
+		set_selected_language(language_panel_spanish)
+
 
 func _on_home_pressed() -> void:
 	var current_style = language_panel.get_theme_stylebox("panel")
@@ -74,13 +85,16 @@ func set_selected_language(selected_panel: Panel):
 
 func _on_english_pressed() -> void:
 	set_selected_language(language_panel_english)
-
+	TranslationServer.set_locale("en")
 
 func _on_chinese_pressed() -> void:
 	set_selected_language(language_panel_chinese)
+	TranslationServer.set_locale("zh")
 
 func _on_japanese_pressed() -> void:
 	set_selected_language(language_panel_japanese)
+	TranslationServer.set_locale("ja")
 
 func _on_spanish_pressed() -> void:
 	set_selected_language(language_panel_spanish)
+	TranslationServer.set_locale("es")
