@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://draowvneyw2m2"
+
+[deps]
+
+files=["res://Backend/Settings/Localization/Localisation_Godot - Sheet1.en.translation", "res://Backend/Settings/Localization/Localisation_Godot - Sheet1.zh.translation", "res://Backend/Settings/Localization/Localisation_Godot - Sheet1.ja.translation", "res://Backend/Settings/Localization/Localisation_Godot - Sheet1.es.translation"]
+
+source_file="res://Backend/Settings/Localization/Localisation_Godot - Sheet1.csv"
+dest_files=["res://Backend/Settings/Localization/Localisation_Godot - Sheet1.en.translation", "res://Backend/Settings/Localization/Localisation_Godot - Sheet1.zh.translation", "res://Backend/Settings/Localization/Localisation_Godot - Sheet1.ja.translation", "res://Backend/Settings/Localization/Localisation_Godot - Sheet1.es.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

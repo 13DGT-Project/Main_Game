@@ -49,8 +49,7 @@ offset_top = 802.0
 offset_right = 1409.0
 offset_bottom = 961.0
 theme_override_font_sizes/normal_font_size = 30
-text = "Sky3D: 
-The Milky Way panorama by ESO/S. Brunier, licensed under CC BY 4.0 and used in original and modified forms."
+text = "CREDITS_SHADER_ENVIROMENT_COPYRIGHT"
 horizontal_alignment = 1
 
 [node name="Author" type="RichTextLabel" parent="CanvasLayer" unique_id=1192205361]
@@ -59,7 +58,7 @@ offset_top = 153.0
 offset_right = 1075.0
 offset_bottom = 201.0
 theme_override_font_sizes/normal_font_size = 30
-text = "Kristree25"
+text = "CREDITS_DEVELOPERS_AUTHOR"
 horizontal_alignment = 1
 
 [node name="Developers_Title" type="Label" parent="CanvasLayer" unique_id=72765373]
@@ -68,7 +67,7 @@ offset_top = 78.0
 offset_right = 1094.0
 offset_bottom = 133.0
 theme_override_font_sizes/font_size = 40
-text = "Developers"
+text = "CREDITS_DEVELOPERS_TITLE"
 uppercase = true
 
 [node name="Author2" type="RichTextLabel" parent="CanvasLayer" unique_id=2070558089]
@@ -77,7 +76,7 @@ offset_top = 322.0
 offset_right = 1077.0
 offset_bottom = 370.0
 theme_override_font_sizes/normal_font_size = 30
-text = "Kristree25"
+text = "CREDITS_MODELASSETS_AUTHOR"
 horizontal_alignment = 1
 
 [node name="Assets_Title" type="Label" parent="CanvasLayer" unique_id=1591977444]
@@ -86,7 +85,7 @@ offset_top = 243.0
 offset_right = 1213.0
 offset_bottom = 298.0
 theme_override_font_sizes/font_size = 40
-text = "3D Models and Assets"
+text = "CREDITS_MODELASSETS_TITLE"
 uppercase = true
 
 [node name="Shaders_Title" type="Label" parent="CanvasLayer" unique_id=222828974]
@@ -95,7 +94,7 @@ offset_top = 689.0
 offset_right = 1335.0
 offset_bottom = 744.0
 theme_override_font_sizes/font_size = 40
-text = "Shaders and World Enviroment"
+text = "CREDITS_SHADER_ENVIROMENT_TITLE"
 uppercase = true
 
 [connection signal="pressed" from="CanvasLayer/Control/Exit_Settings" to="." method="_on_exit_settings_pressed"]

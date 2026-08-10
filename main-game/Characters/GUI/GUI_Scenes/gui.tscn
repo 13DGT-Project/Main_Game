@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://dyfnjlhtpodb2"]
+
+[ext_resource type="Script" uid="uid://berurn06kinds" path="res://Characters/GUI/GUI_Scripts/gui.gd" id="1_kgpqv"]
+[ext_resource type="Texture2D" uid="uid://ntm8n50ss7aq" path="res://Characters/GUI/GUI_Assets/GUI.png" id="1_sinql"]
+
+[sub_resource type="Gradient" id="Gradient_sinql"]
+colors = PackedColorArray(0.5568628, 0.5568628, 0.5568628, 1, 0.5568628, 0.5568628, 0.5568628, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kgpqv"]
+gradient = SubResource("Gradient_sinql")
+
+[sub_resource type="Gradient" id="Gradient_rq6pc"]
+offsets = PackedFloat32Array(0.013157895, 1)
+colors = PackedColorArray(0.24798164, 0.9999997, 0.3353989, 1, 9.168908e-06, 0.5667498, 0.120033436, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_n76yc"]
+gradient = SubResource("Gradient_rq6pc")
+
+[sub_resource type="Gradient" id="Gradient_kgpqv"]
+offsets = PackedFloat32Array(0.013157895, 1)
+colors = PackedColorArray(0.9999998, 0.8166485, 0.26822066, 1, 0.80784315, 0, 0.011764706, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_usef6"]
+gradient = SubResource("Gradient_kgpqv")
+
+[sub_resource type="Gradient" id="Gradient_g3jpj"]
+offsets = PackedFloat32Array(0.013157895, 1)
+colors = PackedColorArray(2.887845e-06, 0.96376055, 0.9086118, 1, 0.003921569, 0.27058825, 0.85490197, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rq6pc"]
+gradient = SubResource("Gradient_g3jpj")
+
+[node name="GUI" type="CanvasLayer" unique_id=541821843]
+scale = Vector2(0.99678266, 0.99900186)
+transform = Transform2D(0.99678266, 0, 0, 0.99900186, 0, 0)
+script = ExtResource("1_kgpqv")
+
+[node name="Gui" type="Sprite2D" parent="." unique_id=1278136388]
+texture_filter = 1
+position = Vector2(150.5578, 903.6145)
+scale = Vector2(4.5, 4.5)
+texture = ExtResource("1_sinql")
+
+[node name="Control" type="Control" parent="." unique_id=1921190037]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 28.55779
+offset_top = 801.6144
+offset_right = 68.55779
+offset_bottom = 841.6144
+
+[node name="Energy" type="TextureProgressBar" parent="Control" unique_id=621152019]
+layout_mode = 0
+offset_left = 36.1162
+offset_top = 215.21481
+offset_right = 100.116196
+offset_bottom = 279.2148
+rotation = -1.5707964
+scale = Vector2(1.5622948, 0.5164468)
+value = 100.0
+texture_under = SubResource("GradientTexture2D_kgpqv")
+texture_progress = SubResource("GradientTexture2D_n76yc")
+
+[node name="Sanity" type="TextureProgressBar" parent="Control" unique_id=361749460]
+layout_mode = 0
+offset_left = 108.18813
+offset_top = 215.2148
+offset_right = 172.18814
+offset_bottom = 279.21478
+rotation = -1.5707964
+scale = Vector2(1.5622948, 0.5164468)
+value = 100.0
+texture_under = SubResource("GradientTexture2D_kgpqv")
+texture_progress = SubResource("GradientTexture2D_usef6")
+
+[node name="Thirst" type="TextureProgressBar" parent="Control" unique_id=584053683]
+layout_mode = 0
+offset_left = 179.25905
+offset_top = 215.21481
+offset_right = 243.25905
+offset_bottom = 279.2148
+rotation = -1.5707964
+scale = Vector2(1.5622948, 0.5164468)
+value = 100.0
+texture_under = SubResource("GradientTexture2D_kgpqv")
+texture_progress = SubResource("GradientTexture2D_rq6pc")
+
+[node name="TimeLabel" type="Label" parent="Control" unique_id=960752179]
+layout_mode = 0
+offset_left = 1741.7483
+offset_top = -790.0
+offset_right = 1781.7483
+offset_bottom = -767.0
+
+[node name="DateLabel" type="Label" parent="Control" unique_id=1377751412]
+layout_mode = 0
+offset_left = 1741.7483
+offset_top = -756.569
+offset_right = 1781.7483
+offset_bottom = -733.569

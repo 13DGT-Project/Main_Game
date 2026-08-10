@@ -77,7 +77,7 @@ layout_mode = 0
 offset_right = 494.0
 offset_bottom = 108.0
 theme_override_font_sizes/font_size = 40
-text = "Home/System"
+text = "SETTINGS_HOME_BUTTON_TITLE"
 flat = true
 
 [node name="Language" type="Panel" parent="CanvasLayer/Control" unique_id=1827566554]
@@ -94,7 +94,7 @@ layout_mode = 0
 offset_right = 494.0
 offset_bottom = 108.0
 theme_override_font_sizes/font_size = 40
-text = "Language"
+text = "SETTINGS_LANGUAGE_BUTTON_TITLE"
 flat = true
 
 [node name="Exit_Settings" type="Button" parent="CanvasLayer/Control" unique_id=2103748516]
@@ -127,7 +127,7 @@ offset_top = 15.0
 offset_right = 211.0
 offset_bottom = 84.0
 theme_override_font_sizes/font_size = 50
-text = "Display"
+text = "SETTINGS_HOME_DISPLAY_TITLE"
 
 [node name="Sound" type="Panel" parent="CanvasLayer/Control/Home" unique_id=446976191]
 offset_left = 611.0
@@ -143,7 +143,7 @@ offset_top = 15.0
 offset_right = 211.0
 offset_bottom = 84.0
 theme_override_font_sizes/font_size = 50
-text = "Sound"
+text = "SETTINGS_HOME_SOUND_TITLE"
 
 [node name="Languages" type="Node2D" parent="CanvasLayer/Control" unique_id=1641018093]
 visible = false
@@ -170,7 +170,7 @@ offset_bottom = 34.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 50
-text = "Choose Language"
+text = "SETTINGS_LANGUAGE_TITLE"
 
 [node name="English" type="Panel" parent="CanvasLayer/Control/Languages" unique_id=505582681]
 offset_left = 763.0
@@ -205,6 +205,44 @@ text = "简体中文
 Simplified Chinese"
 flat = true
 
+[node name="Japanese" type="Panel" parent="CanvasLayer/Control/Languages" unique_id=1947561402]
+offset_left = 762.0
+offset_top = 456.0
+offset_right = 1252.0
+offset_bottom = 562.0
+scale = Vector2(0.71306205, 0.71306205)
+theme_override_styles/panel = SubResource("StyleBoxFlat_y8q71")
+
+[node name="Japanese" type="Button" parent="CanvasLayer/Control/Languages/Japanese" unique_id=611638980]
+layout_mode = 0
+offset_right = 494.0
+offset_bottom = 108.0
+theme_override_font_sizes/font_size = 40
+text = "日本語
+Japanese"
+flat = true
+
+[node name="Spanish" type="Panel" parent="CanvasLayer/Control/Languages" unique_id=1001806464]
+offset_left = 1324.0
+offset_top = 464.0
+offset_right = 1814.0
+offset_bottom = 570.0
+scale = Vector2(0.71306205, 0.71306205)
+theme_override_styles/panel = SubResource("StyleBoxFlat_y8q71")
+
+[node name="Spanish" type="Button" parent="CanvasLayer/Control/Languages/Spanish" unique_id=1052548029]
+layout_mode = 0
+offset_right = 494.0
+offset_bottom = 108.0
+theme_override_font_sizes/font_size = 40
+text = "Español
+Spanish"
+flat = true
+
 [connection signal="pressed" from="CanvasLayer/Control/Home_System/Home" to="." method="_on_home_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Language/Language" to="." method="_on_language_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Exit_Settings" to="." method="_on_exit_settings_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Languages/English/English" to="." method="_on_english_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Languages/Chinese/Chinese" to="." method="_on_chinese_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Languages/Japanese/Japanese" to="." method="_on_japanese_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Languages/Spanish/Spanish" to="." method="_on_spanish_pressed"]

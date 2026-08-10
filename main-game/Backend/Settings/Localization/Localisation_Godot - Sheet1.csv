@@ -1,0 +1,38 @@
+key,en,zh,ja,es
+START_BUTTON,Start,开始,開始,Inicio
+INSTRUCTION_BUTTON,Instructions,说明,説明,Instrucciones
+CREDITS_BUTTON,Credits,鸣谢,スタッフロール,Créditos
+QUIT_BUTTON,Quit,退出,終了,Salir
+INSTRUCTION_KEYS_TITLE,Keys,键盘按键,動作方法,Configuración de teclas
+INSTRUCTION_KEYS_BINDS,"MOVEMENT: WASD/Arrow Keys
+Sprint: Shift
+Interaction: E
+Drop Item: Q
+Hotbar: NUMBER KEYS 1,2,3,4","移动：WASD/方向键
+冲刺：Shift
+交互：E
+丢弃物品：Q
+物品栏：数字键 1、2、3、4","移動：WASD／矢印キー
+ダッシュ：Shift
+操作：E
+アイテムを捨てる：Q
+ホットバー：数字キー 1、2、3、4","MOVIMIENTO: WASD/teclas de flecha
+Esprint: Shift
+Interacción: E
+Soltar objeto: Q
+Barra de acceso rápido: TECLAS NUMÉRICAS 1, 2, 3, 4"
+CREDITS_DEVELOPERS_TITLE,DEVELOPERS,开发者,開発者,DESARROLLADORES
+CREDITS_DEVELOPERS_AUTHOR,Kristree25,Kristree25,Kristree25,Kristree25
+CREDITS_MODELASSETS_TITLE,3D MODELS AND ASSETS,3D 模型及资源,3Dモデル,MODELOS Y RECURSOS 3D
+CREDITS_MODELASSETS_AUTHOR,Kristree25,Kristree25,Kristree25,Kristree25
+CREDITS_SHADER_ENVIROMENT_TITLE,Shaders and World Enviroment,着色器与世界环境,シェーダーとワールド環境,Shaders y entorno del mundo
+CREDITS_SHADER_ENVIROMENT_COPYRIGHT,"Sky3D: 
+The Milky Way panorama by ESO/S. Brunier, licensed under CC BY 4.0 and used in original and modified forms.","Sky3D：
+这张由 ESO/S. Brunier 拍摄的银河全景图，根据 CC BY 4.0 许可协议发布，本文中采用了其原始版本及修改版本。","Sky3D:
+ESO/S. Brunierによる天の川のパノラマ写真。CC BY 4.0ライセンスの下で提供されており、オリジナルおよび改変された形で使用されています。","Sky3D:
+Panorama de la Vía Láctea de ESO/S. Brunier, con licencia CC BY 4.0 y utilizado tanto en su versión original como en versiones modificadas."
+SETTINGS_HOME_BUTTON_TITLE,Home/System,主页/系统,ホーム／システム,Inicio/Sistema
+SETTINGS_LANGUAGE_BUTTON_TITLE,Lanuage,语言设置,言語,Idioma
+SETTINGS_HOME_DISPLAY_TITLE,Display,显示,画面,Pantalla
+SETTINGS_HOME_SOUND_TITLE,Sound,音频,サウンド,Sonido
+SETTINGS_LANGUAGE_TITLE,Choose Language,选择语言,言語を選択,Elige el idioma

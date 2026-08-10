@@ -4,7 +4,23 @@ extends Node2D
 @onready var home_panel = $CanvasLayer/Control/Home_System
 @onready var home_node = $CanvasLayer/Control/Home
 @onready var language_node = $CanvasLayer/Control/Languages
+@onready var language_panel_english = $CanvasLayer/Control/Languages/English
+@onready var language_panel_chinese = $CanvasLayer/Control/Languages/Chinese
+@onready var language_panel_japanese = $CanvasLayer/Control/Languages/Japanese
+@onready var language_panel_spanish = $CanvasLayer/Control/Languages/Spanish
 
+
+func _ready() -> void:
+	var locale = TranslationServer.get_locale()
+
+	if locale.begins_with("en"):
+		set_selected_language(language_panel_english)
+	elif locale.begins_with("zh"):
+		set_selected_language(language_panel_chinese)
+	elif locale.begins_with("ja"):
+		set_selected_language(language_panel_japanese)
+	elif locale.begins_with("es"):
+		set_selected_language(language_panel_spanish)
 
 
 func _on_home_pressed() -> void:
@@ -47,3 +63,38 @@ func _on_language_pressed() -> void:
 
 func _on_exit_settings_pressed() -> void:
 	get_tree().change_scene_to_file("res://MainMenu/Scenes/main_menu.tscn")
+
+
+func set_selected_language(selected_panel: Panel):
+	var panels = [
+		language_panel_english,
+		language_panel_chinese,
+		language_panel_japanese,
+		language_panel_spanish
+	]
+
+	for panel in panels:
+		var style = panel.get_theme_stylebox("panel").duplicate()
+
+		if panel == selected_panel:
+			style.bg_color = Color("#8d8d8dde") # Selected
+		else:
+			style.bg_color = Color("#262626") # Unselected
+
+		panel.add_theme_stylebox_override("panel", style)
+
+func _on_english_pressed() -> void:
+	set_selected_language(language_panel_english)
+	TranslationServer.set_locale("en")
+
+func _on_chinese_pressed() -> void:
+	set_selected_language(language_panel_chinese)
+	TranslationServer.set_locale("zh")
+
+func _on_japanese_pressed() -> void:
+	set_selected_language(language_panel_japanese)
+	TranslationServer.set_locale("ja")
+
+func _on_spanish_pressed() -> void:
+	set_selected_language(language_panel_spanish)
+	TranslationServer.set_locale("es")
