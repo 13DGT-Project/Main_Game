@@ -1,3 +1,14 @@
 [gd_scene format=3 uid="uid://ci43j1sb87brb"]
 
+[ext_resource type="Script" uid="uid://ds4kma1houflc" path="res://Backend/Intro/university_select.gd" id="1_2fhk3"]
+
 [node name="University_Select" type="Node2D" unique_id=60268512]
+script = ExtResource("1_2fhk3")
+
+[node name="Button" type="Button" parent="." unique_id=1748475093]
+offset_left = 779.0
+offset_top = 737.0
+offset_right = 1050.0
+offset_bottom = 870.0
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

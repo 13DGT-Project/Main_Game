@@ -145,6 +145,12 @@ offset_bottom = 84.0
 theme_override_font_sizes/font_size = 50
 text = "SETTINGS_HOME_SOUND_TITLE"
 
+[node name="HSlider" type="HSlider" parent="CanvasLayer/Control/Home" unique_id=1992886076]
+offset_left = 609.0
+offset_top = 678.0
+offset_right = 1023.0
+offset_bottom = 717.0
+
 [node name="Languages" type="Node2D" parent="CanvasLayer/Control" unique_id=1641018093]
 visible = false
 position = Vector2(-1, 0)
