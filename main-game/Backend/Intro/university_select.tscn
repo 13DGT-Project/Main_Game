@@ -1,14 +1,57 @@
 [gd_scene format=3 uid="uid://ci43j1sb87brb"]
 
 [ext_resource type="Script" uid="uid://ds4kma1houflc" path="res://Backend/Intro/university_select.gd" id="1_2fhk3"]
+[ext_resource type="Texture2D" uid="uid://rtatcbppv40r" path="res://Backend/Resource/University_photos/AucklandUOA.jpg" id="2_jcevg"]
 
 [node name="University_Select" type="Node2D" unique_id=60268512]
 script = ExtResource("1_2fhk3")
 
+[node name="Control" type="Control" parent="." unique_id=1261232677]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="Button" type="Button" parent="." unique_id=1748475093]
-offset_left = 779.0
-offset_top = 737.0
-offset_right = 1050.0
-offset_bottom = 870.0
+offset_left = 695.0
+offset_top = 906.0
+offset_right = 966.0
+offset_bottom = 1039.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1532824375]
+offset_left = 46.0
+offset_top = 99.0
+offset_right = 205.0
+offset_bottom = 257.0
+size_flags_horizontal = 3
+theme_override_constants/separation = 19
+
+[node name="Auckland" type="Button" parent="VBoxContainer" unique_id=985741145]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Auckland"
+
+[node name="Waikato" type="Button" parent="VBoxContainer" unique_id=1257961347]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Waikato"
+
+[node name="Cantebury" type="Button" parent="VBoxContainer" unique_id=426270316]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Cantebury"
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=937007421]
+offset_left = 244.0
+offset_top = 58.0
+offset_right = 1906.0
+offset_bottom = 1056.0
+color = Color(0.8963438, 0.96554476, 0.99678916, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ColorRect" unique_id=233470945]
+texture_filter = 1
+position = Vector2(830.7222, 499.5)
+scale = Vector2(3.4219902, 3.6333332)
+texture = ExtResource("2_jcevg")
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
