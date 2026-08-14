@@ -8,6 +8,7 @@
 [resource]
 script = ExtResource("3_ahlqn")
 item_name = "Pickaxe"
+item_id = "Pickaxe"
 icon = ExtResource("1_23g7r")
 mesh_scene = ExtResource("2_n1we8")
 metadata/_custom_type_script = "uid://brsp00iujlhvc"
