@@ -50,15 +50,15 @@ color = Color(0.019607844, 0.17254902, 0.22745098, 0.29803923)
 
 [node name="Auckland_photo" type="Sprite2D" parent="Auckland" unique_id=233470945]
 texture_filter = 1
-position = Vector2(423, 203)
+position = Vector2(435, 209)
 scale = Vector2(1.7407405, 1.4037036)
 texture = ExtResource("2_jcevg")
 
 [node name="Auckland_info" type="TextEdit" parent="Auckland" unique_id=122724669]
 layout_mode = 0
-offset_left = 844.0
+offset_left = 854.0
 offset_top = 8.0
-offset_right = 1657.0
+offset_right = 1653.0
 offset_bottom = 998.0
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
