@@ -98,3 +98,10 @@ offset_left = 1741.7483
 offset_top = -756.569
 offset_right = 1781.7483
 offset_bottom = -733.569
+
+[node name="University" type="Label" parent="Control" unique_id=271404544]
+layout_mode = 0
+offset_left = 14.581002
+offset_top = -178.99289
+offset_right = 383.30136
+offset_bottom = -19.0419

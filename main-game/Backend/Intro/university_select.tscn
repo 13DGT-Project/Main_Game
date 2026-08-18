@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ds4kma1houflc" path="res://Backend/Intro/university_select.gd" id="1_2fhk3"]
 [ext_resource type="Texture2D" uid="uid://rtatcbppv40r" path="res://Backend/Resource/University_photos/AucklandUOA.jpg" id="2_jcevg"]
+[ext_resource type="Texture2D" uid="uid://01oy0140tg2g" path="res://Backend/Resource/University_photos/Screenshot 2026-08-18 141211.png" id="3_xm1c0"]
+[ext_resource type="Texture2D" uid="uid://dtvuo3rvt1wqg" path="res://Backend/Resource/University_photos/Canterbury-University-25.jpg" id="4_xlgk8"]
 
 [node name="University_Select" type="Node2D" unique_id=60268512]
 script = ExtResource("1_2fhk3")
@@ -18,7 +20,7 @@ offset_top = 906.0
 offset_right = 966.0
 offset_bottom = 1039.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1532824375]
+[node name="Univeristies" type="VBoxContainer" parent="." unique_id=1532824375]
 offset_left = 46.0
 offset_top = 99.0
 offset_right = 205.0
@@ -26,22 +28,23 @@ offset_bottom = 257.0
 size_flags_horizontal = 3
 theme_override_constants/separation = 19
 
-[node name="Auckland" type="Button" parent="VBoxContainer" unique_id=985741145]
+[node name="Auckland" type="Button" parent="Univeristies" unique_id=985741145]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Auckland"
 
-[node name="Waikato" type="Button" parent="VBoxContainer" unique_id=1257961347]
+[node name="Waikato" type="Button" parent="Univeristies" unique_id=1257961347]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Waikato"
 
-[node name="Cantebury" type="Button" parent="VBoxContainer" unique_id=426270316]
+[node name="Canterbury" type="Button" parent="Univeristies" unique_id=426270316]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Cantebury"
 
 [node name="Auckland" type="ColorRect" parent="." unique_id=937007421]
+visible = false
 offset_left = 244.0
 offset_top = 58.0
 offset_right = 1906.0
@@ -61,4 +64,103 @@ offset_top = 8.0
 offset_right = 1653.0
 offset_bottom = 998.0
 
+[node name="Screenshot20260818141211" type="Sprite2D" parent="Auckland" unique_id=473735610]
+texture_filter = 2
+position = Vector2(1212, 508)
+scale = Vector2(1.3635501, 1.36355)
+texture = ExtResource("3_xm1c0")
+
+[node name="Difficulty" type="Label" parent="Auckland" unique_id=1422482583]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 438.0
+offset_right = 213.0
+offset_bottom = 475.0
+theme_override_font_sizes/font_size = 30
+text = "Difficulty: "
+
+[node name="Grade" type="Label" parent="Auckland" unique_id=506443907]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 489.0
+offset_right = 311.0
+offset_bottom = 531.0
+theme_override_font_sizes/font_size = 30
+text = "Grades Needed:"
+
+[node name="Money" type="Label" parent="Auckland" unique_id=82750715]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 540.0
+offset_right = 315.0
+offset_bottom = 582.0
+theme_override_font_sizes/font_size = 30
+text = "Money Needed:"
+
+[node name="Confirm" type="Button" parent="Auckland" unique_id=1794720220]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 922.0
+offset_right = 289.0
+offset_bottom = 978.0
+text = "Select"
+
+[node name="Canterbury" type="ColorRect" parent="." unique_id=564477704]
+offset_left = 244.0
+offset_top = 58.0
+offset_right = 1906.0
+offset_bottom = 1056.0
+color = Color(0.019607844, 0.17254902, 0.22745098, 0.29803923)
+
+[node name="Canterbury_photo" type="Sprite2D" parent="Canterbury" unique_id=561980299]
+position = Vector2(665.4569, 343.3271)
+scale = Vector2(0.88472414, 0.988955)
+texture = ExtResource("4_xlgk8")
+
+[node name="Canterbury_info" type="TextEdit" parent="Canterbury" unique_id=1069620658]
+layout_mode = 0
+offset_left = 854.0
+offset_top = -2.0
+offset_right = 1653.0
+offset_bottom = 998.0
+
+[node name="Difficulty" type="Label" parent="Canterbury" unique_id=1311340974]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 438.0
+offset_right = 213.0
+offset_bottom = 475.0
+theme_override_font_sizes/font_size = 30
+text = "Difficulty: "
+
+[node name="Grade" type="Label" parent="Canterbury" unique_id=1276344565]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 489.0
+offset_right = 311.0
+offset_bottom = 531.0
+theme_override_font_sizes/font_size = 30
+text = "Grades Needed:"
+
+[node name="Money" type="Label" parent="Canterbury" unique_id=221318202]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 540.0
+offset_right = 315.0
+offset_bottom = 582.0
+theme_override_font_sizes/font_size = 30
+text = "Money Needed:"
+
+[node name="Confirm2" type="Button" parent="Canterbury" unique_id=1594497441]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 922.0
+offset_right = 289.0
+offset_bottom = 978.0
+text = "Select"
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Univeristies/Auckland" to="." method="_on_auckland_pressed"]
+[connection signal="pressed" from="Univeristies/Canterbury" to="." method="_on_canterbury_pressed"]
+[connection signal="pressed" from="Auckland/Confirm" to="." method="_on_confirm_pressed"]
+[connection signal="pressed" from="Canterbury/Confirm2" to="." method="_on_confirm_2_pressed"]

@@ -2,11 +2,15 @@
 
 [ext_resource type="PackedScene" uid="uid://oor4dn6sfr4q" path="res://Main_Game/Scenes/n_blockcollisions.tscn" id="1_3q8vs"]
 [ext_resource type="PackedScene" uid="uid://bwyo8lx2dhog3" path="res://Characters/Assets/Scenes/Main_Character.tscn" id="2_edxsg"]
+[ext_resource type="Script" uid="uid://3mbvb3ke4rln" path="res://Main_Game/Scripts/pause_menu.gd" id="3_lpkui"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_3q8vs"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_edxsg"]
 data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7y4xo"]
+bg_color = Color(0.5424403, 0.62951076, 0.5299343, 1)
 
 [node name="N_BLOCK" type="Node3D" unique_id=527080099]
 
@@ -22,3 +26,86 @@ shape = SubResource("ConcavePolygonShape3D_edxsg")
 
 [node name="CharacterBody3D" parent="." unique_id=2081134322 instance=ExtResource("2_edxsg")]
 transform = Transform3D(-0.28221706, 0, -0.41273907, 0, 0.5, 0, 0.41273907, 0, -0.28221706, 6.8254585, 1.2664486, 4.2161913)
+
+[node name="PauseMenu" type="Control" parent="." unique_id=1635770745]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_lpkui")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu" unique_id=2123325414]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1.1755697, 1.1755697, 0.19215687)
+
+[node name="PanelContainer" type="PanelContainer" parent="PauseMenu" unique_id=406507251]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -395.0
+offset_top = -215.5
+offset_right = 395.0
+offset_bottom = 215.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7y4xo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu" unique_id=387220708]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="PauseMenu" type="Label" parent="PauseMenu/VBoxContainer" unique_id=140369786]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.15294118, 0.06666667, 0.16862746, 1)
+theme_override_font_sizes/font_size = 40
+text = "Pause Menu"
+
+[node name="Resume" type="Button" parent="PauseMenu/VBoxContainer" unique_id=520741911]
+layout_mode = 2
+text = "Resume"
+
+[node name="MainMenu" type="Button" parent="PauseMenu/VBoxContainer" unique_id=642653344]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Settings" type="Button" parent="PauseMenu/VBoxContainer" unique_id=1052244296]
+layout_mode = 2
+text = "Settings"
+
+[node name="Help" type="Button" parent="PauseMenu/VBoxContainer" unique_id=956630271]
+layout_mode = 2
+text = "Help"
+
+[node name="Quit" type="Button" parent="PauseMenu/VBoxContainer" unique_id=163947193]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="PauseMenu/VBoxContainer/Resume" to="PauseMenu" method="_on_resume_pressed"]
+[connection signal="pressed" from="PauseMenu/VBoxContainer/MainMenu" to="PauseMenu" method="_on_main_menu_pressed"]
+[connection signal="pressed" from="PauseMenu/VBoxContainer/Settings" to="PauseMenu" method="_on_settings_pressed"]
+[connection signal="pressed" from="PauseMenu/VBoxContainer/Help" to="PauseMenu" method="_on_help_pressed"]
+[connection signal="pressed" from="PauseMenu/VBoxContainer/Quit" to="PauseMenu" method="_on_quit_pressed"]
