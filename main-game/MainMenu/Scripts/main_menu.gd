@@ -12,8 +12,10 @@ func _process(delta: float) -> void:
 
 
 func _on_start_pressed() -> void:
-	get_tree().change_scene_to_file("res://Main_Game/Scenes/MainMap.tscn")
-	Inventory.get_node("UI").show()
+	#get_tree().change_scene_to_file("res://Main_Game/Scenes/MainMap.tscn")
+	get_tree().change_scene_to_file("res://Backend/Intro/university_select.tscn")
+
+	#Inventory.get_node("UI").show()
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()

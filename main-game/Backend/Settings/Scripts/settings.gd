@@ -8,6 +8,9 @@ extends Node2D
 @onready var language_panel_chinese = $CanvasLayer/Control/Languages/Chinese
 @onready var language_panel_japanese = $CanvasLayer/Control/Languages/Japanese
 @onready var language_panel_spanish = $CanvasLayer/Control/Languages/Spanish
+@onready var volume_slider = $CanvasLayer/Control/Home/Master_Volume
+
+
 
 
 func _ready() -> void:
@@ -21,7 +24,9 @@ func _ready() -> void:
 		set_selected_language(language_panel_japanese)
 	elif locale.begins_with("es"):
 		set_selected_language(language_panel_spanish)
-
+	volume_slider.value = db_to_linear(AudioServer.get_bus_volume_db(
+		AudioServer.get_bus_index("Master")
+	)) * 100.0
 
 func _on_home_pressed() -> void:
 	var current_style = language_panel.get_theme_stylebox("panel")
@@ -98,3 +103,8 @@ func _on_japanese_pressed() -> void:
 func _on_spanish_pressed() -> void:
 	set_selected_language(language_panel_spanish)
 	TranslationServer.set_locale("es")
+
+
+func _on_master_volume_value_changed(value: float) -> void:
+	var bus_index = AudioServer.get_bus_index("Master")
+	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value / 100.0))

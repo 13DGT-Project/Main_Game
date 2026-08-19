@@ -3,6 +3,9 @@ extends Node
 @onready var gui = $"../GUI"
 @onready var time_of_day = $"../Sky3D/TimeOfDay"
 
+
+
+
 const MONTHS = [
 	"",
 	"Jan","Feb","Mar","Apr","May","Jun",

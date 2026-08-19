@@ -39,6 +39,7 @@ func _on_main_menu_pressed() -> void:
 	get_tree().paused = false
 	visible = false
 	get_tree().change_scene_to_file("res://MainMenu/Scenes/main_menu.tscn")
+	MusicManager.resume_music()
 	
 func _on_settings_pressed() -> void:
 	pass
