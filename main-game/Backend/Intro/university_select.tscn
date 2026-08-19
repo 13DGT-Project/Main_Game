@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://rtatcbppv40r" path="res://Backend/Resource/University_photos/AucklandUOA.jpg" id="2_jcevg"]
 [ext_resource type="Texture2D" uid="uid://01oy0140tg2g" path="res://Backend/Resource/University_photos/Screenshot 2026-08-18 141211.png" id="3_xm1c0"]
 [ext_resource type="Texture2D" uid="uid://dtvuo3rvt1wqg" path="res://Backend/Resource/University_photos/Canterbury-University-25.jpg" id="4_xlgk8"]
+[ext_resource type="Texture2D" uid="uid://d0curqw6ei1jt" path="res://Backend/Resource/University_photos/outside-pa-sunny-day-blue-sky__FocusFillWyIwLjAwIiwiMC4wMCIsMTE1MCwxMDAwXQ.webp" id="5_6ipx4"]
+[ext_resource type="Texture2D" uid="uid://b5il2xc3en7w0" path="res://Backend/Resource/University_photos/Screenshot 2026-08-20 100609.png" id="5_l61n0"]
+[ext_resource type="Texture2D" uid="uid://cxvaqnb5rpefi" path="res://Backend/Resource/University_photos/Screenshot 2026-08-20 100636.png" id="7_p1sie"]
 
 [node name="University_Select" type="Node2D" unique_id=60268512]
 script = ExtResource("1_2fhk3")
@@ -106,6 +109,7 @@ offset_bottom = 978.0
 text = "Select"
 
 [node name="Canterbury" type="ColorRect" parent="." unique_id=564477704]
+visible = false
 offset_left = 244.0
 offset_top = 58.0
 offset_right = 1906.0
@@ -159,8 +163,75 @@ offset_right = 289.0
 offset_bottom = 978.0
 text = "Select"
 
+[node name="Screenshot20260820100609" type="Sprite2D" parent="Canterbury" unique_id=2065622691]
+position = Vector2(1240.75, 505.99954)
+scale = Vector2(1.4447619, 1.444762)
+texture = ExtResource("5_l61n0")
+
+[node name="Waikato" type="ColorRect" parent="." unique_id=637038353]
+visible = false
+offset_left = 244.0
+offset_top = 58.0
+offset_right = 1906.0
+offset_bottom = 1056.0
+color = Color(0.019607844, 0.17254902, 0.22745098, 0.29803923)
+
+[node name="Waikato_photo" type="Sprite2D" parent="Waikato" unique_id=1907664204]
+position = Vector2(506.00006, 497)
+scale = Vector2(0.88472414, 0.988955)
+texture = ExtResource("5_6ipx4")
+
+[node name="Waikato_info" type="TextEdit" parent="Waikato" unique_id=509531237]
+layout_mode = 0
+offset_left = 854.0
+offset_top = -2.0
+offset_right = 1653.0
+offset_bottom = 998.0
+
+[node name="Difficulty" type="Label" parent="Waikato" unique_id=1956570129]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 763.0
+offset_right = 179.0
+offset_bottom = 805.0
+theme_override_font_sizes/font_size = 30
+text = "Difficulty: "
+
+[node name="Grade" type="Label" parent="Waikato" unique_id=1491827094]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 814.0
+offset_right = 262.0
+offset_bottom = 856.0
+theme_override_font_sizes/font_size = 30
+text = "Grades Needed:"
+
+[node name="Money" type="Label" parent="Waikato" unique_id=31351149]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 865.0
+offset_right = 257.0
+offset_bottom = 907.0
+theme_override_font_sizes/font_size = 30
+text = "Money Needed:"
+
+[node name="Confirm3" type="Button" parent="Waikato" unique_id=1672638269]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 922.0
+offset_right = 289.0
+offset_bottom = 978.0
+text = "Select"
+
+[node name="Screenshot20260820100636" type="Sprite2D" parent="Waikato" unique_id=1657414808]
+position = Vector2(1253.0001, 503.27478)
+scale = Vector2(1.3358779, 1.3358778)
+texture = ExtResource("7_p1sie")
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Univeristies/Auckland" to="." method="_on_auckland_pressed"]
+[connection signal="pressed" from="Univeristies/Waikato" to="." method="_on_waikato_pressed"]
 [connection signal="pressed" from="Univeristies/Canterbury" to="." method="_on_canterbury_pressed"]
 [connection signal="pressed" from="Auckland/Confirm" to="." method="_on_confirm_pressed"]
 [connection signal="pressed" from="Canterbury/Confirm2" to="." method="_on_confirm_2_pressed"]
+[connection signal="pressed" from="Waikato/Confirm3" to="." method="_on_confirm_3_pressed"]

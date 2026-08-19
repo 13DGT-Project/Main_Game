@@ -25,3 +25,5 @@ func update_time(time_text:String):
 
 func update_date(date_text:String):
 	date_label.text = date_text
+	
+	
