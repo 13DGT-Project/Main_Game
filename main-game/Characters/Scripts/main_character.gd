@@ -17,21 +17,12 @@ var t_bob = 0.0
 const BASE_FOV = 75.0
 const FOV_CHANGE = 1.5
 
-var energy := 100.0
 var exhausted := false
-const MAX_ENERGY := 100.0
 const SPRINT_DRAIN := 20.0
 const ENERGY_REGEN := 10.0
-@onready var gui = get_tree().current_scene.get_node("GUI")
-
-func change_energy(amount: float):
-	var old_energy = energy
-
-	energy = clamp(energy + amount, 0.0, MAX_ENERGY)
-
-	# Only update the GUI if the value actually changed
-	if energy != old_energy:
-		gui.update_energy(energy)
+# NOTE: energy itself now lives on GameBackend (autoload), not here, so it
+# survives scene changes (e.g. going to school/work and coming back). Sprint
+# still reads/writes it via GameBackend.change_energy() below.
 
 
 
@@ -78,18 +69,18 @@ func _physics_process(delta: float) -> void:
 	#	speed = SPRINT_SPEED
 	#else:
 	#	speed = WALK_SPEED
-	if energy <= 0:
+	if GameBackend.energy <= 0:
 		exhausted = true
 
-	if exhausted and energy >= 25:
+	if exhausted and GameBackend.energy >= 25:
 		exhausted = false
 
 	if Input.is_action_pressed("sprint") and !exhausted:
 		speed = SPRINT_SPEED
-		change_energy(-SPRINT_DRAIN * delta)
+		GameBackend.change_energy(-SPRINT_DRAIN * delta)
 	else:
 		speed = WALK_SPEED
-		change_energy(ENERGY_REGEN * delta)
+		GameBackend.change_energy(ENERGY_REGEN * delta)
 	
 	
 	

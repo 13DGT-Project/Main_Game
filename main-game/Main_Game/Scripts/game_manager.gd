@@ -3,6 +3,8 @@ extends Node
 @onready var gui = $"../GUI"
 @onready var time_of_day = $"../Sky3D/TimeOfDay"
 
+const JOURNAL_SCENE := preload("res://Main_Game/Scenes/Journal.tscn")
+
 
 
 
@@ -16,9 +18,39 @@ func _ready():
 	time_of_day.minute_changed.connect(_update_clock)
 	time_of_day.day_changed.connect(_update_clock)
 	time_of_day.hour_changed.connect(_hour_changed)
-	
+
+	# School/work scenes don't carry their own Sky3D, so they queue elapsed
+	# hours on GameBackend instead of advancing a clock directly. Apply that
+	# here whenever MainMap (re)loads — e.g. coming back from school or work.
+	# This has to happen BEFORE the passive-decay/day-countdown hooks below
+	# are connected, or the catch-up jump would double-count decay/days that
+	# complete_study_session() etc. already applied when it happened.
+	if GameBackend.pending_hours > 0.0:
+		time_of_day.current_time += GameBackend.pending_hours
+		GameBackend.pending_hours = 0.0
+
+	# Passive drain + day countdown for time passing naturally while walking
+	# around MainMap (not already covered by a study/work/social action).
+	time_of_day.hour_changed.connect(_on_hour_passed)
+	time_of_day.day_changed.connect(_on_day_passed)
+
+	GameBackend.game_ended.connect(_on_game_ended)
+	MusicManager.play_track("main_game")
+	get_tree().current_scene.add_child(JOURNAL_SCENE.instantiate())
 
 	_update_clock()
+
+
+func _on_hour_passed(_hour) -> void:
+	GameBackend.apply_passive_decay(1.0)
+
+
+func _on_day_passed(_day) -> void:
+	GameBackend.advance_day()
+
+
+func _on_game_ended(_result: String) -> void:
+	get_tree().change_scene_to_file("res://Main_Game/Scenes/EndingScene.tscn")
 
 func _update_clock(_value = null):
 

@@ -1,0 +1,328 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://Main_Game/Scripts/work_scene.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/shelf.png" id="2"]
+[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/checkout_counter.png" id="3"]
+[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/player.png" id="4"]
+[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/customer_a.png" id="5"]
+[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/bakery_station.png" id="6"]
+[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/deli_counter.png" id="7"]
+
+[sub_resource type="CircleShape2D" id="PlayerShape"]
+radius = 16.0
+
+[sub_resource type="RectangleShape2D" id="ShelfShape"]
+size = Vector2(200, 110)
+
+[sub_resource type="RectangleShape2D" id="CheckoutShape"]
+size = Vector2(200, 110)
+
+[sub_resource type="RectangleShape2D" id="CustomerShape"]
+size = Vector2(80, 90)
+
+[sub_resource type="RectangleShape2D" id="ExitShape"]
+size = Vector2(90, 90)
+
+[node name="WorkScene" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Floor" type="Node2D" parent="."]
+
+[node name="ShelfStation" type="Node2D" parent="."]
+position = Vector2(150, 180)
+
+[node name="Sprite2D" type="Sprite2D" parent="ShelfStation"]
+texture = ExtResource("2")
+
+[node name="InteractArea" type="Area2D" parent="ShelfStation"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShelfStation/InteractArea"]
+shape = SubResource("ShelfShape")
+
+[node name="PromptLabel" type="Label" parent="ShelfStation"]
+visible = false
+position = Vector2(-60, -100)
+text = "Press E to restock"
+
+[node name="BakeryStation" type="Node2D" parent="."]
+position = Vector2(480, 180)
+
+[node name="Sprite2D" type="Sprite2D" parent="BakeryStation"]
+texture = ExtResource("6")
+
+[node name="InteractArea" type="Area2D" parent="BakeryStation"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BakeryStation/InteractArea"]
+shape = SubResource("ShelfShape")
+
+[node name="PromptLabel" type="Label" parent="BakeryStation"]
+visible = false
+position = Vector2(-60, -100)
+text = "Press E to bake"
+
+[node name="DeliStation" type="Node2D" parent="."]
+position = Vector2(810, 180)
+
+[node name="Sprite2D" type="Sprite2D" parent="DeliStation"]
+texture = ExtResource("7")
+
+[node name="InteractArea" type="Area2D" parent="DeliStation"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeliStation/InteractArea"]
+shape = SubResource("ShelfShape")
+
+[node name="PromptLabel" type="Label" parent="DeliStation"]
+visible = false
+position = Vector2(-60, -100)
+text = "Press E for the deli counter"
+
+[node name="CheckoutStation" type="Node2D" parent="."]
+position = Vector2(150, 500)
+
+[node name="Sprite2D" type="Sprite2D" parent="CheckoutStation"]
+texture = ExtResource("3")
+
+[node name="InteractArea" type="Area2D" parent="CheckoutStation"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CheckoutStation/InteractArea"]
+shape = SubResource("CheckoutShape")
+
+[node name="PromptLabel" type="Label" parent="CheckoutStation"]
+visible = false
+position = Vector2(-60, -100)
+text = "Press E for checkout"
+
+[node name="CustomerStation" type="Node2D" parent="."]
+position = Vector2(480, 500)
+
+[node name="CustomerSprite" type="Sprite2D" parent="CustomerStation"]
+texture = ExtResource("5")
+scale = Vector2(1.4, 1.4)
+
+[node name="InteractArea" type="Area2D" parent="CustomerStation"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CustomerStation/InteractArea"]
+shape = SubResource("CustomerShape")
+
+[node name="PromptLabel" type="Label" parent="CustomerStation"]
+visible = false
+position = Vector2(-70, -70)
+text = "Press E to help customer"
+
+[node name="ExitStation" type="Node2D" parent="."]
+position = Vector2(810, 500)
+
+[node name="ExitVisual" type="ColorRect" parent="ExitStation"]
+position = Vector2(-40, -40)
+size = Vector2(80, 80)
+color = Color(0.85, 0.25, 0.25, 1)
+
+[node name="ExitLabel" type="Label" parent="ExitStation"]
+position = Vector2(-24, -12)
+text = "EXIT"
+
+[node name="InteractArea" type="Area2D" parent="ExitStation"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitStation/InteractArea"]
+shape = SubResource("ExitShape")
+
+[node name="PromptLabel" type="Label" parent="ExitStation"]
+visible = false
+position = Vector2(-60, -80)
+text = "Press E to clock out"
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(480, 340)
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture = ExtResource("4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("PlayerShape")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(1.4, 1.4)
+
+[node name="TaskTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MoneyLabel" type="Label" parent="CanvasLayer/HUD"]
+position = Vector2(20, 16)
+text = "Money: $0.00"
+
+[node name="HintLabel" type="Label" parent="CanvasLayer/HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -50.0
+offset_right = 200.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_alignment = 1
+text = ""
+
+[node name="MinigameOverlay" type="Control" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="CanvasLayer/MinigameOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/MinigameOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer"]
+custom_minimum_size = Vector2(520, 420)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1
+text = "Task"
+
+[node name="TimerBar" type="ProgressBar" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+visible = false
+layout_mode = 2
+min_value = 0.0
+max_value = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="IconRow" type="HBoxContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TargetIcon" type="TextureRect" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/IconRow"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InfoLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+autowrap_mode = 3
+horizontal_alignment = 1
+text = ""
+
+[node name="BakeContainer" type="Control" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(440, 44)
+layout_mode = 2
+
+[node name="BakeTrack" type="ColorRect" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/BakeContainer"]
+position = Vector2(0, 0)
+size = Vector2(440, 44)
+color = Color(0.15, 0.11, 0.09, 1)
+
+[node name="BakeZone" type="ColorRect" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/BakeContainer"]
+position = Vector2(150, 0)
+size = Vector2(80, 44)
+color = Color(0.42, 0.75, 0.4, 0.65)
+
+[node name="BakeIndicator" type="ColorRect" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/BakeContainer"]
+position = Vector2(0, 0)
+size = Vector2(5, 44)
+color = Color(0.95, 0.65, 0.2, 1)
+
+[node name="MashContainer" type="Control" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+visible = false
+custom_minimum_size = Vector2(440, 44)
+layout_mode = 2
+
+[node name="MashMeter" type="ProgressBar" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/MashContainer"]
+position = Vector2(0, 0)
+size = Vector2(440, 44)
+min_value = 0.0
+max_value = 10.0
+value = 0.0
+show_percentage = false
+
+[node name="OptionsContainer" type="GridContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+columns = 1
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="FeedbackLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+autowrap_mode = 3
+horizontal_alignment = 1
+text = ""
+
+[node name="NextButton" type="Button" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Next"
+
+[node name="ResultsPanel" type="Control" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="CanvasLayer/ResultsPanel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/ResultsPanel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="CanvasLayer/ResultsPanel/CenterContainer"]
+custom_minimum_size = Vector2(420, 260)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ResultsPanel/CenterContainer/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ResultsLabel" type="Label" parent="CanvasLayer/ResultsPanel/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+autowrap_mode = 3
+horizontal_alignment = 1
+text = ""
+
+[node name="CloseButton" type="Button" parent="CanvasLayer/ResultsPanel/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Clock out & leave"

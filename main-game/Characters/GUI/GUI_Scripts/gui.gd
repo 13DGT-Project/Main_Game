@@ -9,6 +9,14 @@ extends CanvasLayer
 
 func _ready() -> void:
 	uni.text = str(GameBackend.universities[GameBackend.selected_university])
+	GameBackend.stats_changed.connect(_refresh_from_backend)
+	_refresh_from_backend()
+
+
+func _refresh_from_backend() -> void:
+	update_energy(GameBackend.energy)
+	update_sanity(GameBackend.sanity)
+	update_thirst(GameBackend.thirst)
 
 
 func update_energy(value: float):
