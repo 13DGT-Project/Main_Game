@@ -2,6 +2,7 @@ extends Node
 
 @onready var gui = $"../GUI"
 @onready var time_of_day = $"../Sky3D/TimeOfDay"
+@onready var player = $"../Player"
 
 const JOURNAL_SCENE := preload("res://Main_Game/Scenes/Journal.tscn")
 
@@ -29,6 +30,10 @@ func _ready():
 		time_of_day.current_time += GameBackend.pending_hours
 		GameBackend.pending_hours = 0.0
 
+	if GameBackend.has_return_position:
+		player.global_position = GameBackend.return_position
+		GameBackend.has_return_position = false
+
 	# Passive drain + day countdown for time passing naturally while walking
 	# around MainMap (not already covered by a study/work/social action).
 	time_of_day.hour_changed.connect(_on_hour_passed)
@@ -41,8 +46,9 @@ func _ready():
 	_update_clock()
 
 
-func _on_hour_passed(_hour) -> void:
+func _on_hour_passed(hour) -> void:
 	GameBackend.apply_passive_decay(1.0)
+	GameBackend.sync_hour(hour)
 
 
 func _on_day_passed(_day) -> void:

@@ -12,6 +12,7 @@ extends CanvasLayer
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	panel.visible = false
 	close_button.pressed.connect(_close)
 	GameBackend.journal_updated.connect(_refresh_entries)
@@ -20,12 +21,13 @@ func _ready() -> void:
 	_refresh_summary()
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("journal"):
 		panel.visible = not panel.visible
 		if panel.visible:
 			_refresh_entries()
 			_refresh_summary()
+		get_viewport().set_input_as_handled()
 
 
 func _close() -> void:
@@ -36,12 +38,13 @@ func _refresh_summary() -> void:
 	var uni: Dictionary = GameBackend.universities.get(GameBackend.selected_university, {})
 	var money_needed: float = uni.get("money_needed", 0)
 	var grades_needed: float = uni.get("grades_needed", 0)
-	summary_label.text = "Target: %s (%s)\nDays remaining: %d\n\nMoney: $%.2f / $%.0f\nOverall grade: %.0f / %.0f\n\nEnglish: %.0f   Maths: %.0f   Physics: %.0f\n\nEnergy: %.0f   Sanity: %.0f   Thirst: %.0f" % [
-		GameBackend.selected_university, uni.get("location", "?"), GameBackend.days_remaining,
+	var major_text: String = GameBackend.selected_major if GameBackend.selected_major != "" else "not chosen yet"
+	summary_label.text = "Target: %s (%s)\nMajor: %s\nDays remaining: %d\n\nMoney: $%.2f / $%.0f\nOverall grade: %.0f / %.0f\n\n%s\n\nEnergy: %.0f   Sanity: %.0f   Thirst: %.0f\nTemptation: %.0f" % [
+		GameBackend.selected_university, uni.get("location", "?"), major_text, GameBackend.days_remaining,
 		GameBackend.money, money_needed,
 		GameBackend.get_overall_grade(), grades_needed,
-		GameBackend.subject_grades.english, GameBackend.subject_grades.maths, GameBackend.subject_grades.physics,
-		GameBackend.energy, GameBackend.sanity, GameBackend.thirst
+		GameBackend.get_subject_grades_text(),
+		GameBackend.energy, GameBackend.sanity, GameBackend.thirst, GameBackend.temptation
 	]
 
 

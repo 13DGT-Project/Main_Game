@@ -269,11 +269,24 @@ max_value = 10.0
 value = 0.0
 show_percentage = false
 
-[node name="OptionsContainer" type="GridContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+[node name="OptionsCenter" type="CenterContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OptionsContainer" type="GridContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter"]
 layout_mode = 2
 columns = 1
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
+
+[node name="ScanSlider" type="HSlider" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter"]
+visible = false
+custom_minimum_size = Vector2(420, 40)
+layout_mode = 2
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+value = 0.0
 
 [node name="FeedbackLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
 layout_mode = 2

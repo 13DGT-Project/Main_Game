@@ -1,0 +1,140 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Backend/Phone/phone_app.gd" id="1"]
+
+[node name="PhoneApp" type="CanvasLayer"]
+layer = 15
+script = ExtResource("1")
+
+[node name="Panel" type="Control" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="CenterContainer" type="CenterContainer" parent="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PhoneBody" type="PanelContainer" parent="Panel/CenterContainer"]
+custom_minimum_size = Vector2(320, 560)
+layout_mode = 2
+
+[node name="Screen" type="Control" parent="Panel/CenterContainer/PhoneBody"]
+layout_mode = 2
+
+[node name="HomeScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+horizontal_alignment = 1
+text = "Phone"
+
+[node name="DoomscrollButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen"]
+layout_mode = 2
+text = "Open Doomscroll"
+
+[node name="BankButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen"]
+layout_mode = 2
+text = "Open Bank"
+
+[node name="CloseButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen"]
+layout_mode = 2
+text = "Put Phone Away"
+
+[node name="DoomscrollScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+text = "Doomscroll"
+
+[node name="FeedLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen"]
+layout_mode = 2
+autowrap_mode = 3
+horizontal_alignment = 1
+custom_minimum_size = Vector2(260, 100)
+text = ""
+
+[node name="KeepScrollingButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen"]
+layout_mode = 2
+text = "Keep Scrolling"
+
+[node name="DoomscrollBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen"]
+layout_mode = 2
+text = "Back"
+
+[node name="BankScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+text = "Bank"
+
+[node name="SummaryLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen"]
+layout_mode = 2
+autowrap_mode = 3
+horizontal_alignment = 1
+text = ""
+
+[node name="AmountInput" type="LineEdit" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen"]
+layout_mode = 2
+placeholder_text = "Amount"
+
+[node name="DepositButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen"]
+layout_mode = 2
+text = "Deposit to Savings"
+
+[node name="WithdrawButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen"]
+layout_mode = 2
+text = "Withdraw from Savings"
+
+[node name="TermDepositButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen"]
+layout_mode = 2
+text = "Start Term Deposit (10 days, +6%)"
+
+[node name="BankBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen"]
+layout_mode = 2
+text = "Back"

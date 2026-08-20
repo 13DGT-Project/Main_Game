@@ -22,6 +22,7 @@ GameBackend="*uid://bk662bn5j4lem"
 StudyData="*res://Main_Game/Scripts/study_data.gd"
 WorkData="*res://Main_Game/Scripts/work_data.gd"
 SchoolData="*res://Main_Game/Scripts/school_data.gd"
+PhoneApp="*res://Backend/Phone/phone_app.tscn"
 
 [display]
 
@@ -85,6 +86,11 @@ Escape={
 journal={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":74,"key_label":0,"unicode":106,"location":0,"echo":false,"script":null)
+]
+}
+use_item={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":70,"key_label":0,"unicode":102,"location":0,"echo":false,"script":null)
 ]
 }
 

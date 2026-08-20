@@ -103,23 +103,33 @@ var _deli_items: Array = [
 ]
 
 
-func get_bakery_round(count: int = 4) -> Array:
+## Each item gets a "prep" step then a "cook" step in sequence (knead the
+## dough, then bake it) — a proper little recipe rather than a random pick.
+## `item_count` is how many separate items you'll make (so the actual number
+## of steps in the round is item_count * 2).
+func get_bakery_round(item_count: int = 4) -> Array:
 	var round_items: Array = []
-	var kinds := ["knead", "bake"]
-	for i in count:
-		var item: Dictionary = _bakery_items[randi() % _bakery_items.size()].duplicate()
-		item["kind"] = kinds[randi() % kinds.size()]
-		round_items.append(item)
+	for i in item_count:
+		var item: Dictionary = _bakery_items[randi() % _bakery_items.size()]
+		var knead_step: Dictionary = item.duplicate()
+		knead_step["kind"] = "knead"
+		var bake_step: Dictionary = item.duplicate()
+		bake_step["kind"] = "bake"
+		round_items.append(knead_step)
+		round_items.append(bake_step)
 	return round_items
 
 
-func get_deli_round(count: int = 5) -> Array:
+func get_deli_round(item_count: int = 5) -> Array:
 	var round_items: Array = []
-	var kinds := ["chop", "slice"]
-	for i in count:
-		var item: Dictionary = _deli_items[randi() % _deli_items.size()].duplicate()
-		item["kind"] = kinds[randi() % kinds.size()]
-		round_items.append(item)
+	for i in item_count:
+		var item: Dictionary = _deli_items[randi() % _deli_items.size()]
+		var chop_step: Dictionary = item.duplicate()
+		chop_step["kind"] = "chop"
+		var slice_step: Dictionary = item.duplicate()
+		slice_step["kind"] = "slice"
+		round_items.append(chop_step)
+		round_items.append(slice_step)
 	return round_items
 
 

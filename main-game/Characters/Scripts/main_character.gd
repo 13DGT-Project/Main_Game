@@ -40,6 +40,20 @@ func _unhandled_input(event):
 		head.rotate_y(-event.relative.x * SENSITIVITY)
 		camera.rotate_x(-event.relative.y * SENSITIVITY)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-90),deg_to_rad(90))
+	elif event.is_action_pressed("use_item"):
+		_use_selected_item()
+
+
+func _use_selected_item() -> void:
+	var item: ItemData = Inventory.hotbar[Inventory.selected_slot]
+	if item == null:
+		return
+	match item.item_name:
+		"Phone":
+			PhoneApp.toggle()
+		"Water Bottle":
+			if not GameBackend.use_water_bottle():
+				print("Your water bottle is empty — find a tap or fountain to refill it.")
 
 
 func _physics_process(delta: float) -> void:

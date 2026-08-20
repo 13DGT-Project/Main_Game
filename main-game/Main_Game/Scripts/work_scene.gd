@@ -10,17 +10,18 @@ const CHECKOUT_ROUNDS: int = 5
 const CUSTOMER_ROUNDS: int = 3
 const BAKERY_ROUNDS: int = 4
 const DELI_ROUNDS: int = 5
-const RESTOCK_TIME_LIMIT: float = 3.0
+const RESTOCK_TIME_LIMIT: float = 6.0
 const CHECKOUT_TIME_LIMIT: float = 2.0
 const BAKE_TIME_LIMIT: float = 2.5           # used by both "bake" (bakery) and "slice" (deli) — precision-zone steps
 const KNEAD_TIME_LIMIT: float = 3.0          # used by both "knead" (bakery) and "chop" (deli) — rapid-press steps
 const KNEAD_TARGET_CLICKS: int = 10
-const HOURS_PER_RESTOCK_ITEM: float = 0.2
-const HOURS_PER_CHECKOUT_ITEM: float = 0.2
-const HOURS_PER_CUSTOMER: float = 0.25
+const HOURS_PER_RESTOCK_ITEM: float = 0.08
+const HOURS_PER_CHECKOUT_ITEM: float = 0.08
+const HOURS_PER_CUSTOMER: float = 0.1
 const JOURNAL_SCENE := preload("res://Main_Game/Scenes/Journal.tscn")
-const HOURS_PER_BAKE: float = 0.3
-const HOURS_PER_DELI_ITEM: float = 0.2
+const GUI_SCENE := preload("res://Characters/GUI/GUI_Scenes/gui.tscn")
+const HOURS_PER_BAKE: float = 0.05
+const HOURS_PER_DELI_ITEM: float = 0.04
 const BAKE_ZONE_WIDTH: float = 0.18  # fraction of the bake track counted as "perfect"
 
 @onready var player: CharacterBody2D = $Player
@@ -56,7 +57,8 @@ const BAKE_ZONE_WIDTH: float = 0.18  # fraction of the bake track counted as "pe
 @onready var bake_indicator: ColorRect = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/BakeContainer/BakeIndicator
 @onready var mash_container: Control = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/MashContainer
 @onready var mash_meter: ProgressBar = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/MashContainer/MashMeter
-@onready var options_container: GridContainer = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsContainer
+@onready var options_container: GridContainer = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/OptionsContainer
+@onready var scan_slider: HSlider = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/ScanSlider
 @onready var feedback_label: Label = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/FeedbackLabel
 @onready var next_button: Button = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/NextButton
 
@@ -73,6 +75,10 @@ var round_index: int = 0
 var round_correct: int = 0
 var answered_current: bool = false
 var mash_progress: int = 0
+
+const RESTOCK_FILL_TARGET: int = 4
+var restock_fill: int = 0
+var restock_target_item: Dictionary = {}
 
 var shift_hours: float = 0.0
 var shift_task_score: int = 0
@@ -105,6 +111,7 @@ func _ready() -> void:
 
 	task_timer.timeout.connect(_on_task_timer_timeout)
 	next_button.pressed.connect(_on_next_pressed)
+	scan_slider.value_changed.connect(_on_scan_slider_changed)
 	close_button.pressed.connect(_on_close_results)
 
 	money_label.text = "Money: $%.2f" % GameBackend.money
@@ -114,12 +121,19 @@ func _ready() -> void:
 
 	GameBackend.game_ended.connect(_on_game_ended)
 	get_tree().current_scene.add_child(JOURNAL_SCENE.instantiate())
+	get_tree().current_scene.add_child(GUI_SCENE.instantiate())
+
+
+const PLAY_AREA_MIN := Vector2(0, 0)
+const PLAY_AREA_MAX := Vector2(1000, 650)
 
 
 func _build_floor() -> void:
 	var floor_tex: Texture2D = load("res://Backend/Resource/Textures/floor_tile.png")
-	for x in range(0, 1100, 64):
-		for y in range(0, 700, 64):
+	# Generous margin beyond the play area so the camera never sees past the
+	# floor's edge, even zoomed in at a corner station.
+	for x in range(-400, 1500, 64):
+		for y in range(-400, 1150, 64):
 			var tile := Sprite2D.new()
 			tile.texture = floor_tex
 			tile.centered = false
@@ -135,6 +149,7 @@ func _physics_process(_delta: float) -> void:
 	var input_vec := Input.get_vector("left", "right", "up", "down")
 	player.velocity = input_vec * MOVE_SPEED
 	player.move_and_slide()
+	player.global_position = player.global_position.clamp(PLAY_AREA_MIN, PLAY_AREA_MAX)
 
 
 func _process(_delta: float) -> void:
@@ -221,24 +236,15 @@ func _show_step() -> void:
 	answered_current = false
 	bake_container.visible = false
 	mash_container.visible = false
+	scan_slider.visible = false
+	scan_slider.editable = true
+	scan_slider.value = 0.0
 	for child in options_container.get_children():
 		child.queue_free()
 
 	match current_task_type:
 		"shelf":
-			icon_row.visible = true
-			timer_bar.visible = true
-			var item: Dictionary = round_queue[round_index]
-			target_icon.texture = load(item.texture)
-			info_label.text = "This shelf needs: %s\nClick the matching item!" % item.name
-			options_container.columns = 4
-			for opt in _build_icon_options(item, WorkData._restock_items):
-				var btn := TextureButton.new()
-				btn.texture_normal = load(opt.texture)
-				btn.custom_minimum_size = Vector2(64, 64)
-				btn.pressed.connect(_on_timed_choice.bind(opt.name == item.name))
-				options_container.add_child(btn)
-			_start_timer(RESTOCK_TIME_LIMIT)
+			_show_restock_step()
 
 		"bakery":
 			var bitem: Dictionary = round_queue[round_index]
@@ -259,12 +265,9 @@ func _show_step() -> void:
 			timer_bar.visible = true
 			var citem: Dictionary = round_queue[round_index]
 			target_icon.texture = load(citem.texture)
-			info_label.text = "%s — $%.2f\nClick SCAN before the customer gets impatient!" % [citem.name, citem.price]
+			info_label.text = "%s — $%.2f\nDrag the slider all the way across to scan it!" % [citem.name, citem.price]
 			options_container.columns = 1
-			var scan_btn := Button.new()
-			scan_btn.text = "SCAN"
-			scan_btn.pressed.connect(_on_timed_choice.bind(true))
-			options_container.add_child(scan_btn)
+			scan_slider.visible = true
 			_start_timer(CHECKOUT_TIME_LIMIT)
 
 		"customer":
@@ -279,6 +282,48 @@ func _show_step() -> void:
 				abtn.text = opts[i]
 				abtn.pressed.connect(_on_untimed_choice.bind(i == q.correct))
 				options_container.add_child(abtn)
+
+
+## Restocking: keep clicking the matching item to fill the shelf's stock
+## meter before time runs out. Options reshuffle after every click (right or
+## wrong) so it feels like repeatedly grabbing units off a supply cart.
+func _show_restock_step() -> void:
+	icon_row.visible = true
+	timer_bar.visible = true
+	mash_container.visible = true
+	restock_target_item = round_queue[round_index]
+	restock_fill = 0
+	target_icon.texture = load(restock_target_item.texture)
+	info_label.text = "Stock the shelf with %s!\nKeep clicking the matching item until it's full." % restock_target_item.name
+	mash_meter.max_value = RESTOCK_FILL_TARGET
+	mash_meter.value = 0
+	_populate_restock_options()
+	_start_timer(RESTOCK_TIME_LIMIT)
+
+
+func _populate_restock_options() -> void:
+	options_container.columns = 4
+	for child in options_container.get_children():
+		child.queue_free()
+	for opt in _build_icon_options(restock_target_item, WorkData._restock_items):
+		var btn := TextureButton.new()
+		btn.texture_normal = load(opt.texture)
+		btn.custom_minimum_size = Vector2(64, 64)
+		btn.pressed.connect(_on_restock_icon_click.bind(opt.name == restock_target_item.name))
+		options_container.add_child(btn)
+
+
+func _on_restock_icon_click(is_correct: bool) -> void:
+	if answered_current:
+		return
+	if is_correct:
+		restock_fill += 1
+		mash_meter.value = restock_fill
+		if restock_fill >= RESTOCK_FILL_TARGET:
+			task_timer.stop()
+			_resolve_step(true)
+			return
+	_populate_restock_options()
 
 
 ## Precision-zone step: a marker sweeps a bar, hit the action button while
@@ -357,6 +402,13 @@ func _on_untimed_choice(is_correct: bool) -> void:
 	_resolve_step(is_correct)
 
 
+func _on_scan_slider_changed(value: float) -> void:
+	if current_task_type != "checkout" or answered_current:
+		return
+	if value >= 90.0:
+		_on_timed_choice(true)
+
+
 func _on_mash_press() -> void:
 	if answered_current:
 		return
@@ -387,6 +439,7 @@ func _resolve_step(is_correct: bool) -> void:
 	for child in options_container.get_children():
 		if child is BaseButton:
 			child.disabled = true
+	scan_slider.editable = false
 	next_button.visible = true
 
 

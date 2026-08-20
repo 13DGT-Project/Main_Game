@@ -33,6 +33,11 @@ func play_track(track_key: String) -> void:
 	var path: String = TRACKS[track_key]
 	if not ResourceLoader.exists(path):
 		push_warning("MusicManager: '%s' track not found yet at %s — add the audio file there." % [track_key, path])
+		# Stop whatever WAS playing rather than leaving an unrelated track
+		# running (e.g. menu music bleeding into gameplay because
+		# "main_game" hasn't been added yet).
+		music_player.stop()
+		current_track = ""
 		return
 
 	music_player.stream = load(path)

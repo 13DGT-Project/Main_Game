@@ -8,9 +8,17 @@ extends CanvasLayer
 @onready var uni = $Control/University
 
 func _ready() -> void:
-	uni.text = str(GameBackend.universities[GameBackend.selected_university])
+	_refresh_university_label()
 	GameBackend.stats_changed.connect(_refresh_from_backend)
 	_refresh_from_backend()
+
+
+func _refresh_university_label() -> void:
+	if GameBackend.selected_university == "" or not GameBackend.universities.has(GameBackend.selected_university):
+		uni.text = "No university chosen yet"
+		return
+	var data: Dictionary = GameBackend.universities[GameBackend.selected_university]
+	uni.text = "%s — $%d / %d%%" % [GameBackend.selected_university, data.get("money_needed", 0), data.get("grades_needed", 0)]
 
 
 func _refresh_from_backend() -> void:

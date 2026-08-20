@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="CylinderMesh" id="Cyl_bottle"]
+top_radius = 0.04
+bottom_radius = 0.045
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_bottle"]
+albedo_color = Color(0.35, 0.75, 0.95, 0.85)
+metallic = 0.1
+roughness = 0.2
+
+[node name="WaterBottleMesh" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("Cyl_bottle")
+surface_material_override/0 = SubResource("Mat_bottle")
