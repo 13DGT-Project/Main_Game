@@ -15,6 +15,7 @@ const TEACHER_HOURS: float = 0.2
 const TEACHER_ENERGY_COST: float = 5.0
 const JOURNAL_SCENE := preload("res://Main_Game/Scenes/Journal.tscn")
 const GUI_SCENE := preload("res://Characters/GUI/GUI_Scenes/gui.tscn")
+const PAUSE_MENU_SCENE := preload("res://Main_Game/Scenes/PauseMenu2D.tscn")
 const TEACHER_MAX_GRADE_GAIN: float = 15.0  # bigger reward than a normal study session
 
 @onready var player: CharacterBody2D = $Player
@@ -110,6 +111,7 @@ func _ready() -> void:
 	GameBackend.game_ended.connect(_on_game_ended)
 	get_tree().current_scene.add_child(JOURNAL_SCENE.instantiate())
 	get_tree().current_scene.add_child(GUI_SCENE.instantiate())
+	get_tree().current_scene.add_child(PAUSE_MENU_SCENE.instantiate())
 
 
 ## Assigns each of the 3 desks a subject from GameBackend.active_subjects
@@ -160,10 +162,24 @@ func _physics_process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if task_active or current_station == "":
+	if task_active:
 		return
-	if event.is_action_pressed("interact"):
+	if event.is_action_pressed("interact") and current_station != "":
 		_start_task(current_station)
+	elif event.is_action_pressed("use_item"):
+		_use_selected_item()
+
+
+func _use_selected_item() -> void:
+	var item: ItemData = Inventory.hotbar[Inventory.selected_slot]
+	if item == null:
+		return
+	match item.item_name:
+		"Phone":
+			hint_label.text = "Phones aren't allowed at school!"
+		"Water Bottle":
+			if not GameBackend.use_water_bottle():
+				hint_label.text = "Your water bottle is empty — find a tap to refill it."
 
 
 func _on_station_entered(body: Node, station: String) -> void:

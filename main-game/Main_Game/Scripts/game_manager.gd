@@ -20,12 +20,19 @@ func _ready():
 	time_of_day.day_changed.connect(_update_clock)
 	time_of_day.hour_changed.connect(_hour_changed)
 
-	# School/work scenes don't carry their own Sky3D, so they queue elapsed
-	# hours on GameBackend instead of advancing a clock directly. Apply that
-	# here whenever MainMap (re)loads — e.g. coming back from school or work.
-	# This has to happen BEFORE the passive-decay/day-countdown hooks below
-	# are connected, or the catch-up jump would double-count decay/days that
-	# complete_study_session() etc. already applied when it happened.
+	# MainMap's TimeOfDay node is destroyed and recreated (with its saved
+	# DEFAULT start time!) every time you leave and re-enter MainMap, so we
+	# can't just add pending_hours on top of it — that adds onto a reset
+	# clock, not onto where the player actually was. Restore the real state
+	# from GameBackend's snapshot first, THEN apply the hours that passed
+	# while away (via += so TimeOfDay's own hour/day/month rollover logic
+	# handles the wraparound correctly).
+	if GameBackend.has_time_snapshot:
+		time_of_day.year = GameBackend.saved_year
+		time_of_day.month = GameBackend.saved_month
+		time_of_day.day = GameBackend.saved_day
+		time_of_day.current_time = GameBackend.saved_current_time
+
 	if GameBackend.pending_hours > 0.0:
 		time_of_day.current_time += GameBackend.pending_hours
 		GameBackend.pending_hours = 0.0
@@ -36,6 +43,9 @@ func _ready():
 
 	# Passive drain + day countdown for time passing naturally while walking
 	# around MainMap (not already covered by a study/work/social action).
+	# Connected AFTER the restore above so that catch-up jump doesn't
+	# double-count decay/days that complete_study_session() etc. already
+	# applied when it actually happened.
 	time_of_day.hour_changed.connect(_on_hour_passed)
 	time_of_day.day_changed.connect(_on_day_passed)
 
@@ -46,9 +56,8 @@ func _ready():
 	_update_clock()
 
 
-func _on_hour_passed(hour) -> void:
+func _on_hour_passed(_hour) -> void:
 	GameBackend.apply_passive_decay(1.0)
-	GameBackend.sync_hour(hour)
 
 
 func _on_day_passed(_day) -> void:
@@ -73,6 +82,8 @@ func _update_clock(_value = null):
 		time_of_day.day,
 		MONTHS[time_of_day.month]
 	])
+
+	GameBackend.sync_from_clock(time_of_day.current_time, time_of_day.day, time_of_day.month, time_of_day.year)
 
 func _hour_changed(hour):
 

@@ -30,7 +30,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PhoneBody" type="PanelContainer" parent="Panel/CenterContainer"]
-custom_minimum_size = Vector2(320, 560)
+custom_minimum_size = Vector2(340, 600)
 layout_mode = 2
 
 [node name="Screen" type="Control" parent="Panel/CenterContainer/PhoneBody"]
@@ -43,7 +43,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 alignment = 1
 
 [node name="TitleLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen"]
@@ -52,13 +52,21 @@ theme_override_font_sizes/font_size = 26
 horizontal_alignment = 1
 text = "Phone"
 
-[node name="DoomscrollButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen"]
+[node name="ChirpButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen"]
 layout_mode = 2
-text = "Open Doomscroll"
+text = "Chirp (social feed)"
+
+[node name="MessagesButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen"]
+layout_mode = 2
+text = "Messages"
 
 [node name="BankButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen"]
 layout_mode = 2
-text = "Open Bank"
+text = "Bank"
+
+[node name="WeatherButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen"]
+layout_mode = 2
+text = "Weather"
 
 [node name="CloseButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen"]
 layout_mode = 2
@@ -72,25 +80,27 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 16
-alignment = 1
+theme_override_constants/separation = 10
 
 [node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 horizontal_alignment = 1
-text = "Doomscroll"
+text = "Chirp"
 
-[node name="FeedLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen"]
+[node name="FeedScroll" type="ScrollContainer" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen"]
+custom_minimum_size = Vector2(0, 360)
 layout_mode = 2
-autowrap_mode = 3
-horizontal_alignment = 1
-custom_minimum_size = Vector2(260, 100)
-text = ""
+size_flags_vertical = 3
+
+[node name="FeedContainer" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen/FeedScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
 
 [node name="KeepScrollingButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen"]
 layout_mode = 2
-text = "Keep Scrolling"
+text = "Refresh Feed"
 
 [node name="DoomscrollBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen"]
 layout_mode = 2
@@ -104,8 +114,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 12
-alignment = 1
+theme_override_constants/separation = 10
 
 [node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen"]
 layout_mode = 2
@@ -123,6 +132,44 @@ text = ""
 layout_mode = 2
 placeholder_text = "Amount"
 
+[node name="QuickCashGrid" type="GridContainer" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen"]
+layout_mode = 2
+columns = 4
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+
+[node name="Cash1" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen/QuickCashGrid"]
+layout_mode = 2
+text = "$1"
+
+[node name="Cash5" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen/QuickCashGrid"]
+layout_mode = 2
+text = "$5"
+
+[node name="Cash10" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen/QuickCashGrid"]
+layout_mode = 2
+text = "$10"
+
+[node name="Cash20" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen/QuickCashGrid"]
+layout_mode = 2
+text = "$20"
+
+[node name="Cash50" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen/QuickCashGrid"]
+layout_mode = 2
+text = "$50"
+
+[node name="Cash100" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen/QuickCashGrid"]
+layout_mode = 2
+text = "$100"
+
+[node name="CashMax" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen/QuickCashGrid"]
+layout_mode = 2
+text = "Max"
+
+[node name="CashClear" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen/QuickCashGrid"]
+layout_mode = 2
+text = "Clear"
+
 [node name="DepositButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen"]
 layout_mode = 2
 text = "Deposit to Savings"
@@ -136,5 +183,75 @@ layout_mode = 2
 text = "Start Term Deposit (10 days, +6%)"
 
 [node name="BankBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen"]
+layout_mode = 2
+text = "Back"
+
+[node name="MessagesScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+text = "Messages"
+
+[node name="SenderLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen"]
+layout_mode = 2
+horizontal_alignment = 1
+text = ""
+
+[node name="MessageLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen"]
+layout_mode = 2
+autowrap_mode = 3
+horizontal_alignment = 1
+custom_minimum_size = Vector2(260, 100)
+text = ""
+
+[node name="ReplyButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen"]
+layout_mode = 2
+text = "Send a quick reply"
+
+[node name="MessagesBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen"]
+layout_mode = 2
+text = "Back"
+
+[node name="WeatherScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/WeatherScreen"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+text = "Weather"
+
+[node name="WeatherLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/WeatherScreen"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+horizontal_alignment = 1
+text = ""
+
+[node name="WeatherDetailLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/WeatherScreen"]
+layout_mode = 2
+autowrap_mode = 3
+horizontal_alignment = 1
+text = ""
+
+[node name="WeatherBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/WeatherScreen"]
 layout_mode = 2
 text = "Back"

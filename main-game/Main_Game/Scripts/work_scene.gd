@@ -20,6 +20,7 @@ const HOURS_PER_CHECKOUT_ITEM: float = 0.08
 const HOURS_PER_CUSTOMER: float = 0.1
 const JOURNAL_SCENE := preload("res://Main_Game/Scenes/Journal.tscn")
 const GUI_SCENE := preload("res://Characters/GUI/GUI_Scenes/gui.tscn")
+const PAUSE_MENU_SCENE := preload("res://Main_Game/Scenes/PauseMenu2D.tscn")
 const HOURS_PER_BAKE: float = 0.05
 const HOURS_PER_DELI_ITEM: float = 0.04
 const BAKE_ZONE_WIDTH: float = 0.18  # fraction of the bake track counted as "perfect"
@@ -58,7 +59,9 @@ const BAKE_ZONE_WIDTH: float = 0.18  # fraction of the bake track counted as "pe
 @onready var mash_container: Control = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/MashContainer
 @onready var mash_meter: ProgressBar = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/MashContainer/MashMeter
 @onready var options_container: GridContainer = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/OptionsContainer
-@onready var scan_slider: HSlider = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/ScanSlider
+@onready var drag_container: Control = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer
+@onready var drag_item: TextureRect = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/DragItem
+@onready var drag_zone: ColorRect = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/DragZone
 @onready var feedback_label: Label = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/FeedbackLabel
 @onready var next_button: Button = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/NextButton
 
@@ -75,6 +78,8 @@ var round_index: int = 0
 var round_correct: int = 0
 var answered_current: bool = false
 var mash_progress: int = 0
+var drag_dragging: bool = false
+var drag_context: String = ""  # "checkout" or "restock" — what a successful drop does
 
 const RESTOCK_FILL_TARGET: int = 4
 var restock_fill: int = 0
@@ -111,7 +116,7 @@ func _ready() -> void:
 
 	task_timer.timeout.connect(_on_task_timer_timeout)
 	next_button.pressed.connect(_on_next_pressed)
-	scan_slider.value_changed.connect(_on_scan_slider_changed)
+	drag_item.gui_input.connect(_on_drag_item_gui_input)
 	close_button.pressed.connect(_on_close_results)
 
 	money_label.text = "Money: $%.2f" % GameBackend.money
@@ -122,6 +127,7 @@ func _ready() -> void:
 	GameBackend.game_ended.connect(_on_game_ended)
 	get_tree().current_scene.add_child(JOURNAL_SCENE.instantiate())
 	get_tree().current_scene.add_child(GUI_SCENE.instantiate())
+	get_tree().current_scene.add_child(PAUSE_MENU_SCENE.instantiate())
 
 
 const PLAY_AREA_MIN := Vector2(0, 0)
@@ -162,13 +168,37 @@ func _process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if task_active or current_station == "":
+	if drag_dragging:
+		if event is InputEventMouseMotion:
+			var max_x: float = drag_container.custom_minimum_size.x - drag_item.size.x
+			drag_item.position.x = clamp(drag_item.position.x + event.relative.x, 0.0, max_x)
+			_check_drag_drop()
+			return
+		elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+			drag_dragging = false
+			return
+
+	if task_active:
 		return
-	if event.is_action_pressed("interact"):
+	if event.is_action_pressed("interact") and current_station != "":
 		if current_station == "exit":
 			_end_shift()
 		else:
 			_start_task(current_station)
+	elif event.is_action_pressed("use_item"):
+		_use_selected_item()
+
+
+func _use_selected_item() -> void:
+	var item: ItemData = Inventory.hotbar[Inventory.selected_slot]
+	if item == null:
+		return
+	match item.item_name:
+		"Phone":
+			PhoneApp.toggle()
+		"Water Bottle":
+			if not GameBackend.use_water_bottle():
+				hint_label.text = "Your water bottle is empty — find a tap to refill it."
 
 
 func _on_station_entered(body: Node, station: String) -> void:
@@ -236,9 +266,9 @@ func _show_step() -> void:
 	answered_current = false
 	bake_container.visible = false
 	mash_container.visible = false
-	scan_slider.visible = false
-	scan_slider.editable = true
-	scan_slider.value = 0.0
+	drag_container.visible = false
+	drag_dragging = false
+	drag_item.position.x = 0.0
 	for child in options_container.get_children():
 		child.queue_free()
 
@@ -261,13 +291,15 @@ func _show_step() -> void:
 				_show_precision_step(ditem, "Slice", "Slicing: %s\nHit Slice! when the marker is in the green zone!" % ditem.name)
 
 		"checkout":
-			icon_row.visible = true
+			icon_row.visible = false
 			timer_bar.visible = true
 			var citem: Dictionary = round_queue[round_index]
-			target_icon.texture = load(citem.texture)
-			info_label.text = "%s — $%.2f\nDrag the slider all the way across to scan it!" % [citem.name, citem.price]
+			info_label.text = "%s — $%.2f\nDrag it across to the scanner!" % [citem.name, citem.price]
 			options_container.columns = 1
-			scan_slider.visible = true
+			drag_context = "checkout"
+			drag_container.visible = true
+			drag_item.texture = load(citem.texture)
+			drag_item.position.x = 0.0
 			_start_timer(CHECKOUT_TIME_LIMIT)
 
 		"customer":
@@ -287,43 +319,24 @@ func _show_step() -> void:
 ## Restocking: keep clicking the matching item to fill the shelf's stock
 ## meter before time runs out. Options reshuffle after every click (right or
 ## wrong) so it feels like repeatedly grabbing units off a supply cart.
+## Restocking: drag the item into the shelf slot to fill the stock meter.
+## The item resets to the start each successful drop, so filling the shelf
+## takes several drags — feels like repeatedly grabbing units off a cart.
 func _show_restock_step() -> void:
-	icon_row.visible = true
+	icon_row.visible = false
 	timer_bar.visible = true
 	mash_container.visible = true
 	restock_target_item = round_queue[round_index]
 	restock_fill = 0
-	target_icon.texture = load(restock_target_item.texture)
-	info_label.text = "Stock the shelf with %s!\nKeep clicking the matching item until it's full." % restock_target_item.name
+	info_label.text = "Stock the shelf with %s!\nDrag it into the shelf slot — keep going until it's full." % restock_target_item.name
 	mash_meter.max_value = RESTOCK_FILL_TARGET
 	mash_meter.value = 0
-	_populate_restock_options()
+	options_container.columns = 1
+	drag_context = "restock"
+	drag_container.visible = true
+	drag_item.texture = load(restock_target_item.texture)
+	drag_item.position.x = 0.0
 	_start_timer(RESTOCK_TIME_LIMIT)
-
-
-func _populate_restock_options() -> void:
-	options_container.columns = 4
-	for child in options_container.get_children():
-		child.queue_free()
-	for opt in _build_icon_options(restock_target_item, WorkData._restock_items):
-		var btn := TextureButton.new()
-		btn.texture_normal = load(opt.texture)
-		btn.custom_minimum_size = Vector2(64, 64)
-		btn.pressed.connect(_on_restock_icon_click.bind(opt.name == restock_target_item.name))
-		options_container.add_child(btn)
-
-
-func _on_restock_icon_click(is_correct: bool) -> void:
-	if answered_current:
-		return
-	if is_correct:
-		restock_fill += 1
-		mash_meter.value = restock_fill
-		if restock_fill >= RESTOCK_FILL_TARGET:
-			task_timer.stop()
-			_resolve_step(true)
-			return
-	_populate_restock_options()
 
 
 ## Precision-zone step: a marker sweeps a bar, hit the action button while
@@ -365,19 +378,6 @@ func _show_mash_step(item: Dictionary, verb: String, message: String) -> void:
 	_start_timer(KNEAD_TIME_LIMIT)
 
 
-func _build_icon_options(correct_item: Dictionary, source_pool: Array) -> Array:
-	var pool: Array = source_pool.duplicate(true)
-	pool.shuffle()
-	var options: Array = [correct_item]
-	for candidate in pool:
-		if options.size() >= 4:
-			break
-		if candidate.name != correct_item.name:
-			options.append(candidate)
-	options.shuffle()
-	return options
-
-
 func _start_timer(duration: float) -> void:
 	task_timer.wait_time = duration
 	task_timer.start()
@@ -402,11 +402,43 @@ func _on_untimed_choice(is_correct: bool) -> void:
 	_resolve_step(is_correct)
 
 
-func _on_scan_slider_changed(value: float) -> void:
-	if current_task_type != "checkout" or answered_current:
+## Fires when the mouse presses down on the draggable icon itself. Only
+## detects the START of a drag — actual motion/release is tracked in
+## _unhandled_input (see below), since a small Control like this icon can
+## easily be "outrun" by fast mouse movement if it tried to track motion
+## itself, and stop receiving events.
+func _on_drag_item_gui_input(event: InputEvent) -> void:
+	if answered_current:
 		return
-	if value >= 90.0:
-		_on_timed_choice(true)
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		drag_dragging = true
+
+
+## Checked on every mouse-motion while dragging (from _unhandled_input).
+## "checkout": one successful drag into the zone finishes the step.
+## "restock": each successful drag fills the shelf meter a bit and resets
+## the icon to the start for the next unit, until the meter's full.
+func _check_drag_drop() -> void:
+	if answered_current:
+		return
+	if drag_item.position.x + drag_item.size.x * 0.5 < drag_zone.position.x:
+		return
+
+	match drag_context:
+		"checkout":
+			drag_dragging = false
+			task_timer.stop()
+			_resolve_step(true)
+		"restock":
+			restock_fill += 1
+			mash_meter.value = restock_fill
+			if restock_fill >= RESTOCK_FILL_TARGET:
+				drag_dragging = false
+				task_timer.stop()
+				_resolve_step(true)
+			else:
+				drag_dragging = false
+				drag_item.position.x = 0.0
 
 
 func _on_mash_press() -> void:
@@ -439,7 +471,7 @@ func _resolve_step(is_correct: bool) -> void:
 	for child in options_container.get_children():
 		if child is BaseButton:
 			child.disabled = true
-	scan_slider.editable = false
+	drag_dragging = false
 	next_button.visible = true
 
 

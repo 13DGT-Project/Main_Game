@@ -8,19 +8,19 @@ var selected_university: String = ""
 
 var universities = {
 	"Auckland": {
-		"money_needed": 35000,
+		"money_needed": 350,
 		"grades_needed": 80,
 		"location": "Auckland"
 	},
 
 	"Canterbury": {
-		"money_needed": 36500,
+		"money_needed": 365,
 		"grades_needed": 75,
 		"location": "Christchurch"
 	},
 
 	"Waikato": {
-		"money_needed": 27000,
+		"money_needed": 270,
 		"grades_needed": 70,
 		"location": "Hamilton"
 	}
@@ -44,22 +44,36 @@ var active_subjects: Array = ["english", "maths", "physics"]  # default until a 
 var subject_grades: Dictionary = {"english": 50.0, "maths": 50.0, "physics": 50.0}
 
 var energy: float = 100.0   # was previously local to main_character.gd (sprint stamina) —
-                             # moved here so it survives scene changes (school/work/main map)
+							 # moved here so it survives scene changes (school/work/main map)
 var sanity: float = 100.0   # drains with stress (bad exams, long shifts, plain time passing),
-                             # restored by chatting/resting. Hitting 0 ends the game (burnout).
+							 # restored by chatting/resting. Hitting 0 ends the game (burnout).
 var thirst: float = 100.0   # drains over time/activity, refilled by drinking
 var temptation: float = 0.0 # rises from time-wasting activities, makes studying less effective —
-                             # shown in the Journal (press J), not on the main HUD bars.
+							 # shown in the Journal (press J), not on the main HUD bars.
+
+# The single source of truth for "how many days have passed" (used for the
+# days_remaining countdown and gating like the dairy's hours). Kept live even
+# outside MainMap via _queue_hours(). Not calendar-accurate on its own —
+# see the snapshot below for that.
+var game_hour: float = 8.0   # 0-24, running estimate
+var game_day: int = 1        # counts up from 1, only used to detect day-crossings
 
 # Hours accumulated while in a scene without its own Sky3D (school/work/home).
-# game_manager.gd applies this to the MainMap's TimeOfDay on load, then resets it.
+# Re-applied via += on top of the restored snapshot below when MainMap loads,
+# so TimeOfDay's own hour/day/month rollover logic handles the wraparound
+# correctly instead of me reimplementing its calendar math.
 var pending_hours: float = 0.0
 
-# Rough estimate of the current hour (0-23), kept roughly in sync everywhere
-# (school/work/home don't have a real clock). game_manager.gd overwrites this
-# with the real value whenever we're actually in MainMap. Used for things
-# like "the dairy's only open after school".
-var current_hour: int = 8
+# A continuously-updated snapshot of MainMap's real Sky3D clock (see
+# game_manager.gd's _update_clock). MainMap's TimeOfDay node gets destroyed
+# and recreated — with its saved DEFAULT start time! — every time you leave
+# and re-enter MainMap, so this is what lets it restore where you actually
+# were instead of resetting.
+var saved_current_time: float = 8.0
+var saved_day: int = 1
+var saved_month: int = 1
+var saved_year: int = 1
+var has_time_snapshot: bool = false
 
 # Where to place the player back in MainMap after returning from a scene
 # entered through a door (see scene_door.gd). Set right before the scene
@@ -80,7 +94,7 @@ const TERM_DEPOSIT_DAYS: int = 10
 const TERM_DEPOSIT_RATE: float = 0.06  # total return paid out at maturity
 
 # --- Run length / ending state ----------------------------------------------
-const TOTAL_DAYS: int = 90          # length of the school year before the deadline
+const TOTAL_DAYS: int = 4          # length of the school year before the deadline
 var days_remaining: int = TOTAL_DAYS
 var game_over: bool = false
 var ending_result: String = ""      # "" | "good" | "bad_deadline" | "bad_sanity"
@@ -136,18 +150,29 @@ func log_event(text: String) -> void:
 	journal_updated.emit()
 
 
-## Advances the rough current_hour estimate used outside MainMap. Every
-## function that queues pending_hours should go through this instead of
-## touching pending_hours directly, so current_hour never drifts out of sync.
+## Advances the authoritative game clock. Every function that makes time pass
+## (studying, working, sleeping, etc.) goes through this — it wraps at 24
+## hours into the next day, and ticks the day countdown/banking for every day
+## crossed (even if several days pass in one call).
 func _queue_hours(hours: float) -> void:
 	pending_hours += hours
-	current_hour = int(round(current_hour + hours)) % 24
+	game_hour += hours
+	while game_hour >= 24.0:
+		game_hour -= 24.0
+		game_day += 1
+		advance_day()
 
 
-## Called by game_manager.gd whenever MainMap's real clock ticks over an
-## hour — overwrites the estimate with ground truth while we're there.
-func sync_hour(hour: int) -> void:
-	current_hour = hour
+## Called continuously by game_manager.gd's _update_clock() while actually in
+## MainMap, so GameBackend always has a fresh, accurate snapshot of where the
+## player really is the moment they walk through a door.
+func sync_from_clock(current_time: float, day: int, month: int, year: int) -> void:
+	saved_current_time = current_time
+	saved_day = day
+	saved_month = month
+	saved_year = year
+	has_time_snapshot = true
+	game_hour = current_time
 
 
 func change_energy(amount: float) -> void:
@@ -253,8 +278,14 @@ func reset_run() -> void:
 	sanity = 100.0
 	thirst = 100.0
 	temptation = 0.0
+	game_hour = 8.0
+	game_day = 1
 	pending_hours = 0.0
-	current_hour = 8
+	saved_current_time = 8.0
+	saved_day = 1
+	saved_month = 1
+	saved_year = 1
+	has_time_snapshot = false
 	water_bottle_full = true
 	savings_balance = 0.0
 	term_deposit_amount = 0.0

@@ -22,7 +22,14 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("journal"):
+	var pressed_j: bool = event.is_action_pressed("journal")
+	# Fallback: check the raw key directly too, in case the "journal" action
+	# in Input Map hasn't been picked up yet (Godot needs a project reload
+	# after project.godot's [input] section is edited outside the editor).
+	if not pressed_j and event is InputEventKey and event.pressed and not event.echo:
+		if event.physical_keycode == KEY_J:
+			pressed_j = true
+	if pressed_j:
 		panel.visible = not panel.visible
 		if panel.visible:
 			_refresh_entries()
