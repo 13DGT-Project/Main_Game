@@ -18,44 +18,37 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.09, 0.09, 0.12, 1)
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="Layout" type="VBoxContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 24.0
+offset_right = -40.0
+offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="TitleLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="Layout"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 text = "Choose Your Major"
 
-[node name="SubtitleLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="SubtitleLabel" type="Label" parent="Layout"]
 layout_mode = 2
 horizontal_alignment = 1
 text = "This decides which 3 subjects you'll study this year."
 
-[node name="ScienceButton" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(380, 0)
+[node name="Scroll" type="ScrollContainer" parent="Layout"]
 layout_mode = 2
-text = "Science — Physics, Chemistry, Biology"
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
-[node name="EngineeringButton" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(380, 0)
+[node name="List" type="VBoxContainer" parent="Layout/Scroll"]
 layout_mode = 2
-text = "Engineering — Maths, Physics, Chemistry"
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
 
-[node name="HealthButton" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(380, 0)
-layout_mode = 2
-text = "Health Science — Biology, Chemistry, English"
 
-[node name="ArtsButton" type="Button" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(380, 0)
-layout_mode = 2
-text = "Arts & Commerce — English, Maths, Biology"

@@ -1,9 +1,11 @@
 extends CharacterBody3D
+class_name Player
+
 
 var speed
 const WALK_SPEED = 5.0
 const SPRINT_SPEED = 8.0
-const JUMP_VELOCITY = 4.5
+const JUMP_VELOCITY = 8
 const SENSITIVITY = 0.005
 
 var gravity = 9.81
@@ -18,6 +20,12 @@ const BASE_FOV = 75.0
 const FOV_CHANGE = 1.5
 
 var exhausted := false
+
+# Footsteps: play on a distance-based interval so the rate matches your speed
+# rather than ticking on a fixed timer.
+var _step_accum: float = 0.0
+const STEP_DISTANCE_WALK: float = 2.2
+const STEP_DISTANCE_RUN: float = 3.0
 const SPRINT_DRAIN := 20.0
 const ENERGY_REGEN := 10.0
 # NOTE: energy itself now lives on GameBackend (autoload), not here, so it
@@ -125,6 +133,20 @@ func _physics_process(delta: float) -> void:
 	var target_fov = BASE_FOV + FOV_CHANGE * velocity_clamped
 	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
 	move_and_slide()
+
+	# Advance the footstep accumulator by how far we actually moved on the
+	# ground, and fire a step each time we cover enough distance.
+	if is_on_floor():
+		var flat_speed: float = Vector2(velocity.x, velocity.z).length()
+		if flat_speed > 0.5:
+			var running: bool = speed == SPRINT_SPEED
+			_step_accum += flat_speed * delta
+			var threshold: float = STEP_DISTANCE_RUN if running else STEP_DISTANCE_WALK
+			if _step_accum >= threshold:
+				_step_accum = 0.0
+				Audio.play_footstep(running)
+		else:
+			_step_accum = 0.0
 
 
 func _headbob(time) -> Vector3:

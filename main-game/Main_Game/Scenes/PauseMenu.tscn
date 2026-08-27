@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://brcd1ojgw3ylk"]
+
+[ext_resource type="Script" uid="uid://3mbvb3ke4rln" path="res://Main_Game/Scripts/pause_menu.gd" id="1"]
+
+[node name="PauseMenu" type="Control" unique_id=844237435]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+capture_mouse_on_resume = false
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=695344186]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1.1755697, 1.1755697, 0.19215687)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=74912713]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -395.0
+offset_top = -215.5
+offset_right = 395.0
+offset_bottom = 215.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=399674139]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="PauseMenu" type="Label" parent="VBoxContainer" unique_id=532804355]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.15294118, 0.06666667, 0.16862746, 1)
+theme_override_font_sizes/font_size = 40
+text = "Pause Menu"
+
+[node name="Resume" type="Button" parent="VBoxContainer" unique_id=19959314]
+layout_mode = 2
+text = "Resume"
+
+[node name="MainMenu" type="Button" parent="VBoxContainer" unique_id=414757966]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Settings" type="Button" parent="VBoxContainer" unique_id=767874126]
+layout_mode = 2
+text = "Settings"
+
+[node name="Help" type="Button" parent="VBoxContainer" unique_id=1202317792]
+layout_mode = 2
+text = "Help"
+
+[node name="Quit" type="Button" parent="VBoxContainer" unique_id=1766686431]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="VBoxContainer/Help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]

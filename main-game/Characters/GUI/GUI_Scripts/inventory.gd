@@ -17,6 +17,14 @@ func _input(event):
 	if event is InputEventKey and event.is_pressed():
 		if event.keycode == KEY_Q:
 			drop_item(selected_slot)
+		elif event.keycode == KEY_1:
+			select_slot(0)
+		elif event.keycode == KEY_2:
+			select_slot(1)
+		elif event.keycode == KEY_3:
+			select_slot(2)
+		elif event.keycode == KEY_4:
+			select_slot(3)
 
 
 func add_item(item: ItemData) -> bool:
@@ -24,7 +32,11 @@ func add_item(item: ItemData) -> bool:
 		if hotbar[i] == null:
 			hotbar[i] = item
 			inventory_changed.emit()
-			slot_selected.emit(i)
+			select_slot(i)  # was just emitting slot_selected directly, which only
+							# updated the UI highlight without actually moving
+							# selected_slot — a picked-up item could highlight as
+							# "selected" while use_item was still checking a
+							# different slot entirely.
 			return true
 	return false
 	

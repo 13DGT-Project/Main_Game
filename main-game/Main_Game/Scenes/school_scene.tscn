@@ -1,18 +1,16 @@
-[gd_scene load_steps=16 format=3 uid="uid://drcrqjhm7xn4k"]
+[gd_scene format=4 uid="uid://drcrqjhm7xn4k"]
 
-[ext_resource type="Script" path="res://Main_Game/Scripts/school_scene.gd" id="1"]
-[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/desk_english.png" id="2"]
-[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/desk_maths.png" id="3"]
-[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/desk_physics.png" id="4"]
-[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/student_a.png" id="5"]
-[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/student_b.png" id="6"]
-[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/teacher.png" id="7"]
-[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/water_fountain.png" id="8"]
-[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/player.png" id="9"]
-[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/deli_counter.png" id="10"]
-
-[sub_resource type="CircleShape2D" id="PlayerShape"]
-radius = 16.0
+[ext_resource type="Script" uid="uid://c0rm88rwsxf46" path="res://Main_Game/Scripts/school_scene.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://boige38ke18jo" path="res://Backend/Resource/Textures/desk_english.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://31nob3kts3hj" path="res://Backend/Resource/Textures/desk_maths.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://c36yhcn5nv8vo" path="res://Backend/Resource/Textures/desk_physics.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://3yqhebj53xx7" path="res://Backend/Resource/Textures/student_a.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://bmyj66d44skxw" path="res://Backend/Resource/Textures/student_b.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://uoe4trn072j8" path="res://Backend/Resource/Textures/teacher.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://b020l1i6dcdqr" path="res://Backend/Resource/Textures/water_fountain.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://dwor670ddd7aa" path="res://Backend/Resource/Textures/player.png" id="9"]
+[ext_resource type="Script" uid="uid://3mbvb3ke4rln" path="res://Main_Game/Scripts/pause_menu.gd" id="11_8g5qp"]
+[ext_resource type="TileSet" uid="uid://5dbewkxhkaj7" path="res://Backend/Resource/Tilesets/world_tileset.tres" id="tileset_res"]
 
 [sub_resource type="RectangleShape2D" id="DeskShape"]
 size = Vector2(150, 100)
@@ -26,176 +24,295 @@ size = Vector2(70, 90)
 [sub_resource type="RectangleShape2D" id="ExitShape"]
 size = Vector2(90, 90)
 
-[node name="SchoolScene" type="Node2D"]
+[sub_resource type="CircleShape2D" id="PlayerShape"]
+radius = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvtqj"]
+bg_color = Color(0.5424403, 0.62951076, 0.5299343, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hint"]
+content_margin_left = 18.0
+content_margin_top = 8.0
+content_margin_right = 18.0
+content_margin_bottom = 8.0
+bg_color = Color(0.06, 0.07, 0.10, 0.88)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="SchoolScene" type="Node2D" unique_id=1770115901]
 script = ExtResource("1")
 
-[node name="Floor" type="Node2D" parent="."]
+[node name="Floor" type="TileMapLayer" parent="." unique_id=96215996]
+z_index = -1
+tile_map_data = PackedByteArray("AAD5//n/AAABAAAAAAD5//r/AAABAAAAAAD5//v/AAABAAAAAAD5//z/AAABAAAAAAD5//3/AAABAAAAAAD5//7/AAABAAAAAAD5////AAABAAAAAAD5/wAAAAABAAAAAAD5/wEAAAABAAAAAAD5/wIAAAABAAAAAAD5/wMAAAABAAAAAAD5/wQAAAABAAAAAAD5/wUAAAABAAAAAAD5/wYAAAABAAAAAAD5/wcAAAABAAAAAAD5/wgAAAABAAAAAAD5/wkAAAABAAAAAAD5/woAAAABAAAAAAD5/wsAAAABAAAAAAD5/wwAAAABAAAAAAD5/w0AAAABAAAAAAD5/w4AAAABAAAAAAD5/w8AAAABAAAAAAD5/xAAAAABAAAAAAD5/xEAAAABAAAAAAD6//n/AAABAAAAAAD6//r/AAABAAAAAAD6//v/AAABAAAAAAD6//z/AAABAAAAAAD6//3/AAABAAAAAAD6//7/AAABAAAAAAD6////AAABAAAAAAD6/wAAAAABAAAAAAD6/wEAAAABAAAAAAD6/wIAAAABAAAAAAD6/wMAAAABAAAAAAD6/wQAAAABAAAAAAD6/wUAAAABAAAAAAD6/wYAAAABAAAAAAD6/wcAAAABAAAAAAD6/wgAAAABAAAAAAD6/wkAAAABAAAAAAD6/woAAAABAAAAAAD6/wsAAAABAAAAAAD6/wwAAAABAAAAAAD6/w0AAAABAAAAAAD6/w4AAAABAAAAAAD6/w8AAAABAAAAAAD6/xAAAAABAAAAAAD6/xEAAAABAAAAAAD7//n/AAABAAAAAAD7//r/AAABAAAAAAD7//v/AAABAAAAAAD7//z/AAABAAAAAAD7//3/AAABAAAAAAD7//7/AAABAAAAAAD7////AAABAAAAAAD7/wAAAAABAAAAAAD7/wEAAAABAAAAAAD7/wIAAAABAAAAAAD7/wMAAAABAAAAAAD7/wQAAAABAAAAAAD7/wUAAAABAAAAAAD7/wYAAAABAAAAAAD7/wcAAAABAAAAAAD7/wgAAAABAAAAAAD7/wkAAAABAAAAAAD7/woAAAABAAAAAAD7/wsAAAABAAAAAAD7/wwAAAABAAAAAAD7/w0AAAABAAAAAAD7/w4AAAABAAAAAAD7/w8AAAABAAAAAAD7/xAAAAABAAAAAAD7/xEAAAABAAAAAAD8//n/AAABAAAAAAD8//r/AAABAAAAAAD8//v/AAABAAAAAAD8//z/AAABAAAAAAD8//3/AAABAAAAAAD8//7/AAABAAAAAAD8////AAABAAAAAAD8/wAAAAABAAAAAAD8/wEAAAABAAAAAAD8/wIAAAABAAAAAAD8/wMAAAABAAAAAAD8/wQAAAABAAAAAAD8/wUAAAABAAAAAAD8/wYAAAABAAAAAAD8/wcAAAABAAAAAAD8/wgAAAABAAAAAAD8/wkAAAABAAAAAAD8/woAAAABAAAAAAD8/wsAAAABAAAAAAD8/wwAAAABAAAAAAD8/w0AAAABAAAAAAD8/w4AAAABAAAAAAD8/w8AAAABAAAAAAD8/xAAAAABAAAAAAD8/xEAAAABAAAAAAD9//n/AAABAAAAAAD9//r/AAABAAAAAAD9//v/AAABAAAAAAD9//z/AAABAAAAAAD9//3/AAABAAAAAAD9//7/AAABAAAAAAD9////AAABAAAAAAD9/wAAAAABAAAAAAD9/wEAAAABAAAAAAD9/wIAAAABAAAAAAD9/wMAAAABAAAAAAD9/wQAAAABAAAAAAD9/wUAAAABAAAAAAD9/wYAAAABAAAAAAD9/wcAAAABAAAAAAD9/wgAAAABAAAAAAD9/wkAAAABAAAAAAD9/woAAAABAAAAAAD9/wsAAAABAAAAAAD9/wwAAAABAAAAAAD9/w0AAAABAAAAAAD9/w4AAAABAAAAAAD9/w8AAAABAAAAAAD9/xAAAAABAAAAAAD9/xEAAAABAAAAAAD+//n/AAABAAAAAAD+//r/AAABAAAAAAD+//v/AAABAAAAAAD+//z/AAABAAAAAAD+//3/AAABAAAAAAD+//7/AAABAAAAAAD+////AAABAAAAAAD+/wAAAAABAAAAAAD+/wEAAAABAAAAAAD+/wIAAAABAAAAAAD+/wMAAAABAAAAAAD+/wQAAAABAAAAAAD+/wUAAAABAAAAAAD+/wYAAAABAAAAAAD+/wcAAAABAAAAAAD+/wgAAAABAAAAAAD+/wkAAAABAAAAAAD+/woAAAABAAAAAAD+/wsAAAABAAAAAAD+/wwAAAABAAAAAAD+/w0AAAABAAAAAAD+/w4AAAABAAAAAAD+/w8AAAABAAAAAAD+/xAAAAABAAAAAAD+/xEAAAABAAAAAAD///n/AAABAAAAAAD///r/AAABAAAAAAD///v/AAABAAAAAAD///z/AAABAAAAAAD///3/AAABAAAAAAD///7/AAABAAAAAAD/////AAABAAAAAAD//wAAAAABAAAAAAD//wEAAAABAAAAAAD//wIAAAABAAAAAAD//wMAAAABAAAAAAD//wQAAAABAAAAAAD//wUAAAABAAAAAAD//wYAAAABAAAAAAD//wcAAAABAAAAAAD//wgAAAABAAAAAAD//wkAAAABAAAAAAD//woAAAABAAAAAAD//wsAAAABAAAAAAD//wwAAAABAAAAAAD//w0AAAABAAAAAAD//w4AAAABAAAAAAD//w8AAAABAAAAAAD//xAAAAABAAAAAAD//xEAAAABAAAAAAAAAPn/AAABAAAAAAAAAPr/AAABAAAAAAAAAPv/AAABAAAAAAAAAPz/AAABAAAAAAAAAP3/AAABAAAAAAAAAP7/AAABAAAAAAAAAP//AAABAAAAAAAAAAAAAAABAAAAAAAAAAEAAAABAAAAAAAAAAIAAAABAAAAAAAAAAMAAAABAAAAAAAAAAQAAAABAAAAAAAAAAUAAAABAAAAAAAAAAYAAAABAAAAAAAAAAcAAAABAAAAAAAAAAgAAAABAAAAAAAAAAkAAAABAAAAAAAAAAoAAAABAAAAAAAAAAsAAAABAAAAAAAAAAwAAAABAAAAAAAAAA0AAAABAAAAAAAAAA4AAAABAAAAAAAAAA8AAAABAAAAAAAAABAAAAABAAAAAAAAABEAAAABAAAAAAABAPn/AAABAAAAAAABAPr/AAABAAAAAAABAPv/AAABAAAAAAABAPz/AAABAAAAAAABAP3/AAABAAAAAAABAP7/AAABAAAAAAABAP//AAABAAAAAAABAAAAAAABAAAAAAABAAEAAAABAAAAAAABAAIAAAABAAAAAAABAAMAAAABAAAAAAABAAQAAAABAAAAAAABAAUAAAABAAAAAAABAAYAAAABAAAAAAABAAcAAAABAAAAAAABAAgAAAABAAAAAAABAAkAAAABAAAAAAABAAoAAAABAAAAAAABAAsAAAABAAAAAAABAAwAAAABAAAAAAABAA0AAAABAAAAAAABAA4AAAABAAAAAAABAA8AAAABAAAAAAABABAAAAABAAAAAAABABEAAAABAAAAAAACAPn/AAABAAAAAAACAPr/AAABAAAAAAACAPv/AAABAAAAAAACAPz/AAABAAAAAAACAP3/AAABAAAAAAACAP7/AAABAAAAAAACAP//AAABAAAAAAACAAAAAAABAAAAAAACAAEAAAABAAAAAAACAAIAAAABAAAAAAACAAMAAAABAAAAAAACAAQAAAABAAAAAAACAAUAAAABAAAAAAACAAYAAAABAAAAAAACAAcAAAABAAAAAAACAAgAAAABAAAAAAACAAkAAAABAAAAAAACAAoAAAABAAAAAAACAAsAAAABAAAAAAACAAwAAAABAAAAAAACAA0AAAABAAAAAAACAA4AAAABAAAAAAACAA8AAAABAAAAAAACABAAAAABAAAAAAACABEAAAABAAAAAAADAPn/AAABAAAAAAADAPr/AAABAAAAAAADAPv/AAABAAAAAAADAPz/AAABAAAAAAADAP3/AAABAAAAAAADAP7/AAABAAAAAAADAP//AAABAAAAAAADAAAAAAABAAAAAAADAAEAAAABAAAAAAADAAIAAAABAAAAAAADAAMAAAABAAAAAAADAAQAAAABAAAAAAADAAUAAAABAAAAAAADAAYAAAABAAAAAAADAAcAAAABAAAAAAADAAgAAAABAAAAAAADAAkAAAABAAAAAAADAAoAAAABAAAAAAADAAsAAAABAAAAAAADAAwAAAABAAAAAAADAA0AAAABAAAAAAADAA4AAAABAAAAAAADAA8AAAABAAAAAAADABAAAAABAAAAAAADABEAAAABAAAAAAAEAPn/AAABAAAAAAAEAPr/AAABAAAAAAAEAPv/AAABAAAAAAAEAPz/AAABAAAAAAAEAP3/AAABAAAAAAAEAP7/AAABAAAAAAAEAP//AAABAAAAAAAEAAAAAAABAAAAAAAEAAEAAAABAAAAAAAEAAIAAAABAAAAAAAEAAMAAAABAAAAAAAEAAQAAAABAAAAAAAEAAUAAAABAAAAAAAEAAYAAAABAAAAAAAEAAcAAAABAAAAAAAEAAgAAAABAAAAAAAEAAkAAAABAAAAAAAEAAoAAAABAAAAAAAEAAsAAAABAAAAAAAEAAwAAAABAAAAAAAEAA0AAAABAAAAAAAEAA4AAAABAAAAAAAEAA8AAAABAAAAAAAEABAAAAABAAAAAAAEABEAAAABAAAAAAAFAPn/AAABAAAAAAAFAPr/AAABAAAAAAAFAPv/AAABAAAAAAAFAPz/AAABAAAAAAAFAP3/AAABAAAAAAAFAP7/AAABAAAAAAAFAP//AAABAAAAAAAFAAAAAAABAAAAAAAFAAEAAAABAAAAAAAFAAIAAAABAAAAAAAFAAMAAAABAAAAAAAFAAQAAAABAAAAAAAFAAUAAAABAAAAAAAFAAYAAAABAAAAAAAFAAcAAAABAAAAAAAFAAgAAAABAAAAAAAFAAkAAAABAAAAAAAFAAoAAAABAAAAAAAFAAsAAAABAAAAAAAFAAwAAAABAAAAAAAFAA0AAAABAAAAAAAFAA4AAAABAAAAAAAFAA8AAAABAAAAAAAFABAAAAABAAAAAAAFABEAAAABAAAAAAAGAPn/AAABAAAAAAAGAPr/AAABAAAAAAAGAPv/AAABAAAAAAAGAPz/AAABAAAAAAAGAP3/AAABAAAAAAAGAP7/AAABAAAAAAAGAP//AAABAAAAAAAGAAAAAAABAAAAAAAGAAEAAAABAAAAAAAGAAIAAAABAAAAAAAGAAMAAAABAAAAAAAGAAQAAAABAAAAAAAGAAUAAAABAAAAAAAGAAYAAAABAAAAAAAGAAcAAAABAAAAAAAGAAgAAAABAAAAAAAGAAkAAAABAAAAAAAGAAoAAAABAAAAAAAGAAsAAAABAAAAAAAGAAwAAAABAAAAAAAGAA0AAAABAAAAAAAGAA4AAAABAAAAAAAGAA8AAAABAAAAAAAGABAAAAABAAAAAAAGABEAAAABAAAAAAAHAPn/AAABAAAAAAAHAPr/AAABAAAAAAAHAPv/AAABAAAAAAAHAPz/AAABAAAAAAAHAP3/AAABAAAAAAAHAP7/AAABAAAAAAAHAP//AAABAAAAAAAHAAAAAAABAAAAAAAHAAEAAAABAAAAAAAHAAIAAAABAAAAAAAHAAMAAAABAAAAAAAHAAQAAAABAAAAAAAHAAUAAAABAAAAAAAHAAYAAAABAAAAAAAHAAcAAAABAAAAAAAHAAgAAAABAAAAAAAHAAkAAAABAAAAAAAHAAoAAAABAAAAAAAHAAsAAAABAAAAAAAHAAwAAAABAAAAAAAHAA0AAAABAAAAAAAHAA4AAAABAAAAAAAHAA8AAAABAAAAAAAHABAAAAABAAAAAAAHABEAAAABAAAAAAAIAPn/AAABAAAAAAAIAPr/AAABAAAAAAAIAPv/AAABAAAAAAAIAPz/AAABAAAAAAAIAP3/AAABAAAAAAAIAP7/AAABAAAAAAAIAP//AAABAAAAAAAIAAAAAAABAAAAAAAIAAEAAAABAAAAAAAIAAIAAAABAAAAAAAIAAMAAAABAAAAAAAIAAQAAAABAAAAAAAIAAUAAAABAAAAAAAIAAYAAAABAAAAAAAIAAcAAAABAAAAAAAIAAgAAAABAAAAAAAIAAkAAAABAAAAAAAIAAoAAAABAAAAAAAIAAsAAAABAAAAAAAIAAwAAAABAAAAAAAIAA0AAAABAAAAAAAIAA4AAAABAAAAAAAIAA8AAAABAAAAAAAIABAAAAABAAAAAAAIABEAAAABAAAAAAAJAPn/AAABAAAAAAAJAPr/AAABAAAAAAAJAPv/AAABAAAAAAAJAPz/AAABAAAAAAAJAP3/AAABAAAAAAAJAP7/AAABAAAAAAAJAP//AAABAAAAAAAJAAAAAAABAAAAAAAJAAEAAAABAAAAAAAJAAIAAAABAAAAAAAJAAMAAAABAAAAAAAJAAQAAAABAAAAAAAJAAUAAAABAAAAAAAJAAYAAAABAAAAAAAJAAcAAAABAAAAAAAJAAgAAAABAAAAAAAJAAkAAAABAAAAAAAJAAoAAAABAAAAAAAJAAsAAAABAAAAAAAJAAwAAAABAAAAAAAJAA0AAAABAAAAAAAJAA4AAAABAAAAAAAJAA8AAAABAAAAAAAJABAAAAABAAAAAAAJABEAAAABAAAAAAAKAPn/AAABAAAAAAAKAPr/AAABAAAAAAAKAPv/AAABAAAAAAAKAPz/AAABAAAAAAAKAP3/AAABAAAAAAAKAP7/AAABAAAAAAAKAP//AAABAAAAAAAKAAAAAAABAAAAAAAKAAEAAAABAAAAAAAKAAIAAAABAAAAAAAKAAMAAAABAAAAAAAKAAQAAAABAAAAAAAKAAUAAAABAAAAAAAKAAYAAAABAAAAAAAKAAcAAAABAAAAAAAKAAgAAAABAAAAAAAKAAkAAAABAAAAAAAKAAoAAAABAAAAAAAKAAsAAAABAAAAAAAKAAwAAAABAAAAAAAKAA0AAAABAAAAAAAKAA4AAAABAAAAAAAKAA8AAAABAAAAAAAKABAAAAABAAAAAAAKABEAAAABAAAAAAALAPn/AAABAAAAAAALAPr/AAABAAAAAAALAPv/AAABAAAAAAALAPz/AAABAAAAAAALAP3/AAABAAAAAAALAP7/AAABAAAAAAALAP//AAABAAAAAAALAAAAAAABAAAAAAALAAEAAAABAAAAAAALAAIAAAABAAAAAAALAAMAAAABAAAAAAALAAQAAAABAAAAAAALAAUAAAABAAAAAAALAAYAAAABAAAAAAALAAcAAAABAAAAAAALAAgAAAABAAAAAAALAAkAAAABAAAAAAALAAoAAAABAAAAAAALAAsAAAABAAAAAAALAAwAAAABAAAAAAALAA0AAAABAAAAAAALAA4AAAABAAAAAAALAA8AAAABAAAAAAALABAAAAABAAAAAAALABEAAAABAAAAAAAMAPn/AAABAAAAAAAMAPr/AAABAAAAAAAMAPv/AAABAAAAAAAMAPz/AAABAAAAAAAMAP3/AAABAAAAAAAMAP7/AAABAAAAAAAMAP//AAABAAAAAAAMAAAAAAABAAAAAAAMAAEAAAABAAAAAAAMAAIAAAABAAAAAAAMAAMAAAABAAAAAAAMAAQAAAABAAAAAAAMAAUAAAABAAAAAAAMAAYAAAABAAAAAAAMAAcAAAABAAAAAAAMAAgAAAABAAAAAAAMAAkAAAABAAAAAAAMAAoAAAABAAAAAAAMAAsAAAABAAAAAAAMAAwAAAABAAAAAAAMAA0AAAABAAAAAAAMAA4AAAABAAAAAAAMAA8AAAABAAAAAAAMABAAAAABAAAAAAAMABEAAAABAAAAAAANAPn/AAABAAAAAAANAPr/AAABAAAAAAANAPv/AAABAAAAAAANAPz/AAABAAAAAAANAP3/AAABAAAAAAANAP7/AAABAAAAAAANAP//AAABAAAAAAANAAAAAAABAAAAAAANAAEAAAABAAAAAAANAAIAAAABAAAAAAANAAMAAAABAAAAAAANAAQAAAABAAAAAAANAAUAAAABAAAAAAANAAYAAAABAAAAAAANAAcAAAABAAAAAAANAAgAAAABAAAAAAANAAkAAAABAAAAAAANAAoAAAABAAAAAAANAAsAAAABAAAAAAANAAwAAAABAAAAAAANAA0AAAABAAAAAAANAA4AAAABAAAAAAANAA8AAAABAAAAAAANABAAAAABAAAAAAANABEAAAABAAAAAAAOAPn/AAABAAAAAAAOAPr/AAABAAAAAAAOAPv/AAABAAAAAAAOAPz/AAABAAAAAAAOAP3/AAABAAAAAAAOAP7/AAABAAAAAAAOAP//AAABAAAAAAAOAAAAAAABAAAAAAAOAAEAAAABAAAAAAAOAAIAAAABAAAAAAAOAAMAAAABAAAAAAAOAAQAAAABAAAAAAAOAAUAAAABAAAAAAAOAAYAAAABAAAAAAAOAAcAAAABAAAAAAAOAAgAAAABAAAAAAAOAAkAAAABAAAAAAAOAAoAAAABAAAAAAAOAAsAAAABAAAAAAAOAAwAAAABAAAAAAAOAA0AAAABAAAAAAAOAA4AAAABAAAAAAAOAA8AAAABAAAAAAAOABAAAAABAAAAAAAOABEAAAABAAAAAAAPAPn/AAABAAAAAAAPAPr/AAABAAAAAAAPAPv/AAABAAAAAAAPAPz/AAABAAAAAAAPAP3/AAABAAAAAAAPAP7/AAABAAAAAAAPAP//AAABAAAAAAAPAAAAAAABAAAAAAAPAAEAAAABAAAAAAAPAAIAAAABAAAAAAAPAAMAAAABAAAAAAAPAAQAAAABAAAAAAAPAAUAAAABAAAAAAAPAAYAAAABAAAAAAAPAAcAAAABAAAAAAAPAAgAAAABAAAAAAAPAAkAAAABAAAAAAAPAAoAAAABAAAAAAAPAAsAAAABAAAAAAAPAAwAAAABAAAAAAAPAA0AAAABAAAAAAAPAA4AAAABAAAAAAAPAA8AAAABAAAAAAAPABAAAAABAAAAAAAPABEAAAABAAAAAAAQAPn/AAABAAAAAAAQAPr/AAABAAAAAAAQAPv/AAABAAAAAAAQAPz/AAABAAAAAAAQAP3/AAABAAAAAAAQAP7/AAABAAAAAAAQAP//AAABAAAAAAAQAAAAAAABAAAAAAAQAAEAAAABAAAAAAAQAAIAAAABAAAAAAAQAAMAAAABAAAAAAAQAAQAAAABAAAAAAAQAAUAAAABAAAAAAAQAAYAAAABAAAAAAAQAAcAAAABAAAAAAAQAAgAAAABAAAAAAAQAAkAAAABAAAAAAAQAAoAAAABAAAAAAAQAAsAAAABAAAAAAAQAAwAAAABAAAAAAAQAA0AAAABAAAAAAAQAA4AAAABAAAAAAAQAA8AAAABAAAAAAAQABAAAAABAAAAAAAQABEAAAABAAAAAAARAPn/AAABAAAAAAARAPr/AAABAAAAAAARAPv/AAABAAAAAAARAPz/AAABAAAAAAARAP3/AAABAAAAAAARAP7/AAABAAAAAAARAP//AAABAAAAAAARAAAAAAABAAAAAAARAAEAAAABAAAAAAARAAIAAAABAAAAAAARAAMAAAABAAAAAAARAAQAAAABAAAAAAARAAUAAAABAAAAAAARAAYAAAABAAAAAAARAAcAAAABAAAAAAARAAgAAAABAAAAAAARAAkAAAABAAAAAAARAAoAAAABAAAAAAARAAsAAAABAAAAAAARAAwAAAABAAAAAAARAA0AAAABAAAAAAARAA4AAAABAAAAAAARAA8AAAABAAAAAAARABAAAAABAAAAAAARABEAAAABAAAAAAASAPn/AAABAAAAAAASAPr/AAABAAAAAAASAPv/AAABAAAAAAASAPz/AAABAAAAAAASAP3/AAABAAAAAAASAP7/AAABAAAAAAASAP//AAABAAAAAAASAAAAAAABAAAAAAASAAEAAAABAAAAAAASAAIAAAABAAAAAAASAAMAAAABAAAAAAASAAQAAAABAAAAAAASAAUAAAABAAAAAAASAAYAAAABAAAAAAASAAcAAAABAAAAAAASAAgAAAABAAAAAAASAAkAAAABAAAAAAASAAoAAAABAAAAAAASAAsAAAABAAAAAAASAAwAAAABAAAAAAASAA0AAAABAAAAAAASAA4AAAABAAAAAAASAA8AAAABAAAAAAASABAAAAABAAAAAAASABEAAAABAAAAAAATAPn/AAABAAAAAAATAPr/AAABAAAAAAATAPv/AAABAAAAAAATAPz/AAABAAAAAAATAP3/AAABAAAAAAATAP7/AAABAAAAAAATAP//AAABAAAAAAATAAAAAAABAAAAAAATAAEAAAABAAAAAAATAAIAAAABAAAAAAATAAMAAAABAAAAAAATAAQAAAABAAAAAAATAAUAAAABAAAAAAATAAYAAAABAAAAAAATAAcAAAABAAAAAAATAAgAAAABAAAAAAATAAkAAAABAAAAAAATAAoAAAABAAAAAAATAAsAAAABAAAAAAATAAwAAAABAAAAAAATAA0AAAABAAAAAAATAA4AAAABAAAAAAATAA8AAAABAAAAAAATABAAAAABAAAAAAATABEAAAABAAAAAAAUAPn/AAABAAAAAAAUAPr/AAABAAAAAAAUAPv/AAABAAAAAAAUAPz/AAABAAAAAAAUAP3/AAABAAAAAAAUAP7/AAABAAAAAAAUAP//AAABAAAAAAAUAAAAAAABAAAAAAAUAAEAAAABAAAAAAAUAAIAAAABAAAAAAAUAAMAAAABAAAAAAAUAAQAAAABAAAAAAAUAAUAAAABAAAAAAAUAAYAAAABAAAAAAAUAAcAAAABAAAAAAAUAAgAAAABAAAAAAAUAAkAAAABAAAAAAAUAAoAAAABAAAAAAAUAAsAAAABAAAAAAAUAAwAAAABAAAAAAAUAA0AAAABAAAAAAAUAA4AAAABAAAAAAAUAA8AAAABAAAAAAAUABAAAAABAAAAAAAUABEAAAABAAAAAAAVAPn/AAABAAAAAAAVAPr/AAABAAAAAAAVAPv/AAABAAAAAAAVAPz/AAABAAAAAAAVAP3/AAABAAAAAAAVAP7/AAABAAAAAAAVAP//AAABAAAAAAAVAAAAAAABAAAAAAAVAAEAAAABAAAAAAAVAAIAAAABAAAAAAAVAAMAAAABAAAAAAAVAAQAAAABAAAAAAAVAAUAAAABAAAAAAAVAAYAAAABAAAAAAAVAAcAAAABAAAAAAAVAAgAAAABAAAAAAAVAAkAAAABAAAAAAAVAAoAAAABAAAAAAAVAAsAAAABAAAAAAAVAAwAAAABAAAAAAAVAA0AAAABAAAAAAAVAA4AAAABAAAAAAAVAA8AAAABAAAAAAAVABAAAAABAAAAAAAVABEAAAABAAAAAAAWAPn/AAABAAAAAAAWAPr/AAABAAAAAAAWAPv/AAABAAAAAAAWAPz/AAABAAAAAAAWAP3/AAABAAAAAAAWAP7/AAABAAAAAAAWAP//AAABAAAAAAAWAAAAAAABAAAAAAAWAAEAAAABAAAAAAAWAAIAAAABAAAAAAAWAAMAAAABAAAAAAAWAAQAAAABAAAAAAAWAAUAAAABAAAAAAAWAAYAAAABAAAAAAAWAAcAAAABAAAAAAAWAAgAAAABAAAAAAAWAAkAAAABAAAAAAAWAAoAAAABAAAAAAAWAAsAAAABAAAAAAAWAAwAAAABAAAAAAAWAA0AAAABAAAAAAAWAA4AAAABAAAAAAAWAA8AAAABAAAAAAAWABAAAAABAAAAAAAWABEAAAABAAAAAAAXAPn/AAABAAAAAAAXAPr/AAABAAAAAAAXAPv/AAABAAAAAAAXAPz/AAABAAAAAAAXAP3/AAABAAAAAAAXAP7/AAABAAAAAAAXAP//AAABAAAAAAAXAAAAAAABAAAAAAAXAAEAAAABAAAAAAAXAAIAAAABAAAAAAAXAAMAAAABAAAAAAAXAAQAAAABAAAAAAAXAAUAAAABAAAAAAAXAAYAAAABAAAAAAAXAAcAAAABAAAAAAAXAAgAAAABAAAAAAAXAAkAAAABAAAAAAAXAAoAAAABAAAAAAAXAAsAAAABAAAAAAAXAAwAAAABAAAAAAAXAA0AAAABAAAAAAAXAA4AAAABAAAAAAAXAA8AAAABAAAAAAAXABAAAAABAAAAAAAXABEAAAABAAAAAAA=")
+tile_set = ExtResource("tileset_res")
 
-[node name="EnglishDesk" type="Node2D" parent="."]
+[node name="Walls" type="TileMapLayer" parent="." unique_id=200222389]
+z_index = 2
+tile_map_data = PackedByteArray("AAD+//7/AAABAAEAAAD+////AAABAAEAAAD+/wAAAAABAAEAAAD+/wEAAAABAAEAAAD+/wIAAAABAAEAAAD+/wMAAAABAAEAAAD+/wQAAAABAAEAAAD+/wUAAAABAAEAAAD+/wYAAAABAAEAAAD+/wcAAAABAAEAAAD+/wgAAAABAAEAAAD+/wkAAAABAAEAAAD+/woAAAABAAEAAAD+/wsAAAABAAEAAAD///7/AAABAAEAAAD//wsAAAABAAEAAAAAAP7/AAABAAEAAAAAAAsAAAABAAEAAAABAP7/AAABAAEAAAABAAsAAAABAAEAAAACAP7/AAABAAEAAAACAAsAAAABAAEAAAADAP7/AAABAAEAAAADAAsAAAABAAEAAAAEAP7/AAABAAEAAAAEAAsAAAABAAEAAAAFAP7/AAABAAEAAAAFAAsAAAABAAEAAAAGAP7/AAABAAEAAAAGAAsAAAABAAEAAAAHAP7/AAABAAEAAAAHAAsAAAABAAEAAAAIAP7/AAABAAEAAAAIAAsAAAABAAEAAAAJAP7/AAABAAEAAAAJAAsAAAABAAEAAAAKAP7/AAABAAEAAAAKAAsAAAABAAEAAAALAP7/AAABAAEAAAALAAsAAAABAAEAAAAMAP7/AAABAAEAAAAMAAsAAAABAAEAAAANAP7/AAABAAEAAAANAAsAAAABAAEAAAAOAP7/AAABAAEAAAAOAAsAAAABAAEAAAAPAP7/AAABAAEAAAAPAAsAAAABAAEAAAAQAP7/AAABAAEAAAAQAAsAAAABAAEAAAARAP7/AAABAAEAAAARAP//AAABAAEAAAARAAAAAAABAAEAAAARAAEAAAABAAEAAAARAAIAAAABAAEAAAARAAMAAAABAAEAAAARAAQAAAABAAEAAAARAAUAAAABAAEAAAARAAYAAAABAAEAAAARAAcAAAABAAEAAAARAAgAAAABAAEAAAARAAkAAAABAAEAAAARAAoAAAABAAEAAAARAAsAAAABAAEAAAA=")
+tile_set = ExtResource("tileset_res")
+
+[node name="Decorations" type="Node2D" parent="." unique_id=1525257245]
+z_index = 3
+
+[node name="EnglishDesk" type="Node2D" parent="." unique_id=1015197766]
 position = Vector2(150, 180)
 
-[node name="Sprite2D" type="Sprite2D" parent="EnglishDesk"]
+[node name="Sprite2D" type="Sprite2D" parent="EnglishDesk" unique_id=1025028679]
 texture = ExtResource("2")
 
-[node name="InteractArea" type="Area2D" parent="EnglishDesk"]
+[node name="InteractArea" type="Area2D" parent="EnglishDesk" unique_id=502336449]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnglishDesk/InteractArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnglishDesk/InteractArea" unique_id=1639959018]
 shape = SubResource("DeskShape")
 
-[node name="PromptLabel" type="Label" parent="EnglishDesk"]
+[node name="PromptLabel" type="Label" parent="EnglishDesk" unique_id=1439546156]
 visible = false
-position = Vector2(-50, -90)
+offset_left = -50.0
+offset_top = -90.0
+offset_right = -50.0
+offset_bottom = -90.0
 text = "Press E to study English"
 
-[node name="MathsDesk" type="Node2D" parent="."]
+[node name="MathsDesk" type="Node2D" parent="." unique_id=1386187758]
 position = Vector2(480, 180)
 
-[node name="Sprite2D" type="Sprite2D" parent="MathsDesk"]
+[node name="Sprite2D" type="Sprite2D" parent="MathsDesk" unique_id=416113852]
 texture = ExtResource("3")
 
-[node name="InteractArea" type="Area2D" parent="MathsDesk"]
+[node name="InteractArea" type="Area2D" parent="MathsDesk" unique_id=1784131328]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MathsDesk/InteractArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MathsDesk/InteractArea" unique_id=76534966]
 shape = SubResource("DeskShape")
 
-[node name="PromptLabel" type="Label" parent="MathsDesk"]
+[node name="PromptLabel" type="Label" parent="MathsDesk" unique_id=2012668013]
 visible = false
-position = Vector2(-50, -90)
+offset_left = -50.0
+offset_top = -90.0
+offset_right = -50.0
+offset_bottom = -90.0
 text = "Press E to study Maths"
 
-[node name="PhysicsDesk" type="Node2D" parent="."]
+[node name="PhysicsDesk" type="Node2D" parent="." unique_id=1451366315]
 position = Vector2(810, 180)
 
-[node name="Sprite2D" type="Sprite2D" parent="PhysicsDesk"]
+[node name="Sprite2D" type="Sprite2D" parent="PhysicsDesk" unique_id=1649916189]
 texture = ExtResource("4")
 
-[node name="InteractArea" type="Area2D" parent="PhysicsDesk"]
+[node name="InteractArea" type="Area2D" parent="PhysicsDesk" unique_id=234692743]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsDesk/InteractArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PhysicsDesk/InteractArea" unique_id=935865668]
 shape = SubResource("DeskShape")
 
-[node name="PromptLabel" type="Label" parent="PhysicsDesk"]
+[node name="PromptLabel" type="Label" parent="PhysicsDesk" unique_id=1569971696]
 visible = false
-position = Vector2(-50, -90)
+offset_left = -50.0
+offset_top = -90.0
+offset_right = -50.0
+offset_bottom = -90.0
 text = "Press E to study Physics"
 
-[node name="StudentA" type="Node2D" parent="."]
+[node name="StudentA" type="Node2D" parent="." unique_id=1950079422]
 position = Vector2(150, 480)
 
-[node name="Sprite2D" type="Sprite2D" parent="StudentA"]
+[node name="Sprite2D" type="Sprite2D" parent="StudentA" unique_id=1146375712]
 texture = ExtResource("5")
 
-[node name="InteractArea" type="Area2D" parent="StudentA"]
+[node name="InteractArea" type="Area2D" parent="StudentA" unique_id=661904673]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StudentA/InteractArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StudentA/InteractArea" unique_id=1384007931]
 shape = SubResource("NpcShape")
 
-[node name="PromptLabel" type="Label" parent="StudentA"]
+[node name="PromptLabel" type="Label" parent="StudentA" unique_id=610288410]
 visible = false
-position = Vector2(-50, -70)
+offset_left = -50.0
+offset_top = -70.0
+offset_right = -50.0
+offset_bottom = -70.0
 text = "Press E to chat"
 
-[node name="StudentB" type="Node2D" parent="."]
+[node name="StudentB" type="Node2D" parent="." unique_id=690378104]
 position = Vector2(380, 480)
 
-[node name="Sprite2D" type="Sprite2D" parent="StudentB"]
+[node name="Sprite2D" type="Sprite2D" parent="StudentB" unique_id=456507]
 texture = ExtResource("6")
 
-[node name="InteractArea" type="Area2D" parent="StudentB"]
+[node name="InteractArea" type="Area2D" parent="StudentB" unique_id=115683659]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StudentB/InteractArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StudentB/InteractArea" unique_id=191126621]
 shape = SubResource("NpcShape")
 
-[node name="PromptLabel" type="Label" parent="StudentB"]
+[node name="PromptLabel" type="Label" parent="StudentB" unique_id=1571289306]
 visible = false
-position = Vector2(-50, -70)
+offset_left = -50.0
+offset_top = -70.0
+offset_right = -50.0
+offset_bottom = -70.0
 text = "Press E to chat"
 
-[node name="Teacher" type="Node2D" parent="."]
+[node name="Teacher" type="Node2D" parent="." unique_id=1105550322]
 position = Vector2(610, 480)
 
-[node name="Sprite2D" type="Sprite2D" parent="Teacher"]
+[node name="Sprite2D" type="Sprite2D" parent="Teacher" unique_id=1750190886]
 texture = ExtResource("7")
 
-[node name="InteractArea" type="Area2D" parent="Teacher"]
+[node name="InteractArea" type="Area2D" parent="Teacher" unique_id=776467717]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Teacher/InteractArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Teacher/InteractArea" unique_id=244538835]
 shape = SubResource("NpcShape")
 
-[node name="PromptLabel" type="Label" parent="Teacher"]
+[node name="PromptLabel" type="Label" parent="Teacher" unique_id=1461294742]
 visible = false
-position = Vector2(-70, -70)
+offset_left = -70.0
+offset_top = -70.0
+offset_right = -70.0
+offset_bottom = -70.0
 text = "Press E to ask for extra credit"
 
-[node name="Fountain" type="Node2D" parent="."]
+[node name="Fountain" type="Node2D" parent="." unique_id=262341036]
 position = Vector2(810, 480)
 
-[node name="Sprite2D" type="Sprite2D" parent="Fountain"]
+[node name="Sprite2D" type="Sprite2D" parent="Fountain" unique_id=1122810323]
 texture = ExtResource("8")
 
-[node name="InteractArea" type="Area2D" parent="Fountain"]
+[node name="InteractArea" type="Area2D" parent="Fountain" unique_id=742681235]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Fountain/InteractArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fountain/InteractArea" unique_id=1680380569]
 shape = SubResource("FountainShape")
 
-[node name="PromptLabel" type="Label" parent="Fountain"]
+[node name="PromptLabel" type="Label" parent="Fountain" unique_id=966565874]
 visible = false
-position = Vector2(-50, -80)
+offset_left = -50.0
+offset_top = -80.0
+offset_right = -50.0
+offset_bottom = -80.0
 text = "Press E for a drink"
 
-[node name="Canteen" type="Node2D" parent="."]
-position = Vector2(300, 330)
-
-[node name="Sprite2D" type="Sprite2D" parent="Canteen"]
-texture = ExtResource("10")
-
-[node name="InteractArea" type="Area2D" parent="Canteen"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Canteen/InteractArea"]
-shape = SubResource("DeskShape")
-
-[node name="PromptLabel" type="Label" parent="Canteen"]
-visible = false
-position = Vector2(-50, -90)
-text = "Press E for the canteen"
-
-[node name="ExitStation" type="Node2D" parent="."]
+[node name="ExitStation" type="Node2D" parent="." unique_id=211336962]
 position = Vector2(950, 320)
 
-[node name="ExitVisual" type="ColorRect" parent="ExitStation"]
-position = Vector2(-40, -40)
-size = Vector2(80, 80)
+[node name="ExitVisual" type="ColorRect" parent="ExitStation" unique_id=1633771596]
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
 color = Color(0.85, 0.25, 0.25, 1)
 
-[node name="ExitLabel" type="Label" parent="ExitStation"]
-position = Vector2(-24, -12)
+[node name="ExitLabel" type="Label" parent="ExitStation" unique_id=1446987415]
+offset_left = -24.0
+offset_top = -12.0
+offset_right = -24.0
+offset_bottom = -12.0
 text = "EXIT"
 
-[node name="InteractArea" type="Area2D" parent="ExitStation"]
+[node name="InteractArea" type="Area2D" parent="ExitStation" unique_id=1656278546]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitStation/InteractArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitStation/InteractArea" unique_id=1750721088]
 shape = SubResource("ExitShape")
 
-[node name="PromptLabel" type="Label" parent="ExitStation"]
+[node name="PromptLabel" type="Label" parent="ExitStation" unique_id=651181094]
 visible = false
-position = Vector2(-60, -80)
+offset_left = -60.0
+offset_top = -80.0
+offset_right = -60.0
+offset_bottom = -80.0
 text = "Press E to leave school"
 
-[node name="Player" type="CharacterBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1883841063]
 position = Vector2(480, 340)
 
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=444560674]
 texture = ExtResource("9")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=694174000]
 shape = SubResource("PlayerShape")
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=710743686]
 zoom = Vector2(1.4, 1.4)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="PauseMenu" type="Control" parent="Player/Camera2D" unique_id=1899782582]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_8g5qp")
 
-[node name="HUD" type="Control" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="Player/Camera2D/PauseMenu" unique_id=1929282674]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1.1755697, 1.1755697, 0.19215687)
+
+[node name="PanelContainer" type="PanelContainer" parent="Player/Camera2D/PauseMenu" unique_id=316251752]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -395.0
+offset_top = -215.5
+offset_right = 395.0
+offset_bottom = 215.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kvtqj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Player/Camera2D/PauseMenu" unique_id=927259190]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="PauseMenu" type="Label" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1644050788]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.15294118, 0.06666667, 0.16862746, 1)
+theme_override_font_sizes/font_size = 40
+text = "Pause Menu"
+
+[node name="Resume" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1539945174]
+layout_mode = 2
+text = "Resume"
+
+[node name="MainMenu" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1844414502]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Settings" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1116140885]
+layout_mode = 2
+text = "Settings"
+
+[node name="Help" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=243584500]
+layout_mode = 2
+text = "Help"
+
+[node name="Quit" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1608305375]
+layout_mode = 2
+text = "Quit"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=882128973]
+
+[node name="HUD" type="Control" parent="CanvasLayer" unique_id=1224818727]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -203,128 +320,144 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="HintLabel" type="Label" parent="CanvasLayer/HUD"]
+[node name="HintPanel" type="PanelContainer" parent="CanvasLayer/HUD"]
+visible = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -220.0
-offset_top = -50.0
-offset_right = 220.0
-offset_bottom = -16.0
+offset_left = -300.0
+offset_top = -78.0
+offset_right = 300.0
+offset_bottom = -26.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hint")
+
+[node name="HintLabel" type="Label" parent="CanvasLayer/HUD/HintPanel"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 text = ""
 
-[node name="MinigameOverlay" type="Control" parent="CanvasLayer"]
+[node name="MinigameOverlay" type="Control" parent="CanvasLayer" unique_id=1691188072]
 visible = false
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Dim" type="ColorRect" parent="CanvasLayer/MinigameOverlay"]
-anchors_preset = 15
+[node name="Dim" type="ColorRect" parent="CanvasLayer/MinigameOverlay" unique_id=2028363624]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.55)
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/MinigameOverlay"]
-anchors_preset = 15
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/MinigameOverlay" unique_id=1370324528]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer"]
+[node name="Panel" type="PanelContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer" unique_id=1170208222]
 custom_minimum_size = Vector2(640, 460)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel" unique_id=1727056072]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="TitleLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+[node name="TitleLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=298473786]
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
-horizontal_alignment = 1
 text = "Task"
+horizontal_alignment = 1
 
-[node name="ProgressLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+[node name="ProgressLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=774292780]
 layout_mode = 2
 horizontal_alignment = 1
-text = ""
 
-[node name="InfoLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+[node name="InfoLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1340365798]
 layout_mode = 2
-autowrap_mode = 3
 theme_override_font_sizes/font_size = 20
 horizontal_alignment = 1
-text = ""
+autowrap_mode = 3
 
-[node name="OptionsCenter" type="CenterContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+[node name="OptionsCenter" type="CenterContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1513522957]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="OptionsContainer" type="GridContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter"]
+[node name="OptionsContainer" type="GridContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter" unique_id=1000207234]
 layout_mode = 2
-columns = 1
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 
-[node name="FeedbackLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+[node name="FeedbackLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=696021837]
 layout_mode = 2
-autowrap_mode = 3
 horizontal_alignment = 1
-text = ""
+autowrap_mode = 3
 
-[node name="NextButton" type="Button" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
+[node name="NextButton" type="Button" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=840249544]
 visible = false
 layout_mode = 2
 text = "Next"
 
-[node name="ResultsPanel" type="Control" parent="CanvasLayer"]
+[node name="ResultsPanel" type="Control" parent="CanvasLayer" unique_id=628705405]
 visible = false
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Dim" type="ColorRect" parent="CanvasLayer/ResultsPanel"]
-anchors_preset = 15
+[node name="Dim" type="ColorRect" parent="CanvasLayer/ResultsPanel" unique_id=746785626]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.7)
 
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/ResultsPanel"]
-anchors_preset = 15
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/ResultsPanel" unique_id=860390538]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="CanvasLayer/ResultsPanel/CenterContainer"]
+[node name="Panel" type="PanelContainer" parent="CanvasLayer/ResultsPanel/CenterContainer" unique_id=166840171]
 custom_minimum_size = Vector2(420, 260)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ResultsPanel/CenterContainer/Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/ResultsPanel/CenterContainer/Panel" unique_id=1520505270]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="ResultsLabel" type="Label" parent="CanvasLayer/ResultsPanel/CenterContainer/Panel/VBoxContainer"]
+[node name="ResultsLabel" type="Label" parent="CanvasLayer/ResultsPanel/CenterContainer/Panel/VBoxContainer" unique_id=1896573952]
 layout_mode = 2
-autowrap_mode = 3
 horizontal_alignment = 1
-text = ""
+autowrap_mode = 3
 
-[node name="CloseButton" type="Button" parent="CanvasLayer/ResultsPanel/CenterContainer/Panel/VBoxContainer"]
+[node name="CloseButton" type="Button" parent="CanvasLayer/ResultsPanel/CenterContainer/Panel/VBoxContainer" unique_id=380137846]
 layout_mode = 2
 text = "Head home"
+
+[connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/Resume" to="Player/Camera2D/PauseMenu" method="_on_resume_pressed"]
+[connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/MainMenu" to="Player/Camera2D/PauseMenu" method="_on_main_menu_pressed"]
+[connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/Settings" to="Player/Camera2D/PauseMenu" method="_on_settings_pressed"]
+[connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/Help" to="Player/Camera2D/PauseMenu" method="_on_help_pressed"]
+[connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/Quit" to="Player/Camera2D/PauseMenu" method="_on_quit_pressed"]

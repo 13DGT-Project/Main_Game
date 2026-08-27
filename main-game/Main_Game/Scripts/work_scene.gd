@@ -10,26 +10,46 @@ const CHECKOUT_ROUNDS: int = 5
 const CUSTOMER_ROUNDS: int = 3
 const BAKERY_ROUNDS: int = 4
 const DELI_ROUNDS: int = 5
-const RESTOCK_TIME_LIMIT: float = 6.0
-const CHECKOUT_TIME_LIMIT: float = 2.0
+
+const CHECKOUT_SCAN_TIME_LIMIT: float = 5.0
+const CHECKOUT_TYPE_TIME_LIMIT: float = 9.0
+const RESTOCK_TIME_LIMIT: float = 10.0
 const BAKE_TIME_LIMIT: float = 2.5           # used by both "bake" (bakery) and "slice" (deli) — precision-zone steps
 const KNEAD_TIME_LIMIT: float = 3.0          # used by both "knead" (bakery) and "chop" (deli) — rapid-press steps
 const KNEAD_TARGET_CLICKS: int = 10
-const HOURS_PER_RESTOCK_ITEM: float = 0.08
-const HOURS_PER_CHECKOUT_ITEM: float = 0.08
+const WEIGH_TOLERANCE: float = 0.05
+
+const HOURS_PER_RESTOCK_ITEM: float = 0.12
+const HOURS_PER_CHECKOUT_ITEM: float = 0.1
 const HOURS_PER_CUSTOMER: float = 0.1
-const JOURNAL_SCENE := preload("res://Main_Game/Scenes/Journal.tscn")
-const GUI_SCENE := preload("res://Characters/GUI/GUI_Scenes/gui.tscn")
-const PAUSE_MENU_SCENE := preload("res://Main_Game/Scenes/PauseMenu2D.tscn")
 const HOURS_PER_BAKE: float = 0.05
 const HOURS_PER_DELI_ITEM: float = 0.04
 const BAKE_ZONE_WIDTH: float = 0.18  # fraction of the bake track counted as "perfect"
 
+const RESTOCK_FILL_TARGET: int = 4
+
+const JOURNAL_SCENE := preload("res://Main_Game/Scenes/Journal.tscn")
+const GUI_SCENE := preload("res://Characters/GUI/GUI_Scenes/gui.tscn")
+const MINIMAP_SCRIPT := preload("res://Main_Game/Scripts/minimap.gd")
+const MAIN_MAP_SCENE: String = "res://Main_Game/Scenes/MainMap.tscn"
+const BOX_CLOSED_TEXTURE: String = "res://Backend/Resource/Textures/item_box_closed.png"
+
 @onready var player: CharacterBody2D = $Player
-@onready var floor_container: Node2D = $Floor
+@onready var floor_layer: TileMapLayer = $Floor
+@onready var walls_layer: TileMapLayer = $Walls
 
 @onready var shelf_area: Area2D = $ShelfStation/InteractArea
 @onready var shelf_prompt: Label = $ShelfStation/PromptLabel
+@onready var shelf2_area: Area2D = $ShelfStation2/InteractArea
+@onready var shelf2_prompt: Label = $ShelfStation2/PromptLabel
+@onready var fridge1_area: Area2D = $FridgeStation1/InteractArea
+@onready var fridge1_prompt: Label = $FridgeStation1/PromptLabel
+@onready var fridge2_area: Area2D = $FridgeStation2/InteractArea
+@onready var fridge2_prompt: Label = $FridgeStation2/PromptLabel
+@onready var freezer1_area: Area2D = $FreezerStation1/InteractArea
+@onready var freezer1_prompt: Label = $FreezerStation1/PromptLabel
+@onready var freezer2_area: Area2D = $FreezerStation2/InteractArea
+@onready var freezer2_prompt: Label = $FreezerStation2/PromptLabel
 @onready var bakery_area: Area2D = $BakeryStation/InteractArea
 @onready var bakery_prompt: Label = $BakeryStation/PromptLabel
 @onready var deli_area: Area2D = $DeliStation/InteractArea
@@ -45,7 +65,8 @@ const BAKE_ZONE_WIDTH: float = 0.18  # fraction of the bake track counted as "pe
 @onready var task_timer: Timer = $TaskTimer
 
 @onready var money_label: Label = $CanvasLayer/HUD/MoneyLabel
-@onready var hint_label: Label = $CanvasLayer/HUD/HintLabel
+@onready var hint_panel: PanelContainer = $CanvasLayer/HUD/HintPanel
+@onready var hint_label: Label = $CanvasLayer/HUD/HintPanel/HintLabel
 
 @onready var minigame_overlay: Control = $CanvasLayer/MinigameOverlay
 @onready var title_label: Label = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/TitleLabel
@@ -59,9 +80,23 @@ const BAKE_ZONE_WIDTH: float = 0.18  # fraction of the bake track counted as "pe
 @onready var mash_container: Control = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/MashContainer
 @onready var mash_meter: ProgressBar = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/MashContainer/MashMeter
 @onready var options_container: GridContainer = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/OptionsContainer
-@onready var drag_container: Control = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer
-@onready var drag_item: TextureRect = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/DragItem
-@onready var drag_zone: ColorRect = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/DragZone
+
+@onready var drag_container: VBoxContainer = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer
+@onready var drag_item: TextureRect = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/HeldRow/DragItem
+@onready var held_label: Label = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/HeldRow/HeldLabel
+@onready var pick_up_button: Button = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/PickUpButton
+@onready var zone_grid: GridContainer = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/ZoneGrid
+@onready var zone1: Button = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/ZoneGrid/Zone1
+@onready var zone2: Button = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/ZoneGrid/Zone2
+@onready var zone3: Button = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/ZoneGrid/Zone3
+
+@onready var type_container: VBoxContainer = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/TypeContainer
+@onready var type_prompt_label: Label = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/TypeContainer/TypePromptLabel
+@onready var type_input: LineEdit = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/TypeContainer/TypeInput
+@onready var type_submit_button: Button = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/TypeContainer/TypeSubmitButton
+@onready var num_pad: GridContainer = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/TypeContainer/NumPad
+@onready var lookup_choices: VBoxContainer = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/TypeContainer/LookupChoices
+
 @onready var feedback_label: Label = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/FeedbackLabel
 @onready var next_button: Button = $CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/NextButton
 
@@ -70,6 +105,7 @@ const BAKE_ZONE_WIDTH: float = 0.18  # fraction of the bake track counted as "pe
 @onready var close_button: Button = $CanvasLayer/ResultsPanel/CenterContainer/Panel/VBoxContainer/CloseButton
 
 var current_station: String = ""
+var _hint_time_left: float = 0.0
 var task_active: bool = false
 var current_task_type: String = ""
 
@@ -78,12 +114,15 @@ var round_index: int = 0
 var round_correct: int = 0
 var answered_current: bool = false
 var mash_progress: int = 0
-var drag_dragging: bool = false
-var drag_context: String = ""  # "checkout" or "restock" — what a successful drop does
 
-const RESTOCK_FILL_TARGET: int = 4
-var restock_fill: int = 0
+var holding_item: bool = false  # true once the item is picked up / box opened
+var drag_context: String = ""  # "checkout_scan" or "restock"
+
 var restock_target_item: Dictionary = {}
+var restock_fill: int = 0
+var restock_box_opened: bool = false
+
+var current_checkout_item: Dictionary = {}
 
 var shift_hours: float = 0.0
 var shift_task_score: int = 0
@@ -91,8 +130,8 @@ var shift_task_total: int = 0
 
 
 func _ready() -> void:
+	Audio.play_ambience("work")
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	_build_floor()
 
 	var customer_textures := [
 		"res://Backend/Resource/Textures/customer_a.png",
@@ -101,8 +140,18 @@ func _ready() -> void:
 	]
 	customer_sprite.texture = load(customer_textures[randi() % customer_textures.size()])
 
-	shelf_area.body_entered.connect(_on_station_entered.bind("shelf"))
-	shelf_area.body_exited.connect(_on_station_exited.bind("shelf"))
+	shelf_area.body_entered.connect(_on_station_entered.bind("shelf1"))
+	shelf_area.body_exited.connect(_on_station_exited.bind("shelf1"))
+	shelf2_area.body_entered.connect(_on_station_entered.bind("shelf2"))
+	shelf2_area.body_exited.connect(_on_station_exited.bind("shelf2"))
+	fridge1_area.body_entered.connect(_on_station_entered.bind("fridge1"))
+	fridge1_area.body_exited.connect(_on_station_exited.bind("fridge1"))
+	fridge2_area.body_entered.connect(_on_station_entered.bind("fridge2"))
+	fridge2_area.body_exited.connect(_on_station_exited.bind("fridge2"))
+	freezer1_area.body_entered.connect(_on_station_entered.bind("freezer1"))
+	freezer1_area.body_exited.connect(_on_station_exited.bind("freezer1"))
+	freezer2_area.body_entered.connect(_on_station_entered.bind("freezer2"))
+	freezer2_area.body_exited.connect(_on_station_exited.bind("freezer2"))
 	bakery_area.body_entered.connect(_on_station_entered.bind("bakery"))
 	bakery_area.body_exited.connect(_on_station_exited.bind("bakery"))
 	deli_area.body_entered.connect(_on_station_entered.bind("deli"))
@@ -116,7 +165,12 @@ func _ready() -> void:
 
 	task_timer.timeout.connect(_on_task_timer_timeout)
 	next_button.pressed.connect(_on_next_pressed)
-	drag_item.gui_input.connect(_on_drag_item_gui_input)
+	pick_up_button.pressed.connect(_on_pick_up_pressed)
+	zone1.pressed.connect(_on_zone_pressed.bind(0))
+	zone2.pressed.connect(_on_zone_pressed.bind(1))
+	zone3.pressed.connect(_on_zone_pressed.bind(2))
+	type_submit_button.pressed.connect(_on_type_submit)
+	type_input.text_submitted.connect(func(_t): _on_type_submit())
 	close_button.pressed.connect(_on_close_results)
 
 	money_label.text = "Money: $%.2f" % GameBackend.money
@@ -127,25 +181,34 @@ func _ready() -> void:
 	GameBackend.game_ended.connect(_on_game_ended)
 	get_tree().current_scene.add_child(JOURNAL_SCENE.instantiate())
 	get_tree().current_scene.add_child(GUI_SCENE.instantiate())
-	get_tree().current_scene.add_child(PAUSE_MENU_SCENE.instantiate())
+	_setup_minimap()
+
+
+## Rooms here mirror the walls painted into the Walls TileMapLayer — keep the two
+## in sync if you move anything, or the map will lie to the player.
+func _setup_minimap() -> void:
+	var minimap := CanvasLayer.new()
+	minimap.set_script(MINIMAP_SCRIPT)
+	get_tree().current_scene.add_child(minimap)
+	minimap.setup([
+		{"name": "Grocery Aisle", "rect": Rect2(0, 50, 500, 350)},
+		{"name": "Fridge Bay", "rect": Rect2(550, 50, 500, 350)},
+		{"name": "Freezer Bay", "rect": Rect2(1100, 50, 500, 350)},
+		{"name": "Bakery", "rect": Rect2(0, 600, 500, 350)},
+		{"name": "Deli", "rect": Rect2(550, 600, 500, 350)},
+		{"name": "Checkout", "rect": Rect2(1100, 600, 500, 350)},
+	], Rect2(0, 0, 1600, 1000), player)
 
 
 const PLAY_AREA_MIN := Vector2(0, 0)
-const PLAY_AREA_MAX := Vector2(1000, 650)
+const PLAY_AREA_MAX := Vector2(1600, 1000)
 
 
-func _build_floor() -> void:
-	var floor_tex: Texture2D = load("res://Backend/Resource/Textures/floor_tile.png")
-	# Generous margin beyond the play area so the camera never sees past the
-	# floor's edge, even zoomed in at a corner station.
-	for x in range(-400, 1500, 64):
-		for y in range(-400, 1150, 64):
-			var tile := Sprite2D.new()
-			tile.texture = floor_tex
-			tile.centered = false
-			tile.position = Vector2(x, y)
-			tile.z_index = -1
-			floor_container.add_child(tile)
+func _add_decoration(path: String, pos: Vector2) -> void:
+	var deco := Sprite2D.new()
+	deco.texture = load(path)
+	deco.position = pos
+	$Decorations.add_child(deco)
 
 
 func _physics_process(_delta: float) -> void:
@@ -158,7 +221,8 @@ func _physics_process(_delta: float) -> void:
 	player.global_position = player.global_position.clamp(PLAY_AREA_MIN, PLAY_AREA_MAX)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	_tick_hint(delta)
 	if timer_bar.visible and task_timer.wait_time > 0.0:
 		timer_bar.value = task_timer.time_left / task_timer.wait_time
 	if bake_container.visible and task_timer.wait_time > 0.0:
@@ -168,16 +232,6 @@ func _process(_delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if drag_dragging:
-		if event is InputEventMouseMotion:
-			var max_x: float = drag_container.custom_minimum_size.x - drag_item.size.x
-			drag_item.position.x = clamp(drag_item.position.x + event.relative.x, 0.0, max_x)
-			_check_drag_drop()
-			return
-		elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
-			drag_dragging = false
-			return
-
 	if task_active:
 		return
 	if event.is_action_pressed("interact") and current_station != "":
@@ -197,8 +251,11 @@ func _use_selected_item() -> void:
 		"Phone":
 			PhoneApp.toggle()
 		"Water Bottle":
-			if not GameBackend.use_water_bottle():
-				hint_label.text = "Your water bottle is empty — find a tap to refill it."
+			if GameBackend.use_water_bottle():
+				Audio.play("drink")
+			else:
+				Audio.play("error")
+				_set_hint("Your water bottle is empty — find a tap to refill it.")
 
 
 func _on_station_entered(body: Node, station: String) -> void:
@@ -217,7 +274,12 @@ func _on_station_exited(body: Node, station: String) -> void:
 
 
 func _update_prompts() -> void:
-	shelf_prompt.visible = current_station == "shelf"
+	shelf_prompt.visible = current_station == "shelf1"
+	shelf2_prompt.visible = current_station == "shelf2"
+	fridge1_prompt.visible = current_station == "fridge1"
+	fridge2_prompt.visible = current_station == "fridge2"
+	freezer1_prompt.visible = current_station == "freezer1"
+	freezer2_prompt.visible = current_station == "freezer2"
 	bakery_prompt.visible = current_station == "bakery"
 	deli_prompt.visible = current_station == "deli"
 	checkout_prompt.visible = current_station == "checkout"
@@ -225,14 +287,19 @@ func _update_prompts() -> void:
 	exit_prompt.visible = current_station == "exit"
 	if task_active:
 		return
-	hint_label.text = "Press E to interact" if current_station != "" else ""
+	_set_hint("Press E to interact" if current_station != "" else "", 0.0)
 
 
 # --- Task flow -------------------------------------------------------------
 
+const RESTOCK_STATION_IDS := ["shelf1", "shelf2", "fridge1", "fridge2", "freezer1", "freezer2"]
+
 func _start_task(station: String) -> void:
 	if task_active:
 		return
+	if station in RESTOCK_STATION_IDS:
+		station = "shelf"  # all 7 aisle points launch the same restock minigame,
+							# which already covers all storage types generically
 	current_task_type = station
 	task_active = true
 	round_index = 0
@@ -241,7 +308,7 @@ func _start_task(station: String) -> void:
 	match station:
 		"shelf":
 			round_queue = WorkData.get_restock_round(RESTOCK_ROUNDS)
-			title_label.text = "Restocking Shelves"
+			title_label.text = "Restocking"
 		"bakery":
 			round_queue = WorkData.get_bakery_round(BAKERY_ROUNDS)
 			title_label.text = "Bakery"
@@ -255,7 +322,7 @@ func _start_task(station: String) -> void:
 			round_queue = WorkData.get_customer_questions(CUSTOMER_ROUNDS)
 			title_label.text = "Customer Service"
 
-	hint_label.text = ""
+	_set_hint("")
 	minigame_overlay.visible = true
 	_show_step()
 
@@ -267,8 +334,14 @@ func _show_step() -> void:
 	bake_container.visible = false
 	mash_container.visible = false
 	drag_container.visible = false
-	drag_dragging = false
-	drag_item.position.x = 0.0
+	type_container.visible = false
+	num_pad.visible = false
+	lookup_choices.visible = false
+	type_submit_button.visible = true
+	icon_row.visible = false
+	timer_bar.visible = false
+	holding_item = false
+	type_submit_button.disabled = false
 	for child in options_container.get_children():
 		child.queue_free()
 
@@ -291,20 +364,17 @@ func _show_step() -> void:
 				_show_precision_step(ditem, "Slice", "Slicing: %s\nHit Slice! when the marker is in the green zone!" % ditem.name)
 
 		"checkout":
-			icon_row.visible = false
-			timer_bar.visible = true
 			var citem: Dictionary = round_queue[round_index]
-			info_label.text = "%s — $%.2f\nDrag it across to the scanner!" % [citem.name, citem.price]
-			options_container.columns = 1
-			drag_context = "checkout"
-			drag_container.visible = true
-			drag_item.texture = load(citem.texture)
-			drag_item.position.x = 0.0
-			_start_timer(CHECKOUT_TIME_LIMIT)
+			current_checkout_item = citem
+			match citem.checkout_type:
+				"scan":
+					_show_checkout_scan(citem)
+				"weigh":
+					_show_checkout_weigh(citem)
+				"lookup":
+					_show_checkout_lookup(citem)
 
 		"customer":
-			icon_row.visible = false
-			timer_bar.visible = false
 			var q: Dictionary = round_queue[round_index]
 			info_label.text = q.question
 			options_container.columns = 1
@@ -312,38 +382,254 @@ func _show_step() -> void:
 			for i in opts.size():
 				var abtn := Button.new()
 				abtn.text = opts[i]
+				abtn.custom_minimum_size = Vector2(420, 52)
+				abtn.add_theme_font_size_override("font_size", 18)
 				abtn.pressed.connect(_on_untimed_choice.bind(i == q.correct))
 				options_container.add_child(abtn)
 
 
-## Restocking: keep clicking the matching item to fill the shelf's stock
-## meter before time runs out. Options reshuffle after every click (right or
-## wrong) so it feels like repeatedly grabbing units off a supply cart.
-## Restocking: drag the item into the shelf slot to fill the stock meter.
-## The item resets to the start each successful drop, so filling the shelf
-## takes several drags — feels like repeatedly grabbing units off a cart.
-func _show_restock_step() -> void:
-	icon_row.visible = false
+# --- Checkout: three genuinely different interactions depending on the item -
+
+## Barcode items: freely drag the item (both X and Y) onto a scanner target
+## that appears at a random spot each time.
+## Barcode items: click Pick Up to hold the item, then click SCAN to run it
+## across the scanner. Click-based rather than drag-based — dragging silently
+## failed because the overlay panel swallowed mouse-motion events before the
+## scene script ever saw them.
+func _show_checkout_scan(item: Dictionary) -> void:
 	timer_bar.visible = true
+	drag_container.visible = true
+	zone_grid.columns = 1
+	zone1.visible = true
+	zone2.visible = false
+	zone3.visible = false
+	zone1.text = "SCAN IT"
+	drag_item.texture = load(item.texture)
+	held_label.text = item.name
+	pick_up_button.text = "Pick Up %s" % item.name
+	pick_up_button.visible = true
+	pick_up_button.disabled = false
+	zone1.disabled = true
+	holding_item = false
+	drag_context = "checkout_scan"
+	info_label.text = "%s — $%.2f\nPick it up, then run it over the scanner." % [item.name, item.price]
+	options_container.columns = 1
+	_start_timer(CHECKOUT_SCAN_TIME_LIMIT)
+
+
+func _show_checkout_weigh(item: Dictionary) -> void:
+	icon_row.visible = true
+	timer_bar.visible = true
+	type_container.visible = true
+	target_icon.texture = load(item.texture)
+	type_prompt_label.text = "Weigh out %.2fkg of %s" % [item.target_weight, item.name]
+	type_input.text = ""
+	type_input.placeholder_text = "Type the weight in kg"
+	info_label.text = "$%.2f/kg — tap in the weight, then Submit" % item.price
+	options_container.columns = 1
+	num_pad.visible = true
+	lookup_choices.visible = false
+	type_submit_button.visible = true
+	type_input.editable = true
+	_build_num_pad()
+	_start_timer(CHECKOUT_TYPE_TIME_LIMIT)
+
+
+## No barcode: type the item's name from memory.
+func _show_checkout_lookup(item: Dictionary) -> void:
+	icon_row.visible = true
+	timer_bar.visible = true
+	type_container.visible = true
+	target_icon.texture = load(item.texture)
+	type_prompt_label.text = "No barcode found! What's this item called?"
+	type_input.text = ""
+	type_input.placeholder_text = "Type the item's name"
+	info_label.text = "$%.2f — pick the right item" % item.price
+	options_container.columns = 1
+	num_pad.visible = false
+	lookup_choices.visible = true
+	type_submit_button.visible = false
+	type_input.editable = false
+	type_input.text = ""
+	_build_lookup_choices(item)
+	_start_timer(CHECKOUT_TYPE_TIME_LIMIT)
+
+
+## An on-screen number pad, so weighing doesn't depend on the keyboard —
+## testers found typing mid-task fiddly.
+func _build_num_pad() -> void:
+	for child in num_pad.get_children():
+		child.queue_free()
+	for key in ["7", "8", "9", "⌫", "4", "5", "6", ".", "1", "2", "3", "C", "0", "00"]:
+		var b := Button.new()
+		b.text = key
+		b.custom_minimum_size = Vector2(72, 52)
+		b.add_theme_font_size_override("font_size", 20)
+		b.pressed.connect(_on_num_pad_pressed.bind(key))
+		num_pad.add_child(b)
+
+
+func _on_num_pad_pressed(key: String) -> void:
+	if answered_current:
+		return
+	match key:
+		"C":
+			type_input.text = ""
+		"⌫":
+			type_input.text = type_input.text.substr(0, max(0, type_input.text.length() - 1))
+		_:
+			type_input.text += key
+
+
+## Multiple-choice for no-barcode items, rather than typing a name blind.
+func _build_lookup_choices(item: Dictionary) -> void:
+	for child in lookup_choices.get_children():
+		child.queue_free()
+	for name in WorkData.get_lookup_options(item.name):
+		var b := Button.new()
+		b.text = name
+		b.custom_minimum_size = Vector2(340, 48)
+		b.add_theme_font_size_override("font_size", 18)
+		b.pressed.connect(_on_lookup_choice.bind(name))
+		lookup_choices.add_child(b)
+
+
+func _on_lookup_choice(chosen: String) -> void:
+	if answered_current:
+		return
+	task_timer.stop()
+	_resolve_step(chosen == current_checkout_item.name)
+
+
+func _on_type_submit() -> void:
+	if answered_current or not type_container.visible:
+		return
+	var typed: String = type_input.text.strip_edges()
+	var is_correct: bool = false
+	match current_checkout_item.checkout_type:
+		"weigh":
+			var typed_val: float = typed.to_float()
+			is_correct = absf(typed_val - float(current_checkout_item.target_weight)) <= WEIGH_TOLERANCE
+		"lookup":
+			is_correct = typed.to_lower() == current_checkout_item.name.to_lower()
+	task_timer.stop()
+	_resolve_step(is_correct)
+
+
+# --- Restocking: open the box, see what's inside, drag it to the correct
+# storage (Shelf / Fridge / Freezer). Fill the meter with several units of
+# the same item before moving on to the next round.
+
+func _show_restock_step() -> void:
 	mash_container.visible = true
-	restock_target_item = round_queue[round_index]
+	timer_bar.visible = true
+	drag_container.visible = true
+	zone_grid.columns = 3
+	zone1.visible = true
+	zone2.visible = true
+	zone3.visible = true
+	zone1.text = "SHELF"
+	zone2.text = "FRIDGE"
+	zone3.text = "FREEZER"
+
 	restock_fill = 0
-	info_label.text = "Stock the shelf with %s!\nDrag it into the shelf slot — keep going until it's full." % restock_target_item.name
+	restock_target_item = {}   # picked fresh per box in _reset_restock_box()
 	mash_meter.max_value = RESTOCK_FILL_TARGET
 	mash_meter.value = 0
-	options_container.columns = 1
 	drag_context = "restock"
-	drag_container.visible = true
-	drag_item.texture = load(restock_target_item.texture)
-	drag_item.position.x = 0.0
+	options_container.columns = 1
+	_reset_restock_box()
 	_start_timer(RESTOCK_TIME_LIMIT)
 
 
-## Precision-zone step: a marker sweeps a bar, hit the action button while
-## it's in the green zone. Used for "bake" (bakery) and "slice" (deli).
+## Shows a fresh unopened box. You click Open Box to see what's inside, then
+## click whichever storage zone that item belongs in.
+func _reset_restock_box() -> void:
+	# Draw a different item for every box, so a shift isn't four identical
+	# deliveries in a row. Avoids repeating the item you just did.
+	var pool: Array = WorkData._restock_items
+	var previous_name: String = str(restock_target_item.get("name", ""))
+	var pick: Dictionary = pool[randi() % pool.size()]
+	if pool.size() > 1:
+		var guard: int = 0
+		while str(pick.get("name", "")) == previous_name and guard < 8:
+			pick = pool[randi() % pool.size()]
+			guard += 1
+	restock_target_item = pick
+
+	restock_box_opened = false
+	holding_item = false
+	drag_item.texture = load(BOX_CLOSED_TEXTURE)
+	held_label.text = "Sealed box"
+	pick_up_button.text = "Open Box"
+	pick_up_button.visible = true
+	pick_up_button.disabled = false
+	_set_zones_disabled(true)
+	info_label.text = "A delivery box has arrived! (%d / %d stocked)" % [restock_fill, RESTOCK_FILL_TARGET]
+
+
+func _on_open_box() -> void:
+	restock_box_opened = true
+	holding_item = true
+	drag_item.texture = load(restock_target_item.texture)
+	held_label.text = restock_target_item.name
+	pick_up_button.disabled = true
+	_set_zones_disabled(false)
+	info_label.text = "It's %s! Where does it go?" % restock_target_item.name
+
+
+func _set_zones_disabled(is_disabled: bool) -> void:
+	zone1.disabled = is_disabled
+	zone2.disabled = is_disabled
+	zone3.disabled = is_disabled
+
+
+## Pick Up doubles as "Open Box" during restocking, since both are the same
+## "reveal / ready the item" beat before you choose where it goes.
+func _on_pick_up_pressed() -> void:
+	if answered_current:
+		return
+	match drag_context:
+		"restock":
+			if not restock_box_opened:
+				_on_open_box()
+		"checkout_scan":
+			holding_item = true
+			pick_up_button.disabled = true
+			zone1.disabled = false
+			info_label.text = "Holding %s — now run it over the scanner." % current_checkout_item.name
+
+
+## A storage/scanner zone was clicked. index: 0 = shelf/scan, 1 = fridge, 2 = freezer.
+func _on_zone_pressed(index: int) -> void:
+	if answered_current or not holding_item:
+		return
+
+	match drag_context:
+		"checkout_scan":
+			Audio.play("scan_beep")
+			task_timer.stop()
+			_resolve_step(true)
+
+		"restock":
+			var keys := ["shelf", "fridge", "freezer"]
+			if keys[index] == restock_target_item.storage:
+				restock_fill += 1
+				mash_meter.value = restock_fill
+				if restock_fill >= RESTOCK_FILL_TARGET:
+					task_timer.stop()
+					_resolve_step(true)
+				else:
+					Audio.play("stock_place")
+					feedback_label.text = "Nice, in it goes!"
+					_reset_restock_box()
+			else:
+				feedback_label.text = "%s doesn't go in the %s — try again!" % [restock_target_item.name, keys[index]]
+
+
+
 func _show_precision_step(item: Dictionary, verb: String, message: String) -> void:
 	icon_row.visible = true
-	timer_bar.visible = false
 	bake_container.visible = true
 	target_icon.texture = load(item.texture)
 	info_label.text = message
@@ -354,9 +640,13 @@ func _show_precision_step(item: Dictionary, verb: String, message: String) -> vo
 	options_container.columns = 1
 	var action_btn := Button.new()
 	action_btn.text = "%s!" % verb
+	action_btn.custom_minimum_size = Vector2(220, 64)  # bigger target — testers found small buttons fiddly
+	action_btn.add_theme_font_size_override("font_size", 22)
 	action_btn.pressed.connect(_on_bake_take_out.bind(zone_start))
 	options_container.add_child(action_btn)
-	_start_timer(BAKE_TIME_LIMIT)
+	# Randomise how fast the marker sweeps, so every round plays differently
+	# rather than being the same memorised timing each time.
+	_start_timer(randf_range(BAKE_TIME_LIMIT * 0.6, BAKE_TIME_LIMIT * 1.8))
 
 
 ## Rapid-press step: mash the button to fill the meter before time runs out.
@@ -373,6 +663,8 @@ func _show_mash_step(item: Dictionary, verb: String, message: String) -> void:
 	options_container.columns = 1
 	var mash_btn := Button.new()
 	mash_btn.text = "%s!" % verb
+	mash_btn.custom_minimum_size = Vector2(220, 64)
+	mash_btn.add_theme_font_size_override("font_size", 22)
 	mash_btn.pressed.connect(_on_mash_press)
 	options_container.add_child(mash_btn)
 	_start_timer(KNEAD_TIME_LIMIT)
@@ -407,40 +699,6 @@ func _on_untimed_choice(is_correct: bool) -> void:
 ## _unhandled_input (see below), since a small Control like this icon can
 ## easily be "outrun" by fast mouse movement if it tried to track motion
 ## itself, and stop receiving events.
-func _on_drag_item_gui_input(event: InputEvent) -> void:
-	if answered_current:
-		return
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		drag_dragging = true
-
-
-## Checked on every mouse-motion while dragging (from _unhandled_input).
-## "checkout": one successful drag into the zone finishes the step.
-## "restock": each successful drag fills the shelf meter a bit and resets
-## the icon to the start for the next unit, until the meter's full.
-func _check_drag_drop() -> void:
-	if answered_current:
-		return
-	if drag_item.position.x + drag_item.size.x * 0.5 < drag_zone.position.x:
-		return
-
-	match drag_context:
-		"checkout":
-			drag_dragging = false
-			task_timer.stop()
-			_resolve_step(true)
-		"restock":
-			restock_fill += 1
-			mash_meter.value = restock_fill
-			if restock_fill >= RESTOCK_FILL_TARGET:
-				drag_dragging = false
-				task_timer.stop()
-				_resolve_step(true)
-			else:
-				drag_dragging = false
-				drag_item.position.x = 0.0
-
-
 func _on_mash_press() -> void:
 	if answered_current:
 		return
@@ -463,6 +721,7 @@ func _on_bake_take_out(zone_start: float) -> void:
 
 func _resolve_step(is_correct: bool) -> void:
 	answered_current = true
+	Audio.play("correct" if is_correct else "wrong")
 	if is_correct:
 		round_correct += 1
 		feedback_label.text = "Nice one!"
@@ -471,7 +730,8 @@ func _resolve_step(is_correct: bool) -> void:
 	for child in options_container.get_children():
 		if child is BaseButton:
 			child.disabled = true
-	drag_dragging = false
+	type_submit_button.disabled = true
+	holding_item = false
 	next_button.visible = true
 
 
@@ -503,7 +763,7 @@ func _finish_task() -> void:
 	shift_hours += hours_for_task
 	shift_task_score += round_correct
 	shift_task_total += round_queue.size()
-	hint_label.text = "%s done: %d / %d correct" % [current_task_type.capitalize(), round_correct, round_queue.size()]
+	_set_hint("%s done: %d / %d correct" % [current_task_type.capitalize(), round_correct, round_queue.size()])
 
 
 # --- Shift end ---------------------------------------------------------------
@@ -512,11 +772,16 @@ func _end_shift() -> void:
 	if task_active:
 		return
 	if shift_hours <= 0.0:
-		hint_label.text = "Do at least one task before clocking out!"
+		_set_hint("Do at least one task before clocking out!")
 		return
 
 	var performance: float = 0.0 if shift_task_total == 0 else float(shift_task_score) / float(shift_task_total)
+	Audio.play("cash")
 	GameBackend.complete_work_shift(shift_hours, performance)
+	# If you'd agreed to this shift, turning up clears the booking. Not
+	# turning up is handled by GameBackend._check_missed_commitments() when
+	# the day rolls over — that's where the no-show counter lives.
+	GameBackend.fulfil_commitment("work")
 
 	results_label.text = "Shift complete!\nHours worked: %.1f\nTasks: %d / %d correct\nTotal money: $%.2f" % [
 		shift_hours, shift_task_score, shift_task_total, GameBackend.money
@@ -529,11 +794,32 @@ func _end_shift() -> void:
 	shift_task_total = 0
 
 
-const MAIN_MAP_SCENE: String = "res://Main_Game/Scenes/MainMap.tscn"
-
 func _on_close_results() -> void:
 	get_tree().change_scene_to_file(MAIN_MAP_SCENE)
 
 
 func _on_game_ended(_result: String) -> void:
 	get_tree().change_scene_to_file("res://Main_Game/Scenes/EndingScene.tscn")
+
+
+## Shows a message in the bottom banner. Pass "" to hide it.
+## `hold_seconds` of 0 (or less) means "leave it up until something replaces
+## it" — used for the standing 'Press E' prompt. Anything else auto-clears.
+##
+## Deliberately NOT async: an earlier version awaited a timer here, which made
+## every call site an implicit coroutine and produced "trying to call an async
+## function without await" warnings all over the place.
+func _set_hint(text_value: String, hold_seconds: float = 3.5) -> void:
+	hint_label.text = text_value
+	hint_panel.visible = text_value != ""
+	_hint_time_left = hold_seconds if text_value != "" else 0.0
+
+
+## Counts down any temporary hint and hides the banner when it expires.
+func _tick_hint(delta: float) -> void:
+	if _hint_time_left <= 0.0:
+		return
+	_hint_time_left -= delta
+	if _hint_time_left <= 0.0:
+		hint_label.text = ""
+		hint_panel.visible = false

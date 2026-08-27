@@ -3,14 +3,11 @@ extends Node
 var music_player: AudioStreamPlayer
 var current_track: String = ""
 
-# Add your audio files at these paths and everything below just starts working —
-# nothing else needs to change. Until then, missing tracks are skipped with a
-# warning instead of crashing.
 const TRACKS := {
 	"menu": "res://Backend/Resource/Scores/Decision Point - Year 13 - Intro v2.mp3",
-	"main_game": "res://Backend/Audio/main_game_theme.ogg",   # TODO: your gameplay background music
-	"good_ending": "res://Backend/Audio/good_ending.ogg",     # TODO: your good-ending track
-	"bad_ending": "res://Backend/Audio/bad_ending.ogg",       # TODO: your bad-ending track
+	"main_game": "res://Backend/Audio/main_game_theme.ogg",   # TODO: background music
+	"good_ending": "res://Backend/Audio/good_ending.ogg",     # TODO: good ending
+	"bad_ending": "res://Backend/Audio/bad_ending.ogg",       # TODO: bad ending
 }
 
 

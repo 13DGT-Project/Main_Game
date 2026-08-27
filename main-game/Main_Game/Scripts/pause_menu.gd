@@ -1,5 +1,9 @@
 extends Control
 
+## Set false when this pause menu is used in a 2D scene (school/work/home/
+## canteen/dairy), where the mouse should stay visible on resume instead of
+## being re-captured for the 3D camera.
+@export var capture_mouse_on_resume: bool = true
 
 @onready var main_buttons = $VBoxContainer
 @onready var pause_menu = $"."
@@ -23,7 +27,7 @@ func _process(_delta):
 			
 		if get_tree().paused:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		else:
+		elif capture_mouse_on_resume:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
@@ -31,7 +35,8 @@ func _process(_delta):
 func _on_resume_pressed() -> void:
 	get_tree().paused = false
 	visible = false
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	if capture_mouse_on_resume:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 
 

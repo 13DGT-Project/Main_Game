@@ -5,6 +5,7 @@ extends Node
 @onready var player = $"../Player"
 
 const JOURNAL_SCENE := preload("res://Main_Game/Scenes/Journal.tscn")
+const MINIMAP_3D_SCRIPT := preload("res://Main_Game/Scripts/minimap_3d.gd")
 
 
 
@@ -16,6 +17,7 @@ const MONTHS = [
 ]
 
 func _ready():
+	Audio.play_ambience("outdoors")
 	time_of_day.minute_changed.connect(_update_clock)
 	time_of_day.day_changed.connect(_update_clock)
 	time_of_day.hour_changed.connect(_hour_changed)
@@ -27,11 +29,25 @@ func _ready():
 	# from GameBackend's snapshot first, THEN apply the hours that passed
 	# while away (via += so TimeOfDay's own hour/day/month rollover logic
 	# handles the wraparound correctly).
+	# How fast the clock runs. Kept on GameBackend so the 90-day year is
+	# tuned in one place rather than in a scene file the editor keeps
+	# overwriting.
+	time_of_day.minutes_per_day = GameBackend.MINUTES_PER_DAY
+
 	if GameBackend.has_time_snapshot:
 		time_of_day.year = GameBackend.saved_year
 		time_of_day.month = GameBackend.saved_month
 		time_of_day.day = GameBackend.saved_day
 		time_of_day.current_time = GameBackend.saved_current_time
+	else:
+		# FIRST LOAD OF A NEW RUN. The game used to start at 8pm purely
+		# because that was whatever time was on the clock when MainMap.tscn
+		# was last saved from a running game — the editor serialises
+		# TimeOfDay.current_time like any other property. Forcing it here
+		# means the run always opens on a school morning regardless of what
+		# the scene file happens to have been saved with.
+		time_of_day.current_time = GameBackend.DAY_START_HOUR
+		GameBackend.game_hour = GameBackend.DAY_START_HOUR
 
 	if GameBackend.pending_hours > 0.0:
 		time_of_day.current_time += GameBackend.pending_hours
@@ -49,15 +65,26 @@ func _ready():
 	time_of_day.hour_changed.connect(_on_hour_passed)
 	time_of_day.day_changed.connect(_on_day_passed)
 
+	# Only seed the opening texts once, at the very start of a run — not
+	# every time you walk back into MainMap.
+	if GameBackend.get_elapsed_days() <= 0:
+		MessageData.deliver_starting_threads()
 	GameBackend.game_ended.connect(_on_game_ended)
 	MusicManager.play_track("main_game")
 	get_tree().current_scene.add_child(JOURNAL_SCENE.instantiate())
+	# 3D minimap — auto-discovers the Player and every scene_door in MainMap,
+	# so new doors appear on it without touching this code.
+	var minimap3d := CanvasLayer.new()
+	minimap3d.set_script(MINIMAP_3D_SCRIPT)
+	get_tree().current_scene.add_child(minimap3d)
 
 	_update_clock()
 
 
 func _on_hour_passed(_hour) -> void:
 	GameBackend.apply_passive_decay(1.0)
+	# Messages trickle in over the year rather than all being there at once.
+	MessageData.maybe_deliver_random()
 
 
 func _on_day_passed(_day) -> void:
