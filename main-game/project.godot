@@ -14,6 +14,10 @@ config/name="MainGame"
 run/main_scene="uid://cql06pslengwj"
 config/features=PackedStringArray("4.6", "Forward Plus")
 
+[audio]
+
+buses/default_bus_layout="res://Backend/Audio/default_bus_layout.tres"
+
 [autoload]
 
 Inventory="*uid://b2sa8ombqgney"
@@ -26,10 +30,9 @@ SchoolData="*res://Main_Game/Scripts/school_data.gd"
 MessageData="*res://Main_Game/Scripts/message_data.gd"
 Notifier="*res://Backend/Phone/notifier.gd"
 PhoneApp="*res://Backend/Phone/phone_app.tscn"
-Laptop="*res://Main_Game/Scripts/laptop.gd"
+Laptop="*res://Main_Game/Scenes/Laptop.tscn"
 FullMap="*res://Main_Game/Scripts/full_map.gd"
 Timetable="*res://Main_Game/Scripts/exam_timetable.gd"
-; --- DEV ONLY: delete this line and Backend/Dev/dev_panel.gd to remove it ---
 DevPanel="*res://Backend/Dev/dev_panel.gd"
 
 [display]

@@ -1,6 +1,5 @@
 ## WorkData.gd
 ## Autoload singleton (Project Settings -> Autoload -> add this as "WorkData").
-##
 ## Holds content for the supermarket work scene: customer service questions,
 ## items to use in the restocking minigame, and items to use at checkout.
 extends Node
@@ -98,7 +97,7 @@ var _restock_items: Array = [
 	{"name": "Fish Fingers", "texture": "res://Backend/Resource/Textures/item_fish_fingers.png", "storage": "freezer"},
 ]
 
-# --- Checkout minigame item pool — each has a checkout_type that decides how
+# Checkout minigame item pool — each has a checkout_type that decides how
 # you actually process it: "scan" (drag across the scanner), "weigh" (type
 # the kg for loose produce), or "lookup" (no barcode, type the item's name). --
 var _checkout_items: Array = [
@@ -140,14 +139,14 @@ func get_lookup_options(correct_name: String, count: int = 4) -> Array:
 	return options
 
 
-# --- Bakery minigame item pool: things you're baking, used with the timing QTE ---
+#Bakery minigame item pool: things you're baking
 var _bakery_items: Array = [
 	{"name": "Bread", "texture": "res://Backend/Resource/Textures/item_bread.png"},
 	{"name": "Croissant", "texture": "res://Backend/Resource/Textures/item_croissant.png"},
 	{"name": "Cake", "texture": "res://Backend/Resource/Textures/item_cake.png"},
 ]
 
-# --- Deli (meat & fish counter) item pool, same shape as restock items ---
+# Deli (meat & fish counter) item pool, same shape as restock items 
 var _deli_items: Array = [
 	{"name": "Meat", "texture": "res://Backend/Resource/Textures/item_meat.png"},
 	{"name": "Fish", "texture": "res://Backend/Resource/Textures/item_fish.png"},
@@ -220,7 +219,7 @@ func get_checkout_round(count: int = 5) -> Array:
 	return round_items
 
 
-# --- Shop menus ---------------------------------------------------------------
+#Shop menus
 # cost / energy / thirst / sanity. Kept here so the Canteen and Dairy scenes
 # share one list instead of each hardcoding their own.
 

@@ -1,14 +1,11 @@
 ## scene_door.gd
 ## Attach to an Area3D with a CollisionShape3D child. Walking into it as the
 ## Player switches to `next_scene`.
-##
 ## RETURNING WITHOUT GETTING STUCK
 ## Two things stop the "walk out, get yanked straight back in" loop:
-##
-##  1. PUSH-BACK. When you trigger the door we save your position nudged a
+##  1. PUSH-BACK. When you trigger the door save position nudged a
 ##     couple of metres back along the direction you came from (door -> you),
 ##     so you reappear just outside the trigger volume rather than inside it.
-##
 ##  2. DISTANCE ARMING. A door will not fire until the player has been at
 ##     least `arm_distance` away from it at some point since the scene
 ##     loaded. This deliberately does NOT rely on Area3D overlap state,
@@ -74,4 +71,9 @@ func _on_body_entered(body: Node3D) -> void:
 			away = Vector3(0, 0, 1)  # degenerate case: just pick a direction
 		GameBackend.return_position = body.global_position + away.normalized() * push_back
 	GameBackend.has_return_position = true
-	get_tree().change_scene_to_file(next_scene)
+	# _on_body_entered runs inside the physics step. Swapping the scene here
+	# frees this Area3D while the physics server is still iterating it, which
+	# is what the "Removing a CollisionObject during a physics callback"
+	# error is about. Deferring runs the swap on the next idle frame instead.
+	_armed = false
+	get_tree().change_scene_to_file.call_deferred(next_scene)

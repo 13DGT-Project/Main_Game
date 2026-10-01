@@ -1,7 +1,5 @@
 ## work_scene.gd
-## Root script for WorkScene.tscn — a textured 2D top-down supermarket shift.
-## Walk up to a station and press "interact" (bind this to E in Project Settings
-## -> Input Map) to start that task. Clock out at the EXIT to bank your pay.
+##Clock out at the EXIT to bank your pay.
 extends Node2D
 
 const MOVE_SPEED: float = 220.0
@@ -174,22 +172,19 @@ func _ready() -> void:
 	close_button.pressed.connect(_on_close_results)
 
 	money_label.text = "Money: $%.2f" % GameBackend.money
-	# Note: no Sky3D in this scene — complete_work_shift() queues the whole
-	# shift's hours via GameBackend.advance_time(), applied to MainMap's
-	# clock when you return through the exit.
+	# NOTE: no Sky3D in this scene time applied to MainMap's
+	# Sky3D clock when you exit.
 
 	GameBackend.game_ended.connect(_on_game_ended)
-	get_tree().current_scene.add_child(JOURNAL_SCENE.instantiate())
-	get_tree().current_scene.add_child(GUI_SCENE.instantiate())
+	get_tree().current_scene.add_child.call_deferred(JOURNAL_SCENE.instantiate())
+	get_tree().current_scene.add_child.call_deferred(GUI_SCENE.instantiate())
 	_setup_minimap()
 
 
-## Rooms here mirror the walls painted into the Walls TileMapLayer — keep the two
-## in sync if you move anything, or the map will lie to the player.
 func _setup_minimap() -> void:
 	var minimap := CanvasLayer.new()
 	minimap.set_script(MINIMAP_SCRIPT)
-	get_tree().current_scene.add_child(minimap)
+	get_tree().current_scene.add_child.call_deferred(minimap)
 	minimap.setup([
 		{"name": "Grocery Aisle", "rect": Rect2(0, 50, 500, 350)},
 		{"name": "Fridge Bay", "rect": Rect2(550, 50, 500, 350)},
@@ -290,7 +285,7 @@ func _update_prompts() -> void:
 	_set_hint("Press E to interact" if current_station != "" else "", 0.0)
 
 
-# --- Task flow -------------------------------------------------------------
+# Task flow
 
 const RESTOCK_STATION_IDS := ["shelf1", "shelf2", "fridge1", "fridge2", "freezer1", "freezer2"]
 
@@ -388,14 +383,9 @@ func _show_step() -> void:
 				options_container.add_child(abtn)
 
 
-# --- Checkout: three genuinely different interactions depending on the item -
-
-## Barcode items: freely drag the item (both X and Y) onto a scanner target
-## that appears at a random spot each time.
+#Checkout
 ## Barcode items: click Pick Up to hold the item, then click SCAN to run it
-## across the scanner. Click-based rather than drag-based — dragging silently
-## failed because the overlay panel swallowed mouse-motion events before the
-## scene script ever saw them.
+## across the scanner. 
 func _show_checkout_scan(item: Dictionary) -> void:
 	timer_bar.visible = true
 	drag_container.visible = true
@@ -455,8 +445,7 @@ func _show_checkout_lookup(item: Dictionary) -> void:
 	_start_timer(CHECKOUT_TYPE_TIME_LIMIT)
 
 
-## An on-screen number pad, so weighing doesn't depend on the keyboard —
-## testers found typing mid-task fiddly.
+## An on-screen number pad, so weighing doesn't depend on the keyboardS
 func _build_num_pad() -> void:
 	for child in num_pad.get_children():
 		child.queue_free()
@@ -516,7 +505,7 @@ func _on_type_submit() -> void:
 	_resolve_step(is_correct)
 
 
-# --- Restocking: open the box, see what's inside, drag it to the correct
+# Restocking: open the box, see what's inside, drag it to the correct
 # storage (Shelf / Fridge / Freezer). Fill the meter with several units of
 # the same item before moving on to the next round.
 
@@ -766,7 +755,7 @@ func _finish_task() -> void:
 	_set_hint("%s done: %d / %d correct" % [current_task_type.capitalize(), round_correct, round_queue.size()])
 
 
-# --- Shift end ---------------------------------------------------------------
+#Shift end 
 
 func _end_shift() -> void:
 	if task_active:
@@ -805,10 +794,6 @@ func _on_game_ended(_result: String) -> void:
 ## Shows a message in the bottom banner. Pass "" to hide it.
 ## `hold_seconds` of 0 (or less) means "leave it up until something replaces
 ## it" — used for the standing 'Press E' prompt. Anything else auto-clears.
-##
-## Deliberately NOT async: an earlier version awaited a timer here, which made
-## every call site an implicit coroutine and produced "trying to call an async
-## function without await" warnings all over the place.
 func _set_hint(text_value: String, hold_seconds: float = 3.5) -> void:
 	hint_label.text = text_value
 	hint_panel.visible = text_value != ""

@@ -1,6 +1,3 @@
-## name_entry.gd
-## First thing the player sees after starting a new game. Sets
-## GameBackend.player_name, which NPCs and the HUD use.
 extends Control
 
 @onready var name_input: LineEdit = $CenterContainer/VBoxContainer/NameInput

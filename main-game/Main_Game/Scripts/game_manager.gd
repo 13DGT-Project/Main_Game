@@ -20,7 +20,6 @@ func _ready():
 	Audio.play_ambience("outdoors")
 	time_of_day.minute_changed.connect(_update_clock)
 	time_of_day.day_changed.connect(_update_clock)
-	time_of_day.hour_changed.connect(_hour_changed)
 
 	# MainMap's TimeOfDay node is destroyed and recreated (with its saved
 	# DEFAULT start time!) every time you leave and re-enter MainMap, so we
@@ -40,12 +39,6 @@ func _ready():
 		time_of_day.day = GameBackend.saved_day
 		time_of_day.current_time = GameBackend.saved_current_time
 	else:
-		# FIRST LOAD OF A NEW RUN. The game used to start at 8pm purely
-		# because that was whatever time was on the clock when MainMap.tscn
-		# was last saved from a running game — the editor serialises
-		# TimeOfDay.current_time like any other property. Forcing it here
-		# means the run always opens on a school morning regardless of what
-		# the scene file happens to have been saved with.
 		time_of_day.current_time = GameBackend.DAY_START_HOUR
 		GameBackend.game_hour = GameBackend.DAY_START_HOUR
 
@@ -71,12 +64,11 @@ func _ready():
 		MessageData.deliver_starting_threads()
 	GameBackend.game_ended.connect(_on_game_ended)
 	MusicManager.play_track("main_game")
-	get_tree().current_scene.add_child(JOURNAL_SCENE.instantiate())
-	# 3D minimap — auto-discovers the Player and every scene_door in MainMap,
-	# so new doors appear on it without touching this code.
-	var minimap3d := CanvasLayer.new()
-	minimap3d.set_script(MINIMAP_3D_SCRIPT)
-	get_tree().current_scene.add_child(minimap3d)
+	# current_scene is still running its own _ready() at this point, so it is
+	# "busy setting up children" and a direct add_child() is rejected.
+	# Deferring puts both of these in on the next idle frame.
+	get_tree().current_scene.add_child.call_deferred(JOURNAL_SCENE.instantiate())
+	_setup_schematic_minimap()
 
 	_update_clock()
 
@@ -93,6 +85,23 @@ func _on_day_passed(_day) -> void:
 
 func _on_game_ended(_result: String) -> void:
 	get_tree().change_scene_to_file("res://Main_Game/Scenes/EndingScene.tscn")
+
+const USE_SCHEMATIC_MINIMAP: bool = true
+
+
+func _setup_schematic_minimap() -> void:
+	if not USE_SCHEMATIC_MINIMAP:
+		return
+	var scene := get_tree().current_scene
+	if scene == null:
+		return
+	# The scene's own minimap wins. Always.
+	if scene.get_node_or_null("MinimapViewport") != null:
+		return
+	var minimap3d := CanvasLayer.new()
+	minimap3d.set_script(MINIMAP_3D_SCRIPT)
+	scene.add_child.call_deferred(minimap3d)
+
 
 func _update_clock(_value = null):
 
@@ -112,34 +121,6 @@ func _update_clock(_value = null):
 
 	GameBackend.sync_from_clock(time_of_day.current_time, time_of_day.day, time_of_day.month, time_of_day.year)
 
-func _hour_changed(hour):
-
-	var weekday = get_weekday(
-		time_of_day.day,
-		time_of_day.month,
-		time_of_day.year
-	)
-
-	match weekday:
-
-		"Monday":
-			match hour:
-				9:
-					print("Math class begins")
-				12:
-					print("Lunch")
-				15:
-					print("School finished")
-
-		"Tuesday":
-			match hour:
-				9:
-					print("Science")
-
-		"Friday":
-			match hour:
-				18:
-					print("Part-time job available")
 
 func get_weekday(day:int, month:int, year:int)->String:
 
@@ -158,13 +139,17 @@ func get_weekday(day:int, month:int, year:int)->String:
 	if month < 3:
 		year -= 1
 
-	var weekday = (
-		year +
-		year/4 -
-		year/100 +
-		year/400 +
-		t[month-1] +
-		day
+	# Sakamoto's algorithm. The divisions here are MEANT to truncate — they're
+	# counting whole leap years — so they're written as explicit integer
+	# division to say so, rather than tripping the INTEGER_DIVISION warning.
+	@warning_ignore("integer_division")
+	var weekday: int = (
+		year
+		+ int(year / 4)
+		- int(year / 100)
+		+ int(year / 400)
+		+ t[month - 1]
+		+ day
 	) % 7
 
 	return weekdays[int(weekday)]

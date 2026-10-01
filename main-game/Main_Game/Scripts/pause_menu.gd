@@ -1,8 +1,5 @@
 extends Control
 
-## Set false when this pause menu is used in a 2D scene (school/work/home/
-## canteen/dairy), where the mouse should stay visible on resume instead of
-## being re-captured for the 3D camera.
 @export var capture_mouse_on_resume: bool = true
 
 @onready var main_buttons = $VBoxContainer

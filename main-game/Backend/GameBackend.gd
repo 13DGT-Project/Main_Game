@@ -1,9 +1,9 @@
 extends Node
 
 
-## What the player called themselves at the start. NPCs use this, and it
+## What the player defaults to be called themselves at the start. NPCs use this, and it
 ## shows in the top-left of the HUD.
-var player_name: String = "Alex"
+var player_name: String = "Name"
 
 var selected_university: String = ""
 
@@ -43,41 +43,21 @@ func university_full_name() -> String:
 	return str(universities.get(selected_university, {}).get("full_name", selected_university))
 
 
-## Who the offer actually comes FROM. In real life offers are made by each
-## university's own admissions office — Universities NZ (Te Pōkai Tara) is
-## just the sector body and never sends you anything.
+## Who the offer actually comes from.
 func admissions_sender() -> String:
 	return str(universities.get(selected_university, {}).get("admissions", "Admissions"))
 
 
-# =============================================================================
 # BALANCE — everything tuned for a 90-day year lives here, in one block.
-# =============================================================================
 ## Length of the school year before the deadline.
-##
-## NOTE: the run-length knobs below are `var`, not `const`, purely so the dev
-## panel can retune them at runtime (see apply_test_mode). They're read exactly
-## the same way everywhere else — GameBackend.TOTAL_DAYS still works — and if
-## you delete the dev panel they behave like constants again because nothing
-## else ever writes to them. The DEFAULT_* copies underneath are what
-## restore_normal_mode() puts back.
 var TOTAL_DAYS: int = 90
-## The hour the game (and every morning) starts at. 7am, not 8pm, not 4am.
+## The hour the game (and every morning) starts at. 7am
 const DAY_START_HOUR: float = 7.0
 ## Sleeping always takes you to this hour the following morning.
 const WAKE_HOUR: float = 7.0
-## Real-world minutes per in-game day on MainMap's Sky3D clock. At 120, one
-## real minute of walking is about twelve in-game minutes — enough that
-## crossing town costs you part of a morning, but not so much that the 90-day
-## year evaporates while you stand still. It was 60, which over 90 days meant
-## a full day passing every real minute.
+## Real-world minutes per in-game day on MainMap's Sky3D clock. At 120,
 const MINUTES_PER_DAY: float = 120.0
 ## Base sanity lost per waking hour, before any extra pressure.
-##
-## Tuned DOWN from 1.1: with the stacked pressure multipliers below, a bad
-## week could take you from full to burnt out with no realistic way back, and
-## an ending you can't see coming or recover from isn't a challenge, it's just
-## an ambush. Rest now genuinely out-paces the drain if you actually rest.
 var SANITY_BASE_DRAIN: float = 0.55
 ## Thirst lost per waking hour.
 var THIRST_BASE_DRAIN: float = 1.8
@@ -115,8 +95,6 @@ const DEFAULTS := {
 
 ## A whole run compressed into TOTAL. Everything that's a day count scales
 ## with it, because the trap when you shorten a run by hand is that the
-## absolute deadlines (loan closes day 78, accommodation day 82) either never
-## fire or have already passed on day one.
 const TEST_PRESET := {
 	"TOTAL_DAYS": 12,
 	"EXAM_INTERVAL_DAYS": 1,
@@ -224,7 +202,6 @@ var active_subjects: Array = ["english", "maths", "physics"]  # default until a 
 var subject_grades: Dictionary = {"english": 50.0, "maths": 50.0, "physics": 50.0}
 
 var energy: float = 100.0   # was previously local to main_character.gd (sprint stamina) —
-							# moved here so it survives scene changes (school/work/main map)
 var sanity: float = 100.0   # drains with stress (bad exams, long shifts, plain time passing),
 							# restored by chatting/resting. Hitting 0 ends the game (burnout).
 var thirst: float = 100.0   # drains over time/activity, refilled by drinking
@@ -232,23 +209,15 @@ var temptation: float = 0.0 # rises from time-wasting activities, makes studying
 							# shown in the Journal (press J), not on the main HUD bars.
 
 # The single source of truth for "how many days have passed" (used for the
-# days_remaining countdown and gating like the dairy's hours). Kept live even
-# outside MainMap via _queue_hours(). Not calendar-accurate on its own —
-# see the snapshot below for that.
+# days_remaining countdown and gating like the dairy's hours)
 var game_hour: float = DAY_START_HOUR   # 0-24, running estimate
 var game_day: int = 1                   # counts up from 1, only used to detect day-crossings
 
 # Hours accumulated while in a scene without its own Sky3D (school/work/home).
-# Re-applied via += on top of the restored snapshot below when MainMap loads,
-# so TimeOfDay's own hour/day/month rollover logic handles the wraparound
-# correctly instead of me reimplementing its calendar math.
+# Re-applied via +=  when MainMap loads
 var pending_hours: float = 0.0
 
-# A continuously-updated snapshot of MainMap's real Sky3D clock (see
-# game_manager.gd's _update_clock). MainMap's TimeOfDay node gets destroyed
-# and recreated — with its saved DEFAULT start time! — every time you leave
-# and re-enter MainMap, so this is what lets it restore where you actually
-# were instead of resetting.
+# A continuously-updated snapshot of MainMap's real Sky3D clock
 var saved_current_time: float = DAY_START_HOUR
 var saved_day: int = 1
 var saved_month: int = 1
@@ -256,8 +225,7 @@ var saved_year: int = 1
 var has_time_snapshot: bool = false
 
 # Where to place the player back in MainMap after returning from a scene
-# entered through a door (see scene_door.gd). Set right before the scene
-# change, consumed once by game_manager.gd on MainMap's next _ready().
+# entered through a door (see scene_door.gd). Set right before the scene change
 var return_position: Vector3 = Vector3.ZERO
 var has_return_position: bool = false
 
@@ -279,17 +247,14 @@ var game_over: bool = false
 ## Results come out before the offer, so the run pauses between the two.
 ## 0 = year running, 1 = results are out, 2 = offer is out and waiting to be read.
 var results_phase: int = 0
+## Days the offer has sat unopened, so a run can't stall permanently.
+var offer_unread_days: int = 0
+const OFFER_AUTO_ACKNOWLEDGE_DAYS: int = 5
 var ending_result: String = ""      # "" | "good" | "bad_deadline" | "bad_sanity" | ...
 
 
-# =============================================================================
-# STUDENT LOAN — StudyLink
-# =============================================================================
-# You do not simply "get a loan" at the end of the year. You apply to
-# StudyLink, months in advance, on the laptop at home, and you wait for a
-# decision. Forget to, or leave it too late, and a place you technically
-# earned can still be out of reach.
 
+# STUDENT LOAN — StudyLink
 ## "none" | "submitted" | "approved" | "declined"
 var loan_status: String = "none"
 ## Days left until StudyLink comes back with a decision.
@@ -305,10 +270,7 @@ var loan_debt: float = 0.0
 ## same as the real thing.
 var loan_ird_number: String = ""
 
-## Your IRD number. Every New Zealander has one; you'd find it on a payslip,
-## in your banking app, or on a letter from IRD. It exists as real data on the
-## player so StudyLink can ask for it and you can actually go and find it —
-## previously the form demanded a number the game never gave you anywhere.
+## Your IRD number
 var ird_number: String = ""
 
 
@@ -332,21 +294,7 @@ func loan_applications_open() -> bool:
 	return get_elapsed_days() < LOAN_APPLY_CLOSES_DAY
 
 
-# =============================================================================
 # STUDENT ALLOWANCE
-# =============================================================================
-# The other half of StudyLink, and the half people confuse with the loan.
-#
-#   LOAN       borrowed, has to be paid back, NOT means-tested — everyone who
-#              qualifies as a student gets one.
-#   ALLOWANCE  a weekly payment you do NOT pay back, but it IS means-tested on
-#              your parents' income until you're 24. Most students who apply
-#              are declined or get a reduced rate, and that surprises people
-#              every single year.
-#
-# So: applying for both is always the right move, and being declined for the
-# allowance is normal rather than a punishment.
-
 ## "none" | "submitted" | "approved" | "declined"
 var allowance_status: String = "none"
 var allowance_days_left: int = 0
@@ -356,22 +304,14 @@ var allowance_weekly: float = 0.0
 ## Total received across the year. Never repaid.
 var allowance_received: float = 0.0
 
-## Your parents' combined income, rolled at the start of the run.
-##
-## THE PLAYER NEVER SEES THIS NUMBER, and neither does the UI. You're
-## seventeen — you don't know what your parents earn, and asking is its own
-## awkward conversation. That's not a gap in the design, it IS the design:
-## StudyLink asks THEM directly, they fill in their half, and you find out
-## the answer at the same time you find out the decision.
+## Your parents' combined income, rolled random at the start of the run.
+## The player never sees this number
 var household_income: float = 0.0
-
 ## Set true once your parents have completed their section of the form. Until
-## then the application sits there doing nothing, which is exactly what
-## happens in real life while you nag them about it.
+## then the application sits there doing nothing
 var parents_confirmed_income: bool = false
-## Days the application has been stuck waiting on them, so Mum can be chased.
+## Days the application has been stuck waiting on them
 var allowance_waiting_days: int = 0
-
 var ALLOWANCE_PROCESSING_DAYS: int = 7
 const ALLOWANCE_FULL_WEEKLY: float = 290.0
 ## Below this, full rate. Above the upper threshold, nothing. In between, an
@@ -413,8 +353,6 @@ func apply_for_student_allowance(ird: String) -> Array:
 	allowance_decline_reason = ""
 	allowance_waiting_days = 0
 	parents_confirmed_income = false
-	# Your half is done. Now it needs theirs — which is a text you have to
-	# actually send.
 	deliver_message("allowance_parents")
 	if not loan_applications_open():
 		allowance_decline_reason = "Application received after the cut-off for this academic year."
@@ -427,7 +365,6 @@ func apply_for_student_allowance(ird: String) -> Array:
 	return [true, "Your half is submitted. The allowance is means-tested on your parents' income, so StudyLink now needs THEM to confirm their details before anything is assessed. Message them."]
 
 
-## Called by the Mum thread when you actually chase them about it.
 func confirm_parents_income() -> void:
 	if parents_confirmed_income:
 		return
@@ -436,22 +373,15 @@ func confirm_parents_income() -> void:
 	log_event("Your parents completed their part of the allowance application.")
 	stats_changed.emit()
 
-
-# --- The decision --------------------------------------------------------------
-# A binary approved/declined made the allowance a coin flip you couldn't
-# influence and couldn't be surprised by twice. The real thing has a spread of
-# outcomes, and most of them are partial. These are the ones worth modelling:
-#
 #   full          under the threshold — the full weekly rate
 #   partial       over it, but abated rather than cut off. The most common
 #                 real outcome, and the one people don't expect.
 #   stand_down    entitled, but payments don't start for a few weeks. You get
-#                 the money eventually; you don't get it NOW, which matters.
+#                 the money eventually
 #   accom_only    no allowance, but you qualify for the smaller Accommodation
 #                 Benefit. A consolation prize that is still real money.
 #   declined      over the threshold entirely.
 #   incomplete    your parents never sent their part in before the cut-off.
-#
 ## The result of the assessment, one of the ids above.
 var allowance_outcome: String = ""
 ## Weeks before payments start, for a stand-down.
@@ -461,8 +391,6 @@ var accommodation_benefit_weekly: float = 0.0
 const ACCOM_BENEFIT_WEEKLY: float = 85.0
 ## Set once a mid-year review has run, so it only happens the once.
 var allowance_reviewed: bool = false
-
-
 ## Works out which of the outcomes above applies. Income does most of the
 ## work, but not all of it — a stand-down or an accommodation-only result can
 ## land on top, which is why two runs with similar parents don't match.
@@ -480,7 +408,6 @@ func _decide_allowance_outcome() -> String:
 
 	if entitlement > 0.0:
 		return "stand_down" if randf() < 0.15 else "partial"
-
 	# Over the threshold. Living away from home is what unlocks the smaller
 	# accommodation supplement, so where you chose to live actually matters.
 	if accommodation_choice in ["halls", "flat"]:
@@ -492,15 +419,12 @@ func _tick_allowance() -> void:
 	if allowance_status != "submitted":
 		return
 
-	# Stalled until they do their bit. This is the single most common reason a
-	# real allowance application goes nowhere.
+	# Stalled until they do their bit
 	if not parents_confirmed_income:
 		allowance_waiting_days += 1
 		# A nudge after a week, in case the first text got ignored.
 		if allowance_waiting_days == 7:
 			deliver_message("allowance_parents_nudge")
-		# If they never do it, the application dies at the cut-off rather
-		# than hanging forever.
 		if not loan_applications_open():
 			allowance_status = "declined"
 			allowance_outcome = "incomplete"
@@ -560,13 +484,13 @@ func _tick_allowance() -> void:
 	stats_changed.emit()
 
 
-## Mid-year reassessment. StudyLink does this for real, and it is how people
-## on a partial rate discover their payments have changed without warning.
+## Mid-year reassessment.
 func _maybe_review_allowance() -> void:
 	if allowance_reviewed or allowance_status != "approved":
 		return
 	# Only once, and only if there's a decent run left to feel it.
-	if days_remaining > TOTAL_DAYS / 3 or days_remaining < 10:
+	# Float divide: TOTAL_DAYS / 3 on two ints silently truncates.
+	if float(days_remaining) > float(TOTAL_DAYS) / 3.0 or days_remaining < 10:
 		return
 	allowance_reviewed = true
 
@@ -589,8 +513,6 @@ func _maybe_review_allowance() -> void:
 		log_event("Allowance increased at the mid-year review, $%.0f up to $%.0f a week." % [
 			before2, allowance_weekly])
 		deliver_message("allowance_review")
-	# Otherwise nothing changes and you never hear about it, which is also
-	# what usually happens.
 	stats_changed.emit()
 
 
@@ -654,12 +576,10 @@ func allowance_status_text() -> String:
 	return allowance_status
 
 
-# =============================================================================
+
 # ACCOMMODATION
-# =============================================================================
 # Where you're actually going to live next year. Applications run alongside
-# the academic one and close before it — every year people get an offer and
-# then find there's nowhere to sleep.
+# the academic one and close before it
 
 const ACCOMMODATION: Dictionary = {
 	"halls": {
@@ -700,8 +620,6 @@ func choose_accommodation(kind: String) -> Array:
 		return [false, "Accommodation applications for next year have closed."]
 	if accommodation_choice == kind:
 		return [false, "That's already your preference."]
-	# Changing your mind after paying means forfeiting what you paid, same as
-	# the real thing.
 	if accommodation_deposit_paid:
 		accommodation_deposit_paid = false
 		log_event("Changed accommodation preference — the deposit is not refunded.")
@@ -758,8 +676,6 @@ func apply_for_student_loan(ird: String, want_fees: bool, want_living: bool) -> 
 	loan_decline_reason = ""
 
 	if not loan_applications_open():
-		# Late applications are still accepted — they just don't come back
-		# in time to be any use, which is the actual failure mode.
 		loan_status = "submitted"
 		loan_decline_reason = "Application received after the cut-off for this academic year."
 		log_event("Applied to StudyLink — but applications for this year closed a while ago.")
@@ -827,10 +743,62 @@ func loan_status_text() -> String:
 				parts.append("course fees")
 			if loan_wants_living_costs:
 				parts.append("living costs ($%.0f/week)" % LOAN_LIVING_COSTS_WEEKLY)
-			return "APPROVED — %s. Borrowed so far: $%.2f" % [", ".join(parts) if not parts.is_empty() else "nothing selected", loan_debt]
+			var covered: String = ", ".join(parts) if not parts.is_empty() else "nothing selected"
+			# Only mention a balance once there IS one. "Borrowed so far:
+			# $0.00" reads like an error rather than good news.
+			if loan_debt <= 0.0:
+				return "APPROVED — %s. Nothing drawn down yet." % covered
+			return "APPROVED — %s. Borrowed so far: $%.2f" % [covered, loan_debt]
 		"declined":
 			return "DECLINED — %s" % loan_decline_reason
 	return loan_status
+
+
+## What the approval letter itself says. 
+## At the moment of approval you have borrowed nothing
+func loan_approval_text() -> String:
+	var fees: float = universities.get(selected_university, {}).get("money_needed", 0)
+	var lines: Array = []
+
+	lines.append("APPROVED.")
+	lines.append("")
+
+	if loan_wants_fees:
+		lines.append("COURSE FEES — approved. Approximately $%.0f will be paid direct to %s when you enrol. You will not handle this money." % [
+			fees, university_full_name()])
+	else:
+		lines.append("COURSE FEES — not applied for. You did not tick this box, so your fees are not covered.")
+
+	if loan_wants_living_costs:
+		var weeks_left: int = maxi(0, int(round(float(days_remaining) / 7.0)))
+		lines.append("LIVING COSTS — approved at $%.0f a week, paid into your account every week from now. That's roughly %d payment%s before the year is out, or about $%.0f." % [
+			LOAN_LIVING_COSTS_WEEKLY, weeks_left,
+			"" if weeks_left == 1 else "s",
+			LOAN_LIVING_COSTS_WEEKLY * float(weeks_left)])
+	else:
+		lines.append("LIVING COSTS — not applied for. No weekly payments.")
+
+	lines.append("")
+
+	var projected: float = loan_debt
+	if loan_wants_fees:
+		projected += fees
+	if loan_wants_living_costs:
+		projected += LOAN_LIVING_COSTS_WEEKLY * float(maxi(0, int(round(float(days_remaining) / 7.0))))
+
+	if projected > 0.0:
+		lines.append("On these settings you would finish the year owing roughly $%.0f. You have borrowed $%.2f of it so far." % [
+			projected, loan_debt])
+	else:
+		lines.append("You are approved for nothing, so you will owe nothing — and nothing will be paid.")
+
+	return "\n".join(lines)
+
+
+## What the decline letter says.
+func loan_decline_text() -> String:
+	var reason: String = loan_decline_reason if loan_decline_reason != "" else "Your application did not meet the criteria."
+	return "DECLINED.\n\n%s\n\nA declined loan does not affect your Student Allowance application, which is assessed separately." % reason
 
 
 ## Can a loan actually pay this year's fees at enrolment?
@@ -839,30 +807,16 @@ func loan_covers_fees() -> bool:
 
 
 # --- NCEA credits & University Entrance ----------------------------------------
-# The real UE requirement is NCEA Level 3, 14 credits in each of three
-# approved subjects, plus 10 literacy and 10 numeracy credits.
-#
-# In this game literacy and numeracy are ALREADY DONE — you sat those in Year
-# 12, like almost everyone actually does, and they carry over. They're tracked
-# below so the NZQA page can show them as met, but they are not something you
-# can fail this year. The only thing standing between you and UE is 14 credits
-# in three of your subjects.
-#
-# CREDITS COME FROM INTERNALS ONLY. Not from studying at a desk, not from the
-# laptop, not from chatting to a teacher. Sitting the assessment is the only
-# thing that banks a credit — which is exactly how it works.
-
 var UE_CREDITS_PER_SUBJECT: int = 14
 var UE_SUBJECTS_REQUIRED: int = 3
-## Carried in from Year 12. Kept as numbers so the portal can display them,
-## but never a barrier — see has_university_entrance().
 var UE_LITERACY_REQUIRED: int = 10
 var UE_NUMERACY_REQUIRED: int = 10
 
-## Flip to true if you'd rather externals awarded credits too, as real NCEA
-## externals do. Left false because internals are the credit engine here and
-## externals are what set your final grade.
-const EXTERNALS_AWARD_CREDITS: bool = false
+# --- Credit values -------------------------------------------------------------
+# Both internals and externals award credits, as they do in real NCEA, and
+# externals are worth more per standard.
+var INTERNAL_CREDITS: int = 4
+var EXTERNAL_CREDITS: int = 5
 
 ## Subjects that count toward the literacy / numeracy requirements.
 const LITERACY_SUBJECTS := ["english", "history", "geography", "economics", "media_studies"]
@@ -871,22 +825,15 @@ const NUMERACY_SUBJECTS := ["maths", "statistics", "physics", "chemistry", "digi
 ## subject -> credits earned. Populated when the major is chosen.
 var subject_credits: Dictionary = {}
 
-# =============================================================================
 # PREPAREDNESS  —  what studying is actually FOR
-# =============================================================================
-# Studying at a desk or on the laptop no longer moves your grade and never
-# gives you credits. What it does is make you READY, which is the honest
-# version: an evening of past papers doesn't add marks to a piece of paper you
-# haven't sat yet.
-#
+# Studying at a desk make you READY
 # Preparedness does two things:
 #   1. It tells you what you'd probably get — predicted_band() — so revision
 #      gives you information rather than a number going up.
 #   2. It buys you 50/50 eliminations in the actual assessment, one per
 #      PREP_PER_HINT points. Being prepared makes the paper easier, which is
 #      the only way it should ever help.
-#
-# It also fades. Skip a subject for a fortnight and you'll feel it.
+
 
 ## subject -> 0..100 readiness.
 var subject_prep: Dictionary = {}
@@ -944,9 +891,7 @@ func _decay_prep() -> void:
 		subject_prep[subject] = maxf(0.0, subject_prep[subject] - PREP_DECAY_PER_DAY)
 
 
-# =============================================================================
 # COMMITMENTS  —  saying yes and then not turning up
-# =============================================================================
 # Agreeing to a shift or a study session in conversation now BOOKS it. Miss it
 # and something happens: Deb notices, Priya notices, and three no-shows at work
 # means you are off the roster for the rest of the year.
@@ -958,6 +903,38 @@ var study_no_shows: int = 0
 ## Set true once you've been taken off the roster. No more shifts, no more pay.
 var fired_from_work: bool = false
 const WORK_NO_SHOWS_BEFORE_FIRED: int = 3
+
+
+## Where you physically have to be to honour each kind of commitment. This
+## exists because "you agreed to a study session" is useless information if
+## the game never tells you where to go.
+const COMMITMENT_PLACES := {
+	"work": {
+		"where": "the supermarket",
+		"how": "Work a shift — go to the supermarket and clock on.",
+	},
+	"study_group": {
+		"where": "school",
+		"how": "Go to school and study at a desk. Any subject counts.",
+	},
+}
+
+
+func commitment_place(kind: String) -> String:
+	return str(COMMITMENT_PLACES.get(kind, {}).get("where", "somewhere"))
+
+
+func commitment_how(kind: String) -> String:
+	return str(COMMITMENT_PLACES.get(kind, {}).get("how", "Turn up."))
+
+
+## One line per thing you owe someone today, with where to go. Used by the HUD
+## banner, the journal and the laptop.
+func commitment_briefing() -> Array:
+	var out: Array = []
+	for c in commitments_today():
+		out.append("%s — %s" % [str(c.label), commitment_how(str(c.kind))])
+	return out
 
 
 func add_commitment(kind: String, label: String, day: int) -> void:
@@ -977,8 +954,12 @@ func fulfil_commitment(kind: String) -> bool:
 		var c: Dictionary = commitments[i]
 		if c.kind == kind and c.day <= today:
 			commitments.remove_at(i)
-			change_sanity(5.0)
+			change_sanity(8.0)
 			log_event("Turned up: %s." % c.label)
+			# Say so on screen, or turning up feels like nothing happened.
+			if has_node("/root/Notifier"):
+				get_node("/root/Notifier").notify(
+					"Kept your word", str(c.label), Color(0.35, 0.80, 0.50))
 			stats_changed.emit()
 			return true
 	return false
@@ -1050,15 +1031,161 @@ var stat_lowest_sanity: float = 100.0
 var stat_doomscrolls: int = 0
 
 
-func award_credits(subject: String, amount: int) -> void:
+# THE CREDIT LEDGER
+## Array of {subject, credits, band, source}
+## band   "Achieved" | "Merit" | "Excellence"
+## source "internal" | "external"
+var credit_awards: Array = []
+
+
+func award_credits(subject: String, amount: int, band: String = "Achieved",
+		source: String = "internal") -> void:
 	if amount <= 0:
 		return
+	credit_awards.append({
+		"subject": subject, "credits": amount, "band": band, "source": source,
+	})
 	subject_credits[subject] = subject_credits.get(subject, 0) + amount
 	if subject in LITERACY_SUBJECTS:
 		literacy_credits += amount
 	if subject in NUMERACY_SUBJECTS:
 		numeracy_credits += amount
 	stats_changed.emit()
+
+
+## Credits in one subject at Merit or better, optionally from one source only.
+func credits_at_band(subject: String, min_band: String, source: String = "") -> int:
+	var total: int = 0
+	for a in credit_awards:
+		if subject != "" and a.subject != subject:
+			continue
+		if source != "" and a.source != source:
+			continue
+		if _band_rank(str(a.band)) >= _band_rank(min_band):
+			total += a.credits
+	return total
+
+
+## Credits from one source in a subject, at any band.
+func credits_from_source(subject: String, source: String) -> int:
+	var total: int = 0
+	for a in credit_awards:
+		if a.subject == subject and a.source == source:
+			total += a.credits
+	return total
+
+
+static func _band_rank(band: String) -> int:
+	match band:
+		"Excellence":
+			return 3
+		"Merit":
+			return 2
+		"Achieved":
+			return 1
+	return 0
+
+
+# ENDORSEMENTS
+# Two kinds, and people mix them up constantly:
+#
+#   CERTIFICATE endorsement — the whole NCEA. 50 credits at Merit or better
+#     gets you "NCEA Level 3 endorsed with Merit"; 50 at Excellence gets you
+#     Excellence. Note 50, not 60 — 60 is the number needed to ACHIEVE the
+#     level in the first place, which is a different thing entirely.
+#
+#   COURSE endorsement — a single subject. 14+ credits at Merit or better in
+#     that subject in one year, AND at least 3 credits from internals and 3
+#     from externals. That internal/external mix is the bit that catches
+#     people: you can have 14 Excellence credits and still miss out if they
+#     all came from internals.
+
+var CERTIFICATE_ENDORSEMENT_CREDITS: int = 50
+var COURSE_ENDORSEMENT_CREDITS: int = 14
+var COURSE_ENDORSEMENT_MIN_PER_SOURCE: int = 3
+
+
+## Total credits across all subjects at Merit or better.
+func total_credits_at(min_band: String) -> int:
+	return credits_at_band("", min_band)
+
+
+## "" | "Merit" | "Excellence" for the whole certificate.
+func certificate_endorsement() -> String:
+	if not has_university_entrance() and total_credits() < 60:
+		# You can't endorse a certificate you haven't earned.
+		return ""
+	if total_credits_at("Excellence") >= CERTIFICATE_ENDORSEMENT_CREDITS:
+		return "Excellence"
+	if total_credits_at("Merit") >= CERTIFICATE_ENDORSEMENT_CREDITS:
+		return "Merit"
+	return ""
+
+
+## "" | "Merit" | "Excellence" for one subject.
+func course_endorsement(subject: String) -> String:
+	# The mix requirement is on the endorsing credits, and it's why a subject
+	# where you aced every internal but skipped the exam won't endorse.
+	var internal_me: int = credits_at_band(subject, "Merit", "internal")
+	var external_me: int = credits_at_band(subject, "Merit", "external")
+	if internal_me < COURSE_ENDORSEMENT_MIN_PER_SOURCE:
+		return ""
+	if external_me < COURSE_ENDORSEMENT_MIN_PER_SOURCE:
+		return ""
+	if credits_at_band(subject, "Excellence") >= COURSE_ENDORSEMENT_CREDITS:
+		return "Excellence"
+	if credits_at_band(subject, "Merit") >= COURSE_ENDORSEMENT_CREDITS:
+		return "Merit"
+	return ""
+
+
+func endorsed_courses() -> Dictionary:
+	var out: Dictionary = {}
+	for subject in active_subjects:
+		var e: String = course_endorsement(subject)
+		if e != "":
+			out[subject] = e
+	return out
+
+
+## Why a subject did or didn't endorse, in plain English.
+func course_endorsement_reason(subject: String) -> String:
+	var e: String = course_endorsement(subject)
+	var me: int = credits_at_band(subject, "Merit")
+	var exc: int = credits_at_band(subject, "Excellence")
+	var int_me: int = credits_at_band(subject, "Merit", "internal")
+	var ext_me: int = credits_at_band(subject, "Merit", "external")
+
+	if e != "":
+		return "Course endorsed with %s — %d credits at Merit or better (%d internal, %d external)." % [
+			e, me, int_me, ext_me]
+
+	if me < COURSE_ENDORSEMENT_CREDITS:
+		return "Not endorsed: %d of the %d Merit-or-better credits needed." % [
+			me, COURSE_ENDORSEMENT_CREDITS]
+	if int_me < COURSE_ENDORSEMENT_MIN_PER_SOURCE:
+		return "Not endorsed: you have the credits (%d), but only %d of them are from internals. At least %d must be." % [
+			me, int_me, COURSE_ENDORSEMENT_MIN_PER_SOURCE]
+	if ext_me < COURSE_ENDORSEMENT_MIN_PER_SOURCE:
+		return "Not endorsed: you have the credits (%d), but only %d are from the external. At least %d must be — this is the one that catches people." % [
+			me, ext_me, COURSE_ENDORSEMENT_MIN_PER_SOURCE]
+	if exc >= COURSE_ENDORSEMENT_CREDITS:
+		return "Course endorsed with Excellence."
+	return ""
+
+
+## For the HUD, journal and ending: how close the certificate endorsement is.
+func certificate_endorsement_progress() -> String:
+	var m: int = total_credits_at("Merit")
+	var e: int = total_credits_at("Excellence")
+	var current: String = certificate_endorsement()
+	if current == "Excellence":
+		return "NCEA Level 3 endorsed with EXCELLENCE (%d Excellence credits)." % e
+	if current == "Merit":
+		return "NCEA Level 3 endorsed with MERIT (%d credits at Merit or better). %d Excellence credits — %d more for an Excellence endorsement." % [
+			m, e, CERTIFICATE_ENDORSEMENT_CREDITS - e]
+	return "Not endorsed. %d / %d credits at Merit or better, %d / %d at Excellence." % [
+		m, CERTIFICATE_ENDORSEMENT_CREDITS, e, CERTIFICATE_ENDORSEMENT_CREDITS]
 
 
 func total_credits() -> int:
@@ -1091,6 +1218,7 @@ func ue_status_text() -> String:
 	lines.append("Literacy: %d / %d — carried over from Year 12" % [literacy_credits, UE_LITERACY_REQUIRED])
 	lines.append("Numeracy: %d / %d — carried over from Year 12" % [numeracy_credits, UE_NUMERACY_REQUIRED])
 	lines.append("Total credits: %d" % total_credits())
+	lines.append(certificate_endorsement_progress())
 	return "\n".join(lines)
 
 
@@ -1118,11 +1246,7 @@ func _pretty_list(items: Array) -> String:
 # Scheduled tests you must actually sit at school. Miss one and you take a
 # heavy hit; pass and your grade jumps. These are the spine of the run: they
 # turn "study a bit whenever" into "be ready by day X".
-
-## Roughly one internal every this many days. Because internals are now the
-## ONLY source of credits, this has to be frequent enough that five subjects
-## can each reach 14: at 3 days that's ~25 internals, 5 per subject, 3-5
-## credits each. Stretch it and UE stops being reachable.
+## Roughly one internal every this many days
 var EXAM_INTERVAL_DAYS: int = 3
 const EXAM_QUESTION_COUNT: int = 10
 ## How many days at the end of the year are reserved for externals.
@@ -1178,9 +1302,6 @@ func generate_exam_schedule() -> void:
 		day += EXAM_INTERVAL_DAYS
 		i += 1
 
-	# Externals are timetabled like NZQA's: spread across the exam window,
-	# never more than MAX_EXAMS_PER_DAY on the same day, and with gaps rather
-	# than one solid block — so some days are doubles and some are free.
 	var window_start: int = TOTAL_DAYS - EXTERNALS_WINDOW_DAYS
 	var candidate_days: Array = []
 	var d: int = window_start
@@ -1255,9 +1376,7 @@ func should_show_timetable() -> bool:
 
 
 ## The full external timetable as display rows, newest first by date.
-## The timetable, as display rows. `kind` filters to internals or externals;
-## pass "" for everything. The old version silently returned externals only,
-## which is why the internal reminder opened a list the internal wasn't on.
+## The timetable, as display rows.
 func get_timetable(kind: String = "") -> Array:
 	var rows: Array = []
 	var today: int = get_elapsed_days()
@@ -1295,11 +1414,7 @@ func days_until_next_exam() -> int:
 
 
 ## The exam due today that hasn't been sat, or {} if there isn't one.
-##
-## `kind` filters to "internal" or "external". This matters more than it
-## looks: internals are sat in class at SCHOOL, externals are sat in the EXAM
-## HALL, and an unfiltered version of this function is why the school desks
-## used to announce an exam that was actually happening across town.
+## `kind` filters to "internal" or "external".
 func get_exam_due_today(kind: String = "") -> Dictionary:
 	var elapsed: int = get_elapsed_days()
 	for exam in exam_schedule:
@@ -1366,15 +1481,12 @@ func complete_exam(subject: String, correct: int, total: int) -> bool:
 	var swing: float = (accuracy - EXAM_PASS_RATIO) * 40.0
 	subject_grades[subject] = clamp(subject_grades.get(subject, 50.0) + swing, 0.0, 100.0)
 
-	# Internals are where every credit in this game comes from.
-	var credits: int = 0
-	if accuracy >= 0.90:
-		credits = 5
-	elif accuracy >= 0.78:
-		credits = 4
-	elif accuracy >= EXAM_PASS_RATIO:
-		credits = 3
-	award_credits(subject, credits)
+	# Fixed credit value, awarded at whatever band you earned. Fail and you
+	# get nothing; Achieved and Excellence are worth the same credits, and
+	# differ only in the band recorded — which is what endorsements count.
+	var band: String = band_for(accuracy)
+	if passed:
+		award_credits(subject, INTERNAL_CREDITS, band, "internal")
 	# Sitting the paper burns off some of your readiness for it — you've used
 	# what you revised. It also leaves you knowing the subject better than a
 	# fortnight ago, so this is a dip, not a wipe.
@@ -1385,9 +1497,10 @@ func complete_exam(subject: String, correct: int, total: int) -> bool:
 	change_sanity(10.0 if passed else -14.0)
 	change_thirst(-8.0)
 
-	log_event("%s internal: %d/%d — %s (%s, grade now %.0f)" % [
-		subject.capitalize(), correct, total, band_for(accuracy),
-		"passed" if passed else "failed", subject_grades[subject]])
+	log_event("%s internal: %d/%d — %s%s (grade now %.0f)" % [
+		subject.capitalize(), correct, total, band,
+		", %d credits" % INTERNAL_CREDITS if passed else ", no credits",
+		subject_grades[subject]])
 	stats_changed.emit()
 	return passed
 
@@ -1411,19 +1524,17 @@ func release_external_results() -> void:
 		var accuracy: float = exam.get("accuracy", 0.0)
 		var swing: float = (accuracy - EXAM_PASS_RATIO) * 55.0   # externals hit harder
 		subject_grades[subject] = clamp(subject_grades.get(subject, 50.0) + swing, 0.0, 100.0)
+		# Externals are worth more credits than internals, and they're the
+		# only source of the external credits a course endorsement needs.
+		var band: String = band_for(accuracy)
 		var credits: int = 0
-		if EXTERNALS_AWARD_CREDITS:
-			if accuracy >= 0.90:
-				credits = 6
-			elif accuracy >= 0.78:
-				credits = 5
-			elif accuracy >= EXAM_PASS_RATIO:
-				credits = 4
-			award_credits(subject, credits)
-		log_event("%s external: %s (%.0f%%) — grade now %.0f%s" % [
-			subject.capitalize(), band_for(accuracy), accuracy * 100.0,
+		if accuracy >= EXAM_PASS_RATIO:
+			credits = EXTERNAL_CREDITS
+			award_credits(subject, credits, band, "external")
+		log_event("%s external: %s (%.0f%%) — grade now %.0f, %s" % [
+			subject.capitalize(), band, accuracy * 100.0,
 			subject_grades[subject],
-			", %d credits" % credits if credits > 0 else " (externals set your grade, not your credits)"])
+			"%d credits" % credits if credits > 0 else "no credits"])
 	if released > 0:
 		stats_changed.emit()
 		journal_updated.emit()
@@ -1443,7 +1554,7 @@ func use_derived_grade(subject: String) -> bool:
 			# Derived from how you've been doing all year, not a fresh sitting.
 			var evidence: float = clampf(subject_grades.get(subject, 50.0) / 100.0, 0.0, 1.0)
 			exam.accuracy = clampf(evidence * 0.9, 0.0, 1.0)
-			log_event("Applied for a derived grade in %s." % subject.capitalize())
+			log_event("Applied for a derived grade in %s. It'll be awarded with the rest on results day." % subject.capitalize())
 			stats_changed.emit()
 			return true
 	return false
@@ -1534,6 +1645,19 @@ func subject_result_detail(subject: String) -> Dictionary:
 			excellences, "" if excellences == 1 else "s"])
 	if sat > 0 and excellences == 0 and absent == 0:
 		why.append("Consistent attendance, no standout papers — a solid middle result.")
+	# Band breakdown, because "12 credits" tells you nothing about whether
+	# this subject is going to endorse.
+	var me: int = credits_at_band(subject, "Merit")
+	var exc: int = credits_at_band(subject, "Excellence")
+	if credits > 0:
+		why.append("%d credits total — %d at Merit or better, %d at Excellence. (%d from internals, %d from the external.)" % [
+			credits, me, exc,
+			credits_from_source(subject, "internal"),
+			credits_from_source(subject, "external")])
+	var endorse_note: String = course_endorsement_reason(subject)
+	if endorse_note != "":
+		why.append(endorse_note)
+
 	if credits >= UE_CREDITS_PER_SUBJECT:
 		why.append("%d credits: meets the %d needed for this subject to count toward UE." % [
 			credits, UE_CREDITS_PER_SUBJECT])
@@ -1612,6 +1736,7 @@ func set_major(major: String) -> void:
 	subject_grades = {}
 	subject_credits = {}
 	subject_prep = {}
+	credit_awards.clear()
 	# Banked in Year 12 and carried forward, same as the real thing.
 	literacy_credits = UE_LITERACY_REQUIRED
 	numeracy_credits = UE_NUMERACY_REQUIRED
@@ -1758,6 +1883,13 @@ func advance_day() -> void:
 		release_university_offer()
 		return
 	if results_phase == 2:
+		# Safety net. The run ends when the player opens the offer and taps
+		# through it, which is how it should be — but if they never do, the
+		# game must not sit in limbo forever.
+		offer_unread_days += 1
+		if offer_unread_days >= OFFER_AUTO_ACKNOWLEDGE_DAYS:
+			log_event("The offer had been sitting unopened for days. You read it eventually.")
+			acknowledge_offer()
 		return
 
 	days_remaining -= 1
@@ -1806,15 +1938,9 @@ func required_grade() -> float:
 	return req
 
 
-# =============================================================================
 # CHANGING YOUR MIND
-# =============================================================================
 # Your university and programme preference are a PREFERENCE, not a contract.
-# Real applicants change them, often more than once. What you can't change is
-# your subjects — you picked those in year 12 and you're stuck with them,
-# which is exactly why switching to a programme you have no subjects for
-# costs you something.
-
+# What you can't change is  your subjects — you picked those in year 12 and you're stuck with them
 ## Extra average required per expected subject you aren't taking.
 const MISSING_SUBJECT_PENALTY: float = 5.0
 ## How many times the preference has been changed, purely for flavour.
@@ -1923,7 +2049,6 @@ func acknowledge_offer() -> void:
 
 ## Works out which ending applies, without committing to it — so the offer
 ## message, the laptop portal and the ending screen always agree.
-##
 ## Priority order matters: University Entrance is the hard gate — without it,
 ## grades and savings don't matter, which is how it actually works under NZQA.
 func pending_ending_result() -> String:
@@ -2004,6 +2129,10 @@ func offer_reasons() -> Array:
 
 	reasons.append("University Entrance: ACHIEVED (%d subjects at %d+ credits, %d literacy, %d numeracy)." % [
 		subjects_meeting_credit_threshold(), UE_CREDITS_PER_SUBJECT, literacy_credits, numeracy_credits])
+	var cert_e: String = certificate_endorsement()
+	if cert_e != "":
+		reasons.append("NCEA Level 3 endorsed with %s — %d credits at %s. This strengthened your application." % [
+			cert_e, total_credits_at(cert_e), cert_e])
 
 	var missing: Array = missing_required_subjects()
 	if not missing.is_empty():
@@ -2052,10 +2181,7 @@ func _end_game(result: String) -> void:
 	game_ended.emit(result)
 
 
-# =============================================================================
 # EPILOGUE — the closing text on the ending screen.
-# =============================================================================
-# The word you were reaching for is "epilogue" (you'll also see it called a
 # post-game summary, a run recap, or a denouement). It's the bit after the
 # result that tells you what your year actually looked like.
 
@@ -2076,9 +2202,9 @@ func build_epilogue() -> String:
 		effort.append("%d proper conversation%s with people who noticed you were struggling" % [
 			stat_conversations, "" if stat_conversations == 1 else "s"])
 	if effort.is_empty():
-		paras.append("Ninety days went past and you have almost nothing to show for them.")
+		paras.append("%d days went past and you have almost nothing to show for them." % TOTAL_DAYS)
 	else:
-		paras.append("Across ninety days you managed " + _join_natural(effort) + ".")
+		paras.append("Across %d days you managed " + _join_natural(effort) + "." % TOTAL_DAYS)
 
 	# 2. Exams.
 	if stat_exams_missed == 0 and stat_exams_sat > 0:
@@ -2125,6 +2251,23 @@ func build_epilogue() -> String:
 	if preference_changes > 0:
 		paras.append("You changed your mind about where you were going %d time%s. That's not indecision — that's the only sensible response to being asked at seventeen." % [
 			preference_changes, "" if preference_changes == 1 else "s"])
+
+	# 4c. Endorsements — the thing that separates "got the credits" from
+	# "actually did well", and the line people quote for years afterwards.
+	var cert: String = certificate_endorsement()
+	var courses: Dictionary = endorsed_courses()
+	if cert == "Excellence":
+		paras.append("NCEA Level 3, endorsed with Excellence. Fifty credits at Excellence is not something you fall into — that is a year of consistently being the best in the room.")
+	elif cert == "Merit":
+		paras.append("NCEA Level 3, endorsed with Merit. Fifty credits at Merit or better across the year, which is a genuinely good result and worth saying out loud.")
+	elif total_credits_at("Merit") >= 30:
+		paras.append("You finished on %d credits at Merit or better — short of the fifty needed to endorse the certificate, but not by much." % total_credits_at("Merit"))
+
+	if not courses.is_empty():
+		var bits: Array = []
+		for subj in courses:
+			bits.append("%s (%s)" % [str(subj).capitalize().replace("_", " "), courses[subj]])
+		paras.append("Course endorsements in " + _join_natural(bits) + ".")
 
 	# 5. Sign-off tuned to the ending.
 	match ending_result:
@@ -2181,7 +2324,7 @@ func notable_events(limit: int = 8) -> Array:
 ## Resets everything for a fresh playthrough (called from the ending screen's
 ## "Main Menu" button, or wherever you want to let the player restart).
 func reset_run() -> void:
-	player_name = "Alex"
+	player_name = "Name"
 	selected_university = ""
 	selected_major = ""
 	selected_conjoint = ""
@@ -2190,6 +2333,7 @@ func reset_run() -> void:
 	subject_grades = {"english": 50.0, "maths": 50.0, "physics": 50.0}
 	subject_credits = {}
 	subject_prep = {}
+	credit_awards.clear()
 	literacy_credits = UE_LITERACY_REQUIRED
 	numeracy_credits = UE_NUMERACY_REQUIRED
 	commitments.clear()
@@ -2215,6 +2359,7 @@ func reset_run() -> void:
 	days_remaining = TOTAL_DAYS
 	game_over = false
 	results_phase = 0
+	offer_unread_days = 0
 	ending_result = ""
 	exam_schedule.clear()
 	derived_grades_left = DERIVED_GRADE_ALLOWANCE
@@ -2274,14 +2419,7 @@ func reset_run() -> void:
 
 
 ## Studying — at a school desk, at home, or on the laptop.
-##
-## This does NOT move your grade and does NOT award credits. Grades come from
-## assessments, credits come from internals. What an evening of past papers
-## actually buys you is knowing the material, so it raises preparedness, which
-## makes the assessment itself easier and tells you where you stand.
-##
-## `depth` scales how much readiness one session is worth — a proper sit-down
-## at a desk is worth more than ten minutes of revision videos.
+## This does NOT move your grade and does NOT award credits.
 func complete_study_session(subject: String, correct: int, total: int, hours: float,
 		energy_cost: float = 6.0, depth: float = 14.0) -> void:
 	if not subject_grades.has(subject):
@@ -2388,7 +2526,6 @@ func hours_until_morning() -> float:
 ## Sleep through to the morning rather than for a fixed block. This is the
 ## fix for waking up at 4am and wandering into a locked school: whatever time
 ## you go to bed, you get up at WAKE_HOUR.
-##
 ## Going to bed stupidly early (before ~8pm) means a long, restless night —
 ## you get the full restore but you've thrown away the evening. Going to bed
 ## after midnight means a short night and only a partial restore, which is
@@ -2615,10 +2752,7 @@ func deliver_message(thread_id: String) -> void:
 			sender = str(t.get("sender", thread_id))
 	message_arrived.emit(sender, thread_id)
 
-
-# =============================================================================
 # CONTACTS
-# =============================================================================
 # The inbox is keyed by PERSON, not by conversation. Mum texting you on day 3
 # and again on day 42 is one chat with Mum, the way it would be on a real
 # phone — the threads are still separate objects underneath, they're just

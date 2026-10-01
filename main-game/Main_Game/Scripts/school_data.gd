@@ -1,15 +1,12 @@
 ## SchoolData.gd
 ## Autoload: "SchoolData"
-##
 ## Every face-to-face conversation in the school scene.
-##
 ## These used to be one opening line plus three canned replies, which is why
 ## they read like a menu rather than a conversation. They now use exactly the
 ## same shape as the phone threads: a list of steps, each with replies that
 ## can "goto" any other step. So a chat runs three, four, five exchanges
 ## deep, remembers what you said two lines ago by virtue of where it sent
 ## you, and can end on completely different notes.
-##
 ## Conversation shape:
 ##   id         unique string
 ##   speaker    who's talking (a named classmate, or Mr Halloway)
@@ -20,7 +17,7 @@
 ## {NAME} is replaced with the player's name.
 extends Node
 
-# --- Named classmates ----------------------------------------------------------
+# Named classmates
 # Students have names so conversations feel like people rather than a generic
 # "student" prompt.
 const STUDENT_NAMES := ["Mika", "Tane", "Priya", "Josh", "Ana", "Wiremu", "Chloe", "Sione"]
@@ -30,12 +27,9 @@ const TEACHER_NAME := "Mr Halloway"
 static func random_student_name() -> String:
 	return STUDENT_NAMES[randi() % STUDENT_NAMES.size()]
 
-
-# =============================================================================
 # WHEN A CONVERSATION IS ALLOWED TO COME UP
-# =============================================================================
 # The school reacts to the state you're actually in. Walk up to a classmate
-# the day before an external and they talk about the external; walk up to one
+# the day before an external and they talk about the external walk up to one
 # when you're falling apart and someone notices.
 
 func _condition_met(condition: String) -> bool:
@@ -103,9 +97,9 @@ func next_step_for(reply: Dictionary, current_step: int) -> int:
 	return int(reply.get("goto", current_step + 1))
 
 
-# =============================================================================
+
 # CLASSMATES
-# =============================================================================
+
 var _student_conversations: Array = [
 
 	{
@@ -578,9 +572,9 @@ var _student_conversations: Array = [
 ]
 
 
-# =============================================================================
+
 # MR HALLOWAY
-# =============================================================================
+
 var _teacher_conversations: Array = [
 
 	{
@@ -876,7 +870,7 @@ var _teacher_conversations: Array = [
 ]
 
 
-# --- Extra-credit flavour lines -------------------------------------------------
+# Extra-credit lines
 
 var _teacher_lines_intro: Array = [
 	"\"Keen for some extra credit? Answer this one properly and I'll put it toward your internal.\"",
@@ -887,7 +881,7 @@ var _teacher_lines_intro: Array = [
 
 var _teacher_lines_correct: Array = [
 	"\"Nicely done. That's exactly the kind of thinking the marker wants to see.\"",
-	"\"Good. Keep that up and December looks a lot less frightening.\"",
+	"\"Good. Keep that up and November looks a lot less frightening.\"",
 	"\"Correct, and quickly. Do that under exam conditions and you're fine.\"",
 ]
 

@@ -1,12 +1,5 @@
 extends HBoxContainer
 
-## The hotbar. Alongside the item icons it now carries the unread-message
-## badge: a red circle with a number on whichever slot is holding the Phone,
-## exactly like an app icon on a real home screen.
-##
-## The badge is created once per slot (invisible until it has a count) and
-## Notifier keeps every registered badge in sync, so this never disagrees with
-## the badge on the phone's own Messages icon.
 
 var slots: Array
 ## slot index -> badge Control
@@ -19,9 +12,6 @@ func _ready():
 	Inventory.slot_selected.connect(_highlight_slot)
 	GameBackend.messages_changed.connect(_refresh_badges)
 	_update_hotbar()
-	# Inventory is the FIRST autoload in project.godot, so Notifier does not
-	# exist yet at this point in the boot order. Deferring by one frame is the
-	# whole fix — by then every autoload is up.
 	call_deferred("_setup_badges")
 
 
@@ -31,13 +21,6 @@ func get_slots():
 		slot.pressed.connect(Inventory.select_slot.bind(slot.get_index()))
 
 
-## One badge per slot, made once and left invisible until it has a count.
-##
-## Deliberately attach_badge() and NOT attach_message_badge(): the latter
-## registers the badge with Notifier, and Notifier's global refresh sets every
-## registered badge to the unread total — which is exactly why a red circle
-## was appearing on all four slots instead of just the phone. These badges are
-## ours to drive, from _refresh_badges() below.
 func _setup_badges() -> void:
 	if not has_node("/root/Notifier"):
 		return

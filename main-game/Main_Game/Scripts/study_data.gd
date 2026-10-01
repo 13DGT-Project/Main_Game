@@ -1,6 +1,5 @@
 ## StudyData.gd
 ## Autoload singleton (Project Settings -> Autoload -> add this as "StudyData").
-##
 ## Holds question banks for the school/study scene. Each question is a
 ## Dictionary: {"question": String, "options": Array[String], "correct": int}
 ## where "correct" is the index into "options".
@@ -665,9 +664,7 @@ var _banks: Dictionary = {
 
 
 ## Shuffles a question's options and remaps its `correct` index to follow the
-## right answer to its new position. Almost every question in this file was
-## authored with the correct answer as option 0, so without this the quiz is
-## trivially gameable by always picking the first choice.
+## right answer to its new position.
 static func shuffle_question(q: Dictionary) -> Dictionary:
 	var shuffled: Dictionary = q.duplicate(true)
 	var correct_text: String = shuffled.options[shuffled.correct]

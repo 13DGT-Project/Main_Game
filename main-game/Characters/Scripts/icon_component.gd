@@ -1,9 +1,5 @@
 extends Node3D
 
-## Marker shown on the minimap. The sprite sits on visual layer 10, which the
-## player's own camera excludes and the MinimapCam includes — so it only ever
-## appears on the minimap, never in the world.
-
 @export var map_icon: Texture
 ## Rotate the icon to match where the player is looking. Leave off for static
 ## markers like buildings.

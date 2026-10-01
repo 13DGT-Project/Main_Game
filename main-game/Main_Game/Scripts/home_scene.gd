@@ -1,7 +1,3 @@
-## home_scene.gd
-## Root script for HomeScene.tscn — a 2D home base. Bed to sleep, desk to
-## study, stove to cook, couch to watch TV, plus where you pick up the Phone
-## and Water Bottle for the first time.
 extends Node2D
 
 const MOVE_SPEED: float = 220.0
@@ -109,8 +105,10 @@ func _ready() -> void:
 		Laptop.study_requested.connect(_start_online_study)
 	if not Laptop.game_requested.is_connected(_start_memory_game_standalone):
 		Laptop.game_requested.connect(_start_memory_game_standalone)
-	get_tree().current_scene.add_child(JOURNAL_SCENE.instantiate())
-	get_tree().current_scene.add_child(GUI_SCENE.instantiate())
+	# Deferred: current_scene is still running its own _ready() here, so it
+	# is "busy setting up children" and a direct add_child() is rejected.
+	get_tree().current_scene.add_child.call_deferred(JOURNAL_SCENE.instantiate())
+	get_tree().current_scene.add_child.call_deferred(GUI_SCENE.instantiate())
 
 
 func _has_item(item_name: String) -> bool:
@@ -222,12 +220,7 @@ func _pickup_item(kind: String) -> void:
 
 
 # --- Bed ---------------------------------------------------------------------
-# Sleeping used to be a flat "sleep 8 hours" from wherever the clock happened
-# to be, which is why you could go to bed at 8pm and get up at 4am with
-# nothing open and nowhere to go. You now sleep THROUGH TO THE MORNING, so
-# whatever time you turn in, you wake at GameBackend.WAKE_HOUR ready for a
-# school day — and going to bed stupidly late costs you the quality of the
-# night rather than shifting your whole schedule.
+
 
 func _start_bed() -> void:
 	current_task_type = "bed"
@@ -251,8 +244,6 @@ func _start_bed() -> void:
 	sleep_btn.pressed.connect(_on_sleep_pressed)
 	options_container.add_child(sleep_btn)
 
-	# A nap is the answer to "it's 4pm, I'm wrecked, but I'm not throwing
-	# away the whole evening".
 	if GameBackend.game_hour < 20.0 and GameBackend.game_hour > 10.0:
 		var nap_btn := Button.new()
 		nap_btn.text = "Just a nap  (2 hours)"
@@ -497,20 +488,12 @@ var _memory_showing: bool = false
 
 
 func _start_laptop() -> void:
-	# Everything that used to be a two-button menu here now lives in
-	# laptop.gd — StudyLink, the NZQA portal, the applicant portal and the
-	# fees planner. Opening it doesn't cost time; the individual actions do.
 	Laptop.open("home")
-
 
 ## Entry point for the laptop's "Play Sequence" link, which closes the laptop
 ## and hands back to this scene.
 # --- Online study --------------------------------------------------------
-# Deliberately NOT the same as sitting at the desk. Online revision is a
-# shorter, shallower session: three questions instead of five, less energy
-# spent, less grade gained per session, and it nudges temptation UP because
-# there are always other tabs open. It's the thing you do when you can't face
-# a proper session — useful, but not a substitute for one.
+
 
 const ONLINE_QUESTIONS: int = 3
 const ONLINE_HOURS_PER_QUESTION: float = 0.12
@@ -674,8 +657,6 @@ func _on_game_ended(_result: String) -> void:
 
 ## Shows a message in the bottom banner. Pass "" to hide it.
 ## `hold_seconds` of 0 (or less) means "leave it up until something replaces
-## it" — used for the standing 'Press E' prompt. Anything else auto-clears.
-##
 ## Deliberately NOT async: an earlier version awaited a timer here, which made
 ## every call site an implicit coroutine and produced "trying to call an async
 ## function without await" warnings all over the place.

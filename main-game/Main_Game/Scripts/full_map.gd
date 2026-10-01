@@ -1,13 +1,5 @@
-## full_map.gd
 ## Press M to open a full-screen map of the world.
-##
-## Deliberately self-sufficient:
-##  * Listens for the "map" action AND the raw M key, so it still works if
-##    Godot hasn't picked up the new Input Map entry yet (that needs a project
-##    reload after project.godot is edited outside the editor).
-##  * Draws a schematic map from door/player positions on its own. If a
-##    FullMapViewport exists it also renders the real world behind that, but
-##    the map is fully usable either way rather than silently doing nothing.
+
 extends CanvasLayer
 
 const DOOR_COLOURS := {
@@ -40,8 +32,6 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_build_ui()
 	print("[FullMap] ready — press M to open the map")
-	# As an autoload we outlive scene changes, so re-scan whenever the scene
-	# swaps rather than only once at startup.
 	get_tree().node_added.connect(_on_node_added)
 	call_deferred("_discover")
 	GameBackend.game_ended.connect(_on_game_ended)
@@ -49,8 +39,6 @@ func _ready() -> void:
 
 var _rescan_queued: bool = false
 
-## Cheap trigger: when a new Area3D shows up, the scene has probably changed,
-## so queue a single re-scan for the end of the frame.
 func _on_node_added(node: Node) -> void:
 	if node is Area3D and not _rescan_queued:
 		_rescan_queued = true
@@ -124,7 +112,6 @@ func _discover() -> void:
 	if scene == null:
 		return
 
-	# Optional: real rendered world behind the schematic.
 	var viewport := scene.get_node_or_null("FullMapViewport")
 	if viewport is SubViewport:
 		_map_rect.texture = (viewport as SubViewport).get_texture()
@@ -177,7 +164,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if InputMap.has_action("map") and event.is_action_pressed("map"):
 		pressed = true
 	elif event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_M:
-		# Fallback: works even before Godot reloads the Input Map.
 		pressed = true
 	if pressed:
 		_toggle()
@@ -185,7 +171,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _toggle() -> void:
-	# Re-scan on demand so we always reflect the scene we're actually in.
 	_discover()
 	if _doors.is_empty() and _player == null:
 		print("[FullMap] nothing to map in this scene (no doors or player found)")
@@ -217,8 +202,6 @@ func _world_to_rect(world_xz: Vector2) -> Vector2:
 
 func _draw_markers() -> void:
 	var font: Font = ThemeDB.fallback_font
-
-	# Backing panel — also means the map is legible with no rendered texture.
 	if _map_rect.texture == null:
 		_overlay.draw_rect(Rect2(Vector2.ZERO, _overlay.size), Color(0.16, 0.18, 0.24, 1.0), true)
 	_overlay.draw_rect(Rect2(Vector2.ZERO, _overlay.size), Color(1, 1, 1, 0.28), false, 2.0)
@@ -231,23 +214,7 @@ func _draw_markers() -> void:
 			_overlay.draw_string(font, p + Vector2(14, 6), door.name,
 				HORIZONTAL_ALIGNMENT_LEFT, -1, 16, door.colour)
 
-	#if _player != null and is_instance_valid(_player):
-		#var pp: Vector2 = _world_to_rect(Vector2(_player.global_position.x, _player.global_position.z))
-		#_overlay.draw_circle(pp, 8.0, Color(1.0, 0.9, 0.3))
-		#_overlay.draw_arc(pp, 12.0, 0, TAU, 20, Color(1.0, 0.9, 0.3, 0.85), 2.0)
-		#var head := _player.get_node_or_null("Head")
-		#var src: Node3D = head if head else _player
-		#var fwd: Vector3 = -src.global_transform.basis.z
-		#var fwd2 := Vector2(fwd.x, fwd.z)
-		#if fwd2.length() > 0.01:
-			#_overlay.draw_line(pp, pp + fwd2.normalized() * 22.0, Color(1.0, 0.9, 0.3), 3.0)
-		#if font:
-			#_overlay.draw_string(font, pp + Vector2(14, -10), "You",
-				#HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.9, 0.3))
 
-
-## Autoload overlay: it outlives the scene change, so it has to hide itself
-## when the run ends or it sits on top of the ending screen.
 func _on_game_ended(_result: String) -> void:
 	_is_open = false
 	if _root:

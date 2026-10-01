@@ -1,0 +1,340 @@
+[gd_scene format=4 uid="uid://40lgjv52dn03"]
+
+[ext_resource type="Script" uid="uid://ba1ym3j3tpsxj" path="res://Main_Game/Scripts/exam_hall.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://boige38ke18jo" path="res://Backend/Resource/Textures/desk_english.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://dwor670ddd7aa" path="res://Backend/Resource/Textures/player.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://uoe4trn072j8" path="res://Backend/Resource/Textures/teacher.png" id="4"]
+[ext_resource type="Script" uid="uid://3mbvb3ke4rln" path="res://Main_Game/Scripts/pause_menu.gd" id="6_mlvkw"]
+[ext_resource type="TileSet" uid="uid://5dbewkxhkaj7" path="res://Backend/Resource/Tilesets/world_tileset.tres" id="tileset_res"]
+
+[sub_resource type="RectangleShape2D" id="DeskShape"]
+size = Vector2(150, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_evl78"]
+size = Vector2(90, 90)
+
+[sub_resource type="CircleShape2D" id="PlayerShape"]
+radius = 16.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q6dpf"]
+bg_color = Color(0.5424403, 0.62951076, 0.5299343, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hint"]
+content_margin_left = 18.0
+content_margin_top = 8.0
+content_margin_right = 18.0
+content_margin_bottom = 8.0
+bg_color = Color(0.06, 0.07, 0.1, 0.88)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="ExamHall" type="Node2D" unique_id=504687447]
+script = ExtResource("1")
+
+[node name="Floor" type="TileMapLayer" parent="." unique_id=1232809604]
+tile_map_data = PackedByteArray("AAD+//7/AAABAAAAAAD+////AAABAAAAAAD+/wAAAAABAAAAAAD+/wEAAAABAAAAAAD+/wIAAAABAAAAAAD+/wMAAAABAAAAAAD+/wQAAAABAAAAAAD+/wUAAAABAAAAAAD+/wYAAAABAAAAAAD+/wcAAAABAAAAAAD+/wgAAAABAAAAAAD+/wkAAAABAAAAAAD+/woAAAABAAAAAAD+/wsAAAABAAAAAAD+/wwAAAABAAAAAAD+/w0AAAABAAAAAAD///7/AAABAAAAAAD/////AAABAAAAAAD//wAAAAABAAAAAAD//wEAAAABAAAAAAD//wIAAAABAAAAAAD//wMAAAABAAAAAAD//wQAAAABAAAAAAD//wUAAAABAAAAAAD//wYAAAABAAAAAAD//wcAAAABAAAAAAD//wgAAAABAAAAAAD//wkAAAABAAAAAAD//woAAAABAAAAAAD//wsAAAABAAAAAAD//wwAAAABAAAAAAD//w0AAAABAAAAAAAAAP7/AAABAAAAAAAAAP//AAABAAAAAAAAAAAAAAABAAAAAAAAAAEAAAABAAAAAAAAAAIAAAABAAAAAAAAAAMAAAABAAAAAAAAAAQAAAABAAAAAAAAAAUAAAABAAAAAAAAAAYAAAABAAAAAAAAAAcAAAABAAAAAAAAAAgAAAABAAAAAAAAAAkAAAABAAAAAAAAAAoAAAABAAAAAAAAAAsAAAABAAAAAAAAAAwAAAABAAAAAAAAAA0AAAABAAAAAAABAP7/AAABAAAAAAABAP//AAABAAAAAAABAAAAAAABAAAAAAABAAEAAAABAAAAAAABAAIAAAABAAAAAAABAAMAAAABAAAAAAABAAQAAAABAAAAAAABAAUAAAABAAAAAAABAAYAAAABAAAAAAABAAcAAAABAAAAAAABAAgAAAABAAAAAAABAAkAAAABAAAAAAABAAoAAAABAAAAAAABAAsAAAABAAAAAAABAAwAAAABAAAAAAABAA0AAAABAAAAAAACAP7/AAABAAAAAAACAP//AAABAAAAAAACAAAAAAABAAAAAAACAAEAAAABAAAAAAACAAIAAAABAAAAAAACAAMAAAABAAAAAAACAAQAAAABAAAAAAACAAUAAAABAAAAAAACAAYAAAABAAAAAAACAAcAAAABAAAAAAACAAgAAAABAAAAAAACAAkAAAABAAAAAAACAAoAAAABAAAAAAACAAsAAAABAAAAAAACAAwAAAABAAAAAAACAA0AAAABAAAAAAADAP7/AAABAAAAAAADAP//AAABAAAAAAADAAAAAAABAAAAAAADAAEAAAABAAAAAAADAAIAAAABAAAAAAADAAMAAAABAAAAAAADAAQAAAABAAAAAAADAAUAAAABAAAAAAADAAYAAAABAAAAAAADAAcAAAABAAAAAAADAAgAAAABAAAAAAADAAkAAAABAAAAAAADAAoAAAABAAAAAAADAAsAAAABAAAAAAADAAwAAAABAAAAAAADAA0AAAABAAAAAAAEAP7/AAABAAAAAAAEAP//AAABAAAAAAAEAAAAAAABAAAAAAAEAAEAAAABAAAAAAAEAAIAAAABAAAAAAAEAAMAAAABAAAAAAAEAAQAAAABAAAAAAAEAAUAAAABAAAAAAAEAAYAAAABAAAAAAAEAAcAAAABAAAAAAAEAAgAAAABAAAAAAAEAAkAAAABAAAAAAAEAAoAAAABAAAAAAAEAAsAAAABAAAAAAAEAAwAAAABAAAAAAAEAA0AAAABAAAAAAAFAP7/AAABAAAAAAAFAP//AAABAAAAAAAFAAAAAAABAAAAAAAFAAEAAAABAAAAAAAFAAIAAAABAAAAAAAFAAMAAAABAAAAAAAFAAQAAAABAAAAAAAFAAUAAAABAAAAAAAFAAYAAAABAAAAAAAFAAcAAAABAAAAAAAFAAgAAAABAAAAAAAFAAkAAAABAAAAAAAFAAoAAAABAAAAAAAFAAsAAAABAAAAAAAFAAwAAAABAAAAAAAFAA0AAAABAAAAAAAGAP7/AAABAAAAAAAGAP//AAABAAAAAAAGAAAAAAABAAAAAAAGAAEAAAABAAAAAAAGAAIAAAABAAAAAAAGAAMAAAABAAAAAAAGAAQAAAABAAAAAAAGAAUAAAABAAAAAAAGAAYAAAABAAAAAAAGAAcAAAABAAAAAAAGAAgAAAABAAAAAAAGAAkAAAABAAAAAAAGAAoAAAABAAAAAAAGAAsAAAABAAAAAAAGAAwAAAABAAAAAAAGAA0AAAABAAAAAAAHAP7/AAABAAAAAAAHAP//AAABAAAAAAAHAAAAAAABAAAAAAAHAAEAAAABAAAAAAAHAAIAAAABAAAAAAAHAAMAAAABAAAAAAAHAAQAAAABAAAAAAAHAAUAAAABAAAAAAAHAAYAAAABAAAAAAAHAAcAAAABAAAAAAAHAAgAAAABAAAAAAAHAAkAAAABAAAAAAAHAAoAAAABAAAAAAAHAAsAAAABAAAAAAAHAAwAAAABAAAAAAAHAA0AAAABAAAAAAAIAP7/AAABAAAAAAAIAP//AAABAAAAAAAIAAAAAAABAAAAAAAIAAEAAAABAAAAAAAIAAIAAAABAAAAAAAIAAMAAAABAAAAAAAIAAQAAAABAAAAAAAIAAUAAAABAAAAAAAIAAYAAAABAAAAAAAIAAcAAAABAAAAAAAIAAgAAAABAAAAAAAIAAkAAAABAAAAAAAIAAoAAAABAAAAAAAIAAsAAAABAAAAAAAIAAwAAAABAAAAAAAIAA0AAAABAAAAAAAJAP7/AAABAAAAAAAJAP//AAABAAAAAAAJAAAAAAABAAAAAAAJAAEAAAABAAAAAAAJAAIAAAABAAAAAAAJAAMAAAABAAAAAAAJAAQAAAABAAAAAAAJAAUAAAABAAAAAAAJAAYAAAABAAAAAAAJAAcAAAABAAAAAAAJAAgAAAABAAAAAAAJAAkAAAABAAAAAAAJAAoAAAABAAAAAAAJAAsAAAABAAAAAAAJAAwAAAABAAAAAAAJAA0AAAABAAAAAAAKAP7/AAABAAAAAAAKAP//AAABAAAAAAAKAAAAAAABAAAAAAAKAAEAAAABAAAAAAAKAAIAAAABAAAAAAAKAAMAAAABAAAAAAAKAAQAAAABAAAAAAAKAAUAAAABAAAAAAAKAAYAAAABAAAAAAAKAAcAAAABAAAAAAAKAAgAAAABAAAAAAAKAAkAAAABAAAAAAAKAAoAAAABAAAAAAAKAAsAAAABAAAAAAAKAAwAAAABAAAAAAAKAA0AAAABAAAAAAALAP7/AAABAAAAAAALAP//AAABAAAAAAALAAAAAAABAAAAAAALAAEAAAABAAAAAAALAAIAAAABAAAAAAALAAMAAAABAAAAAAALAAQAAAABAAAAAAALAAUAAAABAAAAAAALAAYAAAABAAAAAAALAAcAAAABAAAAAAALAAgAAAABAAAAAAALAAkAAAABAAAAAAALAAoAAAABAAAAAAALAAsAAAABAAAAAAALAAwAAAABAAAAAAALAA0AAAABAAAAAAAMAP7/AAABAAAAAAAMAP//AAABAAAAAAAMAAAAAAABAAAAAAAMAAEAAAABAAAAAAAMAAIAAAABAAAAAAAMAAMAAAABAAAAAAAMAAQAAAABAAAAAAAMAAUAAAABAAAAAAAMAAYAAAABAAAAAAAMAAcAAAABAAAAAAAMAAgAAAABAAAAAAAMAAkAAAABAAAAAAAMAAoAAAABAAAAAAAMAAsAAAABAAAAAAAMAAwAAAABAAAAAAAMAA0AAAABAAAAAAANAP7/AAABAAAAAAANAP//AAABAAAAAAANAAAAAAABAAAAAAANAAEAAAABAAAAAAANAAIAAAABAAAAAAANAAMAAAABAAAAAAANAAQAAAABAAAAAAANAAUAAAABAAAAAAANAAYAAAABAAAAAAANAAcAAAABAAAAAAANAAgAAAABAAAAAAANAAkAAAABAAAAAAANAAoAAAABAAAAAAANAAsAAAABAAAAAAANAAwAAAABAAAAAAANAA0AAAABAAAAAAAOAP7/AAABAAAAAAAOAP//AAABAAAAAAAOAAAAAAABAAAAAAAOAAEAAAABAAAAAAAOAAIAAAABAAAAAAAOAAMAAAABAAAAAAAOAAQAAAABAAAAAAAOAAUAAAABAAAAAAAOAAYAAAABAAAAAAAOAAcAAAABAAAAAAAOAAgAAAABAAAAAAAOAAkAAAABAAAAAAAOAAoAAAABAAAAAAAOAAsAAAABAAAAAAAOAAwAAAABAAAAAAAOAA0AAAABAAAAAAAPAP7/AAABAAAAAAAPAP//AAABAAAAAAAPAAAAAAABAAAAAAAPAAEAAAABAAAAAAAPAAIAAAABAAAAAAAPAAMAAAABAAAAAAAPAAQAAAABAAAAAAAPAAUAAAABAAAAAAAPAAYAAAABAAAAAAAPAAcAAAABAAAAAAAPAAgAAAABAAAAAAAPAAkAAAABAAAAAAAPAAoAAAABAAAAAAAPAAsAAAABAAAAAAAPAAwAAAABAAAAAAAPAA0AAAABAAAAAAAQAP7/AAABAAAAAAAQAP//AAABAAAAAAAQAAAAAAABAAAAAAAQAAEAAAABAAAAAAAQAAIAAAABAAAAAAAQAAMAAAABAAAAAAAQAAQAAAABAAAAAAAQAAUAAAABAAAAAAAQAAYAAAABAAAAAAAQAAcAAAABAAAAAAAQAAgAAAABAAAAAAAQAAkAAAABAAAAAAAQAAoAAAABAAAAAAAQAAsAAAABAAAAAAAQAAwAAAABAAAAAAAQAA0AAAABAAAAAAARAP7/AAABAAAAAAARAP//AAABAAAAAAARAAAAAAABAAAAAAARAAEAAAABAAAAAAARAAIAAAABAAAAAAARAAMAAAABAAAAAAARAAQAAAABAAAAAAARAAUAAAABAAAAAAARAAYAAAABAAAAAAARAAcAAAABAAAAAAARAAgAAAABAAAAAAARAAkAAAABAAAAAAARAAoAAAABAAAAAAARAAsAAAABAAAAAAARAAwAAAABAAAAAAARAA0AAAABAAAAAAA=")
+tile_set = ExtResource("tileset_res")
+
+[node name="Walls" type="TileMapLayer" parent="." unique_id=1334597675]
+tile_map_data = PackedByteArray("AAAAAAAAAAABAAEAAAAAAAwAAAABAAEAAAABAAAAAAABAAEAAAABAAwAAAABAAEAAAACAAAAAAABAAEAAAACAAwAAAABAAEAAAADAAAAAAABAAEAAAADAAwAAAABAAEAAAAEAAAAAAABAAEAAAAEAAwAAAABAAEAAAAFAAAAAAABAAEAAAAFAAwAAAABAAEAAAAGAAAAAAABAAEAAAAGAAwAAAABAAEAAAAHAAAAAAABAAEAAAAHAAwAAAABAAEAAAAIAAAAAAABAAEAAAAIAAwAAAABAAEAAAAJAAAAAAABAAEAAAAJAAwAAAABAAEAAAAKAAAAAAABAAEAAAAKAAwAAAABAAEAAAALAAAAAAABAAEAAAALAAwAAAABAAEAAAAMAAAAAAABAAEAAAAMAAwAAAABAAEAAAANAAAAAAABAAEAAAANAAwAAAABAAEAAAAOAAAAAAABAAEAAAAOAAwAAAABAAEAAAAPAAAAAAABAAEAAAAPAAwAAAABAAEAAAAAAAEAAAABAAEAAAAPAAEAAAABAAEAAAAAAAIAAAABAAEAAAAPAAIAAAABAAEAAAAAAAMAAAABAAEAAAAPAAMAAAABAAEAAAAAAAQAAAABAAEAAAAPAAQAAAABAAEAAAAAAAUAAAABAAEAAAAPAAUAAAABAAEAAAAAAAYAAAABAAEAAAAPAAYAAAABAAEAAAAAAAcAAAABAAEAAAAPAAcAAAABAAEAAAAAAAgAAAABAAEAAAAPAAgAAAABAAEAAAAAAAkAAAABAAEAAAAPAAkAAAABAAEAAAAAAAoAAAABAAEAAAAPAAoAAAABAAEAAAAAAAsAAAABAAEAAAAPAAsAAAABAAEAAAA=")
+tile_set = ExtResource("tileset_res")
+
+[node name="Decorations" type="Node2D" parent="." unique_id=1678457498]
+
+[node name="SpareDesk1" type="Sprite2D" parent="Decorations" unique_id=3100001]
+modulate = Color(0.85, 0.85, 0.9, 1)
+position = Vector2(220, 300)
+texture = ExtResource("2")
+
+[node name="SpareDesk2" type="Sprite2D" parent="Decorations" unique_id=3100002]
+modulate = Color(0.85, 0.85, 0.9, 1)
+position = Vector2(780, 300)
+texture = ExtResource("2")
+
+[node name="SpareDesk3" type="Sprite2D" parent="Decorations" unique_id=3100003]
+modulate = Color(0.85, 0.85, 0.9, 1)
+position = Vector2(220, 430)
+texture = ExtResource("2")
+
+[node name="SpareDesk4" type="Sprite2D" parent="Decorations" unique_id=3100004]
+modulate = Color(0.85, 0.85, 0.9, 1)
+position = Vector2(780, 430)
+texture = ExtResource("2")
+
+[node name="SpareDesk5" type="Sprite2D" parent="Decorations" unique_id=3100005]
+modulate = Color(0.85, 0.85, 0.9, 1)
+position = Vector2(220, 560)
+texture = ExtResource("2")
+
+[node name="SpareDesk6" type="Sprite2D" parent="Decorations" unique_id=3100006]
+modulate = Color(0.85, 0.85, 0.9, 1)
+position = Vector2(780, 560)
+texture = ExtResource("2")
+
+[node name="Supervisor" type="Node2D" parent="." unique_id=814145481]
+position = Vector2(500, 90)
+
+[node name="Sprite2D" type="Sprite2D" parent="Supervisor" unique_id=601035267]
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("4")
+
+[node name="InteractArea" type="Area2D" parent="Supervisor" unique_id=568836040]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Supervisor/InteractArea" unique_id=690864181]
+shape = SubResource("DeskShape")
+
+[node name="PromptLabel" type="Label" parent="Supervisor" unique_id=1146203229]
+visible = false
+offset_left = -70.0
+offset_top = -70.0
+offset_right = -70.0
+offset_bottom = -70.0
+text = "Press E to speak to the supervisor"
+
+[node name="ExitStation" type="Node2D" parent="." unique_id=769876826]
+position = Vector2(499, 673)
+
+[node name="ExitVisual" type="ColorRect" parent="ExitStation" unique_id=1238087361]
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0.85, 0.25, 0.25, 1)
+
+[node name="ExitLabel" type="Label" parent="ExitStation" unique_id=19940195]
+offset_left = -24.0
+offset_top = -12.0
+offset_right = -24.0
+offset_bottom = -12.0
+text = "EXIT"
+
+[node name="InteractArea" type="Area2D" parent="ExitStation" unique_id=556467336]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitStation/InteractArea" unique_id=1114244960]
+shape = SubResource("RectangleShape2D_evl78")
+
+[node name="PromptLabel" type="Label" parent="ExitStation" unique_id=2038940930]
+visible = false
+offset_left = -60.0
+offset_top = -80.0
+offset_right = -60.0
+offset_bottom = -80.0
+text = "Press E to head out"
+
+[node name="ExamDesk" type="Node2D" parent="." unique_id=2083977267]
+position = Vector2(500, 400)
+
+[node name="Sprite2D" type="Sprite2D" parent="ExamDesk" unique_id=173190957]
+texture = ExtResource("2")
+
+[node name="InteractArea" type="Area2D" parent="ExamDesk" unique_id=2021674240]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExamDesk/InteractArea" unique_id=763221585]
+shape = SubResource("DeskShape")
+
+[node name="PromptLabel" type="Label" parent="ExamDesk" unique_id=985470635]
+visible = false
+offset_left = -60.0
+offset_top = -90.0
+offset_right = -60.0
+offset_bottom = -90.0
+text = "Press E to sit your exam"
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=739939190]
+position = Vector2(500, 620)
+
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1405537962]
+texture = ExtResource("3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1311068691]
+shape = SubResource("PlayerShape")
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=1901250317]
+zoom = Vector2(1.3, 1.3)
+
+[node name="PauseMenu" type="Control" parent="Player/Camera2D" unique_id=684098845]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_mlvkw")
+
+[node name="ColorRect" type="ColorRect" parent="Player/Camera2D/PauseMenu" unique_id=1934435809]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1.1755697, 1.1755697, 0.19215687)
+
+[node name="PanelContainer" type="PanelContainer" parent="Player/Camera2D/PauseMenu" unique_id=2128563977]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -395.0
+offset_top = -215.5
+offset_right = 395.0
+offset_bottom = 215.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q6dpf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Player/Camera2D/PauseMenu" unique_id=2028340125]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="PauseMenu" type="Label" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1375101573]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.15294118, 0.06666667, 0.16862746, 1)
+theme_override_font_sizes/font_size = 40
+text = "Pause Menu"
+
+[node name="Resume" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=2005450117]
+layout_mode = 2
+text = "Resume"
+
+[node name="MainMenu" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=706911059]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="Settings" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1701873128]
+layout_mode = 2
+text = "Settings"
+
+[node name="Help" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1395567166]
+layout_mode = 2
+text = "Help"
+
+[node name="Quit" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=2141330944]
+layout_mode = 2
+text = "Quit"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1205469892]
+
+[node name="HUD" type="Control" parent="CanvasLayer" unique_id=740508155]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HintPanel" type="PanelContainer" parent="CanvasLayer/HUD" unique_id=860825485]
+visible = false
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -78.0
+offset_right = 300.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hint")
+
+[node name="HintLabel" type="Label" parent="CanvasLayer/HUD/HintPanel" unique_id=419528325]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="MinigameOverlay" type="Control" parent="CanvasLayer" unique_id=372017168]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dim" type="ColorRect" parent="CanvasLayer/MinigameOverlay" unique_id=689940616]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/MinigameOverlay" unique_id=531545208]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer" unique_id=1387762086]
+custom_minimum_size = Vector2(640, 460)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel" unique_id=350822481]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1521584885]
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "External Examination"
+horizontal_alignment = 1
+
+[node name="ProgressLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1090635993]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="InfoLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1364505934]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="OptionsCenter" type="CenterContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1292764323]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OptionsContainer" type="VBoxContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter" unique_id=461455936]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="FeedbackLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1105539100]
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="NextButton" type="Button" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1184366963]
+visible = false
+layout_mode = 2
+text = "Next"
+
+[connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/Resume" to="Player/Camera2D/PauseMenu" method="_on_resume_pressed"]
+[connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/MainMenu" to="Player/Camera2D/PauseMenu" method="_on_main_menu_pressed"]
+[connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/Settings" to="Player/Camera2D/PauseMenu" method="_on_settings_pressed"]
+[connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/Help" to="Player/Camera2D/PauseMenu" method="_on_help_pressed"]
+[connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/Quit" to="Player/Camera2D/PauseMenu" method="_on_quit_pressed"]

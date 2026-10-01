@@ -125,7 +125,9 @@ func _refresh_event_banner() -> void:
 	# Something you agreed to matters more than a countdown.
 	var today_commitments: Array = GameBackend.commitments_today()
 	if not today_commitments.is_empty():
-		_set_banner("TODAY: %s" % str(today_commitments[0].label), BANNER_SOON)
+		var c: Dictionary = today_commitments[0]
+		_set_banner("TODAY: %s — go to %s" % [
+			str(c.label), GameBackend.commitment_place(str(c.kind))], BANNER_SOON)
 		return
 
 	var days: int = GameBackend.days_until_next_exam()

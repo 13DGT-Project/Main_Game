@@ -1,12 +1,4 @@
-## ending_scene.gd
-## Root script for EndingScene.tscn. Reads GameBackend.ending_result (set by
-## GameBackend._end_game()) to decide which text/music to show. Doesn't need
-## anything passed to it directly since GameBackend is an autoload.
-##
-## The thing you were trying to name is the EPILOGUE — the closing passage
-## after the result that describes what your year actually looked like. It's
-## built in GameBackend.build_epilogue() from the run statistics, so it's
-## different every playthrough rather than one fixed paragraph per ending.
+## Reads GameBackend.ending_result (set by GameBackend._end_game()) to decide which text/music to show.
 extends Control
 
 @onready var title_label: Label = $CenterContainer/VBoxContainer/TitleLabel
@@ -17,8 +9,6 @@ const COL_GOOD := Color(0.42, 0.82, 0.55)
 const COL_WARN := Color(0.95, 0.74, 0.32)
 const COL_BAD := Color(0.90, 0.42, 0.42)
 
-## Extra panel built in code and inserted above the button, so EndingScene.tscn
-## doesn't have to change.
 var _epilogue_label: RichTextLabel
 
 
@@ -29,7 +19,7 @@ func _ready() -> void:
 
 	var degree: String = GameBackend.selected_conjoint if GameBackend.selected_conjoint != "" else GameBackend.selected_major
 
-	# --- headline -----------------------------------------------------------
+	#Headline -----------------------------------------------------------
 	var accent: Color = COL_BAD
 	match GameBackend.ending_result:
 		"scholarship":
@@ -94,7 +84,7 @@ func _ready() -> void:
 	_build_epilogue_panel(degree, accent)
 
 
-## Everything below the headline: the epilogue prose, a hard-numbers recap,
+## Everything below the headline: the epilogue/recap,
 ## and the handful of moments from the journal that actually mattered.
 func _build_epilogue_panel(degree: String, accent: Color) -> void:
 	var box := VBoxContainer.new()
@@ -127,18 +117,18 @@ func _compose_text(degree: String, accent: Color) -> String:
 	var hex: String = "#" + accent.to_html(false)
 	var out: Array = []
 
-	# --- the epilogue proper
+	#THe epilogue
 	out.append("[color=%s][b]YOUR YEAR[/b][/color]" % hex)
 	out.append(GameBackend.build_epilogue())
 	out.append("")
 
-	# --- why the result was what it was
+	#Why it went this way
 	out.append("[color=%s][b]WHY IT ENDED THIS WAY[/b][/color]" % hex)
 	for reason in GameBackend.offer_reasons():
 		out.append("  •  " + str(reason))
 	out.append("")
 
-	# --- the numbers
+	#Info
 	out.append("[color=%s][b]THE NUMBERS[/b][/color]" % hex)
 	out.append("%s  —  %s" % [GameBackend.university_full_name(), degree if degree != "" else "no programme chosen"])
 	out.append("Overall grade: %.0f  (needed %.0f)" % [GameBackend.get_overall_grade(), GameBackend.required_grade()])
@@ -148,6 +138,15 @@ func _compose_text(degree: String, accent: Color) -> String:
 	out.append("Wellbeing at the end: %.0f  (lowest point: %.0f)" % [GameBackend.sanity, GameBackend.stat_lowest_sanity])
 	out.append("")
 	out.append(GameBackend.ue_status_text())
+	var cert_e: String = GameBackend.certificate_endorsement()
+	if cert_e != "":
+		out.append("NCEA Level 3 ENDORSED WITH %s" % cert_e.to_upper())
+	var courses: Dictionary = GameBackend.endorsed_courses()
+	if not courses.is_empty():
+		var bits: Array = []
+		for subj in courses:
+			bits.append("%s (%s)" % [str(subj).capitalize().replace("_", " "), courses[subj]])
+		out.append("Course endorsements: " + ", ".join(bits))
 	out.append("")
 
 	out.append("[color=%s][b]HOW YOU SPENT IT[/b][/color]" % hex)
@@ -163,7 +162,7 @@ func _compose_text(degree: String, accent: Color) -> String:
 		GameBackend.stat_conversations, GameBackend.stat_messages_replied])
 	out.append("")
 
-	# --- moments
+	#Key moments
 	var notable: Array = GameBackend.notable_events(10)
 	if not notable.is_empty():
 		out.append("[color=%s][b]MOMENTS[/b][/color]" % hex)

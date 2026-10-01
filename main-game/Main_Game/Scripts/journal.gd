@@ -1,8 +1,3 @@
-## journal.gd
-## Root script for Journal.tscn. A toggleable (press J) progress log + stats
-## summary. Instanced at runtime by game_manager.gd / school_scene.gd /
-## work_scene.gd — not placed by hand in any scene file, so it works
-## everywhere without editing your hand-built scenes.
 extends CanvasLayer
 
 @onready var panel: Control = $Panel
@@ -23,9 +18,6 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	var pressed_j: bool = event.is_action_pressed("journal")
-	# Fallback: check the raw key directly too, in case the "journal" action
-	# in Input Map hasn't been picked up yet (Godot needs a project reload
-	# after project.godot's [input] section is edited outside the editor).
 	if not pressed_j and event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode == KEY_J:
 			pressed_j = true
@@ -53,6 +45,28 @@ func _refresh_summary() -> void:
 		GameBackend.get_subject_grades_text(),
 		GameBackend.energy, GameBackend.sanity, GameBackend.thirst, GameBackend.temptation
 	]
+	summary_label.text += "\n\n--- University Entrance ---\n" + GameBackend.ue_status_text()
+	summary_label.text += "\nUE achieved: %s" % ("YES" if GameBackend.has_university_entrance() else "not yet")
+	# The loan is as much a gate on the ending as the credits are, so it
+	# belongs on the same summary rather than only on the laptop.
+	summary_label.text += "\n\n--- Student loan (StudyLink) ---\n" + GameBackend.loan_status_text()
+
+	# What you've agreed to and where to go. Commitments are worthless as a
+	# mechanic if the game never tells you how to honour one.
+	var briefing: Array = GameBackend.commitment_briefing()
+	if not briefing.is_empty():
+		summary_label.text += "\n\n--- TODAY YOU SAID YOU'D ---"
+		for line in briefing:
+			summary_label.text += "\n" + str(line)
+	var upcoming: Array = []
+	for c in GameBackend.commitments:
+		if int(c.day) > GameBackend.get_elapsed_days():
+			upcoming.append("Day %d: %s (%s)" % [
+				int(c.day), str(c.label), GameBackend.commitment_place(str(c.kind))])
+	if not upcoming.is_empty():
+		summary_label.text += "\n\n--- COMING UP ---"
+		for line in upcoming:
+			summary_label.text += "\n" + str(line)
 
 
 func _refresh_entries() -> void:

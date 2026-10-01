@@ -1,14 +1,3 @@
-## minimap.gd
-## A small always-visible map in the corner, plus a room-name banner.
-## Addresses the tester feedback: "Got lost around the map, hard to navigate".
-##
-## Any 2D scene can use this: instance it, then call setup() with the rooms
-## and the player node. Rooms are {name, rect} where rect is a Rect2 in the
-## same world coordinates the player moves in.
-##
-## NOTE: positions/sizes are set explicitly rather than via anchors. Setting
-## anchors in code without also fixing offsets leaves controls collapsed at
-## zero size — which is exactly why an earlier version of this drew nothing.
 extends CanvasLayer
 
 const MAP_SIZE := Vector2(240, 160)

@@ -1,5 +1,4 @@
 ## school_scene.gd
-## Root script for SchoolScene.tscn — an explorable 2D school area.
 ## Walk up to a desk to study a subject, chat with students to de-stress
 ## (at the cost of a little time and a little temptation), ask the teacher
 ## for a high-value bonus question, or top up your water bar at the fountain.
@@ -10,7 +9,7 @@ const QUESTIONS_PER_SESSION: int = 5
 const HOURS_PER_QUESTION: float = 0.15
 const ENERGY_COST_PER_QUESTION: float = 6.0
 ## How much readiness a full sit-down desk session is worth. Studying no
-## longer moves grades — it moves preparedness. See GameBackend.subject_prep.
+## longer moves grades — it moves preparedness.  GameBackend.subject_prep.
 const DESK_STUDY_DEPTH: float = 16.0
 
 const TEACHER_HOURS: float = 0.2
@@ -105,13 +104,13 @@ func _ready() -> void:
 
 	next_button.pressed.connect(_on_next_pressed)
 	close_button.pressed.connect(_on_close_results)
-	# Note: no Sky3D in this scene — time spent here is queued via
+	# NOTE: no Sky3D in this scene — time spent here is queued via
 	# GameBackend.advance_time() (called inside complete_study_session /
-	# socialize / drink_water) and applied to MainMap's clock when you return.
+	# socialize / drink_water) and applied to MainMap's Sky3D clock when you exit.
 
 	GameBackend.game_ended.connect(_on_game_ended)
-	get_tree().current_scene.add_child(JOURNAL_SCENE.instantiate())
-	get_tree().current_scene.add_child(GUI_SCENE.instantiate())
+	get_tree().current_scene.add_child.call_deferred(JOURNAL_SCENE.instantiate())
+	get_tree().current_scene.add_child.call_deferred(GUI_SCENE.instantiate())
 	_setup_minimap()
 
 
@@ -120,7 +119,7 @@ func _ready() -> void:
 func _setup_minimap() -> void:
 	var minimap := CanvasLayer.new()
 	minimap.set_script(MINIMAP_SCRIPT)
-	get_tree().current_scene.add_child(minimap)
+	get_tree().current_scene.add_child.call_deferred(minimap)
 	minimap.setup([
 		{"name": "Classroom", "rect": Rect2(0, 100, 1050, 300)},
 		{"name": "Common Area", "rect": Rect2(0, 400, 1050, 250)},
@@ -138,7 +137,7 @@ func _assign_desk_subjects() -> void:
 
 	# Three physical desks but up to five subjects, so each desk simply opens
 	# a subject picker. The desk art still shows one subject each purely as
-	# visual flavour.
+	# visual.
 	var station_ids := ["desk_english", "desk_maths", "desk_physics"]
 	var sprites := [english_sprite, maths_sprite, physics_sprite]
 	var prompts := [english_prompt, maths_prompt, physics_prompt]
@@ -151,8 +150,13 @@ func _assign_desk_subjects() -> void:
 		var tex_path: String = "res://Backend/Resource/Textures/desk_%s.png" % flavour
 		if ResourceLoader.exists(tex_path):
 			sprites[i].texture = load(tex_path)
+		# Priority order: an internal you must sit, then a study session you
+		# agreed to, then the ambient prompt. Without the middle case there
+		# was no way to know that studying here is what clears a commitment.
 		if not due.is_empty():
 			prompts[i].text = "Press E — %s INTERNAL today!" % str(due.subject).capitalize()
+		elif GameBackend.has_commitment_today("study_group"):
+			prompts[i].text = "Press E — STUDY GROUP today. Any subject counts."
 		else:
 			prompts[i].text = "Press E to study"
 
@@ -292,7 +296,7 @@ func _start_task(station: String) -> void:
 			_end_school_day()
 
 
-# --- Subject study desks (same shape as the original study minigame) -------
+#Subject study desks
 
 var is_exam: bool = false
 
@@ -420,7 +424,7 @@ func _finish_subject_quiz() -> void:
 	_set_hint("%s: %d / %d correct" % [current_task_type.capitalize(), round_correct, round_queue.size()])
 
 
-# --- Teacher: chat, or pick a subject and answer one higher-value bonus question
+#Teacher: chat, or pick a subject and answer one higher-value bonus question
 
 func _start_teacher_menu() -> void:
 	current_task_type = "teacher_menu"
@@ -489,12 +493,7 @@ func _finish_teacher_question() -> void:
 	_set_hint(SchoolData.get_teacher_result_line(is_correct))
 
 
-# --- Conversations ------------------------------------------------------------
-# One generic runner for every face-to-face chat in the school. Conversations
-# are the same shape as the phone threads (a list of steps; each reply can
-# "goto" any other step), so a chat is a real back-and-forth that branches on
-# what you said rather than opener -> reply -> canned follow-up.
-#
+# Conversations 
 # The stress relief and temptation from every reply you picked are banked as
 # you go and applied once, at the end, in a single socialize() call — so a
 # long conversation is worth more than a short one, and a kind one is worth
@@ -583,7 +582,7 @@ func _finish_conversation() -> void:
 		_set_hint("Well. That was a conversation.")
 
 
-# --- Fountain: instant, no overlay needed -----------------------------------
+# Fountain: instant, no overlay needed
 
 func _use_fountain() -> void:
 	GameBackend.drink_water()
@@ -604,7 +603,7 @@ func _has_water_bottle() -> bool:
 	return false
 
 
-# --- Leaving school -----------------------------------------------------------
+#Leaving school
 
 const MAIN_MAP_SCENE: String = "res://Main_Game/Scenes/MainMap.tscn"
 
@@ -628,10 +627,6 @@ func _on_game_ended(_result: String) -> void:
 ## Shows a message in the bottom banner. Pass "" to hide it.
 ## `hold_seconds` of 0 (or less) means "leave it up until something replaces
 ## it" — used for the standing 'Press E' prompt. Anything else auto-clears.
-##
-## Deliberately NOT async: an earlier version awaited a timer here, which made
-## every call site an implicit coroutine and produced "trying to call an async
-## function without await" warnings all over the place.
 func _set_hint(text_value: String, hold_seconds: float = 3.5) -> void:
 	hint_label.text = text_value
 	hint_panel.visible = text_value != ""
