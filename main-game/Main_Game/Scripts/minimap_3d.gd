@@ -1,14 +1,3 @@
-## minimap_3d.gd
-## Corner minimap for the 3D MainMap. Projects world X/Z onto a flat 2D map,
-## showing the player plus every scene_door in the level, so you can see where
-## School / Work / Home / Canteen / Dairy are relative to you.
-##
-## Doors are auto-discovered (any Area3D with a `next_scene` property), so a
-## door added in the editor appears here with no code change.
-##
-## NOTE: sizes/positions are explicit rather than anchor-based — setting
-## anchors in code without fixing offsets collapses controls to zero size,
-## which is why an earlier version of this drew nothing at all.
 extends CanvasLayer
 
 const MAP_SIZE := Vector2(230, 230)
