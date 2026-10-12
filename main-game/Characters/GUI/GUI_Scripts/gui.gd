@@ -44,10 +44,10 @@ func _refresh_player_name() -> void:
 
 func _refresh_university_label() -> void:
 	if GameBackend.selected_university == "" or not GameBackend.universities.has(GameBackend.selected_university):
-		uni.text = "No university chosen yet"
+		uni.text = tr("HUD_NO_UNI")
 		return
 	var data: Dictionary = GameBackend.universities[GameBackend.selected_university]
-	uni.text = "%s — $%d / %d%%" % [GameBackend.selected_university, data.get("money_needed", 0), data.get("grades_needed", 0)]
+	uni.text = "%s — $%d / %d%%" % [GameBackend.university_name(GameBackend.selected_university), data.get("money_needed", 0), data.get("grades_needed", 0)]
 
 
 func _refresh_from_backend() -> void:
@@ -90,16 +90,16 @@ func _refresh_event_banner() -> void:
 		return
 
 	if GameBackend.game_over:
-		_set_banner("The year is over.", BANNER_URGENT)
+		_set_banner(tr("HUD_YEAR_OVER"), BANNER_URGENT)
 		return
 
 	# Once results are out the day counter stops meaning anything, so show
 	# where you are in the results sequence instead.
 	if GameBackend.results_phase == 2:
-		_set_banner("Your university offer has arrived — check your phone", BANNER_URGENT)
+		_set_banner(tr("HUD_OFFER_ARRIVED"), BANNER_URGENT)
 		return
 	if GameBackend.results_phase == 1:
-		_set_banner("NCEA RESULTS ARE OUT — check your phone", BANNER_URGENT)
+		_set_banner(tr("HUD_RESULTS_OUT"), BANNER_URGENT)
 		return
 
 	# Two exams can land on the same day, so name both.
@@ -111,22 +111,22 @@ func _refresh_event_banner() -> void:
 	if due_today.size() >= 2:
 		var parts: Array = []
 		for e in due_today:
-			parts.append("%s %s" % [str(e.subject).capitalize(), str(e.get("kind", "internal"))])
-		_set_banner("%d ASSESSMENTS TODAY: %s  —  press T" % [due_today.size(), ", ".join(parts)], BANNER_URGENT)
+			parts.append("%s %s" % [GameBackend.subject_name(str(e.subject)), _kind_name(str(e.get("kind", "internal")))])
+		_set_banner(tr("HUD_ASSESSMENTS_TODAY") % [due_today.size(), tr("LIST_SEPARATOR").join(parts)], BANNER_URGENT)
 		return
 	elif due_today.size() == 1:
 		var one: Dictionary = due_today[0]
 		if str(one.get("kind", "internal")) == "external":
-			_set_banner("%s EXTERNAL TODAY — get to the EXAM HALL!" % str(one.subject).to_upper(), BANNER_URGENT)
+			_set_banner(tr("HUD_EXTERNAL_TODAY") % GameBackend.subject_name(str(one.subject)).to_upper(), BANNER_URGENT)
 		else:
-			_set_banner("%s INTERNAL TODAY — sit it in class at SCHOOL" % str(one.subject).to_upper(), BANNER_URGENT)
+			_set_banner(tr("HUD_INTERNAL_TODAY") % GameBackend.subject_name(str(one.subject)).to_upper(), BANNER_URGENT)
 		return
 
 	# Something you agreed to matters more than a countdown.
 	var today_commitments: Array = GameBackend.commitments_today()
 	if not today_commitments.is_empty():
 		var c: Dictionary = today_commitments[0]
-		_set_banner("TODAY: %s — go to %s" % [
+		_set_banner(tr("HUD_COMMITMENT_TODAY") % [
 			str(c.label), GameBackend.commitment_place(str(c.kind))], BANNER_SOON)
 		return
 
@@ -138,13 +138,13 @@ func _refresh_event_banner() -> void:
 			colour = BANNER_URGENT
 		elif days <= 3:
 			colour = BANNER_SOON
-		var when: String = "tomorrow" if days == 1 else "in %d days" % days
+		var when: String = tr("TT_TOMORROW") if days == 1 else tr("TT_IN_DAYS") % days
 		var same_day: Array = GameBackend.exams_on_day(int(nxt.get("day", -1)))
-		var label: String = str(nxt.get("subject", "")).capitalize()
+		var label: String = GameBackend.subject_name(str(nxt.get("subject", "")))
 		if same_day.size() >= 2:
-			label = "%d exams" % same_day.size()
-		var suffix: String = "  —  press T for timetable" if days <= 3 else ""
-		_set_banner("Next: %s %s %s%s" % [label, str(nxt.get("kind", "internal")), when, suffix], colour)
+			label = tr("HUD_EXAMS_COUNT") % same_day.size()
+		var suffix: String = "  —  " + tr("HUD_PRESS_T") if days <= 3 else ""
+		_set_banner(tr("HUD_NEXT_EXAM") % [label, _kind_name(str(nxt.get("kind", "internal"))), when] + suffix, colour)
 		return
 
 	var left: int = GameBackend.days_remaining
@@ -153,7 +153,13 @@ func _refresh_event_banner() -> void:
 		colour2 = BANNER_URGENT
 	elif left <= 7:
 		colour2 = BANNER_SOON
-	_set_banner("%d days until the end of the year" % left, colour2)
+	_set_banner(tr("HUD_DAYS_LEFT") % left, colour2)
+
+
+## "internal" / "external" as the player should read it, in lower case to sit
+## mid-sentence ("Next: Maths internal tomorrow").
+func _kind_name(kind: String) -> String:
+	return tr("NCEA_EXTERNAL" if kind == "external" else "NCEA_INTERNAL").to_lower()
 
 
 func _set_banner(text: String, colour: Color) -> void:

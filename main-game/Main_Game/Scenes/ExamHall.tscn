@@ -91,7 +91,7 @@ offset_left = -70.0
 offset_top = -70.0
 offset_right = -70.0
 offset_bottom = -70.0
-text = "Press E to speak to the supervisor"
+text = "PROMPT_SUPERVISOR"
 
 [node name="ExitStation" type="Node2D" parent="." unique_id=769876826]
 position = Vector2(499, 673)
@@ -108,7 +108,7 @@ offset_left = -24.0
 offset_top = -12.0
 offset_right = -24.0
 offset_bottom = -12.0
-text = "EXIT"
+text = "SIGN_EXIT"
 
 [node name="InteractArea" type="Area2D" parent="ExitStation" unique_id=556467336]
 
@@ -121,7 +121,7 @@ offset_left = -60.0
 offset_top = -80.0
 offset_right = -60.0
 offset_bottom = -80.0
-text = "Press E to head out"
+text = "PROMPT_HEAD_OUT"
 
 [node name="ExamDesk" type="Node2D" parent="." unique_id=2083977267]
 position = Vector2(500, 400)
@@ -140,7 +140,7 @@ offset_left = -60.0
 offset_top = -90.0
 offset_right = -60.0
 offset_bottom = -90.0
-text = "Press E to sit your exam"
+text = "PROMPT_SIT_EXAM"
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=739939190]
 position = Vector2(500, 620)
@@ -209,27 +209,27 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.15294118, 0.06666667, 0.16862746, 1)
 theme_override_font_sizes/font_size = 40
-text = "Pause Menu"
+text = "PAUSEMENU_TITLE"
 
 [node name="Resume" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=2005450117]
 layout_mode = 2
-text = "Resume"
+text = "PAUSEMENU_RESUME"
 
 [node name="MainMenu" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=706911059]
 layout_mode = 2
-text = "Main Menu"
+text = "PAUSEMENU_MAINMENU"
 
 [node name="Settings" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1701873128]
 layout_mode = 2
-text = "Settings"
+text = "PAUSEMENU_SETTINGS"
 
 [node name="Help" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1395567166]
 layout_mode = 2
-text = "Help"
+text = "PAUSEMENU_HELP"
 
 [node name="Quit" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=2141330944]
 layout_mode = 2
-text = "Quit"
+text = "PAUSEMENU_QUIT"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1205469892]
 
@@ -302,7 +302,7 @@ theme_override_constants/separation = 14
 [node name="TitleLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1521584885]
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
-text = "External Examination"
+text = "EXAM_EXTERNAL_HEADER"
 horizontal_alignment = 1
 
 [node name="ProgressLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1090635993]
@@ -331,7 +331,7 @@ autowrap_mode = 3
 [node name="NextButton" type="Button" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1184366963]
 visible = false
 layout_mode = 2
-text = "Next"
+text = "COMMON_NEXT"
 
 [connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/Resume" to="Player/Camera2D/PauseMenu" method="_on_resume_pressed"]
 [connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/MainMenu" to="Player/Camera2D/PauseMenu" method="_on_main_menu_pressed"]

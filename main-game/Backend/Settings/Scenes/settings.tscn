@@ -191,7 +191,7 @@ offset_top = 658.0
 offset_right = 917.0
 offset_bottom = 713.0
 theme_override_font_sizes/font_size = 40
-text = "Master Volume"
+text = "SETTINGS_MASTER_VOLUME"
 
 [node name="Master_Volume" type="HSlider" parent="CanvasLayer/Control/Home" unique_id=1686206211]
 offset_left = 938.0
@@ -210,7 +210,7 @@ offset_top = 726.0
 offset_right = 1000.0
 offset_bottom = 781.0
 theme_override_font_sizes/font_size = 40
-text = "Music"
+text = "SETTINGS_MUSIC_VOLUME"
 
 [node name="Music_Volume" type="HSlider" parent="CanvasLayer/Control/Home" unique_id=1686206301]
 offset_left = 938.0
@@ -229,7 +229,7 @@ offset_top = 794.0
 offset_right = 1000.0
 offset_bottom = 849.0
 theme_override_font_sizes/font_size = 40
-text = "Sound Effects"
+text = "SETTINGS_SFX_VOLUME"
 
 [node name="SFX_Volume" type="HSlider" parent="CanvasLayer/Control/Home" unique_id=1686206302]
 offset_left = 938.0
@@ -248,7 +248,7 @@ offset_top = 862.0
 offset_right = 1000.0
 offset_bottom = 917.0
 theme_override_font_sizes/font_size = 40
-text = "Ambience"
+text = "SETTINGS_AMBIENCE_VOLUME"
 
 [node name="Ambience_Volume" type="HSlider" parent="CanvasLayer/Control/Home" unique_id=1686206303]
 offset_left = 938.0
@@ -267,7 +267,7 @@ offset_top = 930.0
 offset_right = 1000.0
 offset_bottom = 985.0
 theme_override_font_sizes/font_size = 40
-text = "Menus & UI"
+text = "SETTINGS_UI_VOLUME"
 
 [node name="UI_Volume" type="HSlider" parent="CanvasLayer/Control/Home" unique_id=1686206304]
 offset_left = 938.0

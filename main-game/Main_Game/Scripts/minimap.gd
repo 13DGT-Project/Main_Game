@@ -60,7 +60,7 @@ func _room_name_at(pos: Vector2) -> String:
 	for room in rooms:
 		if room.rect.has_point(pos):
 			return room.name
-	return "Corridor"
+	return tr("MAP_CORRIDOR")
 
 
 func _to_map(pos: Vector2) -> Vector2:

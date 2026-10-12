@@ -121,8 +121,8 @@ func _setup_minimap() -> void:
 	minimap.set_script(MINIMAP_SCRIPT)
 	get_tree().current_scene.add_child.call_deferred(minimap)
 	minimap.setup([
-		{"name": "Classroom", "rect": Rect2(0, 100, 1050, 300)},
-		{"name": "Common Area", "rect": Rect2(0, 400, 1050, 250)},
+		{"name": tr("MAP_CLASSROOM"), "rect": Rect2(0, 100, 1050, 300)},
+		{"name": tr("MAP_COMMON_AREA"), "rect": Rect2(0, 400, 1050, 250)},
 	], Rect2(0, 0, 1050, 650), player)
 
 
@@ -154,18 +154,18 @@ func _assign_desk_subjects() -> void:
 		# agreed to, then the ambient prompt. Without the middle case there
 		# was no way to know that studying here is what clears a commitment.
 		if not due.is_empty():
-			prompts[i].text = "Press E — %s INTERNAL today!" % str(due.subject).capitalize()
+			prompts[i].text = tr("PROMPT_INTERNAL") % GameBackend.subject_name(str(due.subject))
 		elif GameBackend.has_commitment_today("study_group"):
-			prompts[i].text = "Press E — STUDY GROUP today. Any subject counts."
+			prompts[i].text = tr("PROMPT_STUDY_GROUP")
 		else:
-			prompts[i].text = "Press E to study"
+			prompts[i].text = tr("PROMPT_STUDY")
 
 
 ## Lists every subject you're taking, so all five are reachable from any desk.
 func _start_desk_picker() -> void:
 	current_task_type = "desk_select"
 	task_active = true
-	title_label.text = "Study"
+	title_label.text = tr("SCHOOL_STUDY")
 	progress_label.text = ""
 	feedback_label.text = ""
 	next_button.visible = false
@@ -178,24 +178,24 @@ func _start_desk_picker() -> void:
 	if subjects.is_empty():
 		subjects = ["english", "maths", "physics"]
 
-	info_label.text = "Which subject?"
+	info_label.text = tr("QUIZ_WHICH_SUBJECT")
 	for subject in subjects:
 		var btn := Button.new()
 		var credits: int = GameBackend.subject_credits.get(subject, 0)
 		var is_exam_subject: bool = not due.is_empty() and due.subject == subject
 		# Show readiness next to the credit count: credits are what you've
 		# banked, revision is what you'd get if you sat it today.
-		btn.text = "%s  [%d cr · revision %.0f%%]%s" % [
-			str(subject).capitalize().replace("_", " "), credits,
+		btn.text = tr("SCHOOL_DESK_OPTION") % [
+			GameBackend.subject_name(str(subject)), credits,
 			GameBackend.get_prep(subject),
-			"   ← INTERNAL TODAY" if is_exam_subject else ""]
+			tr("SCHOOL_INTERNAL_TODAY_TAG") if is_exam_subject else ""]
 		btn.custom_minimum_size = Vector2(460, 52)
 		btn.add_theme_font_size_override("font_size", 18)
 		btn.pressed.connect(_start_subject_quiz.bind(subject))
 		options_container.add_child(btn)
 
 	var cancel := Button.new()
-	cancel.text = "Never mind"
+	cancel.text = tr("SHOP_NEVER_MIND")
 	cancel.custom_minimum_size = Vector2(460, 44)
 	cancel.pressed.connect(func():
 		minigame_overlay.visible = false
@@ -243,13 +243,13 @@ func _use_selected_item() -> void:
 		return
 	match item.item_name:
 		"Phone":
-			_set_hint("Phones aren't allowed at school!")
+			_set_hint(tr("SCHOOL_NO_PHONES"))
 		"Water Bottle":
 			if GameBackend.use_water_bottle():
 				Audio.play("drink")
 			else:
 				Audio.play("error")
-				_set_hint("Your water bottle is empty — find a tap to refill it.")
+				_set_hint(tr("ITEM_BOTTLE_EMPTY"))
 
 
 func _on_station_entered(body: Node, station: String) -> void:
@@ -278,7 +278,7 @@ func _update_prompts() -> void:
 	exit_prompt.visible = current_station == "exit"
 	if task_active:
 		return
-	_set_hint("Press E to interact" if current_station != "" else "", 0.0)
+	_set_hint(tr("PROMPT_INTERACT") if current_station != "" else "", 0.0)
 
 
 func _start_task(station: String) -> void:
@@ -315,10 +315,10 @@ func _start_subject_quiz(subject: String) -> void:
 
 	if is_exam:
 		round_queue = StudyData.get_session_questions(subject, GameBackend.EXAM_QUESTION_COUNT)
-		title_label.text = "%s INTERNAL" % subject.capitalize()
+		title_label.text = tr("SCHOOL_INTERNAL_TITLE") % GameBackend.subject_name(str(subject))
 	else:
 		round_queue = StudyData.get_session_questions(subject, QUESTIONS_PER_SESSION)
-		title_label.text = "%s Study" % subject.capitalize()
+		title_label.text = tr("SCHOOL_STUDY_TITLE") % GameBackend.subject_name(str(subject))
 
 	_set_hint("")
 	minigame_overlay.visible = true
@@ -333,7 +333,7 @@ func _show_quiz_step() -> void:
 		child.queue_free()
 
 	var q: Dictionary = round_queue[round_index]
-	progress_label.text = "Question %d / %d" % [round_index + 1, round_queue.size()]
+	progress_label.text = tr("QUIZ_QUESTION_N") % [round_index + 1, round_queue.size()]
 	info_label.text = q.question
 	options_container.columns = 1
 	var opts: Array = q.options
@@ -355,7 +355,7 @@ func _show_quiz_step() -> void:
 			for n in mini(hints, maxi(0, wrong.size() - 1)):
 				struck[wrong[n]] = true
 			if not struck.is_empty():
-				progress_label.text += "   ·   revision struck out %d" % struck.size()
+				progress_label.text += tr("QUIZ_STRUCK_OUT") % struck.size()
 
 	for i in opts.size():
 		var btn := Button.new()
@@ -365,7 +365,7 @@ func _show_quiz_step() -> void:
 		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		if struck.has(i):
 			btn.disabled = true
-			btn.text = "%s   (ruled out)" % opts[i]
+			btn.text = tr("QUIZ_RULED_OUT") % opts[i]
 			btn.modulate = Color(0.55, 0.55, 0.58)
 		else:
 			btn.pressed.connect(_on_quiz_choice.bind(i == q.correct))
@@ -379,10 +379,10 @@ func _on_quiz_choice(is_correct: bool) -> void:
 	Audio.play("correct" if is_correct else "wrong")
 	if is_correct:
 		round_correct += 1
-		feedback_label.text = "Correct!"
+		feedback_label.text = tr("QUIZ_CORRECT")
 	else:
 		var q: Dictionary = round_queue[round_index]
-		feedback_label.text = "Not quite — the answer was: %s" % q.options[q.correct]
+		feedback_label.text = tr("QUIZ_WRONG_ANSWER") % q.options[q.correct]
 	for child in options_container.get_children():
 		if child is BaseButton:
 			child.disabled = true
@@ -409,8 +409,8 @@ func _finish_subject_quiz() -> void:
 		var passed: bool = GameBackend.complete_exam(current_task_type, round_correct, round_queue.size())
 		Audio.play("exam_pass" if passed else "exam_fail")
 		var pct: int = int(round(100.0 * round_correct / max(1, round_queue.size())))
-		_set_hint("%s exam: %d%% — %s" % [
-			current_task_type.capitalize(), pct, "PASSED!" if passed else "failed."])
+		_set_hint(tr("SCHOOL_EXAM_RESULT") % [
+			GameBackend.subject_name(current_task_type), pct, tr("SCHOOL_PASSED") if passed else tr("SCHOOL_FAILED")])
 		is_exam = false
 		return
 
@@ -421,7 +421,7 @@ func _finish_subject_quiz() -> void:
 	# Studying at school counts as turning up to the study group, if you'd
 	# said you would.
 	GameBackend.fulfil_commitment("study_group")
-	_set_hint("%s: %d / %d correct" % [current_task_type.capitalize(), round_correct, round_queue.size()])
+	_set_hint(tr("SCHOOL_SESSION_RESULT") % [GameBackend.subject_name(current_task_type), round_correct, round_queue.size()])
 
 
 #Teacher: chat, or pick a subject and answer one higher-value bonus question
@@ -429,20 +429,20 @@ func _finish_subject_quiz() -> void:
 func _start_teacher_menu() -> void:
 	current_task_type = "teacher_menu"
 	task_active = true
-	title_label.text = "The Teacher"
+	title_label.text = tr("SCHOOL_TEACHER")
 	progress_label.text = ""
-	info_label.text = "\"Something I can help with?\""
+	info_label.text = tr("SCHOOL_TEACHER_HELLO")
 	feedback_label.text = ""
 	next_button.visible = false
 	for child in options_container.get_children():
 		child.queue_free()
 	options_container.columns = 1
 	var chat_btn := Button.new()
-	chat_btn.text = "Have a chat"
+	chat_btn.text = tr("SCHOOL_HAVE_CHAT")
 	chat_btn.pressed.connect(_start_teacher_chat)
 	options_container.add_child(chat_btn)
 	var credit_btn := Button.new()
-	credit_btn.text = "Ask for extra credit"
+	credit_btn.text = tr("SCHOOL_ASK_EXTRA")
 	credit_btn.pressed.connect(_start_teacher_select)
 	options_container.add_child(credit_btn)
 	_set_hint("")
@@ -455,9 +455,9 @@ func _start_teacher_chat() -> void:
 
 func _start_teacher_select() -> void:
 	current_task_type = "teacher_select"
-	title_label.text = "Ask the Teacher"
+	title_label.text = tr("SCHOOL_ASK_TEACHER")
 	progress_label.text = ""
-	info_label.text = SchoolData.get_teacher_intro_line() + "\nWhich subject?"
+	info_label.text = SchoolData.get_teacher_intro_line() + "\n" + tr("QUIZ_WHICH_SUBJECT")
 	feedback_label.text = ""
 	next_button.visible = false
 	for child in options_container.get_children():
@@ -466,7 +466,7 @@ func _start_teacher_select() -> void:
 	var subjects: Array = GameBackend.active_subjects if not GameBackend.active_subjects.is_empty() else ["english", "maths", "physics"]
 	for subject in subjects:
 		var sbtn := Button.new()
-		sbtn.text = subject.capitalize()
+		sbtn.text = GameBackend.subject_name(str(subject))
 		sbtn.pressed.connect(_start_teacher_question.bind(subject))
 		options_container.add_child(sbtn)
 
@@ -477,7 +477,7 @@ func _start_teacher_question(subject: String) -> void:
 	round_queue = StudyData.get_session_questions(subject, 1)
 	round_index = 0
 	round_correct = 0
-	title_label.text = "Extra Credit: %s" % subject.capitalize()
+	title_label.text = tr("SCHOOL_EXTRA_CREDIT_TITLE") % GameBackend.subject_name(str(subject))
 	_show_quiz_step()
 
 
@@ -514,7 +514,7 @@ func _start_conversation(convo: Dictionary) -> void:
 	convo_step = 0
 	pending_sanity = 0.0
 	pending_temptation = 0.0
-	title_label.text = str(convo.get("speaker", "Chat"))
+	title_label.text = GameBackend.contact_name(str(convo.get("speaker", tr("SCHOOL_CHAT"))))
 	progress_label.text = ""
 	feedback_label.text = ""
 	next_button.visible = false
@@ -556,7 +556,7 @@ func _on_convo_reply(reply: Dictionary) -> void:
 		var c: Dictionary = reply["commit"]
 		GameBackend.add_commitment(
 			str(c.get("kind", "other")),
-			str(c.get("label", "Something you agreed to")),
+			tr(str(c.get("label", "COMMIT_DEFAULT"))),
 			GameBackend.get_elapsed_days() + int(c.get("in", 1)))
 
 	var next: int = SchoolData.next_step_for(reply, convo_step)
@@ -575,11 +575,11 @@ func _finish_conversation() -> void:
 	minigame_overlay.visible = false
 	task_active = false
 	if pending_sanity >= 25.0:
-		_set_hint("That actually helped. A lot.")
+		_set_hint(tr("SCHOOL_CHAT_GREAT"))
 	elif pending_sanity >= 10.0:
-		_set_hint("Chatted for a bit — feeling steadier.")
+		_set_hint(tr("SCHOOL_CHAT_OK"))
 	else:
-		_set_hint("Well. That was a conversation.")
+		_set_hint(tr("SCHOOL_CHAT_MEH"))
 
 
 # Fountain: instant, no overlay needed
@@ -588,9 +588,9 @@ func _use_fountain() -> void:
 	GameBackend.drink_water()
 	if _has_water_bottle() and not GameBackend.water_bottle_full:
 		GameBackend.refill_water_bottle()
-		_set_hint("You have a drink and refill your water bottle.")
+		_set_hint(tr("SCHOOL_FOUNTAIN_REFILL"))
 	else:
-		_set_hint("You have a drink. Water topped up!")
+		_set_hint(tr("SCHOOL_FOUNTAIN"))
 
 
  
@@ -610,7 +610,7 @@ const MAIN_MAP_SCENE: String = "res://Main_Game/Scenes/MainMap.tscn"
 func _end_school_day() -> void:
 	if task_active:
 		return
-	results_label.text = "Heading home.\n%s\nSanity: %.0f   Thirst: %.0f" % [
+	results_label.text = (tr("SCHOOL_HEADING_HOME") + "\n%s\n" + tr("HUD_SANITY") + ": %.0f   " + tr("HUD_THIRST") + ": %.0f") % [
 		GameBackend.get_subject_grades_text(), GameBackend.sanity, GameBackend.thirst
 	]
 	results_panel.visible = true

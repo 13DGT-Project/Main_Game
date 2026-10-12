@@ -23,60 +23,62 @@ func _ready() -> void:
 	var accent: Color = COL_BAD
 	match GameBackend.ending_result:
 		"scholarship":
-			title_label.text = "Scholarship"
-			subtitle_label.text = "Top of the year. %s covered your fees outright — the money you saved is yours to keep." % GameBackend.university_full_name()
+			title_label.text = tr("END_SCHOLARSHIP")
+			subtitle_label.text = tr("END_SUB_SCHOLARSHIP") % GameBackend.university_full_name()
 			accent = COL_GOOD
 			MusicManager.play_track("good_ending")
 		"good":
-			title_label.text = "Accepted"
-			subtitle_label.text = "You got into %s, fees paid out of your own savings, no debt hanging over you." % GameBackend.university_full_name()
+			title_label.text = tr("END_ACCEPTED")
+			subtitle_label.text = tr("END_SUB_GOOD") % GameBackend.university_full_name()
 			accent = COL_GOOD
 			MusicManager.play_track("good_ending")
 		"student_loan":
-			title_label.text = "Accepted — On a Loan"
-			subtitle_label.text = "You got in. Your savings didn't cover it, so you're going to %s on a StudyLink loan with a long repayment ahead — but you're going." % GameBackend.university_full_name()
+			title_label.text = tr("END_ACCEPTED_LOAN")
+			subtitle_label.text = tr("END_SUB_STUDENT_LOAN") % GameBackend.university_full_name()
 			accent = COL_GOOD
 			MusicManager.play_track("good_ending")
 		"unfunded":
-			title_label.text = "An Offer You Can't Take"
-			subtitle_label.text = "%s offered you a place. You earned it. There was no approved loan and not enough saved, so the offer sits there unaccepted." % GameBackend.university_full_name()
+			title_label.text = tr("END_UNFUNDED")
+			subtitle_label.text = tr("END_SUB_UNFUNDED") % GameBackend.university_full_name()
 			accent = COL_BAD
 			MusicManager.play_track("bad_ending")
 		"deferred":
-			title_label.text = "Taking a Year Out"
-			subtitle_label.text = "You made the grade — and finished the year completely spent. Fees were never really the barrier; you just can't walk into first year like this. You defer, get yourself right, and start next year."
+			title_label.text = tr("END_DEFERRED")
+			subtitle_label.text = tr("END_SUB_DEFERRED")
 			accent = COL_WARN
 			MusicManager.play_track("bad_ending")
 		"foundation_year":
-			title_label.text = "Foundation Year"
-			subtitle_label.text = "Not enough for direct entry, but %s offered you a place on a foundation programme. Pass it and you transfer into the degree proper next year." % GameBackend.university_full_name()
+			title_label.text = tr("END_FOUNDATION")
+			subtitle_label.text = tr("END_SUB_FOUNDATION") % GameBackend.university_full_name()
 			accent = COL_WARN
 			MusicManager.play_track("bad_ending")
 		"second_choice":
-			title_label.text = "A Different Door"
-			subtitle_label.text = "%s said no — but you came close enough that another university offered you a place. Not the plan, but it's a start." % GameBackend.university_full_name()
+			title_label.text = tr("END_SECOND_CHOICE")
+			subtitle_label.text = tr("END_SUB_SECOND_CHOICE") % GameBackend.university_full_name()
 			accent = COL_WARN
 			MusicManager.play_track("bad_ending")
 		"no_ue":
-			title_label.text = "No University Entrance"
-			subtitle_label.text = "You didn't meet the NCEA requirements for University Entrance, so no university can take you this year — whatever your grades or savings say."
+			title_label.text = tr("END_NO_UE")
+			subtitle_label.text = tr("END_SUB_NO_UE")
 			accent = COL_BAD
 			MusicManager.play_track("bad_ending")
 		"bad_sanity":
-			title_label.text = "Burnout"
-			subtitle_label.text = "The pressure got to you before the year was even over."
+			title_label.text = tr("END_BURNOUT")
+			subtitle_label.text = tr("END_SUB_BURNOUT")
 			accent = COL_BAD
 			MusicManager.play_track("bad_ending")
 		"bad_deadline":
-			title_label.text = "Rejection Letter"
-			subtitle_label.text = "It wasn't enough to get into %s this time." % GameBackend.university_full_name()
+			title_label.text = tr("END_REJECTION")
+			subtitle_label.text = tr("END_SUB_REJECTION") % GameBackend.university_full_name()
 			accent = COL_BAD
 			MusicManager.play_track("bad_ending")
 		_:
-			title_label.text = "The Year Is Over"
-			subtitle_label.text = "However it went, it went."
+			title_label.text = tr("END_YEAR_OVER")
+			subtitle_label.text = tr("END_SUB_DEFAULT")
 			MusicManager.play_track("bad_ending")
 
+	# Upper-case the first letter: "the University of Auckland offered you..." can open a sentence.
+	subtitle_label.text = subtitle_label.text.substr(0, 1).to_upper() + subtitle_label.text.substr(1)
 	title_label.add_theme_color_override("font_color", accent)
 	subtitle_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	subtitle_label.custom_minimum_size = Vector2(700, 0)
@@ -118,56 +120,56 @@ func _compose_text(degree: String, accent: Color) -> String:
 	var out: Array = []
 
 	#THe epilogue
-	out.append("[color=%s][b]YOUR YEAR[/b][/color]" % hex)
+	out.append("[color=%s][b]%s[/b][/color]" % [hex, tr("END_YOUR_YEAR")])
 	out.append(GameBackend.build_epilogue())
 	out.append("")
 
 	#Why it went this way
-	out.append("[color=%s][b]WHY IT ENDED THIS WAY[/b][/color]" % hex)
+	out.append("[color=%s][b]%s[/b][/color]" % [hex, tr("END_WHY")])
 	for reason in GameBackend.offer_reasons():
 		out.append("  •  " + str(reason))
 	out.append("")
 
 	#Info
-	out.append("[color=%s][b]THE NUMBERS[/b][/color]" % hex)
-	out.append("%s  —  %s" % [GameBackend.university_full_name(), degree if degree != "" else "no programme chosen"])
-	out.append("Overall grade: %.0f  (needed %.0f)" % [GameBackend.get_overall_grade(), GameBackend.required_grade()])
-	out.append("Money: $%.2f  (fees $%.0f)" % [GameBackend.money, money_needed])
+	out.append("[color=%s][b]%s[/b][/color]" % [hex, tr("END_NUMBERS")])
+	out.append("%s  —  %s" % [GameBackend.university_full_name(), GameBackend.major_name(degree) if degree != "" else tr("END_NO_PROGRAMME")])
+	out.append(tr("END_OVERALL") % [GameBackend.get_overall_grade(), GameBackend.required_grade()])
+	out.append(tr("END_MONEY") % [GameBackend.money, money_needed])
 	if GameBackend.loan_debt > 0.0:
-		out.append("Borrowed from StudyLink: $%.2f" % GameBackend.loan_debt)
-	out.append("Wellbeing at the end: %.0f  (lowest point: %.0f)" % [GameBackend.sanity, GameBackend.stat_lowest_sanity])
+		out.append(tr("END_BORROWED") % GameBackend.loan_debt)
+	out.append(tr("END_WELLBEING") % [GameBackend.sanity, GameBackend.stat_lowest_sanity])
 	out.append("")
 	out.append(GameBackend.ue_status_text())
 	var cert_e: String = GameBackend.certificate_endorsement()
 	if cert_e != "":
-		out.append("NCEA Level 3 ENDORSED WITH %s" % cert_e.to_upper())
+		out.append(tr("END_CERT_ENDORSED") % GameBackend.band_name(cert_e).to_upper())
 	var courses: Dictionary = GameBackend.endorsed_courses()
 	if not courses.is_empty():
 		var bits: Array = []
 		for subj in courses:
-			bits.append("%s (%s)" % [str(subj).capitalize().replace("_", " "), courses[subj]])
-		out.append("Course endorsements: " + ", ".join(bits))
+			bits.append("%s (%s)" % [GameBackend.subject_name(str(subj)), GameBackend.band_name(str(courses[subj]))])
+		out.append(tr("END_COURSE_ENDORSEMENTS") % ", ".join(bits))
 	out.append("")
 
-	out.append("[color=%s][b]HOW YOU SPENT IT[/b][/color]" % hex)
-	out.append("Study sessions: %d   ·   Hours studying: %.0f" % [
+	out.append("[color=%s][b]%s[/b][/color]" % [hex, tr("END_HOW_SPENT")])
+	out.append((tr("END_STUDY_SESSIONS") + ": %d   ·   " + tr("END_HOURS_STUDYING") + ": %.0f") % [
 		GameBackend.stat_study_sessions, GameBackend.stat_study_hours])
-	out.append("Shifts worked: %d   ·   Earned: $%.0f" % [
+	out.append((tr("END_SHIFTS_WORKED") + ": %d   ·   " + tr("END_EARNED") + ": $%.0f") % [
 		GameBackend.stat_shifts, GameBackend.stat_earned])
-	out.append("Assessments sat: %d   ·   Missed: %d" % [
+	out.append((tr("END_ASSESSMENTS_SAT") + ": %d   ·   " + tr("END_MISSED") + ": %d") % [
 		GameBackend.stat_exams_sat, GameBackend.stat_exams_missed])
-	out.append("Nights slept: %d   ·   Meals cooked: %d" % [
+	out.append((tr("END_NIGHTS_SLEPT") + ": %d   ·   " + tr("END_MEALS_COOKED") + ": %d") % [
 		GameBackend.stat_nights_slept, GameBackend.stat_meals_cooked])
-	out.append("Conversations: %d   ·   Texts replied to: %d" % [
+	out.append((tr("END_CONVERSATIONS") + ": %d   ·   " + tr("END_TEXTS_REPLIED") + ": %d") % [
 		GameBackend.stat_conversations, GameBackend.stat_messages_replied])
 	out.append("")
 
 	#Key moments
 	var notable: Array = GameBackend.notable_events(10)
 	if not notable.is_empty():
-		out.append("[color=%s][b]MOMENTS[/b][/color]" % hex)
+		out.append("[color=%s][b]%s[/b][/color]" % [hex, tr("END_MOMENTS")])
 		for entry in notable:
-			out.append("  Day %d — %s" % [entry.day, entry.text])
+			out.append(("  " + tr("COMMON_DAY") + " — %s") % [entry.day, entry.text])
 
 	return "\n".join(out)
 

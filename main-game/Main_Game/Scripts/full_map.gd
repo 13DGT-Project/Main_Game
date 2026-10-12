@@ -129,7 +129,7 @@ func _discover() -> void:
 			var colour := Color(0.85, 0.85, 0.85)
 			for key in DOOR_COLOURS:
 				if key in path_lower:
-					label = key.capitalize()
+					label = tr("MAP_DOOR_" + str(key).to_upper())
 					colour = DOOR_COLOURS[key]
 					break
 			var flat := Vector2(child.global_position.x, child.global_position.z)
@@ -177,6 +177,9 @@ func _toggle() -> void:
 		return
 	_is_open = not _is_open
 	_root.visible = _is_open
+	# Built at startup, before a language is picked — so set the text on open.
+	_title.text = tr("MAP_TITLE")
+	_hint.text = tr("MAP_CLOSE_HINT")
 	if _is_open:
 		if _doors.is_empty():
 			_discover()

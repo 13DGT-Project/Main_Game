@@ -57,27 +57,27 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.15294118, 0.06666667, 0.16862746, 1)
 theme_override_font_sizes/font_size = 40
-text = "Pause Menu"
+text = "PAUSEMENU_TITLE"
 
 [node name="Resume" type="Button" parent="VBoxContainer" unique_id=19959314]
 layout_mode = 2
-text = "Resume"
+text = "PAUSEMENU_RESUME"
 
 [node name="MainMenu" type="Button" parent="VBoxContainer" unique_id=414757966]
 layout_mode = 2
-text = "Main Menu"
+text = "PAUSEMENU_MAINMENU"
 
 [node name="Settings" type="Button" parent="VBoxContainer" unique_id=767874126]
 layout_mode = 2
-text = "Settings"
+text = "PAUSEMENU_SETTINGS"
 
 [node name="Help" type="Button" parent="VBoxContainer" unique_id=1202317792]
 layout_mode = 2
-text = "Help"
+text = "PAUSEMENU_HELP"
 
 [node name="Quit" type="Button" parent="VBoxContainer" unique_id=1766686431]
 layout_mode = 2
-text = "Quit"
+text = "PAUSEMENU_QUIT"
 
 [connection signal="pressed" from="VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]

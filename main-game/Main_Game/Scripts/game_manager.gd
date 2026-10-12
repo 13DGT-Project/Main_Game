@@ -113,11 +113,11 @@ func _update_clock(_value = null):
 		time_of_day.year
 	)
 
-	gui.update_date("%s %d %s" % [
-		weekday.substr(0,3),
-		time_of_day.day,
-		MONTHS[time_of_day.month]
-	])
+	gui.update_date(tr("DATE_FORMAT").format({
+		"wd": tr("DAY_SHORT_" + weekday.substr(0, 3).to_upper()),
+		"d": time_of_day.day,
+		"m": tr("MONTH_SHORT_%d" % time_of_day.month),
+	}))
 
 	GameBackend.sync_from_clock(time_of_day.current_time, time_of_day.day, time_of_day.month, time_of_day.year)
 

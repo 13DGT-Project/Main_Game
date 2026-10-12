@@ -44,7 +44,7 @@ func _build_ui() -> void:
 	_panel.add_child(box)
 
 	_title = Label.new()
-	_title.text = "EXAM TIMETABLE"
+	_title.text = tr("TT_TITLE").to_upper()
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_title.add_theme_font_size_override("font_size", 26)
 	box.add_child(_title)
@@ -117,6 +117,10 @@ func close() -> void:
 
 
 func _refresh() -> void:
+	# Set here rather than in _build_ui(): this autoload builds at startup,
+	# before the player has picked a language in Settings.
+	_title.text = tr("TT_TITLE").to_upper()
+	_hint.text = tr("TT_CLOSE_HINT")
 	for child in _rows.get_children():
 		child.queue_free()
 
@@ -125,7 +129,7 @@ func _refresh() -> void:
 	var rows: Array = GameBackend.get_timetable()
 	if rows.is_empty():
 		var none := Label.new()
-		none.text = "Nothing timetabled yet."
+		none.text = tr("TT_NOTHING")
 		_rows.add_child(none)
 		return
 
@@ -147,16 +151,16 @@ func _refresh() -> void:
 
 		var when: String
 		if away < 0:
-			when = "finished"
+			when = tr("TT_FINISHED")
 		elif away == 0:
-			when = "TODAY"
+			when = tr("TT_TODAY")
 		elif away == 1:
-			when = "tomorrow"
+			when = tr("TT_TOMORROW")
 		else:
-			when = "in %d days" % away
+			when = tr("TT_IN_DAYS") % away
 
 		var header := Label.new()
-		header.text = "Day %d  —  %s" % [day, when]
+		header.text = (tr("COMMON_DAY") + "  —  %s") % [day, when]
 		header.add_theme_font_size_override("font_size", 17)
 		var col := Color(0.75, 0.82, 0.95)
 		if away == 0:
@@ -168,11 +172,11 @@ func _refresh() -> void:
 
 		for e in entries:
 			var line := Label.new()
-			var status: String = "  (sat)" if e.taken else ""
+			var status: String = "  (%s)" % tr("TT_SAT") if e.taken else ""
 			var kind: String = str(e.get("kind", "internal"))
-			line.text = "        %s  —  %s, in the %s%s" % [
-				str(e.subject).capitalize().replace("_", " "),
-				kind.to_upper(), str(e.get("where", "school")), status]
+			line.text = tr("TT_ROW") % [
+				GameBackend.subject_name(str(e.subject)),
+				tr("NCEA_EXTERNAL" if kind == "external" else "NCEA_INTERNAL").to_upper(), GameBackend.place_name(str(e.get("where", "school"))), status]
 			line.add_theme_font_size_override("font_size", 15)
 			if e.taken:
 				line.add_theme_color_override("font_color", Color(0.6, 0.65, 0.6))
@@ -184,7 +188,7 @@ func _refresh() -> void:
 
 		if entries.size() >= GameBackend.MAX_EXAMS_PER_DAY:
 			var note := Label.new()
-			note.text = "        (double sitting — a long day)"
+			note.text = tr("TT_DOUBLE")
 			note.add_theme_font_size_override("font_size", 13)
 			note.add_theme_color_override("font_color", Color(0.7, 0.7, 0.55))
 			_rows.add_child(note)
@@ -198,7 +202,7 @@ func _refresh() -> void:
 ## to someone who hasn't had it explained four times.
 func _add_key() -> void:
 	var key := Label.new()
-	key.text = "INTERNAL — sat in class at school.\nEXTERNAL — sat in the exam hall at the end of the year. These set your final grade."
+	key.text = tr("TT_KEY_INTERNAL") + "\n" + tr("TT_KEY_EXTERNAL")
 	key.add_theme_font_size_override("font_size", 13)
 	key.add_theme_color_override("font_color", Color(0.70, 0.75, 0.84))
 	key.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

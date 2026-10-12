@@ -63,18 +63,18 @@ extends CanvasLayer
 var _messages_badge: Control = null
 
 var _feed_posts: Array = [
-	{"user": "@lunchline_leaks", "text": "you won't believe what happened at lunch today..."},
-	{"user": "@daily.pics", "text": "27 people liked a photo of someone's lunch."},
-	{"user": "@studytok", "text": "study tips that ACTUALLY work (number 4 will shock you)"},
-	{"user": "@groupchat_drama", "text": "a group chat is arguing about something that doesn't matter."},
-	{"user": "@dogsofthetown", "text": "someone's dog did a trick. It's fine. It's a fine trick."},
-	{"user": "@5am.club", "text": "\"5am productivity routine of a top student\" — 14 minutes long."},
-	{"user": "@repost_central", "text": "reposted, reposted again, reposted a third time."},
-	{"user": "@earworm", "text": "this song will be stuck in your head for the rest of the day."},
-	{"user": "@examseason", "text": "\"how I got 5 NCEA excellences while also sleeping\" (lying)"},
-	{"user": "@townnews", "text": "local dairy apparently now stocks a new flavour of chips."},
-	{"user": "@overheard", "text": "\"overheard in the library\" thread has 400 replies now."},
-	{"user": "@weekendplans", "text": "someone's asking if anyone's free Saturday. 40 replies, no plans made."},
+	{"user": "@lunchline_leaks", "text": "CHIRP_POST_0"},
+	{"user": "@daily.pics", "text": "CHIRP_POST_1"},
+	{"user": "@studytok", "text": "CHIRP_POST_2"},
+	{"user": "@groupchat_drama", "text": "CHIRP_POST_3"},
+	{"user": "@dogsofthetown", "text": "CHIRP_POST_4"},
+	{"user": "@5am.club", "text": "CHIRP_POST_5"},
+	{"user": "@repost_central", "text": "CHIRP_POST_6"},
+	{"user": "@earworm", "text": "CHIRP_POST_7"},
+	{"user": "@examseason", "text": "CHIRP_POST_8"},
+	{"user": "@townnews", "text": "CHIRP_POST_9"},
+	{"user": "@overheard", "text": "CHIRP_POST_10"},
+	{"user": "@weekendplans", "text": "CHIRP_POST_11"},
 ]
 
 ## Multi-turn threads. Each step: what they said, then your reply options.
@@ -83,11 +83,11 @@ var _feed_posts: Array = [
 ## `from` field — used by group chats so individual people speak, rather than
 ## every line being attributed to the chat itself.
 var _weather_options: Array = [
-	{"icon": "☀️", "detail": "Sunny and clear. A good day to walk to school instead of catching the bus."},
-	{"icon": "🌧️", "detail": "Rain most of the day. Don't forget a jacket — or just accept getting damp."},
-	{"icon": "⛅", "detail": "Partly cloudy, mild. Nothing to plan around either way."},
-	{"icon": "🌬️", "detail": "Windy. Hold onto your papers if you're walking anywhere outside."},
-	{"icon": "🌫️", "detail": "Foggy this morning, clearing up by midday."},
+	{"icon": "☀️", "detail": "WEATHER_0"},
+	{"icon": "🌧️", "detail": "WEATHER_1"},
+	{"icon": "⛅", "detail": "WEATHER_2"},
+	{"icon": "🌬️", "detail": "WEATHER_3"},
+	{"icon": "🌫️", "detail": "WEATHER_4"},
 ]
 
 
@@ -144,7 +144,7 @@ func _refresh_messages_badge() -> void:
 	if _messages_badge != null and is_instance_valid(_messages_badge):
 		Notifier.set_badge_count(_messages_badge, n)
 	if is_instance_valid(messages_button):
-		messages_button.text = "Messages" if n <= 0 else "Messages  (%d)" % n
+		messages_button.text = tr("PHONE_MESSAGES") if n <= 0 else tr("PHONE_MESSAGES") + "  (%d)" % n
 
 
 ## If a text lands from the person whose chat is already open and you've
@@ -193,6 +193,8 @@ func _hide_all_screens() -> void:
 func _show_home() -> void:
 	_hide_all_screens()
 	home_screen.visible = true
+	# The label is first set at startup, before a language is picked.
+	_refresh_messages_badge()
 
 
 #Chirp (fake social feed)
@@ -216,7 +218,7 @@ func _populate_feed() -> void:
 		user_label.text = post.user
 		user_label.add_theme_font_size_override("font_size", 14)
 		var text_label := Label.new()
-		text_label.text = post.text
+		text_label.text = tr(str(post.text))
 		text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		post_box.add_child(user_label)
 		post_box.add_child(text_label)
@@ -241,13 +243,15 @@ func _open_bank() -> void:
 func _refresh_bank_summary() -> void:
 	if not bank_screen.visible:
 		return
-	var deposit_text: String = "none"
+	var deposit_text: String = tr("COMMON_NONE")
 	if GameBackend.term_deposit_amount > 0.0:
-		deposit_text = "$%.2f (%d days left)" % [GameBackend.term_deposit_amount, GameBackend.term_deposit_days_left]
+		deposit_text = tr("PHONE_TERM_DEPOSIT_VALUE") % [GameBackend.term_deposit_amount, GameBackend.term_deposit_days_left]
 	# The IRD number is here
 	# and because StudyLink asks for it, so the game has to give you somewhere
 	# to go and look it up.
-	bank_summary_label.text = "%s\nIRD %s\n\nWallet: $%.2f\nSavings: $%.2f (grows daily)\nTerm deposit: %s" % [
+	# The button used to say "10 days, +6%" whatever the real terms were.
+	term_deposit_button.text = tr("PHONE_TERM_DEPOSIT_BUTTON") % [GameBackend.TERM_DEPOSIT_DAYS, GameBackend.TERM_DEPOSIT_RATE * 100.0]
+	bank_summary_label.text = tr("PHONE_BANK_SUMMARY") % [
 		GameBackend.player_name, GameBackend.ird_number,
 		GameBackend.money, GameBackend.savings_balance, deposit_text
 	]
@@ -316,7 +320,7 @@ func _show_inbox() -> void:
 
 	if people.is_empty():
 		var empty := Label.new()
-		empty.text = "No messages yet."
+		empty.text = tr("PHONE_NO_MESSAGES")
 		empty.add_theme_color_override("font_color", Color(0.6, 0.64, 0.72))
 		inbox_list.add_child(empty)
 		return
@@ -327,8 +331,7 @@ func _show_inbox() -> void:
 	# Nothing is ever removed — every contact stays for the whole run. The
 	# count is here so it's obvious when there are more below the fold.
 	var footer := Label.new()
-	footer.text = "— %d chat%s, %d unread —" % [
-		people.size(), "" if people.size() == 1 else "s", GameBackend.unread_count]
+	footer.text = tr("PHONE_CHATS_UNREAD") % [people.size(), GameBackend.unread_count]
 	footer.add_theme_font_size_override("font_size", 11)
 	footer.add_theme_color_override("font_color", Color(0.48, 0.52, 0.60))
 	footer.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -365,7 +368,7 @@ func _make_contact_row(who: String) -> Button:
 	av_style.corner_radius_bottom_right = 20
 	av.add_theme_stylebox_override("panel", av_style)
 	var initials := Label.new()
-	initials.text = _initials(who)
+	initials.text = _initials(GameBackend.contact_name(who))
 	initials.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	initials.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	initials.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -384,7 +387,7 @@ func _make_contact_row(who: String) -> Button:
 	var unread: int = GameBackend.unread_for_contact(who)
 
 	var name_label := Label.new()
-	name_label.text = who
+	name_label.text = GameBackend.contact_name(who)
 	name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	name_label.clip_text = true
 	name_label.add_theme_font_size_override("font_size", 14)
@@ -447,7 +450,7 @@ func _contact_preview(who: String) -> String:
 		if not saved.is_empty():
 			var last: Dictionary = saved[-1]
 			var body: String = str(last.body).replace("\n", " ")
-			return ("You: " + body) if bool(last.mine) else body
+			return (tr("PHONE_YOU_PREFIX") % body) if bool(last.mine) else body
 	# Nothing said yet — show the opener of the newest unread conversation.
 	var newest: Dictionary = MessageData.personalise(
 		MessageData.thread_by_id(str(threads[-1])), GameBackend.player_name)
@@ -473,7 +476,7 @@ func _open_contact(who: String) -> void:
 
 	inbox_view.visible = false
 	thread_view.visible = true
-	sender_label.text = who
+	sender_label.text = GameBackend.contact_name(who)
 
 	for child in bubbles.get_children():
 		child.queue_free()
@@ -544,7 +547,7 @@ func _start_thread(tid: String, last_day: int = -999) -> void:
 ## "— Day 42 —" between conversations.
 func _add_day_divider(day: int) -> void:
 	var l := Label.new()
-	l.text = "— Day %d —" % day
+	l.text = tr("PHONE_DAY_DIVIDER") % day
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	l.add_theme_font_size_override("font_size", 10)
 	l.add_theme_color_override("font_color", Color(0.45, 0.49, 0.57))
@@ -569,7 +572,7 @@ func _show_offer_finish_button() -> void:
 	for child in reply_container.get_children():
 		child.queue_free()
 	var finish := Button.new()
-	finish.text = "Sit with that for a moment"
+	finish.text = tr("PHONE_SIT_WITH_IT")
 	finish.custom_minimum_size = Vector2(0, 34)
 	finish.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	finish.pressed.connect(_on_offer_acknowledged)
@@ -591,7 +594,7 @@ func _all_caught_up() -> void:
 	for child in reply_container.get_children():
 		child.queue_free()
 	var l := Label.new()
-	l.text = "— you're up to date with %s —" % _active_contact
+	l.text = tr("PHONE_CAUGHT_UP") % GameBackend.contact_name(_active_contact)
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	l.add_theme_font_size_override("font_size", 12)
 	l.add_theme_color_override("font_color", Color(0.6, 0.64, 0.72))
@@ -625,7 +628,7 @@ func _add_bubble(speaker: String, body: String, is_me: bool, record: bool = true
 	# Only label the speaker in group chats, where it isn't obvious.
 	if not is_me and speaker != str(_current_thread.sender):
 		var who := Label.new()
-		who.text = speaker
+		who.text = GameBackend.contact_name(speaker)
 		who.add_theme_font_size_override("font_size", 11)
 		who.add_theme_color_override("font_color", Color(0.75, 0.85, 1.0))
 		col.add_child(who)
@@ -697,13 +700,13 @@ func _expand(body: String) -> String:
 			var ext: String = "-"
 			if not d.externals.is_empty():
 				var e: Dictionary = d.externals[0]
-				ext = str(e.band) if e.taken else "ABSENT"
-			lines.append("%s — %s, %d credits (grade %.0f)" % [
-				str(subject).capitalize().replace("_", " "), ext, d.credits, d.grade])
+				ext = GameBackend.band_name(str(e.band)) if e.taken else tr("NCEA_ABSENT")
+			lines.append(tr("PHONE_RESULTS_LINE") % [
+				GameBackend.subject_name(str(subject)), ext, d.credits, d.grade])
 		lines.append("")
-		lines.append("University Entrance: %s" % ("ACHIEVED" if GameBackend.has_university_entrance() else "NOT ACHIEVED"))
+		lines.append(tr("NCEA_UE_ACHIEVED" if GameBackend.has_university_entrance() else "NCEA_UE_NOT_ACHIEVED"))
 		if not GameBackend.has_university_entrance():
-			lines.append("(Full breakdown on the NZQA site.)")
+			lines.append(tr("PHONE_RESULTS_FULL_BREAKDOWN"))
 		return "\n".join(lines)
 	if body == "OFFER_SUMMARY":
 		return GameBackend.offer_message()
@@ -722,7 +725,7 @@ func _expand(body: String) -> String:
 		# Getting this far in the thread IS the action — you asked them, they
 		# did it. That's the whole mechanic.
 		GameBackend.confirm_parents_income()
-		return "right, done it. filled in the income bit and sent it back.\n\nthat was less painful than I expected."
+		return tr("PHONE_PARENT_CONFIRM")
 	return body
 
 
@@ -739,7 +742,7 @@ func _on_reply_chosen(reply: Dictionary) -> void:
 		var c: Dictionary = reply["commit"]
 		GameBackend.add_commitment(
 			str(c.get("kind", "other")),
-			str(c.get("label", "Something you agreed to")),
+			tr(str(c.get("label", "COMMIT_DEFAULT"))),
 			GameBackend.get_elapsed_days() + int(c.get("in", 1)))
 	# A reply can jump elsewhere in the thread, so conversations fork.
 	_thread_step = MessageData.next_step_for(reply, _thread_step)
@@ -769,7 +772,7 @@ func _end_thread() -> void:
 		return
 
 	var ended := Label.new()
-	ended.text = "— end of conversation —"
+	ended.text = tr("PHONE_END_CONVO")
 	ended.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	ended.add_theme_font_size_override("font_size", 12)
 	ended.add_theme_color_override("font_color", Color(0.6, 0.64, 0.72))
@@ -792,7 +795,7 @@ func _open_weather() -> void:
 	weather_screen.visible = true
 	var w: Dictionary = _weather_options[randi() % _weather_options.size()]
 	weather_label.text = w.icon
-	weather_detail_label.text = w.detail
+	weather_detail_label.text = tr(str(w.detail))
 
 
 # Games: "Quick Maths" 
@@ -816,10 +819,10 @@ func _reset_quick_maths() -> void:
 	_qm_active = false
 	_qm_score = 0
 	_qm_round = 0
-	game_info_label.text = "Answer %d questions before the timer runs out on each." % QM_ROUNDS
+	game_info_label.text = tr("QM_INFO") % QM_ROUNDS
 	game_score_label.text = ""
 	game_start_button.visible = true
-	game_start_button.text = "Start"
+	game_start_button.text = tr("START_BUTTON")
 	for child in game_grid.get_children():
 		child.queue_free()
 
@@ -868,7 +871,7 @@ func _next_qm_round() -> void:
 			question = "%d × %d" % [b, m]
 
 	game_info_label.text = "%s = ?" % question
-	game_score_label.text = "Round %d / %d    Score %d" % [_qm_round, QM_ROUNDS, _qm_score]
+	game_score_label.text = tr("QM_ROUND") % [_qm_round, QM_ROUNDS, _qm_score]
 
 	# Four options: the answer plus three plausible near-misses.
 	var options: Array = [_qm_answer]
@@ -918,10 +921,10 @@ func _finish_quick_maths() -> void:
 	_qm_active = false
 	for child in game_grid.get_children():
 		child.queue_free()
-	game_info_label.text = "Not a bad way to kill ten minutes."
-	game_score_label.text = "Final: %d / %d" % [_qm_score, QM_ROUNDS]
+	game_info_label.text = tr("QM_DONE")
+	game_score_label.text = tr("QM_FINAL") % [_qm_score, QM_ROUNDS]
 	game_start_button.visible = true
-	game_start_button.text = "Play again"
+	game_start_button.text = tr("QM_AGAIN")
 	GameBackend.doomscroll(0.25, 6.0, 9.0)
 
 

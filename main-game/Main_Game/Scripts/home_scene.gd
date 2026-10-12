@@ -149,7 +149,7 @@ func _use_selected_item() -> void:
 				Audio.play("drink")
 			else:
 				Audio.play("error")
-				_set_hint("Your water bottle is empty — find a tap to refill it.")
+				_set_hint(tr("ITEM_BOTTLE_EMPTY"))
 
 
 func _on_station_entered(body: Node, station: String) -> void:
@@ -178,7 +178,7 @@ func _update_prompts() -> void:
 	exit_prompt.visible = current_station == "exit"
 	if task_active:
 		return
-	_set_hint("Press E to interact" if current_station != "" else "", 0.0)
+	_set_hint(tr("PROMPT_INTERACT") if current_station != "" else "", 0.0)
 
 
 func _start_task(station: String) -> void:
@@ -209,14 +209,14 @@ func _pickup_item(kind: String) -> void:
 		if kind == "phone":
 			phone_spot.visible = false
 			phone_area.set_deferred("monitoring", false)
-			_set_hint("Picked up your phone.")
+			_set_hint(tr("HOME_PICKED_PHONE"))
 		else:
 			bottle_spot.visible = false
 			bottle_area.set_deferred("monitoring", false)
-			_set_hint("Picked up your water bottle.")
+			_set_hint(tr("HOME_PICKED_BOTTLE"))
 		current_station = ""
 	else:
-		_set_hint("Your hotbar is full — drop something first.")
+		_set_hint(tr("HOME_HOTBAR_FULL"))
 
 
 # --- Bed ---------------------------------------------------------------------
@@ -225,11 +225,11 @@ func _pickup_item(kind: String) -> void:
 func _start_bed() -> void:
 	current_task_type = "bed"
 	task_active = true
-	title_label.text = "Bed"
+	title_label.text = tr("BED_TITLE")
 	progress_label.text = "%s — %s" % [_clock_text(), _bed_mood_text()]
 
 	var hours: float = GameBackend.hours_until_morning()
-	info_label.text = "Sleep through to %d:00? That's %.0f hours from now.\n\n%s" % [
+	info_label.text = tr("BED_SLEEP_QUESTION") % [
 		int(GameBackend.WAKE_HOUR), hours, _sleep_quality_warning(hours)]
 
 	feedback_label.text = ""
@@ -239,20 +239,20 @@ func _start_bed() -> void:
 	options_container.columns = 1
 
 	var sleep_btn := Button.new()
-	sleep_btn.text = "Sleep until morning  (%.0f hours)" % hours
+	sleep_btn.text = tr("BED_SLEEP_UNTIL") % hours
 	sleep_btn.custom_minimum_size = Vector2(420, 48)
 	sleep_btn.pressed.connect(_on_sleep_pressed)
 	options_container.add_child(sleep_btn)
 
 	if GameBackend.game_hour < 20.0 and GameBackend.game_hour > 10.0:
 		var nap_btn := Button.new()
-		nap_btn.text = "Just a nap  (2 hours)"
+		nap_btn.text = tr("BED_NAP")
 		nap_btn.custom_minimum_size = Vector2(420, 44)
 		nap_btn.pressed.connect(_on_nap_pressed)
 		options_container.add_child(nap_btn)
 
 	var cancel_btn := Button.new()
-	cancel_btn.text = "Not yet"
+	cancel_btn.text = tr("BED_NOT_YET")
 	cancel_btn.custom_minimum_size = Vector2(420, 40)
 	cancel_btn.pressed.connect(_close_overlay)
 	options_container.add_child(cancel_btn)
@@ -269,32 +269,32 @@ func _clock_text() -> String:
 
 func _bed_mood_text() -> String:
 	if GameBackend.energy < 25.0:
-		return "you are completely done in"
+		return tr("BED_MOOD_DONE")
 	if GameBackend.energy < 55.0:
-		return "you're flagging"
-	return "you're not especially tired"
+		return tr("BED_MOOD_FLAGGING")
+	return tr("BED_MOOD_FINE")
 
 
 func _sleep_quality_warning(hours: float) -> String:
 	if hours <= 4.0:
-		return "It's very late. You'll get up on time, but you won't get up rested."
+		return tr("BED_LATE")
 	if hours >= 11.0:
-		return "It's early. You'll sleep badly and you'll have thrown away an evening you could have used."
-	return "A proper night. You'll wake up in decent shape."
+		return tr("BED_EARLY")
+	return tr("BED_GOOD_NIGHT")
 
 
 func _on_sleep_pressed() -> void:
 	var result: Dictionary = GameBackend.sleep_until_morning()
 	minigame_overlay.visible = false
 	task_active = false
-	_set_hint(str(result.get("text", "You wake up.")))
+	_set_hint(str(result.get("text", tr("BED_WAKE_UP"))))
 
 
 func _on_nap_pressed() -> void:
 	GameBackend.nap(2.0)
 	minigame_overlay.visible = false
 	task_active = false
-	_set_hint("A couple of hours out cold. Better than nothing.")
+	_set_hint(tr("BED_NAP_DONE"))
 
 
 # --- Desk: pick a subject, study (same shape as the school desks) ----------
@@ -303,9 +303,9 @@ func _start_desk_select() -> void:
 	_is_online_session = false
 	current_task_type = "desk_select"
 	task_active = true
-	title_label.text = "Study at Home"
+	title_label.text = tr("HOME_STUDY_TITLE")
 	progress_label.text = ""
-	info_label.text = "Which subject?"
+	info_label.text = tr("QUIZ_WHICH_SUBJECT")
 	feedback_label.text = ""
 	next_button.visible = false
 	for child in options_container.get_children():
@@ -314,7 +314,7 @@ func _start_desk_select() -> void:
 	var subjects: Array = GameBackend.active_subjects if GameBackend.active_subjects.size() >= 3 else ["english", "maths", "physics"]
 	for subject in subjects:
 		var sbtn := Button.new()
-		sbtn.text = subject.capitalize()
+		sbtn.text = GameBackend.subject_name(str(subject))
 		sbtn.pressed.connect(_start_subject_quiz.bind(subject))
 		options_container.add_child(sbtn)
 	_set_hint("")
@@ -327,7 +327,7 @@ func _start_subject_quiz(subject: String) -> void:
 	round_correct = 0
 	var count: int = ONLINE_QUESTIONS if _is_online_session else QUESTIONS_PER_SESSION
 	round_queue = StudyData.get_session_questions(subject, count)
-	title_label.text = ("%s — revision videos" if _is_online_session else "%s Study") % subject.capitalize()
+	title_label.text = tr("HOME_REVISION_TITLE" if _is_online_session else "SCHOOL_STUDY_TITLE") % GameBackend.subject_name(str(subject))
 	_show_quiz_step()
 
 
@@ -339,7 +339,7 @@ func _show_quiz_step() -> void:
 		child.queue_free()
 
 	var q: Dictionary = round_queue[round_index]
-	progress_label.text = "Question %d / %d" % [round_index + 1, round_queue.size()]
+	progress_label.text = tr("QUIZ_QUESTION_N") % [round_index + 1, round_queue.size()]
 	info_label.text = q.question
 	options_container.columns = 1
 	var opts: Array = q.options
@@ -360,10 +360,10 @@ func _on_quiz_choice(is_correct: bool) -> void:
 	Audio.play("correct" if is_correct else "wrong")
 	if is_correct:
 		round_correct += 1
-		feedback_label.text = "Correct!"
+		feedback_label.text = tr("QUIZ_CORRECT")
 	else:
 		var q: Dictionary = round_queue[round_index]
-		feedback_label.text = "Not quite — the answer was: %s" % q.options[q.correct]
+		feedback_label.text = tr("QUIZ_WRONG_ANSWER") % q.options[q.correct]
 	for child in options_container.get_children():
 		if child is BaseButton:
 			child.disabled = true
@@ -408,9 +408,9 @@ func _finish_subject_quiz() -> void:
 func _start_stove() -> void:
 	current_task_type = "stove"
 	task_active = true
-	title_label.text = "Kitchen"
+	title_label.text = tr("HOME_KITCHEN")
 	progress_label.text = ""
-	info_label.text = "What do you want to make?"
+	info_label.text = tr("HOME_KITCHEN_Q")
 	feedback_label.text = ""
 	next_button.visible = false
 	for child in options_container.get_children():
@@ -418,18 +418,18 @@ func _start_stove() -> void:
 	options_container.columns = 1
 
 	var meals := [
-		{"label": "Quick Snack — $3", "cost": 3.0, "energy": 8.0, "thirst": 5.0, "sanity": 2.0},
-		{"label": "Proper Meal — $10", "cost": 10.0, "energy": 25.0, "thirst": 15.0, "sanity": 6.0},
-		{"label": "Big Feed — $22", "cost": 22.0, "energy": 45.0, "thirst": 25.0, "sanity": 12.0},
+		{"label": "MEAL_QUICK_SNACK", "cost": 3.0, "energy": 8.0, "thirst": 5.0, "sanity": 2.0},
+		{"label": "MEAL_PROPER", "cost": 10.0, "energy": 25.0, "thirst": 15.0, "sanity": 6.0},
+		{"label": "MEAL_BIG_FEED", "cost": 22.0, "energy": 45.0, "thirst": 25.0, "sanity": 12.0},
 	]
 	for meal in meals:
 		var mbtn := Button.new()
-		mbtn.text = meal.label
+		mbtn.text = "%s — $%.0f" % [tr(str(meal.label)), meal.cost]
 		mbtn.pressed.connect(_on_cook_pressed.bind(meal))
 		options_container.add_child(mbtn)
 
 	var cancel_btn := Button.new()
-	cancel_btn.text = "Never mind"
+	cancel_btn.text = tr("SHOP_NEVER_MIND")
 	cancel_btn.pressed.connect(_close_overlay)
 	options_container.add_child(cancel_btn)
 
@@ -442,9 +442,9 @@ func _on_cook_pressed(meal: Dictionary) -> void:
 	minigame_overlay.visible = false
 	task_active = false
 	if success:
-		_set_hint("Made yourself %s." % meal.label.split(" — ")[0])
+		_set_hint(tr("HOME_MADE_MEAL") % tr(str(meal.label)))
 	else:
-		_set_hint("Not enough money for that.")
+		_set_hint(tr("SHOP_NO_MONEY"))
 
 
 # --- Couch: watch TV, a bigger single sitting than doomscrolling -----------
@@ -452,16 +452,16 @@ func _on_cook_pressed(meal: Dictionary) -> void:
 func _start_couch() -> void:
 	current_task_type = "couch"
 	task_active = true
-	title_label.text = "Couch"
+	title_label.text = tr("HOME_COUCH")
 	progress_label.text = ""
-	info_label.text = "Something's on. Might as well sit down for a bit."
+	info_label.text = tr("HOME_COUCH_TEXT")
 	feedback_label.text = ""
 	next_button.visible = false
 	for child in options_container.get_children():
 		child.queue_free()
 	options_container.columns = 1
 	var watch_btn := Button.new()
-	watch_btn.text = "Watch TV"
+	watch_btn.text = tr("HOME_WATCH_TV")
 	watch_btn.pressed.connect(_on_watch_tv_pressed)
 	options_container.add_child(watch_btn)
 	_set_hint("")
@@ -472,7 +472,7 @@ func _on_watch_tv_pressed() -> void:
 	GameBackend.watch_tv()
 	minigame_overlay.visible = false
 	task_active = false
-	_set_hint("That was a decent watch. Feeling a bit more relaxed.")
+	_set_hint(tr("HOME_TV_DONE"))
 
 
 func _close_overlay() -> void:
@@ -509,9 +509,9 @@ func _start_online_study() -> void:
 	_is_online_session = true
 	current_task_type = "online_select"
 	task_active = true
-	title_label.text = "Revision videos"
-	progress_label.text = "Shorter than a real session. Easier to start, worth less."
-	info_label.text = "Which subject?"
+	title_label.text = tr("HOME_REVISION_VIDEOS")
+	progress_label.text = tr("HOME_REVISION_SUB")
+	info_label.text = tr("QUIZ_WHICH_SUBJECT")
 	feedback_label.text = ""
 	next_button.visible = false
 	for child in options_container.get_children():
@@ -521,15 +521,15 @@ func _start_online_study() -> void:
 	var subjects: Array = GameBackend.active_subjects if GameBackend.active_subjects.size() >= 3 else ["english", "maths", "physics"]
 	for subject in subjects:
 		var sbtn := Button.new()
-		sbtn.text = "%s  —  revision %.0f%% (%s)" % [
-			str(subject).capitalize().replace("_", " "),
+		sbtn.text = tr("HOME_REVISION_OPTION") % [
+			GameBackend.subject_name(str(subject)),
 			GameBackend.get_prep(subject), GameBackend.predicted_band(subject)]
 		sbtn.custom_minimum_size = Vector2(420, 44)
 		sbtn.pressed.connect(_start_subject_quiz.bind(subject))
 		options_container.add_child(sbtn)
 
 	var cancel := Button.new()
-	cancel.text = "Close the tab"
+	cancel.text = tr("HOME_CLOSE_TAB")
 	cancel.custom_minimum_size = Vector2(420, 40)
 	cancel.pressed.connect(func():
 		_is_online_session = false
@@ -542,7 +542,7 @@ func _start_online_study() -> void:
 
 func _start_memory_game_standalone() -> void:
 	task_active = true
-	title_label.text = "Sequence"
+	title_label.text = tr("SEQ_TITLE")
 	progress_label.text = ""
 	feedback_label.text = ""
 	next_button.visible = false
@@ -554,7 +554,7 @@ func _start_memory_game_standalone() -> void:
 ## Gets one step longer each round you get right.
 func _start_memory_game() -> void:
 	current_task_type = "memory_game"
-	title_label.text = "Sequence"
+	title_label.text = tr("SEQ_TITLE")
 	_memory_sequence.clear()
 	_memory_extend()
 
@@ -567,7 +567,7 @@ func _memory_extend() -> void:
 
 func _show_memory_sequence() -> void:
 	_memory_showing = true
-	info_label.text = "Watch the sequence... (length %d)" % _memory_sequence.size()
+	info_label.text = tr("SEQ_WATCH") % _memory_sequence.size()
 	_build_memory_buttons(false)
 	await get_tree().create_timer(0.5).timeout
 	for idx in _memory_sequence:
@@ -576,7 +576,7 @@ func _show_memory_sequence() -> void:
 		_flash_memory_button(idx)
 		await get_tree().create_timer(0.55).timeout
 	_memory_showing = false
-	info_label.text = "Your turn — repeat it!"
+	info_label.text = tr("SEQ_YOUR_TURN")
 	_build_memory_buttons(true)
 
 
@@ -635,7 +635,7 @@ func _on_memory_press(index: int) -> void:
 			if _memory_sequence.size() >= 6:
 				_finish_memory_game(true)
 			else:
-				feedback_label.text = "Correct! Getting longer..."
+				feedback_label.text = tr("SEQ_CORRECT")
 				await get_tree().create_timer(0.6).timeout
 				_memory_extend()
 	else:
@@ -648,7 +648,7 @@ func _finish_memory_game(won: bool) -> void:
 	options_container.columns = 1
 	# Same shape as watching TV — a real break, costs time and temptation.
 	GameBackend.watch_tv(0.3, 10.0 if won else 5.0, 8.0)
-	_set_hint("Nice, cleared it!" if won else "Got there in the end. Good break though.")
+	_set_hint(tr("SEQ_WON") if won else tr("SEQ_LOST"))
 
 
 func _on_game_ended(_result: String) -> void:

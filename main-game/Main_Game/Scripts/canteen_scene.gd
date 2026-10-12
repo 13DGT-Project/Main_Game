@@ -85,7 +85,7 @@ func _update_prompts() -> void:
 	counter_prompt.visible = current_station == "counter"
 	exit_prompt.visible = current_station == "exit"
 	if not task_active:
-		_set_hint("Press E to interact" if current_station != "" else "", 0.0)
+		_set_hint(tr("PROMPT_INTERACT") if current_station != "" else "", 0.0)
 
 
 func _open_menu() -> void:
@@ -97,12 +97,12 @@ func _open_menu() -> void:
 	var items: Array = WorkData.pick_menu(WorkData.CANTEEN_MENU, 8)
 	for item in items:
 		var ibtn := Button.new()
-		ibtn.text = item.label
+		ibtn.text = tr(str(item.label))
 		ibtn.pressed.connect(_on_buy.bind(item))
 		options_container.add_child(ibtn)
 
 	var cancel_btn := Button.new()
-	cancel_btn.text = "Never mind"
+	cancel_btn.text = tr("SHOP_NEVER_MIND")
 	cancel_btn.pressed.connect(_close_menu)
 	options_container.add_child(cancel_btn)
 
@@ -115,9 +115,9 @@ func _on_buy(item: Dictionary) -> void:
 	minigame_overlay.visible = false
 	task_active = false
 	if success:
-		_set_hint("Bought %s." % item.label.split(" — ")[0])
+		_set_hint(tr("SHOP_BOUGHT") % tr(str(item.label)))
 	else:
-		_set_hint("Not enough money for that.")
+		_set_hint(tr("SHOP_NO_MONEY"))
 
 
 func _close_menu() -> void:

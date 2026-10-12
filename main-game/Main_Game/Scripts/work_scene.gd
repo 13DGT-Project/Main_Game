@@ -171,7 +171,7 @@ func _ready() -> void:
 	type_input.text_submitted.connect(func(_t): _on_type_submit())
 	close_button.pressed.connect(_on_close_results)
 
-	money_label.text = "Money: $%.2f" % GameBackend.money
+	money_label.text = (tr("COMMON_MONEY") + ": $%.2f") % GameBackend.money
 	# NOTE: no Sky3D in this scene time applied to MainMap's
 	# Sky3D clock when you exit.
 
@@ -186,12 +186,12 @@ func _setup_minimap() -> void:
 	minimap.set_script(MINIMAP_SCRIPT)
 	get_tree().current_scene.add_child.call_deferred(minimap)
 	minimap.setup([
-		{"name": "Grocery Aisle", "rect": Rect2(0, 50, 500, 350)},
-		{"name": "Fridge Bay", "rect": Rect2(550, 50, 500, 350)},
-		{"name": "Freezer Bay", "rect": Rect2(1100, 50, 500, 350)},
-		{"name": "Bakery", "rect": Rect2(0, 600, 500, 350)},
-		{"name": "Deli", "rect": Rect2(550, 600, 500, 350)},
-		{"name": "Checkout", "rect": Rect2(1100, 600, 500, 350)},
+		{"name": tr("MAP_GROCERY_AISLE"), "rect": Rect2(0, 50, 500, 350)},
+		{"name": tr("MAP_FRIDGE_BAY"), "rect": Rect2(550, 50, 500, 350)},
+		{"name": tr("MAP_FREEZER_BAY"), "rect": Rect2(1100, 50, 500, 350)},
+		{"name": tr("MAP_BAKERY"), "rect": Rect2(0, 600, 500, 350)},
+		{"name": tr("MAP_DELI"), "rect": Rect2(550, 600, 500, 350)},
+		{"name": tr("MAP_CHECKOUT"), "rect": Rect2(1100, 600, 500, 350)},
 	], Rect2(0, 0, 1600, 1000), player)
 
 
@@ -250,7 +250,7 @@ func _use_selected_item() -> void:
 				Audio.play("drink")
 			else:
 				Audio.play("error")
-				_set_hint("Your water bottle is empty — find a tap to refill it.")
+				_set_hint(tr("ITEM_BOTTLE_EMPTY"))
 
 
 func _on_station_entered(body: Node, station: String) -> void:
@@ -282,7 +282,7 @@ func _update_prompts() -> void:
 	exit_prompt.visible = current_station == "exit"
 	if task_active:
 		return
-	_set_hint("Press E to interact" if current_station != "" else "", 0.0)
+	_set_hint(tr("PROMPT_INTERACT") if current_station != "" else "", 0.0)
 
 
 # Task flow
@@ -303,19 +303,19 @@ func _start_task(station: String) -> void:
 	match station:
 		"shelf":
 			round_queue = WorkData.get_restock_round(RESTOCK_ROUNDS)
-			title_label.text = "Restocking"
+			title_label.text = tr("WORK_TITLE_SHELF")
 		"bakery":
 			round_queue = WorkData.get_bakery_round(BAKERY_ROUNDS)
-			title_label.text = "Bakery"
+			title_label.text = tr("WORK_TITLE_BAKERY")
 		"deli":
 			round_queue = WorkData.get_deli_round(DELI_ROUNDS)
-			title_label.text = "Deli Counter"
+			title_label.text = tr("WORK_TITLE_DELI")
 		"checkout":
 			round_queue = WorkData.get_checkout_round(CHECKOUT_ROUNDS)
-			title_label.text = "Checkout"
+			title_label.text = tr("WORK_TITLE_CHECKOUT")
 		"customer":
 			round_queue = WorkData.get_customer_questions(CUSTOMER_ROUNDS)
-			title_label.text = "Customer Service"
+			title_label.text = tr("WORK_TITLE_CUSTOMER")
 
 	_set_hint("")
 	minigame_overlay.visible = true
@@ -347,16 +347,16 @@ func _show_step() -> void:
 		"bakery":
 			var bitem: Dictionary = round_queue[round_index]
 			if bitem.kind == "knead":
-				_show_mash_step(bitem, "Knead", "Knead the %s dough! Mash the button before time's up!" % bitem.name)
+				_show_mash_step(bitem, tr("WORK_VERB_KNEAD"), tr("WORK_KNEAD_MSG") % bitem.name)
 			else:
-				_show_precision_step(bitem, "Bake", "Baking: %s\nHit Bake! when the marker is in the green zone!" % bitem.name)
+				_show_precision_step(bitem, tr("WORK_VERB_BAKE"), tr("WORK_BAKE_MSG") % bitem.name)
 
 		"deli":
 			var ditem: Dictionary = round_queue[round_index]
 			if ditem.kind == "chop":
-				_show_mash_step(ditem, "Chop", "Chop the %s! Mash the button before time's up!" % ditem.name)
+				_show_mash_step(ditem, tr("WORK_VERB_CHOP"), tr("WORK_CHOP_MSG") % ditem.name)
 			else:
-				_show_precision_step(ditem, "Slice", "Slicing: %s\nHit Slice! when the marker is in the green zone!" % ditem.name)
+				_show_precision_step(ditem, tr("WORK_VERB_SLICE"), tr("WORK_SLICE_MSG") % ditem.name)
 
 		"checkout":
 			var citem: Dictionary = round_queue[round_index]
@@ -393,16 +393,16 @@ func _show_checkout_scan(item: Dictionary) -> void:
 	zone1.visible = true
 	zone2.visible = false
 	zone3.visible = false
-	zone1.text = "SCAN IT"
+	zone1.text = tr("WORK_SCAN_IT")
 	drag_item.texture = load(item.texture)
 	held_label.text = item.name
-	pick_up_button.text = "Pick Up %s" % item.name
+	pick_up_button.text = tr("WORK_PICK_UP_ITEM") % item.name
 	pick_up_button.visible = true
 	pick_up_button.disabled = false
 	zone1.disabled = true
 	holding_item = false
 	drag_context = "checkout_scan"
-	info_label.text = "%s — $%.2f\nPick it up, then run it over the scanner." % [item.name, item.price]
+	info_label.text = tr("WORK_SCAN_INFO") % [item.name, item.price]
 	options_container.columns = 1
 	_start_timer(CHECKOUT_SCAN_TIME_LIMIT)
 
@@ -412,10 +412,10 @@ func _show_checkout_weigh(item: Dictionary) -> void:
 	timer_bar.visible = true
 	type_container.visible = true
 	target_icon.texture = load(item.texture)
-	type_prompt_label.text = "Weigh out %.2fkg of %s" % [item.target_weight, item.name]
+	type_prompt_label.text = tr("WORK_WEIGH_PROMPT") % [item.target_weight, item.name]
 	type_input.text = ""
-	type_input.placeholder_text = "Type the weight in kg"
-	info_label.text = "$%.2f/kg — tap in the weight, then Submit" % item.price
+	type_input.placeholder_text = tr("WORK_WEIGH_PLACEHOLDER")
+	info_label.text = tr("WORK_WEIGH_INFO") % item.price
 	options_container.columns = 1
 	num_pad.visible = true
 	lookup_choices.visible = false
@@ -431,10 +431,10 @@ func _show_checkout_lookup(item: Dictionary) -> void:
 	timer_bar.visible = true
 	type_container.visible = true
 	target_icon.texture = load(item.texture)
-	type_prompt_label.text = "No barcode found! What's this item called?"
+	type_prompt_label.text = tr("WORK_LOOKUP_PROMPT")
 	type_input.text = ""
-	type_input.placeholder_text = "Type the item's name"
-	info_label.text = "$%.2f — pick the right item" % item.price
+	type_input.placeholder_text = tr("WORK_LOOKUP_PLACEHOLDER")
+	info_label.text = tr("WORK_LOOKUP_INFO") % item.price
 	options_container.columns = 1
 	num_pad.visible = false
 	lookup_choices.visible = true
@@ -517,9 +517,9 @@ func _show_restock_step() -> void:
 	zone1.visible = true
 	zone2.visible = true
 	zone3.visible = true
-	zone1.text = "SHELF"
-	zone2.text = "FRIDGE"
-	zone3.text = "FREEZER"
+	zone1.text = tr("WORK_ZONE_SHELF")
+	zone2.text = tr("WORK_ZONE_FRIDGE")
+	zone3.text = tr("WORK_ZONE_FREEZER")
 
 	restock_fill = 0
 	restock_target_item = {}   # picked fresh per box in _reset_restock_box()
@@ -549,12 +549,12 @@ func _reset_restock_box() -> void:
 	restock_box_opened = false
 	holding_item = false
 	drag_item.texture = load(BOX_CLOSED_TEXTURE)
-	held_label.text = "Sealed box"
-	pick_up_button.text = "Open Box"
+	held_label.text = tr("WORK_SEALED_BOX")
+	pick_up_button.text = tr("WORK_OPEN_BOX")
 	pick_up_button.visible = true
 	pick_up_button.disabled = false
 	_set_zones_disabled(true)
-	info_label.text = "A delivery box has arrived! (%d / %d stocked)" % [restock_fill, RESTOCK_FILL_TARGET]
+	info_label.text = tr("WORK_BOX_ARRIVED") % [restock_fill, RESTOCK_FILL_TARGET]
 
 
 func _on_open_box() -> void:
@@ -564,7 +564,7 @@ func _on_open_box() -> void:
 	held_label.text = restock_target_item.name
 	pick_up_button.disabled = true
 	_set_zones_disabled(false)
-	info_label.text = "It's %s! Where does it go?" % restock_target_item.name
+	info_label.text = tr("WORK_WHERE_GOES") % restock_target_item.name
 
 
 func _set_zones_disabled(is_disabled: bool) -> void:
@@ -586,7 +586,7 @@ func _on_pick_up_pressed() -> void:
 			holding_item = true
 			pick_up_button.disabled = true
 			zone1.disabled = false
-			info_label.text = "Holding %s — now run it over the scanner." % current_checkout_item.name
+			info_label.text = tr("WORK_HOLDING_SCAN") % current_checkout_item.name
 
 
 ## A storage/scanner zone was clicked. index: 0 = shelf/scan, 1 = fridge, 2 = freezer.
@@ -610,10 +610,10 @@ func _on_zone_pressed(index: int) -> void:
 					_resolve_step(true)
 				else:
 					Audio.play("stock_place")
-					feedback_label.text = "Nice, in it goes!"
+					feedback_label.text = tr("WORK_IN_IT_GOES")
 					_reset_restock_box()
 			else:
-				feedback_label.text = "%s doesn't go in the %s — try again!" % [restock_target_item.name, keys[index]]
+				feedback_label.text = tr("WORK_WRONG_PLACE") % [restock_target_item.name, tr("WORK_PLACE_" + str(keys[index]).to_upper())]
 
 
 
@@ -713,9 +713,9 @@ func _resolve_step(is_correct: bool) -> void:
 	Audio.play("correct" if is_correct else "wrong")
 	if is_correct:
 		round_correct += 1
-		feedback_label.text = "Nice one!"
+		feedback_label.text = tr("WORK_NICE")
 	else:
-		feedback_label.text = "Missed that one."
+		feedback_label.text = tr("WORK_MISSED")
 	for child in options_container.get_children():
 		if child is BaseButton:
 			child.disabled = true
@@ -752,7 +752,7 @@ func _finish_task() -> void:
 	shift_hours += hours_for_task
 	shift_task_score += round_correct
 	shift_task_total += round_queue.size()
-	_set_hint("%s done: %d / %d correct" % [current_task_type.capitalize(), round_correct, round_queue.size()])
+	_set_hint(tr("WORK_TASK_DONE") % [tr("WORK_TITLE_" + current_task_type.to_upper()), round_correct, round_queue.size()])
 
 
 #Shift end 
@@ -761,7 +761,7 @@ func _end_shift() -> void:
 	if task_active:
 		return
 	if shift_hours <= 0.0:
-		_set_hint("Do at least one task before clocking out!")
+		_set_hint(tr("WORK_NEED_TASK"))
 		return
 
 	var performance: float = 0.0 if shift_task_total == 0 else float(shift_task_score) / float(shift_task_total)
@@ -772,11 +772,11 @@ func _end_shift() -> void:
 	# the day rolls over — that's where the no-show counter lives.
 	GameBackend.fulfil_commitment("work")
 
-	results_label.text = "Shift complete!\nHours worked: %.1f\nTasks: %d / %d correct\nTotal money: $%.2f" % [
+	results_label.text = tr("WORK_SHIFT_DONE") % [
 		shift_hours, shift_task_score, shift_task_total, GameBackend.money
 	]
 	results_panel.visible = true
-	money_label.text = "Money: $%.2f" % GameBackend.money
+	money_label.text = (tr("COMMON_MONEY") + ": $%.2f") % GameBackend.money
 
 	shift_hours = 0.0
 	shift_task_score = 0

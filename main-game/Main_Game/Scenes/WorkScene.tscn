@@ -72,7 +72,7 @@ offset_left = -60.0
 offset_top = -80.0
 offset_right = -60.0
 offset_bottom = -80.0
-text = "Press E to restock"
+text = "PROMPT_RESTOCK"
 
 [node name="ShelfStation2" type="Node2D" parent="." unique_id=85209548]
 position = Vector2(384, 256)
@@ -92,7 +92,7 @@ offset_left = -60.0
 offset_top = -80.0
 offset_right = -60.0
 offset_bottom = -80.0
-text = "Press E to restock"
+text = "PROMPT_RESTOCK"
 
 [node name="FridgeStation1" type="Node2D" parent="." unique_id=147291412]
 position = Vector2(650, 220)
@@ -112,7 +112,7 @@ offset_left = -60.0
 offset_top = -80.0
 offset_right = -60.0
 offset_bottom = -80.0
-text = "Press E to restock"
+text = "PROMPT_RESTOCK"
 
 [node name="FridgeStation2" type="Node2D" parent="." unique_id=102319296]
 position = Vector2(900, 220)
@@ -132,7 +132,7 @@ offset_left = -60.0
 offset_top = -80.0
 offset_right = -60.0
 offset_bottom = -80.0
-text = "Press E to restock"
+text = "PROMPT_RESTOCK"
 
 [node name="FreezerStation1" type="Node2D" parent="." unique_id=1601221903]
 position = Vector2(1200, 220)
@@ -152,7 +152,7 @@ offset_left = -60.0
 offset_top = -80.0
 offset_right = -60.0
 offset_bottom = -80.0
-text = "Press E to restock"
+text = "PROMPT_RESTOCK"
 
 [node name="FreezerStation2" type="Node2D" parent="." unique_id=366451160]
 position = Vector2(1450, 220)
@@ -172,7 +172,7 @@ offset_left = -60.0
 offset_top = -80.0
 offset_right = -60.0
 offset_bottom = -80.0
-text = "Press E to restock"
+text = "PROMPT_RESTOCK"
 
 [node name="BakeryStation" type="Node2D" parent="." unique_id=1533358912]
 position = Vector2(250, 780)
@@ -191,7 +191,7 @@ offset_left = -60.0
 offset_top = -80.0
 offset_right = -60.0
 offset_bottom = -80.0
-text = "Press E to bake"
+text = "PROMPT_BAKE"
 
 [node name="DeliStation" type="Node2D" parent="." unique_id=1893530827]
 position = Vector2(800, 780)
@@ -210,7 +210,7 @@ offset_left = -60.0
 offset_top = -80.0
 offset_right = -60.0
 offset_bottom = -80.0
-text = "Press E for the deli counter"
+text = "PROMPT_DELI"
 
 [node name="CheckoutStation" type="Node2D" parent="." unique_id=490634727]
 position = Vector2(1281, 749)
@@ -229,7 +229,7 @@ offset_left = -60.0
 offset_top = -100.0
 offset_right = -60.0
 offset_bottom = -100.0
-text = "Press E for checkout"
+text = "PROMPT_CHECKOUT"
 
 [node name="CustomerStation" type="Node2D" parent="." unique_id=253840638]
 position = Vector2(1450, 750)
@@ -248,7 +248,7 @@ offset_left = -70.0
 offset_top = -70.0
 offset_right = -70.0
 offset_bottom = -70.0
-text = "Press E to help customer"
+text = "PROMPT_CUSTOMER"
 
 [node name="ExitStation" type="Node2D" parent="." unique_id=561788676]
 position = Vector2(1550, 900)
@@ -265,7 +265,7 @@ offset_left = -24.0
 offset_top = -12.0
 offset_right = -24.0
 offset_bottom = -12.0
-text = "EXIT"
+text = "SIGN_EXIT"
 
 [node name="InteractArea" type="Area2D" parent="ExitStation" unique_id=745987691]
 
@@ -278,7 +278,7 @@ offset_left = -60.0
 offset_top = -80.0
 offset_right = -60.0
 offset_bottom = -80.0
-text = "Press E to clock out"
+text = "PROMPT_CLOCK_OUT"
 
 [node name="Player" type="CharacterBody2D" parent="." unique_id=1171963320]
 position = Vector2(1300, 850)
@@ -347,27 +347,27 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.15294118, 0.06666667, 0.16862746, 1)
 theme_override_font_sizes/font_size = 40
-text = "Pause Menu"
+text = "PAUSEMENU_TITLE"
 
 [node name="Resume" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=558997079]
 layout_mode = 2
-text = "Resume"
+text = "PAUSEMENU_RESUME"
 
 [node name="MainMenu" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=225796157]
 layout_mode = 2
-text = "Main Menu"
+text = "PAUSEMENU_MAINMENU"
 
 [node name="Settings" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1369674390]
 layout_mode = 2
-text = "Settings"
+text = "PAUSEMENU_SETTINGS"
 
 [node name="Help" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=34920090]
 layout_mode = 2
-text = "Help"
+text = "PAUSEMENU_HELP"
 
 [node name="Quit" type="Button" parent="Player/Camera2D/PauseMenu/VBoxContainer" unique_id=1435253613]
 layout_mode = 2
-text = "Quit"
+text = "PAUSEMENU_QUIT"
 
 [node name="TaskTimer" type="Timer" parent="." unique_id=1435143528]
 one_shot = true
@@ -548,7 +548,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "Pick Up"
+text = "WORK_PICK_UP"
 
 [node name="ZoneGrid" type="GridContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer" unique_id=1898064082]
 layout_mode = 2
@@ -560,19 +560,19 @@ columns = 3
 custom_minimum_size = Vector2(140, 84)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "SHELF"
+text = "WORK_ZONE_SHELF"
 
 [node name="Zone2" type="Button" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/ZoneGrid" unique_id=620886129]
 custom_minimum_size = Vector2(140, 84)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "FRIDGE"
+text = "WORK_ZONE_FRIDGE"
 
 [node name="Zone3" type="Button" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/DragContainer/ZoneGrid" unique_id=1204787846]
 custom_minimum_size = Vector2(140, 84)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "FREEZER"
+text = "WORK_ZONE_FREEZER"
 
 [node name="TypeContainer" type="VBoxContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter" unique_id=1613203495]
 visible = false
@@ -587,7 +587,7 @@ autowrap_mode = 3
 
 [node name="TypeInput" type="LineEdit" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/TypeContainer" unique_id=1405708813]
 layout_mode = 2
-placeholder_text = "Type here"
+placeholder_text = "WORK_TYPE_HERE"
 
 [node name="NumPad" type="GridContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer/OptionsCenter/TypeContainer" unique_id=115014460]
 visible = false
@@ -605,7 +605,7 @@ theme_override_constants/separation = 8
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "Submit"
+text = "WORK_SUBMIT"
 
 [node name="FeedbackLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=2139063906]
 layout_mode = 2
@@ -615,7 +615,7 @@ autowrap_mode = 3
 [node name="NextButton" type="Button" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer" unique_id=1928806503]
 visible = false
 layout_mode = 2
-text = "Next"
+text = "COMMON_NEXT"
 
 [node name="ResultsPanel" type="Control" parent="CanvasLayer" unique_id=2112239586]
 visible = false
@@ -656,7 +656,7 @@ autowrap_mode = 3
 
 [node name="CloseButton" type="Button" parent="CanvasLayer/ResultsPanel/CenterContainer/Panel/VBoxContainer" unique_id=898258529]
 layout_mode = 2
-text = "Clock out & leave"
+text = "WORK_CLOCK_OUT_LEAVE"
 
 [connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/Resume" to="Player/Camera2D/PauseMenu" method="_on_resume_pressed"]
 [connection signal="pressed" from="Player/Camera2D/PauseMenu/VBoxContainer/MainMenu" to="Player/Camera2D/PauseMenu" method="_on_main_menu_pressed"]

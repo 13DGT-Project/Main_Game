@@ -48,7 +48,7 @@ func _ready() -> void:
 func _on_message_arrived(sender: String, thread_id: String) -> void:
 	var important: bool = thread_id in ["nzqa_results", "university_offer",
 		"studylink_approved", "studylink_declined"]
-	notify(sender, "New message", COLOUR_ACCENT_IMPORTANT if important else COLOUR_ACCENT_MESSAGE)
+	notify(GameBackend.contact_name(sender), tr("PHONE_NEW_MESSAGE"), COLOUR_ACCENT_IMPORTANT if important else COLOUR_ACCENT_MESSAGE)
 	Audio.play("notify")
 
 

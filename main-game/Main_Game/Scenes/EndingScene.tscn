@@ -46,4 +46,4 @@ autowrap_mode = 3
 [node name="MenuButton" type="Button" parent="CenterContainer/VBoxContainer" unique_id=809279338]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "Return to Main Menu"
+text = "END_MAIN_MENU"

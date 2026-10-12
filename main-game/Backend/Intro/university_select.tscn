@@ -34,17 +34,17 @@ theme_override_constants/separation = 19
 [node name="Auckland" type="Button" parent="Univeristies" unique_id=985741145]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Auckland"
+text = "UNI_AUCKLAND"
 
 [node name="Waikato" type="Button" parent="Univeristies" unique_id=1257961347]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Waikato"
+text = "UNI_WAIKATO"
 
 [node name="Canterbury" type="Button" parent="Univeristies" unique_id=426270316]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Cantebury"
+text = "UNI_CANTERBURY"
 
 [node name="Auckland" type="ColorRect" parent="." unique_id=937007421]
 visible = false
@@ -80,7 +80,7 @@ offset_top = 438.0
 offset_right = 213.0
 offset_bottom = 475.0
 theme_override_font_sizes/font_size = 30
-text = "Difficulty: "
+text = "INTRO_UNI_DIFFICULTY"
 
 [node name="Grade" type="Label" parent="Auckland" unique_id=506443907]
 layout_mode = 0
@@ -89,7 +89,7 @@ offset_top = 489.0
 offset_right = 311.0
 offset_bottom = 531.0
 theme_override_font_sizes/font_size = 30
-text = "Grades Needed:"
+text = "INTRO_UNI_GRADES"
 
 [node name="Money" type="Label" parent="Auckland" unique_id=82750715]
 layout_mode = 0
@@ -98,7 +98,7 @@ offset_top = 540.0
 offset_right = 315.0
 offset_bottom = 582.0
 theme_override_font_sizes/font_size = 30
-text = "Money Needed:"
+text = "INTRO_UNI_MONEY"
 
 [node name="Confirm" type="Button" parent="Auckland" unique_id=1794720220]
 layout_mode = 0
@@ -106,7 +106,7 @@ offset_left = 26.0
 offset_top = 922.0
 offset_right = 289.0
 offset_bottom = 978.0
-text = "Select"
+text = "INTRO_UNI_SELECT"
 
 [node name="Canterbury" type="ColorRect" parent="." unique_id=564477704]
 visible = false
@@ -135,7 +135,7 @@ offset_top = 438.0
 offset_right = 213.0
 offset_bottom = 475.0
 theme_override_font_sizes/font_size = 30
-text = "Difficulty: "
+text = "INTRO_UNI_DIFFICULTY"
 
 [node name="Grade" type="Label" parent="Canterbury" unique_id=1276344565]
 layout_mode = 0
@@ -144,7 +144,7 @@ offset_top = 489.0
 offset_right = 311.0
 offset_bottom = 531.0
 theme_override_font_sizes/font_size = 30
-text = "Grades Needed:"
+text = "INTRO_UNI_GRADES"
 
 [node name="Money" type="Label" parent="Canterbury" unique_id=221318202]
 layout_mode = 0
@@ -153,7 +153,7 @@ offset_top = 540.0
 offset_right = 315.0
 offset_bottom = 582.0
 theme_override_font_sizes/font_size = 30
-text = "Money Needed:"
+text = "INTRO_UNI_MONEY"
 
 [node name="Confirm2" type="Button" parent="Canterbury" unique_id=1594497441]
 layout_mode = 0
@@ -161,7 +161,7 @@ offset_left = 26.0
 offset_top = 922.0
 offset_right = 289.0
 offset_bottom = 978.0
-text = "Select"
+text = "INTRO_UNI_SELECT"
 
 [node name="Screenshot20260820100609" type="Sprite2D" parent="Canterbury" unique_id=2065622691]
 position = Vector2(1240.75, 505.99954)
@@ -195,7 +195,7 @@ offset_top = 763.0
 offset_right = 179.0
 offset_bottom = 805.0
 theme_override_font_sizes/font_size = 30
-text = "Difficulty: "
+text = "INTRO_UNI_DIFFICULTY"
 
 [node name="Grade" type="Label" parent="Waikato" unique_id=1491827094]
 layout_mode = 0
@@ -204,7 +204,7 @@ offset_top = 814.0
 offset_right = 262.0
 offset_bottom = 856.0
 theme_override_font_sizes/font_size = 30
-text = "Grades Needed:"
+text = "INTRO_UNI_GRADES"
 
 [node name="Money" type="Label" parent="Waikato" unique_id=31351149]
 layout_mode = 0
@@ -213,7 +213,7 @@ offset_top = 865.0
 offset_right = 257.0
 offset_bottom = 907.0
 theme_override_font_sizes/font_size = 30
-text = "Money Needed:"
+text = "INTRO_UNI_MONEY"
 
 [node name="Confirm3" type="Button" parent="Waikato" unique_id=1672638269]
 layout_mode = 0
@@ -221,7 +221,7 @@ offset_left = 26.0
 offset_top = 922.0
 offset_right = 289.0
 offset_bottom = 978.0
-text = "Select"
+text = "INTRO_UNI_SELECT"
 
 [node name="Screenshot20260820100636" type="Sprite2D" parent="Waikato" unique_id=1657414808]
 position = Vector2(1253.0001, 503.27478)

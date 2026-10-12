@@ -68,13 +68,13 @@ func _ready() -> void:
 	if today_exams.is_empty():
 		var days: int = GameBackend.days_until_next_exam()
 		if days > 0:
-			_set_hint("No externals timetabled here today. Internals are sat in class at school. Press T for the full timetable.", 0.0)
+			_set_hint(tr("EXAM_NONE_TODAY"), 0.0)
 		else:
-			_set_hint("The hall is empty. Your externals are done.", 0.0)
+			_set_hint(tr("EXAM_ALL_DONE_HALL"), 0.0)
 	elif today_exams.size() >= 2:
-		_set_hint("%d exams today. Take a seat when you're ready." % today_exams.size(), 0.0)
+		_set_hint(tr("EXAM_N_TODAY") % today_exams.size(), 0.0)
 	else:
-		_set_hint("%s exam today. Find your desk." % str(today_exams[0].subject).capitalize(), 0.0)
+		_set_hint(tr("EXAM_ONE_TODAY") % GameBackend.subject_name(str(today_exams[0].subject)), 0.0)
 
 
 func _physics_process(_delta: float) -> void:
@@ -106,13 +106,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		# Phones in an exam room are an instant fail in real life.
 		var item: ItemData = Inventory.hotbar[Inventory.selected_slot]
 		if item != null and item.item_name == "Phone":
-			_set_hint("Absolutely not. Phones are not permitted in the exam room.")
+			_set_hint(tr("EXAM_NO_PHONES"))
 		elif item != null and item.item_name == "Water Bottle":
 			if GameBackend.use_water_bottle():
 				Audio.play("drink")
 			else:
 				Audio.play("error")
-				_set_hint("Your water bottle is empty.")
+				_set_hint(tr("ITEM_BOTTLE_EMPTY_SHORT"))
 
 
 func _on_station_entered(body: Node, station: String) -> void:
@@ -148,7 +148,7 @@ func _next_external() -> Dictionary:
 func _start_external() -> void:
 	var due: Dictionary = _next_external()
 	if due.is_empty():
-		_set_hint("You've sat all your externals. Results come out at the end of the year.")
+		_set_hint(tr("EXAM_ALL_SAT"))
 		return
 
 	current_subject = due.subject
@@ -156,7 +156,7 @@ func _start_external() -> void:
 	round_index = 0
 	round_correct = 0
 	round_queue = StudyData.get_session_questions(current_subject, GameBackend.EXAM_QUESTION_COUNT)
-	title_label.text = "%s — External Examination" % str(current_subject).capitalize().replace("_", " ")
+	title_label.text = tr("EXAM_TITLE") % GameBackend.subject_name(str(current_subject))
 	Audio.play("exam_start")
 	minigame_overlay.visible = true
 	_show_question()
@@ -170,7 +170,7 @@ func _show_question() -> void:
 		child.queue_free()
 
 	var q: Dictionary = round_queue[round_index]
-	progress_label.text = "Question %d of %d" % [round_index + 1, round_queue.size()]
+	progress_label.text = tr("EXAM_QUESTION_N") % [round_index + 1, round_queue.size()]
 	info_label.text = q.question
 	# Preparedness strikes out wrong answers, one per 30% revision, capped at
 	# three and never leaving fewer than two options. Revision doesn't add
@@ -186,7 +186,7 @@ func _show_question() -> void:
 		for n in mini(hints, maxi(0, wrong.size() - 1)):
 			struck[wrong[n]] = true
 		if not struck.is_empty():
-			progress_label.text += "   ·   revision ruled out %d" % struck.size()
+			progress_label.text += tr("QUIZ_STRUCK_OUT") % struck.size()
 
 	for i in q.options.size():
 		var btn := Button.new()
@@ -196,7 +196,7 @@ func _show_question() -> void:
 		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		if struck.has(i):
 			btn.disabled = true
-			btn.text = "%s   (ruled out)" % q.options[i]
+			btn.text = tr("QUIZ_RULED_OUT") % q.options[i]
 			btn.modulate = Color(0.55, 0.55, 0.58)
 		else:
 			btn.pressed.connect(_on_answer.bind(i == q.correct))
@@ -213,7 +213,7 @@ func _on_answer(is_correct: bool) -> void:
 	for child in options_container.get_children():
 		if child is BaseButton:
 			child.disabled = true
-	feedback_label.text = "Answer recorded."
+	feedback_label.text = tr("EXAM_ANSWER_RECORDED")
 	next_button.visible = true
 
 
@@ -231,16 +231,16 @@ func _finish_external() -> void:
 	GameBackend.complete_exam(current_subject, round_correct, round_queue.size())
 	var still_due: Array = GameBackend.exams_due_today_of_kind("external")
 	if still_due.is_empty():
-		_set_hint("Paper handed in. You won't know how you went until results day.", 6.0)
+		_set_hint(tr("EXAM_HANDED_IN"), 6.0)
 	else:
-		_set_hint("Paper handed in. You've still got %s later today." % str(still_due[0].subject).capitalize(), 6.0)
+		_set_hint(tr("EXAM_HANDED_IN_MORE") % GameBackend.subject_name(str(still_due[0].subject)), 6.0)
 
 
 ## The supervisor handles derived grades — your one fallback if you can't sit
 ## a paper.
 func _talk_to_supervisor() -> void:
 	task_active = true
-	title_label.text = "Exam Supervisor"
+	title_label.text = tr("EXAM_SUPERVISOR")
 	progress_label.text = ""
 	feedback_label.text = ""
 	next_button.visible = false
@@ -252,21 +252,18 @@ func _talk_to_supervisor() -> void:
 		if exam.get("kind", "") == "external" and not exam.taken:
 			remaining.append(exam.subject)
 
-	info_label.text = ("\"You have %d derived grade application%s left. Use one and we'll assess you on "
-		+ "your work through the year instead of the paper — but it won't score as well as sitting it.\"") % [
-			GameBackend.derived_grades_left,
-			"" if GameBackend.derived_grades_left == 1 else "s"]
+	info_label.text = tr("EXAM_SUPERVISOR_ONE" if GameBackend.derived_grades_left == 1 else "EXAM_SUPERVISOR_MANY") % GameBackend.derived_grades_left
 
 	if GameBackend.derived_grades_left > 0:
 		for subject in remaining:
 			var btn := Button.new()
-			btn.text = "Apply for a derived grade in %s" % str(subject).capitalize().replace("_", " ")
+			btn.text = tr("EXAM_APPLY_DERIVED") % GameBackend.subject_name(str(subject))
 			btn.custom_minimum_size = Vector2(520, 48)
 			btn.pressed.connect(_apply_derived.bind(subject))
 			options_container.add_child(btn)
 
 	var leave := Button.new()
-	leave.text = "Never mind"
+	leave.text = tr("SHOP_NEVER_MIND")
 	leave.custom_minimum_size = Vector2(520, 44)
 	leave.pressed.connect(_close_overlay)
 	options_container.add_child(leave)
@@ -275,9 +272,9 @@ func _talk_to_supervisor() -> void:
 
 func _apply_derived(subject: String) -> void:
 	if GameBackend.use_derived_grade(subject):
-		_set_hint("Derived grade applied for %s." % str(subject).capitalize(), 5.0)
+		_set_hint(tr("EXAM_DERIVED_APPLIED") % GameBackend.subject_name(str(subject)), 5.0)
 	else:
-		_set_hint("You've used up your derived grade applications.")
+		_set_hint(tr("EXAM_DERIVED_NONE"))
 	_close_overlay()
 
 

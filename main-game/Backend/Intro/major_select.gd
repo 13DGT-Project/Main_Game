@@ -18,8 +18,8 @@ func _ready() -> void:
 func _pretty(subjects: Array) -> String:
 	var parts: Array = []
 	for s in subjects:
-		parts.append(str(s).capitalize().replace("_", " "))
-	return ", ".join(parts)
+		parts.append(GameBackend.subject_name(str(s)))
+	return tr("LIST_SEPARATOR").join(parts)
 
 
 func _build_options() -> void:
@@ -30,7 +30,7 @@ func _build_options() -> void:
 
 	for major in GameBackend.MAJORS:
 		var btn := Button.new()
-		btn.text = "%s\n%s" % [major, _pretty(GameBackend.MAJORS[major])]
+		btn.text = "%s\n%s" % [GameBackend.major_name(major), _pretty(GameBackend.MAJORS[major])]
 		btn.custom_minimum_size = Vector2(520, 58)
 		btn.add_theme_font_size_override("font_size", 16)
 		btn.pressed.connect(_choose_major.bind(major))
@@ -47,7 +47,7 @@ func _build_options() -> void:
 	list.add_child(rule_a)
 
 	var sep := Label.new()
-	sep.text = "CONJOINT DEGREES  —  two degrees at once, higher grade required"
+	sep.text = tr("INTRO_CONJOINT_HEADER")
 	sep.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sep.add_theme_font_size_override("font_size", 15)
 	sep.add_theme_color_override("font_color", Color(0.75, 0.82, 0.95))
@@ -64,8 +64,8 @@ func _build_options() -> void:
 	for conj in GameBackend.CONJOINTS:
 		var data: Dictionary = GameBackend.CONJOINTS[conj]
 		var btn2 := Button.new()
-		btn2.text = "%s  (+%.0f%% grade needed)\n%s" % [
-			conj, data.get("grade_bonus_required", 0.0), _pretty(data.get("subjects", []))]
+		btn2.text = tr("INTRO_CONJOINT_OPTION") % [
+			GameBackend.major_name(conj), data.get("grade_bonus_required", 0.0), _pretty(data.get("subjects", []))]
 		btn2.custom_minimum_size = Vector2(520, 56)
 		btn2.add_theme_font_size_override("font_size", 16)
 		btn2.pressed.connect(_choose_conjoint.bind(conj))

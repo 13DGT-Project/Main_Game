@@ -36,10 +36,88 @@ var universities = {
 }
 
 
+## A subject's display name in the active language ("digital_technologies" ->
+## "Digital Technologies" / "数字技术" ...). Falls back to the old capitalised
+## id if a subject is ever added without a SUBJECT_ key in the CSV.
+func subject_name(subject: String) -> String:
+	var key: String = "SUBJECT_" + subject.to_upper()
+	var out: String = tr(key)
+	return subject.capitalize() if out == key else out
+
+
+## Picks the _ONE or _MANY form of a key for a count ("1 day" / "3 days").
+func plural(key: String, n: int) -> String:
+	return tr(key + ("_ONE" if n == 1 else "_MANY"))
+
+
+## An NCEA band for display. The bands themselves ("Achieved", "Merit"...) stay
+## English internally because the credit maths compares them; only what the
+## player reads is translated.
+func band_name(band: String) -> String:
+	match band:
+		"Excellence": return tr("NCEA_EXCELLENCE")
+		"Merit": return tr("NCEA_MERIT")
+		"Achieved": return tr("NCEA_ACHIEVED")
+		"Not Achieved", "N": return tr("NCEA_NOT_ACHIEVED")
+		"Absent": return tr("NCEA_ABSENT")
+		"Not yet sat": return tr("NCEA_NOT_YET_SAT")
+	return band
+
+
+## Turns an internal id into a CSV key suffix: "Sport & Exercise Science" ->
+## "SPORT_EXERCISE_SCIENCE", "Deb (work)" -> "DEB_WORK".
+static func key_case(id: String) -> String:
+	var out: String = ""
+	var gap: bool = true
+	for ch in id.to_upper():
+		var c: int = ch.unicode_at(0)
+		if (c >= 65 and c <= 90) or (c >= 48 and c <= 57):
+			out += ch
+			gap = false
+		elif not gap:
+			out += "_"
+			gap = true
+	return out.trim_suffix("_")
+
+
+## Display text for an internal id. Majors, universities and contacts keep
+## their English names as ids (they're dictionary keys and save-state), so
+## only what's drawn on screen goes through here. Anything without a CSV row
+## — a person's own name like "Priya" — comes back unchanged.
+func display_name(prefix: String, id: String) -> String:
+	var key: String = prefix + key_case(id)
+	var out: String = tr(key)
+	return id if out == key else out
+
+
+func contact_name(who: String) -> String:
+	return display_name("CONTACT_", who)
+
+
+## Conjoints are named "Science + Commerce", so each half is translated.
+func major_name(major: String) -> String:
+	var parts: Array = []
+	for p in major.split(" + "):
+		parts.append(display_name("MAJOR_", p))
+	return " + ".join(parts)
+
+
+func university_name(uni: String) -> String:
+	return display_name("UNI_", uni)
+
+
+func city_name(city: String) -> String:
+	return display_name("CITY_", city)
+
+
 ## The proper name of the university, for letters and offers.
 ## ("Auckland" is fine on the HUD; "the University of Auckland" is what an
 ## actual admissions email would say.)
 func university_full_name() -> String:
+	var key: String = "UNI_" + key_case(selected_university) + "_FULL"
+	var out: String = tr(key)
+	if out != key:
+		return out
 	return str(universities.get(selected_university, {}).get("full_name", selected_university))
 
 
@@ -340,13 +418,13 @@ func allowance_entitlement() -> float:
 
 func apply_for_student_allowance(ird: String) -> Array:
 	if allowance_status == "submitted":
-		return [false, "You already have an allowance application being processed."]
+		return [false, tr("SL_ERR_ALLOW_PENDING")]
 	if allowance_status in ["approved", "declined"]:
-		return [false, "You have already had a decision on your allowance application."]
+		return [false, tr("SL_ERR_ALLOW_DECIDED")]
 
 	var cleaned: String = ird.strip_edges().replace("-", "").replace(" ", "")
 	if cleaned.length() < 8 or not cleaned.is_valid_int():
-		return [false, "That IRD number doesn't look right. It should be 8 or 9 digits."]
+		return [false, tr("SL_ERR_IRD")]
 
 	allowance_days_left = ALLOWANCE_PROCESSING_DAYS
 	allowance_status = "submitted"
@@ -355,14 +433,14 @@ func apply_for_student_allowance(ird: String) -> Array:
 	parents_confirmed_income = false
 	deliver_message("allowance_parents")
 	if not loan_applications_open():
-		allowance_decline_reason = "Application received after the cut-off for this academic year."
-		log_event("Applied for a Student Allowance — after the cut-off.")
+		allowance_decline_reason = tr("SL_ERR_LATE")
+		log_event(tr("SL_LOG_ALLOW_LATE"))
 		stats_changed.emit()
-		return [true, "Submitted, but applications for this academic year have closed."]
+		return [true, tr("SL_ALLOW_SUBMITTED_LATE")]
 
-	log_event("Applied to StudyLink for a Student Allowance. Your parents still have to complete their section.")
+	log_event(tr("SL_LOG_ALLOW_APPLIED"), true)
 	stats_changed.emit()
-	return [true, "Your half is submitted. The allowance is means-tested on your parents' income, so StudyLink now needs THEM to confirm their details before anything is assessed. Message them."]
+	return [true, tr("SL_ALLOW_SUBMITTED")]
 
 
 func confirm_parents_income() -> void:
@@ -370,7 +448,7 @@ func confirm_parents_income() -> void:
 		return
 	parents_confirmed_income = true
 	allowance_days_left = ALLOWANCE_PROCESSING_DAYS
-	log_event("Your parents completed their part of the allowance application.")
+	log_event(tr("SL_LOG_PARENTS_DONE"))
 	stats_changed.emit()
 
 #   full          under the threshold — the full weekly rate
@@ -428,8 +506,8 @@ func _tick_allowance() -> void:
 		if not loan_applications_open():
 			allowance_status = "declined"
 			allowance_outcome = "incomplete"
-			allowance_decline_reason = "Your parents never completed their section before the cut-off."
-			log_event("Student Allowance lapsed — the parental section was never returned.")
+			allowance_decline_reason = tr("SL_REASON_PARENTS_LATE")
+			log_event(tr("SL_LOG_ALLOW_LAPSED"))
 			deliver_message("allowance_result")
 			stats_changed.emit()
 		return
@@ -442,7 +520,7 @@ func _tick_allowance() -> void:
 		allowance_status = "declined"
 		allowance_outcome = "declined"
 		allowance_weekly = 0.0
-		log_event("Student Allowance declined: %s" % allowance_decline_reason)
+		log_event(tr("SL_LOG_ALLOW_DECLINED") % allowance_decline_reason)
 		deliver_message("allowance_result")
 		stats_changed.emit()
 		return
@@ -452,33 +530,33 @@ func _tick_allowance() -> void:
 		"full":
 			allowance_status = "approved"
 			allowance_weekly = ALLOWANCE_FULL_WEEKLY
-			log_event("Student Allowance approved at the full rate, $%.0f a week." % allowance_weekly)
+			log_event(tr("SL_LOG_ALLOW_FULL") % allowance_weekly)
 		"partial":
 			allowance_status = "approved"
 			allowance_weekly = allowance_entitlement()
-			log_event("Student Allowance approved at a reduced rate of $%.0f a week." % allowance_weekly)
+			log_event(tr("SL_LOG_ALLOW_PARTIAL") % allowance_weekly)
 		"stand_down":
 			allowance_status = "approved"
 			allowance_weekly = maxf(allowance_entitlement(), ALLOWANCE_FULL_WEEKLY * 0.5)
 			allowance_stand_down_weeks = randi_range(2, 5)
-			log_event("Student Allowance approved at $%.0f a week, after a %d-week stand-down." % [
+			log_event(tr("SL_LOG_ALLOW_STANDDOWN") % [
 				allowance_weekly, allowance_stand_down_weeks])
 		"accom_only":
 			allowance_status = "declined"
 			allowance_weekly = 0.0
 			accommodation_benefit_weekly = ACCOM_BENEFIT_WEEKLY
-			allowance_decline_reason = "Your parents' combined income is above the Student Allowance threshold. You have been granted the Accommodation Benefit instead, at $%.0f a week." % ACCOM_BENEFIT_WEEKLY
-			log_event("Allowance declined, but the Accommodation Benefit was granted at $%.0f a week." % ACCOM_BENEFIT_WEEKLY)
+			allowance_decline_reason = tr("SL_REASON_ACCOM_ONLY") % ACCOM_BENEFIT_WEEKLY
+			log_event(tr("SL_LOG_ACCOM_ONLY") % ACCOM_BENEFIT_WEEKLY)
 		"incomplete":
 			allowance_status = "declined"
 			allowance_weekly = 0.0
-			allowance_decline_reason = "Your parents never completed their section."
-			log_event("Student Allowance declined — incomplete application.")
+			allowance_decline_reason = tr("SL_REASON_INCOMPLETE")
+			log_event(tr("SL_LOG_ALLOW_INCOMPLETE"))
 		_:
 			allowance_status = "declined"
 			allowance_weekly = 0.0
-			allowance_decline_reason = "Your parents' combined income is above the threshold for a Student Allowance."
-			log_event("Student Allowance declined — parental income above the threshold.")
+			allowance_decline_reason = tr("SL_REASON_INCOME")
+			log_event(tr("SL_LOG_ALLOW_INCOME"))
 
 	deliver_message("allowance_result")
 	stats_changed.emit()
@@ -501,16 +579,16 @@ func _maybe_review_allowance() -> void:
 		allowance_weekly = maxf(0.0, round(allowance_weekly * randf_range(0.4, 0.75)))
 		if allowance_weekly <= 0.0:
 			allowance_status = "declined"
-			allowance_decline_reason = "Reassessed mid-year: your parents' income has risen above the threshold."
-			log_event("Allowance STOPPED after a mid-year review.")
+			allowance_decline_reason = tr("SL_REASON_REVIEW_STOP")
+			log_event(tr("SL_LOG_REVIEW_STOP"))
 		else:
-			log_event("Allowance reduced at the mid-year review, $%.0f down to $%.0f a week." % [
+			log_event(tr("SL_LOG_REVIEW_DOWN") % [
 				before, allowance_weekly])
 		deliver_message("allowance_review")
 	elif roll < 0.55:
 		var before2: float = allowance_weekly
 		allowance_weekly = minf(ALLOWANCE_FULL_WEEKLY, round(allowance_weekly * randf_range(1.2, 1.6)))
-		log_event("Allowance increased at the mid-year review, $%.0f up to $%.0f a week." % [
+		log_event(tr("SL_LOG_REVIEW_UP") % [
 			before2, allowance_weekly])
 		deliver_message("allowance_review")
 	stats_changed.emit()
@@ -526,14 +604,12 @@ func _pay_allowance() -> void:
 	# paid for a few weeks.
 	if allowance_stand_down_weeks > 0:
 		allowance_stand_down_weeks -= 1
-		log_event("Allowance stand-down: %d week%s to go before payments start." % [
-			allowance_stand_down_weeks,
-			"" if allowance_stand_down_weeks == 1 else "s"])
+		log_event(plural("SL_LOG_STANDDOWN", allowance_stand_down_weeks) % allowance_stand_down_weeks)
 		stats_changed.emit()
 		return
 	money += allowance_weekly
 	allowance_received += allowance_weekly
-	log_event("Student Allowance paid: $%.2f (not repayable)" % allowance_weekly)
+	log_event(tr("SL_LOG_ALLOW_PAID") % allowance_weekly)
 	stats_changed.emit()
 
 
@@ -547,32 +623,30 @@ func _pay_accommodation_benefit() -> void:
 		return
 	money += accommodation_benefit_weekly
 	allowance_received += accommodation_benefit_weekly
-	log_event("Accommodation Benefit paid: $%.2f" % accommodation_benefit_weekly)
+	log_event(tr("SL_LOG_ACCOM_PAID") % accommodation_benefit_weekly)
 	stats_changed.emit()
 
 
 func allowance_status_text() -> String:
 	match allowance_status:
 		"none":
-			return "No application. The allowance is means-tested but it is not repaid — worth applying even if you expect a no."
+			return tr("SL_ALLOW_STATUS_NONE")
 		"submitted":
 			if not parents_confirmed_income:
-				return "WAITING ON YOUR PARENTS. They have to complete their section before anything is assessed — it's been %d day%s. Text them." % [
-					allowance_waiting_days, "" if allowance_waiting_days == 1 else "s"]
-			return "Being assessed. Decision in %d day%s." % [allowance_days_left, "" if allowance_days_left == 1 else "s"]
+				return plural("SL_ALLOW_STATUS_WAITING", allowance_waiting_days) % allowance_waiting_days
+			return plural("SL_ASSESSING", allowance_days_left) % allowance_days_left
 		"approved":
-			var rate_note: String = " (full rate)" if allowance_weekly >= ALLOWANCE_FULL_WEEKLY else " (reduced rate — your parents are over the full-rate threshold)"
+			var rate_note: String = tr("SL_RATE_FULL") if allowance_weekly >= ALLOWANCE_FULL_WEEKLY else tr("SL_RATE_REDUCED")
 			var stand: String = ""
 			if allowance_stand_down_weeks > 0:
-				stand = "  STAND-DOWN: payments start in %d week%s." % [
-					allowance_stand_down_weeks, "" if allowance_stand_down_weeks == 1 else "s"]
-			return "APPROVED at $%.0f a week%s.%s Received so far: $%.2f — none of it repayable." % [
+				stand = plural("SL_STANDDOWN_NOTE", allowance_stand_down_weeks) % allowance_stand_down_weeks
+			return tr("SL_ALLOW_STATUS_APPROVED") % [
 				allowance_weekly, rate_note, stand, allowance_received]
 		"declined":
 			if accommodation_benefit_weekly > 0.0:
-				return "Allowance DECLINED — %s\n\nAccommodation Benefit is being paid at $%.0f a week. Received so far: $%.2f." % [
+				return tr("SL_ALLOW_STATUS_ACCOM") % [
 					allowance_decline_reason, accommodation_benefit_weekly, allowance_received]
-			return "DECLINED — %s" % allowance_decline_reason
+			return tr("SL_STATUS_DECLINED") % allowance_decline_reason
 	return allowance_status
 
 
@@ -583,22 +657,22 @@ func allowance_status_text() -> String:
 
 const ACCOMMODATION: Dictionary = {
 	"halls": {
-		"label": "Catered halls of residence",
+		"label": "ACC_HALLS",  # localisation key — tr() wherever it is shown
 		"deposit": 500.0,
 		"year_cost": 18500.0,
-		"blurb": "A room, three meals a day and a hundred other first-years in the same boat. The expensive option, and the one that makes the first year socially survivable.",
+		"blurb": "ACC_BLURB_HALLS",
 	},
 	"flat": {
-		"label": "Flatting",
+		"label": "ACC_FLAT",
 		"deposit": 900.0,
 		"year_cost": 11000.0,
-		"blurb": "Cheaper, and you cook, clean and chase a landlord. Bond is due up front, which is why the deposit is higher than halls.",
+		"blurb": "ACC_BLURB_FLAT",
 	},
 	"home": {
-		"label": "Stay at home and commute",
+		"label": "ACC_HOME",
 		"deposit": 0.0,
 		"year_cost": 1200.0,
-		"blurb": "Free rent, no bond, and a long bus ride twice a day. Cheapest by a mile if the campus is close enough to your town.",
+		"blurb": "ACC_BLURB_HOME",
 	},
 }
 
@@ -615,59 +689,59 @@ func accommodation_applications_open() -> bool:
 ## Records a preference. The deposit is only taken when you confirm it.
 func choose_accommodation(kind: String) -> Array:
 	if not ACCOMMODATION.has(kind):
-		return [false, "Unknown accommodation option."]
+		return [false, tr("ACC_ERR_UNKNOWN")]
 	if not accommodation_applications_open():
-		return [false, "Accommodation applications for next year have closed."]
+		return [false, tr("ACC_ERR_CLOSED")]
 	if accommodation_choice == kind:
-		return [false, "That's already your preference."]
+		return [false, tr("ACC_ERR_SAME")]
 	if accommodation_deposit_paid:
 		accommodation_deposit_paid = false
-		log_event("Changed accommodation preference — the deposit is not refunded.")
+		log_event(tr("ACC_LOG_CHANGED"))
 	accommodation_choice = kind
-	log_event("Accommodation preference set to: %s" % str(ACCOMMODATION[kind].label))
+	log_event(tr("ACC_LOG_SET") % tr(str(ACCOMMODATION[kind].label)))
 	stats_changed.emit()
-	return [true, "Preference recorded. It isn't confirmed until the deposit is paid."]
+	return [true, tr("ACC_PREF_RECORDED")]
 
 
 func confirm_accommodation() -> Array:
 	if accommodation_choice == "":
-		return [false, "Choose an option first."]
+		return [false, tr("ACC_ERR_CHOOSE")]
 	if accommodation_deposit_paid:
-		return [false, "Already confirmed."]
+		return [false, tr("ACC_ERR_ALREADY")]
 	var deposit: float = ACCOMMODATION[accommodation_choice].get("deposit", 0.0)
 	if deposit > money:
-		return [false, "You need $%.0f for the deposit and you have $%.2f." % [deposit, money]]
+		return [false, tr("ACC_ERR_MONEY") % [deposit, money]]
 	money -= deposit
 	accommodation_deposit_paid = true
-	log_event("Paid a $%.0f accommodation deposit for %s." % [deposit, str(ACCOMMODATION[accommodation_choice].label)])
+	log_event(tr("ACC_LOG_PAID") % [deposit, tr(str(ACCOMMODATION[accommodation_choice].label))])
 	stats_changed.emit()
-	return [true, "Confirmed. $%.0f deposit paid." % deposit]
+	return [true, tr("ACC_CONFIRMED_PAID") % deposit]
 
 
 func accommodation_status_text() -> String:
 	if accommodation_choice == "":
 		if accommodation_applications_open():
-			return "No preference recorded. Applications close on day %d." % ACCOM_APPLY_CLOSES_DAY
-		return "No preference recorded, and applications have closed."
+			return tr("ACC_STATUS_NONE_OPEN") % ACCOM_APPLY_CLOSES_DAY
+		return tr("ACC_STATUS_NONE_CLOSED")
 	var data: Dictionary = ACCOMMODATION[accommodation_choice]
 	if accommodation_deposit_paid:
-		return "%s — CONFIRMED (deposit paid)." % str(data.label)
-	return "%s — preference recorded but NOT confirmed. Deposit of $%.0f still to pay." % [
-		str(data.label), data.get("deposit", 0.0)]
+		return tr("ACC_STATUS_CONFIRMED") % tr(str(data.label))
+	return tr("ACC_STATUS_PENDING") % [
+		tr(str(data.label)), data.get("deposit", 0.0)]
 
 
 ## Submit the StudyLink application. Returns [ok, message].
 func apply_for_student_loan(ird: String, want_fees: bool, want_living: bool) -> Array:
 	if loan_status == "submitted":
-		return [false, "You already have an application being processed."]
+		return [false, tr("SL_ERR_LOAN_PENDING")]
 	if loan_status == "approved":
-		return [false, "Your loan is already approved."]
+		return [false, tr("SL_ERR_LOAN_APPROVED")]
 	if not want_fees and not want_living:
-		return [false, "You have to apply for at least one part of the loan."]
+		return [false, tr("SL_ERR_LOAN_NOTHING")]
 
 	var cleaned: String = ird.strip_edges().replace("-", "").replace(" ", "")
 	if cleaned.length() < 8 or not cleaned.is_valid_int():
-		return [false, "That IRD number doesn't look right. It should be 8 or 9 digits."]
+		return [false, tr("SL_ERR_IRD")]
 
 	loan_ird_number = cleaned
 	loan_wants_fees = want_fees
@@ -677,15 +751,15 @@ func apply_for_student_loan(ird: String, want_fees: bool, want_living: bool) -> 
 
 	if not loan_applications_open():
 		loan_status = "submitted"
-		loan_decline_reason = "Application received after the cut-off for this academic year."
-		log_event("Applied to StudyLink — but applications for this year closed a while ago.")
+		loan_decline_reason = tr("SL_ERR_LATE")
+		log_event(tr("SL_LOG_LOAN_LATE"), true)
 		stats_changed.emit()
-		return [true, "Submitted. Note: applications for this academic year closed on day %d." % LOAN_APPLY_CLOSES_DAY]
+		return [true, tr("SL_LOAN_SUBMITTED_LATE") % LOAN_APPLY_CLOSES_DAY]
 
 	loan_status = "submitted"
-	log_event("Applied to StudyLink for a student loan. Decision in about %d days." % LOAN_PROCESSING_DAYS)
+	log_event(tr("SL_LOG_LOAN_APPLIED") % LOAN_PROCESSING_DAYS, true)
 	stats_changed.emit()
-	return [true, "Application submitted. StudyLink will be in touch in about %d days." % LOAN_PROCESSING_DAYS]
+	return [true, tr("SL_LOAN_SUBMITTED") % LOAN_PROCESSING_DAYS]
 
 
 ## Ticked once per day from advance_day().
@@ -698,11 +772,11 @@ func _tick_loan_application() -> void:
 
 	if loan_decline_reason != "":
 		loan_status = "declined"
-		log_event("StudyLink declined your application: %s" % loan_decline_reason)
+		log_event(tr("SL_LOG_LOAN_DECLINED") % loan_decline_reason, true)
 		deliver_message("studylink_declined")
 	else:
 		loan_status = "approved"
-		log_event("StudyLink approved your student loan.")
+		log_event(tr("SL_LOG_LOAN_APPROVED"), true)
 		deliver_message("studylink_approved")
 	stats_changed.emit()
 
@@ -716,8 +790,8 @@ func _pay_loan_living_costs() -> void:
 		return
 	money += LOAN_LIVING_COSTS_WEEKLY
 	loan_debt += LOAN_LIVING_COSTS_WEEKLY
-	log_event("StudyLink living costs paid: $%.2f (total borrowed $%.2f)" % [
-		LOAN_LIVING_COSTS_WEEKLY, loan_debt])
+	log_event(tr("SL_LOG_LIVING_PAID") % [
+		LOAN_LIVING_COSTS_WEEKLY, loan_debt], true)
 	stats_changed.emit()
 
 
@@ -733,24 +807,24 @@ func loan_status_text() -> String:
 	match loan_status:
 		"none":
 			if loan_applications_open():
-				return "No application. Applications close on day %d." % LOAN_APPLY_CLOSES_DAY
-			return "No application — and applications for this year have closed."
+				return tr("SL_LOAN_STATUS_NONE_OPEN") % LOAN_APPLY_CLOSES_DAY
+			return tr("SL_LOAN_STATUS_NONE_CLOSED")
 		"submitted":
-			return "Being processed. Decision in %d day%s." % [loan_days_left, "" if loan_days_left == 1 else "s"]
+			return plural("SL_PROCESSING", loan_days_left) % loan_days_left
 		"approved":
 			var parts: Array = []
 			if loan_wants_fees:
-				parts.append("course fees")
+				parts.append(tr("SL_PART_FEES"))
 			if loan_wants_living_costs:
-				parts.append("living costs ($%.0f/week)" % LOAN_LIVING_COSTS_WEEKLY)
-			var covered: String = ", ".join(parts) if not parts.is_empty() else "nothing selected"
+				parts.append(tr("SL_PART_LIVING") % LOAN_LIVING_COSTS_WEEKLY)
+			var covered: String = ", ".join(parts) if not parts.is_empty() else tr("SL_PART_NOTHING")
 			# Only mention a balance once there IS one. "Borrowed so far:
 			# $0.00" reads like an error rather than good news.
 			if loan_debt <= 0.0:
-				return "APPROVED — %s. Nothing drawn down yet." % covered
-			return "APPROVED — %s. Borrowed so far: $%.2f" % [covered, loan_debt]
+				return tr("SL_LOAN_STATUS_APPROVED_NONE") % covered
+			return tr("SL_LOAN_STATUS_APPROVED") % [covered, loan_debt]
 		"declined":
-			return "DECLINED — %s" % loan_decline_reason
+			return tr("SL_STATUS_DECLINED") % loan_decline_reason
 	return loan_status
 
 
@@ -760,23 +834,22 @@ func loan_approval_text() -> String:
 	var fees: float = universities.get(selected_university, {}).get("money_needed", 0)
 	var lines: Array = []
 
-	lines.append("APPROVED.")
+	lines.append(tr("SL_LETTER_APPROVED"))
 	lines.append("")
 
 	if loan_wants_fees:
-		lines.append("COURSE FEES — approved. Approximately $%.0f will be paid direct to %s when you enrol. You will not handle this money." % [
+		lines.append(tr("SL_LETTER_FEES_YES") % [
 			fees, university_full_name()])
 	else:
-		lines.append("COURSE FEES — not applied for. You did not tick this box, so your fees are not covered.")
+		lines.append(tr("SL_LETTER_FEES_NO"))
 
 	if loan_wants_living_costs:
 		var weeks_left: int = maxi(0, int(round(float(days_remaining) / 7.0)))
-		lines.append("LIVING COSTS — approved at $%.0f a week, paid into your account every week from now. That's roughly %d payment%s before the year is out, or about $%.0f." % [
+		lines.append(plural("SL_LETTER_LIVING_YES", weeks_left) % [
 			LOAN_LIVING_COSTS_WEEKLY, weeks_left,
-			"" if weeks_left == 1 else "s",
 			LOAN_LIVING_COSTS_WEEKLY * float(weeks_left)])
 	else:
-		lines.append("LIVING COSTS — not applied for. No weekly payments.")
+		lines.append(tr("SL_LETTER_LIVING_NO"))
 
 	lines.append("")
 
@@ -787,18 +860,18 @@ func loan_approval_text() -> String:
 		projected += LOAN_LIVING_COSTS_WEEKLY * float(maxi(0, int(round(float(days_remaining) / 7.0))))
 
 	if projected > 0.0:
-		lines.append("On these settings you would finish the year owing roughly $%.0f. You have borrowed $%.2f of it so far." % [
+		lines.append(tr("SL_LETTER_PROJECTED") % [
 			projected, loan_debt])
 	else:
-		lines.append("You are approved for nothing, so you will owe nothing — and nothing will be paid.")
+		lines.append(tr("SL_LETTER_NOTHING"))
 
 	return "\n".join(lines)
 
 
 ## What the decline letter says.
 func loan_decline_text() -> String:
-	var reason: String = loan_decline_reason if loan_decline_reason != "" else "Your application did not meet the criteria."
-	return "DECLINED.\n\n%s\n\nA declined loan does not affect your Student Allowance application, which is assessed separately." % reason
+	var reason: String = loan_decline_reason if loan_decline_reason != "" else tr("SL_DECLINE_DEFAULT")
+	return tr("SL_LETTER_DECLINED") % reason
 
 
 ## Can a loan actually pay this year's fees at enrolment?
@@ -864,26 +937,25 @@ func hints_for(subject: String) -> int:
 func predicted_band(subject: String) -> String:
 	var prep: float = get_prep(subject)
 	if prep < 15.0:
-		return "no idea"
+		return tr("PREP_NO_IDEA")
 	if prep < 35.0:
-		return "shaky — Not Achieved likely"
+		return tr("PREP_SHAKY")
 	if prep < 55.0:
-		return "borderline Achieved"
+		return tr("PREP_BORDERLINE")
 	if prep < 75.0:
-		return "comfortable Achieved"
+		return tr("PREP_COMFORTABLE")
 	if prep < 90.0:
-		return "Merit territory"
-	return "Excellence territory"
+		return tr("PREP_MERIT")
+	return tr("PREP_EXCELLENCE")
 
 
 ## Plain-English readout for the desk, laptop and journal.
 func prep_report(subject: String) -> String:
-	return "%s — revision %.0f%%, %s. %s" % [
-		str(subject).capitalize().replace("_", " "),
+	return tr("PREP_REPORT") % [
+		subject_name(str(subject)),
 		get_prep(subject), predicted_band(subject),
-		"No help in the exam yet." if hints_for(subject) == 0 else
-		"%d wrong answer%s will be struck out for you." % [
-			hints_for(subject), "" if hints_for(subject) == 1 else "s"]]
+		tr("PREP_NO_HELP") if hints_for(subject) == 0 else
+		plural("PREP_STRUCK", hints_for(subject)) % hints_for(subject)]
 
 
 func _decay_prep() -> void:
@@ -911,21 +983,26 @@ const WORK_NO_SHOWS_BEFORE_FIRED: int = 3
 const COMMITMENT_PLACES := {
 	"work": {
 		"where": "the supermarket",
-		"how": "Work a shift — go to the supermarket and clock on.",
+		"how": "COMMIT_HOW_WORK",
 	},
 	"study_group": {
 		"where": "school",
-		"how": "Go to school and study at a desk. Any subject counts.",
+		"how": "COMMIT_HOW_STUDY",
 	},
 }
 
 
 func commitment_place(kind: String) -> String:
-	return str(COMMITMENT_PLACES.get(kind, {}).get("where", "somewhere"))
+	return place_name(str(COMMITMENT_PLACES.get(kind, {}).get("where", "somewhere")))
+
+
+## "school" / "exam hall" / "the supermarket" as the player reads them.
+func place_name(where: String) -> String:
+	return display_name("PLACE_", where)
 
 
 func commitment_how(kind: String) -> String:
-	return str(COMMITMENT_PLACES.get(kind, {}).get("how", "Turn up."))
+	return tr(str(COMMITMENT_PLACES.get(kind, {}).get("how", "COMMIT_HOW_DEFAULT")))
 
 
 ## One line per thing you owe someone today, with where to go. Used by the HUD
@@ -942,7 +1019,7 @@ func add_commitment(kind: String, label: String, day: int) -> void:
 		if c.kind == kind and c.day == day:
 			return   # already booked for that day
 	commitments.append({"kind": kind, "label": label, "day": day})
-	log_event("Agreed to: %s (day %d)." % [label, day])
+	log_event(tr("COMMIT_LOG_AGREED") % [label, day])
 	stats_changed.emit()
 
 
@@ -955,11 +1032,11 @@ func fulfil_commitment(kind: String) -> bool:
 		if c.kind == kind and c.day <= today:
 			commitments.remove_at(i)
 			change_sanity(8.0)
-			log_event("Turned up: %s." % c.label)
+			log_event(tr("COMMIT_LOG_TURNED_UP") % c.label)
 			# Say so on screen, or turning up feels like nothing happened.
 			if has_node("/root/Notifier"):
 				get_node("/root/Notifier").notify(
-					"Kept your word", str(c.label), Color(0.35, 0.80, 0.50))
+					tr("NOTIF_KEPT_WORD"), str(c.label), Color(0.35, 0.80, 0.50))
 			stats_changed.emit()
 			return true
 	return false
@@ -996,20 +1073,20 @@ func _check_missed_commitments() -> void:
 				change_sanity(-10.0)
 				if work_no_shows >= WORK_NO_SHOWS_BEFORE_FIRED and not fired_from_work:
 					fired_from_work = true
-					log_event("No-showed a third shift. Deb has taken you off the roster.")
+					log_event(tr("COMMIT_LOG_FIRED"))
 					deliver_message("work_fired")
 				else:
-					log_event("Missed a shift without telling anyone. (%d of %d)" % [
-						work_no_shows, WORK_NO_SHOWS_BEFORE_FIRED])
+					log_event(tr("COMMIT_LOG_NOSHOW") % [
+						work_no_shows, WORK_NO_SHOWS_BEFORE_FIRED], true)
 					deliver_message("work_noshow")
 			"study_group":
 				study_no_shows += 1
 				change_sanity(-6.0)
-				log_event("Said you'd be at the study group and weren't.")
+				log_event(tr("COMMIT_LOG_STUDY_NOSHOW"))
 				deliver_message("study_group_noshow")
 			_:
 				change_sanity(-4.0)
-				log_event("Missed: %s." % c.label)
+				log_event(tr("COMMIT_LOG_MISSED") % c.label, true)
 		stats_changed.emit()
 var literacy_credits: int = 0
 var numeracy_credits: int = 0
@@ -1157,20 +1234,20 @@ func course_endorsement_reason(subject: String) -> String:
 	var ext_me: int = credits_at_band(subject, "Merit", "external")
 
 	if e != "":
-		return "Course endorsed with %s — %d credits at Merit or better (%d internal, %d external)." % [
-			e, me, int_me, ext_me]
+		return tr("NCEA_COURSE_ENDORSED") % [
+			band_name(e), me, int_me, ext_me]
 
 	if me < COURSE_ENDORSEMENT_CREDITS:
-		return "Not endorsed: %d of the %d Merit-or-better credits needed." % [
+		return tr("NCEA_NOT_ENDORSED_SHORT") % [
 			me, COURSE_ENDORSEMENT_CREDITS]
 	if int_me < COURSE_ENDORSEMENT_MIN_PER_SOURCE:
-		return "Not endorsed: you have the credits (%d), but only %d of them are from internals. At least %d must be." % [
+		return tr("NCEA_NOT_ENDORSED_INTERNAL") % [
 			me, int_me, COURSE_ENDORSEMENT_MIN_PER_SOURCE]
 	if ext_me < COURSE_ENDORSEMENT_MIN_PER_SOURCE:
-		return "Not endorsed: you have the credits (%d), but only %d are from the external. At least %d must be — this is the one that catches people." % [
+		return tr("NCEA_NOT_ENDORSED_EXTERNAL") % [
 			me, ext_me, COURSE_ENDORSEMENT_MIN_PER_SOURCE]
 	if exc >= COURSE_ENDORSEMENT_CREDITS:
-		return "Course endorsed with Excellence."
+		return tr("NCEA_COURSE_EXCELLENCE")
 	return ""
 
 
@@ -1180,11 +1257,11 @@ func certificate_endorsement_progress() -> String:
 	var e: int = total_credits_at("Excellence")
 	var current: String = certificate_endorsement()
 	if current == "Excellence":
-		return "NCEA Level 3 endorsed with EXCELLENCE (%d Excellence credits)." % e
+		return tr("NCEA_CERT_EXCELLENCE") % e
 	if current == "Merit":
-		return "NCEA Level 3 endorsed with MERIT (%d credits at Merit or better). %d Excellence credits — %d more for an Excellence endorsement." % [
+		return tr("NCEA_CERT_MERIT") % [
 			m, e, CERTIFICATE_ENDORSEMENT_CREDITS - e]
-	return "Not endorsed. %d / %d credits at Merit or better, %d / %d at Excellence." % [
+	return tr("NCEA_CERT_NONE") % [
 		m, CERTIFICATE_ENDORSEMENT_CREDITS, e, CERTIFICATE_ENDORSEMENT_CREDITS]
 
 
@@ -1213,11 +1290,11 @@ func has_university_entrance() -> bool:
 ## Human-readable breakdown for the Journal / ending screen.
 func ue_status_text() -> String:
 	var lines: Array = []
-	lines.append("Subjects with %d+ credits: %d / %d" % [
+	lines.append(tr("UE_SUBJECTS_LINE") % [
 		UE_CREDITS_PER_SUBJECT, subjects_meeting_credit_threshold(), UE_SUBJECTS_REQUIRED])
-	lines.append("Literacy: %d / %d — carried over from Year 12" % [literacy_credits, UE_LITERACY_REQUIRED])
-	lines.append("Numeracy: %d / %d — carried over from Year 12" % [numeracy_credits, UE_NUMERACY_REQUIRED])
-	lines.append("Total credits: %d" % total_credits())
+	lines.append(tr("NCEA_LITERACY") + tr("UE_CARRIED") % [literacy_credits, UE_LITERACY_REQUIRED])
+	lines.append(tr("NCEA_NUMERACY") + tr("UE_CARRIED") % [numeracy_credits, UE_NUMERACY_REQUIRED])
+	lines.append(tr("UE_TOTAL_CREDITS") % total_credits())
 	lines.append(certificate_endorsement_progress())
 	return "\n".join(lines)
 
@@ -1228,8 +1305,8 @@ func ue_shortfall_reasons() -> Array:
 	var reasons: Array = []
 	var subs: int = subjects_meeting_credit_threshold()
 	if subs < UE_SUBJECTS_REQUIRED:
-		reasons.append("You have %d subject%s at %d+ Level 3 credits. University Entrance needs %d." % [
-			subs, "" if subs == 1 else "s", UE_CREDITS_PER_SUBJECT, UE_SUBJECTS_REQUIRED])
+		reasons.append(plural("UE_SHORTFALL", subs) % [
+			subs, UE_CREDITS_PER_SUBJECT, UE_SUBJECTS_REQUIRED])
 	# Literacy and numeracy came in from Year 12, so they never appear as a
 	# shortfall — they're shown on the portal as met and left alone.
 	return reasons
@@ -1238,8 +1315,8 @@ func ue_shortfall_reasons() -> Array:
 func _pretty_list(items: Array) -> String:
 	var out: Array = []
 	for s in items:
-		out.append(str(s).capitalize().replace("_", " "))
-	return ", ".join(out)
+		out.append(subject_name(str(s)))
+	return tr("LIST_SEPARATOR").join(out)
 
 
 # --- Exams ---------------------------------------------------------------------
@@ -1473,7 +1550,7 @@ func complete_exam(subject: String, correct: int, total: int) -> bool:
 		change_energy(-20.0)
 		change_sanity(-6.0)
 		change_thirst(-8.0)
-		log_event("Sat the %s external. Results come out at the end of the year." % subject.capitalize())
+		log_event(tr("EXAM_LOG_SAT_EXTERNAL") % subject_name(str(subject)), true)
 		stats_changed.emit()
 		return true   # "did you sit it", not "did you pass"
 
@@ -1497,10 +1574,10 @@ func complete_exam(subject: String, correct: int, total: int) -> bool:
 	change_sanity(10.0 if passed else -14.0)
 	change_thirst(-8.0)
 
-	log_event("%s internal: %d/%d — %s%s (grade now %.0f)" % [
-		subject.capitalize(), correct, total, band,
-		", %d credits" % INTERNAL_CREDITS if passed else ", no credits",
-		subject_grades[subject]])
+	log_event(tr("EXAM_LOG_INTERNAL") % [
+		subject_name(str(subject)), correct, total, band_name(band),
+		tr("EXAM_CREDITS_SUFFIX") % INTERNAL_CREDITS if passed else tr("EXAM_NO_CREDITS_SUFFIX"),
+		subject_grades[subject]], true)
 	stats_changed.emit()
 	return passed
 
@@ -1518,8 +1595,8 @@ func release_external_results() -> void:
 		if not exam.taken:
 			# Never sat it, and no derived grade to fall back on.
 			subject_grades[subject] = clamp(subject_grades.get(subject, 50.0) - 20.0, 0.0, 100.0)
-			log_event("%s external: absent — grade dropped to %.0f." % [
-				subject.capitalize(), subject_grades[subject]])
+			log_event(tr("EXAM_LOG_EXTERNAL_ABSENT") % [
+				subject_name(str(subject)), subject_grades[subject]], true)
 			continue
 		var accuracy: float = exam.get("accuracy", 0.0)
 		var swing: float = (accuracy - EXAM_PASS_RATIO) * 55.0   # externals hit harder
@@ -1531,10 +1608,10 @@ func release_external_results() -> void:
 		if accuracy >= EXAM_PASS_RATIO:
 			credits = EXTERNAL_CREDITS
 			award_credits(subject, credits, band, "external")
-		log_event("%s external: %s (%.0f%%) — grade now %.0f, %s" % [
-			subject.capitalize(), band, accuracy * 100.0,
+		log_event(tr("EXAM_LOG_EXTERNAL") % [
+			subject_name(str(subject)), band_name(band), accuracy * 100.0,
 			subject_grades[subject],
-			"%d credits" % credits if credits > 0 else "no credits"])
+			tr("EXAM_N_CREDITS") % credits if credits > 0 else tr("EXAM_NO_CREDITS")], true)
 	if released > 0:
 		stats_changed.emit()
 		journal_updated.emit()
@@ -1554,7 +1631,7 @@ func use_derived_grade(subject: String) -> bool:
 			# Derived from how you've been doing all year, not a fresh sitting.
 			var evidence: float = clampf(subject_grades.get(subject, 50.0) / 100.0, 0.0, 1.0)
 			exam.accuracy = clampf(evidence * 0.9, 0.0, 1.0)
-			log_event("Applied for a derived grade in %s. It'll be awarded with the rest on results day." % subject.capitalize())
+			log_event(tr("EXAM_LOG_DERIVED") % subject_name(str(subject)), true)
 			stats_changed.emit()
 			return true
 	return false
@@ -1576,8 +1653,8 @@ func _check_missed_exams() -> void:
 		stat_exams_missed += 1
 		subject_grades[exam.subject] = clamp(subject_grades.get(exam.subject, 50.0) - 15.0, 0.0, 100.0)
 		change_sanity(-15.0)
-		log_event("MISSED the %s internal — grade dropped to %.0f" % [
-			exam.subject.capitalize(), subject_grades[exam.subject]])
+		log_event(tr("EXAM_LOG_MISSED_INTERNAL") % [
+			subject_name(str(exam.subject)), subject_grades[exam.subject]], true)
 		stats_changed.emit()
 
 
@@ -1632,25 +1709,21 @@ func subject_result_detail(subject: String) -> Dictionary:
 			absent += 1
 
 	if sat == 0 and absent == 0:
-		why.append("Nothing assessed yet — %d paper%s still to sit." % [
-			upcoming_count, "" if upcoming_count == 1 else "s"])
+		why.append(plural("WHY_NOTHING", upcoming_count) % upcoming_count)
 	if upcoming_count > 0 and sat > 0:
-		why.append("%d paper%s still to sit, so this can still move." % [
-			upcoming_count, "" if upcoming_count == 1 else "s"])
+		why.append(plural("WHY_STILL", upcoming_count) % upcoming_count)
 	if absent > 0:
-		why.append("%d assessment%s missed — each absence costs credits and pulls the grade down." % [
-			absent, "" if absent == 1 else "s"])
+		why.append(plural("WHY_MISSED", absent) % absent)
 	if excellences > 0:
-		why.append("%d Excellence result%s pushed both the grade and the credit count up." % [
-			excellences, "" if excellences == 1 else "s"])
+		why.append(plural("WHY_EXCELLENCE", excellences) % excellences)
 	if sat > 0 and excellences == 0 and absent == 0:
-		why.append("Consistent attendance, no standout papers — a solid middle result.")
+		why.append(tr("WHY_SOLID"))
 	# Band breakdown, because "12 credits" tells you nothing about whether
 	# this subject is going to endorse.
 	var me: int = credits_at_band(subject, "Merit")
 	var exc: int = credits_at_band(subject, "Excellence")
 	if credits > 0:
-		why.append("%d credits total — %d at Merit or better, %d at Excellence. (%d from internals, %d from the external.)" % [
+		why.append(tr("WHY_CREDITS_BREAKDOWN") % [
 			credits, me, exc,
 			credits_from_source(subject, "internal"),
 			credits_from_source(subject, "external")])
@@ -1659,19 +1732,19 @@ func subject_result_detail(subject: String) -> Dictionary:
 		why.append(endorse_note)
 
 	if credits >= UE_CREDITS_PER_SUBJECT:
-		why.append("%d credits: meets the %d needed for this subject to count toward UE." % [
+		why.append(tr("WHY_UE_MET") % [
 			credits, UE_CREDITS_PER_SUBJECT])
 	elif upcoming_count > 0:
-		why.append("%d credits so far, %d short of the %d needed — %d paper%s left to earn them in." % [
+		why.append(plural("WHY_UE_SHORT_UPCOMING", upcoming_count) % [
 			credits, UE_CREDITS_PER_SUBJECT - credits, UE_CREDITS_PER_SUBJECT,
-			upcoming_count, "" if upcoming_count == 1 else "s"])
+			upcoming_count])
 	else:
-		why.append("%d credits: %d short of the %d this subject needs to count toward UE." % [
+		why.append(tr("WHY_UE_SHORT") % [
 			credits, UE_CREDITS_PER_SUBJECT - credits, UE_CREDITS_PER_SUBJECT])
 	if subject in LITERACY_SUBJECTS:
-		why.append("Counts toward literacy.")
+		why.append(tr("WHY_LITERACY"))
 	if subject in NUMERACY_SUBJECTS:
-		why.append("Counts toward numeracy.")
+		why.append(tr("WHY_NUMERACY"))
 
 	return {
 		"subject": subject,
@@ -1721,7 +1794,7 @@ func get_overall_grade() -> float:
 func get_subject_grades_text() -> String:
 	var parts: Array = []
 	for subject in active_subjects:
-		parts.append("%s: %.0f" % [subject.capitalize(), subject_grades.get(subject, 0.0)])
+		parts.append("%s: %.0f" % [subject_name(str(subject)), subject_grades.get(subject, 0.0)])
 	return "   ".join(parts)
 
 
@@ -1752,8 +1825,11 @@ func get_elapsed_days() -> int:
 	return TOTAL_DAYS - days_remaining
 
 
-func log_event(text: String) -> void:
-	journal.append({"day": get_elapsed_days(), "text": text})
+## `notable` marks entries for the ending screen's "moments" list. That list
+## used to be picked by searching the text for English words, which stops
+## working once the journal is written in another language.
+func log_event(text: String, notable: bool = false) -> void:
+	journal.append({"day": get_elapsed_days(), "text": text, "notable": notable})
 	journal_updated.emit()
 
 
@@ -1801,7 +1877,7 @@ func change_sanity(amount: float) -> void:
 	stats_changed.emit()
 	# The moment you first hit zero you get told, plainly, once.
 	if was_above and sanity <= 0.0 and not game_over:
-		log_event("You have nothing left. Sleep, eat, and talk to someone — today.")
+		log_event(tr("LOG_ROCK_BOTTOM"))
 		deliver_message("rock_bottom")
 
 
@@ -1888,7 +1964,7 @@ func advance_day() -> void:
 		# game must not sit in limbo forever.
 		offer_unread_days += 1
 		if offer_unread_days >= OFFER_AUTO_ACKNOWLEDGE_DAYS:
-			log_event("The offer had been sitting unopened for days. You read it eventually.")
+			log_event(tr("LOG_OFFER_AUTO"))
 			acknowledge_offer()
 		return
 
@@ -1920,7 +1996,7 @@ func _apply_daily_banking() -> void:
 		if term_deposit_days_left <= 0:
 			var payout: float = term_deposit_amount * (1.0 + TERM_DEPOSIT_RATE)
 			money += payout
-			log_event("Term deposit matured — received $%.2f" % payout)
+			log_event(tr("LOG_TERM_DEPOSIT") % payout, true)
 			term_deposit_amount = 0.0
 			stats_changed.emit()
 
@@ -1974,24 +2050,24 @@ func can_change_preference() -> bool:
 
 func change_university(uni_name: String) -> Array:
 	if not can_change_preference():
-		return [false, "Preferences are locked once results have been released."]
+		return [false, tr("PREF_LOCKED")]
 	if not universities.has(uni_name):
-		return [false, "Unknown university."]
+		return [false, tr("PREF_UNKNOWN_UNI")]
 	if uni_name == selected_university:
-		return [false, "That's already your first preference."]
+		return [false, tr("PREF_SAME_UNI")]
 	var previous: String = selected_university
 	selected_university = uni_name
 	preference_changes += 1
-	log_event("Changed first preference from %s to %s." % [previous, uni_name])
+	log_event(tr("PREF_LOG_UNI") % [university_name(previous), university_name(uni_name)])
 	stats_changed.emit()
-	return [true, "First preference updated to %s." % university_full_name()]
+	return [true, tr("PREF_UNI_UPDATED") % university_full_name()]
 
 
 ## Change programme. Your SUBJECTS do not change — you can't un-take a year of
 ## school — so a badly matched switch raises the average you'll need.
 func change_programme(programme: String) -> Array:
 	if not can_change_preference():
-		return [false, "Preferences are locked once results have been released."]
+		return [false, tr("PREF_LOCKED")]
 
 	if CONJOINTS.has(programme):
 		selected_conjoint = programme
@@ -2000,17 +2076,17 @@ func change_programme(programme: String) -> Array:
 		selected_conjoint = ""
 		selected_major = programme
 	else:
-		return [false, "Unknown programme."]
+		return [false, tr("PREF_UNKNOWN_PROG")]
 
 	preference_changes += 1
 	var missing: Array = missing_required_subjects()
-	log_event("Changed programme to %s." % programme)
+	log_event(tr("PREF_LOG_PROG") % major_name(programme))
 	stats_changed.emit()
 
 	if missing.is_empty():
-		return [true, "Programme updated to %s. Your subjects cover it." % programme]
-	return [true, "Programme updated to %s.\n\nYou are not taking %s, which this programme expects. Entry average raised by %.0f." % [
-		programme, _pretty_list(missing), float(missing.size()) * MISSING_SUBJECT_PENALTY]]
+		return [true, tr("PREF_PROG_OK") % major_name(programme)]
+	return [true, tr("PREF_PROG_MISSING") % [
+		major_name(programme), _pretty_list(missing), float(missing.size()) * MISSING_SUBJECT_PENALTY]]
 
 
 ## Results day. Externals are marked and pushed to the phone; the university
@@ -2024,7 +2100,7 @@ func _check_deadline_ending() -> void:
 	release_external_results()
 	results_phase = 1
 	deliver_message("nzqa_results")
-	log_event("NCEA results released — check your phone or the NZQA site on your laptop.")
+	log_event(tr("LOG_RESULTS_RELEASED"), true)
 	messages_changed.emit()
 	stats_changed.emit()
 
@@ -2036,7 +2112,7 @@ func release_university_offer() -> void:
 		return
 	results_phase = 2
 	deliver_message("university_offer")
-	log_event("A decision on your university application has arrived.")
+	log_event(tr("LOG_OFFER_ARRIVED"))
 	messages_changed.emit()
 
 
@@ -2089,27 +2165,27 @@ func offer_message() -> String:
 	var uni_name: String = university_full_name()
 	match pending_ending_result():
 		"scholarship":
-			return "CONGRATULATIONS. You have been offered a place at %s, with a scholarship covering your tuition fees in full." % uni_name
+			return tr("OFFER_SCHOLARSHIP") % uni_name
 		"good":
-			return "CONGRATULATIONS. You have been offered a place at %s. Your fees are covered by your own savings." % uni_name
+			return tr("OFFER_GOOD") % uni_name
 		"student_loan":
-			return "You have been offered a place at %s. StudyLink has confirmed your student loan will cover this year's fees." % uni_name
+			return tr("OFFER_LOAN") % uni_name
 		"unfunded":
-			return "You have been offered a place at %s. However, we have no record of an approved StudyLink loan, and your savings do not cover the fees. The offer cannot be taken up this year." % uni_name
+			return tr("OFFER_UNFUNDED") % uni_name
 		"deferred":
-			return "You have been offered a place at %s, deferred by one year at your request." % uni_name
+			return tr("OFFER_DEFERRED") % uni_name
 		"second_choice":
-			return "%s was unable to offer you a place. However, another university has offered you one." % uni_name
+			return tr("OFFER_SECOND") % uni_name
 		"foundation_year":
-			return "%s has offered you a place on a foundation programme, with entry to the degree next year." % uni_name
+			return tr("OFFER_FOUNDATION") % uni_name
 		"no_ue":
-			return "We are unable to make you an offer. University Entrance was not achieved."
+			return tr("OFFER_NO_UE")
 		"bad_deadline":
-			return "We regret that %s is unable to offer you a place this year." % uni_name
+			return tr("OFFER_REJECTED") % uni_name
 		_:
 			# Genuine catch-all. If you add a new ending id and forget to add
 			# a case above, you get this rather than a blank message.
-			return "A decision has been made on your application to %s. Please check the applicant portal." % uni_name
+			return tr("OFFER_DEFAULT") % uni_name
 
 
 ## Plain-English reasons for the decision, shown in the applicant portal on
@@ -2123,52 +2199,52 @@ func offer_reasons() -> Array:
 	var reasons: Array = []
 
 	if not has_university_entrance():
-		reasons.append("University Entrance was NOT achieved. This is a hard requirement — no degree programme can admit you without it.")
+		reasons.append(tr("REASON_NO_UE"))
 		reasons.append_array(ue_shortfall_reasons())
 		return reasons
 
-	reasons.append("University Entrance: ACHIEVED (%d subjects at %d+ credits, %d literacy, %d numeracy)." % [
+	reasons.append(tr("REASON_UE_OK") % [
 		subjects_meeting_credit_threshold(), UE_CREDITS_PER_SUBJECT, literacy_credits, numeracy_credits])
 	var cert_e: String = certificate_endorsement()
 	if cert_e != "":
-		reasons.append("NCEA Level 3 endorsed with %s — %d credits at %s. This strengthened your application." % [
-			cert_e, total_credits_at(cert_e), cert_e])
+		reasons.append(tr("REASON_ENDORSED") % [
+			band_name(cert_e), total_credits_at(cert_e), band_name(cert_e)])
 
 	var missing: Array = missing_required_subjects()
 	if not missing.is_empty():
-		reasons.append("You are not taking %s, which this programme expects. That raised the entry average by %.0f." % [
+		reasons.append(tr("REASON_MISSING_SUBJECTS") % [
 			_pretty_list(missing), float(missing.size()) * MISSING_SUBJECT_PENALTY])
 
 	if grade >= req:
-		reasons.append("Academic average %.0f meets the %.0f required for %s%s." % [
-			grade, req, selected_major if selected_major != "" else "your programme",
-			" (conjoint surcharge included)" if selected_conjoint != "" else ""])
+		reasons.append(tr("REASON_AVERAGE_OK") % [
+			grade, req, major_name(selected_major) if selected_major != "" else tr("REASON_YOUR_PROGRAMME"),
+			tr("REASON_CONJOINT_SURCHARGE") if selected_conjoint != "" else ""])
 	else:
-		reasons.append("Academic average %.0f is %.0f short of the %.0f required." % [grade, req - grade, req])
+		reasons.append(tr("REASON_AVERAGE_SHORT") % [grade, req - grade, req])
 
 	if sanity <= SANITY_DEFER_THRESHOLD and grade >= req:
-		reasons.append("You asked to defer. You finished the year on %.0f%% wellbeing — starting first year in that state was not realistic." % sanity)
+		reasons.append(tr("REASON_DEFER") % sanity)
 
 	if grade >= req:
 		if money >= money_needed:
-			reasons.append("Fees of $%.0f are covered by your savings of $%.0f." % [money_needed, money])
+			reasons.append(tr("REASON_FEES_SAVINGS") % [money_needed, money])
 		elif loan_covers_fees():
-			reasons.append("Fees of $%.0f are covered by your approved StudyLink loan. Total borrowed: $%.2f." % [money_needed, loan_debt + money_needed])
+			reasons.append(tr("REASON_FEES_LOAN") % [money_needed, loan_debt + money_needed])
 		else:
-			reasons.append("Fees of $%.0f are NOT covered. You have $%.0f saved and %s." % [
+			reasons.append(tr("REASON_FEES_NOT") % [
 				money_needed, money,
-				"no approved student loan" if loan_status != "approved" else "a loan that does not include the fees component"])
+				tr("REASON_NO_LOAN") if loan_status != "approved" else tr("REASON_LOAN_NO_FEES")])
 			if allowance_status == "approved":
-				reasons.append("Your Student Allowance of $%.0f a week helped, but an allowance covers living costs, not tuition." % allowance_weekly)
+				reasons.append(tr("REASON_ALLOWANCE_HELPED") % allowance_weekly)
 			match loan_status:
 				"none":
-					reasons.append("You never submitted a StudyLink application. Applications for this year closed on day %d." % LOAN_APPLY_CLOSES_DAY)
+					reasons.append(tr("REASON_NEVER_APPLIED") % LOAN_APPLY_CLOSES_DAY)
 				"submitted":
-					reasons.append("Your StudyLink application was still being processed when enrolment closed.")
+					reasons.append(tr("REASON_STILL_PROCESSING"))
 				"declined":
-					reasons.append("StudyLink declined your application: %s" % loan_decline_reason)
+					reasons.append(tr("SL_LOG_LOAN_DECLINED") % loan_decline_reason)
 				"approved":
-					reasons.append("Your loan was approved for living costs only — you didn't tick the course fees box.")
+					reasons.append(tr("REASON_LIVING_ONLY"))
 	return reasons
 
 
@@ -2177,7 +2253,7 @@ func _end_game(result: String) -> void:
 		return
 	game_over = true
 	ending_result = result
-	log_event("--- The year is over. ---" if result != "bad_sanity" else "--- Burnout. ---")
+	log_event(tr("LOG_YEAR_OVER") if result != "bad_sanity" else tr("LOG_BURNOUT"), result == "bad_sanity")
 	game_ended.emit(result)
 
 
@@ -2193,104 +2269,100 @@ func build_epilogue() -> String:
 	# 1. How you spent the year.
 	var effort: Array = []
 	if stat_study_sessions > 0:
-		effort.append("%d study session%s (%.0f hours at a desk)" % [
-			stat_study_sessions, "" if stat_study_sessions == 1 else "s", stat_study_hours])
+		effort.append(plural("EPI_STUDY", stat_study_sessions) % [stat_study_sessions, stat_study_hours])
 	if stat_shifts > 0:
-		effort.append("%d shift%s at the supermarket, %.0f hours for $%.0f" % [
-			stat_shifts, "" if stat_shifts == 1 else "s", stat_work_hours, stat_earned])
+		effort.append(plural("EPI_SHIFT", stat_shifts) % [stat_shifts, stat_work_hours, stat_earned])
 	if stat_conversations > 0:
-		effort.append("%d proper conversation%s with people who noticed you were struggling" % [
-			stat_conversations, "" if stat_conversations == 1 else "s"])
+		effort.append(plural("EPI_CONVO", stat_conversations) % stat_conversations)
 	if effort.is_empty():
-		paras.append("%d days went past and you have almost nothing to show for them." % TOTAL_DAYS)
+		paras.append(tr("EPI_NOTHING") % TOTAL_DAYS)
 	else:
-		paras.append("Across %d days you managed " + _join_natural(effort) + "." % TOTAL_DAYS)
+		paras.append(tr("EPI_ACROSS") % [TOTAL_DAYS, _join_natural(effort)])
 
 	# 2. Exams.
 	if stat_exams_missed == 0 and stat_exams_sat > 0:
-		paras.append("You sat every single assessment you were timetabled for. %d of them. That alone puts you ahead of half the cohort." % stat_exams_sat)
+		paras.append(tr("EPI_ALL_SAT") % stat_exams_sat)
 	elif stat_exams_missed > 0:
-		paras.append("You sat %d assessments and missed %d. The missed ones are the ones you'll think about." % [stat_exams_sat, stat_exams_missed])
+		paras.append(tr("EPI_SOME_MISSED") % [stat_exams_sat, stat_exams_missed])
 
 	# 3. Wellbeing.
 	if stat_lowest_sanity <= 15.0:
-		paras.append("There was a stretch where you were genuinely running on nothing — you bottomed out at %.0f%%. You got through it, but not gracefully." % stat_lowest_sanity)
+		paras.append(tr("EPI_LOW") % stat_lowest_sanity)
 	elif stat_lowest_sanity <= 40.0:
-		paras.append("It got heavy around the middle of the year. You dipped to %.0f%% and pulled back out of it." % stat_lowest_sanity)
+		paras.append(tr("EPI_MID") % stat_lowest_sanity)
 	else:
-		paras.append("Remarkably, you kept your head above water the whole way — you never dropped below %.0f%%." % stat_lowest_sanity)
+		paras.append(tr("EPI_HIGH") % stat_lowest_sanity)
 
 	if temptation >= 65.0:
-		paras.append("You also spent a lot of the year not doing the thing you were supposed to be doing. %d refreshes of a feed that never had anything new on it." % stat_doomscrolls)
+		paras.append(tr("EPI_TEMPTATION") % stat_doomscrolls)
 
 	# 4. Money and the loan.
 	match loan_status:
 		"approved":
-			paras.append("StudyLink came through. You start next year owing $%.2f, which is a problem for a future version of you." % (loan_debt + (universities.get(selected_university, {}).get("money_needed", 0) if loan_covers_fees() and ending_result == "student_loan" else 0.0)))
+			paras.append(tr("EPI_LOAN_OK") % (loan_debt + (universities.get(selected_university, {}).get("money_needed", 0) if loan_covers_fees() and ending_result == "student_loan" else 0.0)))
 		"declined":
-			paras.append("StudyLink said no. %s" % loan_decline_reason)
+			paras.append(tr("EPI_LOAN_NO") % loan_decline_reason)
 		"submitted":
-			paras.append("Your StudyLink application was still sitting in a queue somewhere when the year ended.")
+			paras.append(tr("EPI_LOAN_QUEUE"))
 		"none":
-			paras.append("You never got round to applying to StudyLink. It was always a next-week job.")
+			paras.append(tr("EPI_LOAN_NEVER"))
 
 	# 4b. Accommodation and the allowance.
 	if allowance_status == "approved":
-		paras.append("The Student Allowance came through at $%.0f a week — $%.2f across the year that you will never have to pay back. Not everyone gets that, and it made a difference." % [
+		paras.append(tr("EPI_ALLOW_OK") % [
 			allowance_weekly, allowance_received])
 	elif allowance_status == "declined":
-		paras.append("The Student Allowance was declined. %s That is how it works for most people, and it still stings." % allowance_decline_reason)
+		paras.append(tr("EPI_ALLOW_NO") % allowance_decline_reason)
 
 	if accommodation_deposit_paid:
-		paras.append("You've got somewhere to live: %s, deposit paid. That is one thing off the list." % str(ACCOMMODATION[accommodation_choice].label).to_lower())
+		paras.append(tr("EPI_HOUSING_OK") % tr(str(ACCOMMODATION[accommodation_choice].label)).to_lower())
 	elif accommodation_choice != "":
-		paras.append("You picked out accommodation and never paid the deposit, so it isn't actually held.")
+		paras.append(tr("EPI_HOUSING_UNPAID"))
 	else:
-		paras.append("You never sorted anywhere to live next year. That's a February problem now.")
+		paras.append(tr("EPI_HOUSING_NONE"))
 
 	if preference_changes > 0:
-		paras.append("You changed your mind about where you were going %d time%s. That's not indecision — that's the only sensible response to being asked at seventeen." % [
-			preference_changes, "" if preference_changes == 1 else "s"])
+		paras.append(plural("EPI_CHANGED", preference_changes) % preference_changes)
 
 	# 4c. Endorsements — the thing that separates "got the credits" from
 	# "actually did well", and the line people quote for years afterwards.
 	var cert: String = certificate_endorsement()
 	var courses: Dictionary = endorsed_courses()
 	if cert == "Excellence":
-		paras.append("NCEA Level 3, endorsed with Excellence. Fifty credits at Excellence is not something you fall into — that is a year of consistently being the best in the room.")
+		paras.append(tr("EPI_CERT_EXC"))
 	elif cert == "Merit":
-		paras.append("NCEA Level 3, endorsed with Merit. Fifty credits at Merit or better across the year, which is a genuinely good result and worth saying out loud.")
+		paras.append(tr("EPI_CERT_MERIT"))
 	elif total_credits_at("Merit") >= 30:
-		paras.append("You finished on %d credits at Merit or better — short of the fifty needed to endorse the certificate, but not by much." % total_credits_at("Merit"))
+		paras.append(tr("EPI_CERT_CLOSE") % total_credits_at("Merit"))
 
 	if not courses.is_empty():
 		var bits: Array = []
 		for subj in courses:
-			bits.append("%s (%s)" % [str(subj).capitalize().replace("_", " "), courses[subj]])
-		paras.append("Course endorsements in " + _join_natural(bits) + ".")
+			bits.append("%s (%s)" % [subject_name(str(subj)), band_name(str(courses[subj]))])
+		paras.append(tr("EPI_COURSES") % _join_natural(bits))
 
 	# 5. Sign-off tuned to the ending.
 	match ending_result:
 		"scholarship":
-			paras.append("Someone read your results and decided to pay for you. Take the win.")
+			paras.append(tr("EPI_END_SCHOLARSHIP"))
 		"good":
-			paras.append("Paid for out of your own pocket, out of your own shifts. Nobody handed you that.")
+			paras.append(tr("EPI_END_GOOD"))
 		"student_loan":
-			paras.append("Going, and going into debt to do it. That is what most people do.")
+			paras.append(tr("EPI_END_LOAN"))
 		"unfunded":
-			paras.append("The cruellest version of this: you did the work, you got the offer, and the money wasn't there.")
+			paras.append(tr("EPI_END_UNFUNDED"))
 		"deferred":
-			paras.append("The place will still be there in a year. You needed the year more.")
+			paras.append(tr("EPI_END_DEFERRED"))
 		"second_choice":
-			paras.append("Not the one on the poster in your room. Still a start.")
+			paras.append(tr("EPI_END_SECOND"))
 		"foundation_year":
-			paras.append("The long way round is still the way round.")
+			paras.append(tr("EPI_END_FOUNDATION"))
 		"no_ue":
-			paras.append("Credits, not grades. That's the bit nobody explains properly until it's too late.")
+			paras.append(tr("EPI_END_NO_UE"))
 		"bad_sanity":
-			paras.append("The year didn't finish. You did.")
+			paras.append(tr("EPI_END_BURNOUT"))
 		"bad_deadline":
-			paras.append("Ninety days is not very long, in the end.")
+			paras.append(tr("EPI_END_DEADLINE"))
 	return "\n\n".join(paras)
 
 
@@ -2300,7 +2372,7 @@ func _join_natural(items: Array) -> String:
 	if items.size() == 1:
 		return str(items[0])
 	var head: Array = items.slice(0, items.size() - 1)
-	return ", ".join(head) + " and " + str(items[-1])
+	return tr("LIST_NAT_SEP").join(head) + tr("LIST_NAT_AND") + str(items[-1])
 
 
 ## The handful of journal lines worth putting on the ending screen — exams,
@@ -2309,6 +2381,9 @@ func notable_events(limit: int = 8) -> Array:
 	var keywords := ["MISSED", "external", "internal", "StudyLink", "Burnout", "Term deposit", "results"]
 	var hits: Array = []
 	for entry in journal:
+		if entry.get("notable", false):
+			hits.append(entry)
+			continue
 		for k in keywords:
 			if str(entry.text).findn(k) != -1:
 				hits.append(entry)
@@ -2443,8 +2518,8 @@ func complete_study_session(subject: String, correct: int, total: int, hours: fl
 	stat_study_sessions += 1
 	stat_study_hours += hours
 
-	log_event("Studied %s — %d/%d. Revision now %.0f%% (%s)." % [
-		subject.capitalize(), correct, total, get_prep(subject), predicted_band(subject)])
+	log_event(tr("LOG_STUDIED") % [
+		subject_name(str(subject)), correct, total, get_prep(subject), predicted_band(subject)])
 	stats_changed.emit()
 
 
@@ -2464,8 +2539,8 @@ func teacher_extra_credit(subject: String, correct: int, total: int,
 	change_energy(-energy_cost)
 	change_sanity(2.0 if accuracy >= 0.5 else -2.0)
 
-	log_event("Extra credit with Mr Halloway (%s): %s — grade now %.0f." % [
-		subject.capitalize(), "correct" if accuracy >= 0.5 else "not quite",
+	log_event(tr("LOG_EXTRA_CREDIT") % [
+		subject_name(str(subject)), tr("LOG_EC_CORRECT") if accuracy >= 0.5 else tr("LOG_EC_WRONG"),
 		subject_grades[subject]])
 	stats_changed.emit()
 
@@ -2494,7 +2569,7 @@ func complete_work_shift(hours: float, performance: float, base_pay_per_hour: fl
 	stat_work_hours += hours
 	stat_earned += pay
 
-	log_event("Worked a %.1fh shift — %.0f%% accuracy, earned $%.2f" % [hours, performance * 100.0, pay])
+	log_event(tr("LOG_WORKED") % [hours, performance * 100.0, pay])
 	stats_changed.emit()
 
 
@@ -2512,7 +2587,7 @@ func sleep(hours: float = 8.0) -> void:
 	change_sanity(35.0)
 	change_thirst(-hours * 1.0)
 	stat_nights_slept += 1
-	log_event("Slept for %.0f hours." % hours)
+	log_event(tr("LOG_SLEPT") % hours)
 	stats_changed.emit()
 
 
@@ -2547,11 +2622,11 @@ func sleep_until_morning() -> Dictionary:
 
 	var note: String = ""
 	if hours <= 4.0:
-		note = "A short, rubbish night — %.0f hours." % hours
+		note = tr("LOG_SLEEP_SHORT") % hours
 	elif hours >= 11.0:
-		note = "You went to bed far too early and slept badly for %.0f hours." % hours
+		note = tr("LOG_SLEEP_EARLY") % hours
 	else:
-		note = "Slept %.0f hours and woke up at %d:00." % [hours, int(WAKE_HOUR)]
+		note = tr("LOG_SLEEP_OK") % [hours, int(WAKE_HOUR)]
 
 	log_event(note)
 	stats_changed.emit()
@@ -2564,7 +2639,7 @@ func nap(hours: float = 2.0) -> void:
 	change_energy(hours * 14.0)
 	change_sanity(hours * 3.0)
 	change_thirst(-hours * 0.8)
-	log_event("Napped for %.0f hours." % hours)
+	log_event(tr("LOG_NAPPED") % hours)
 	stats_changed.emit()
 
 

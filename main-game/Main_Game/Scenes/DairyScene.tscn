@@ -53,7 +53,7 @@ shape = SubResource("ShelfShape")
 [node name="PromptLabel" type="Label" parent="ShelfStation"]
 visible = false
 position = Vector2(-50, -90)
-text = "Press E to browse"
+text = "PROMPT_BROWSE"
 
 [node name="ExitStation" type="Node2D" parent="."]
 position = Vector2(700, 450)
@@ -65,7 +65,7 @@ color = Color(0.85, 0.25, 0.25, 1)
 
 [node name="ExitLabel" type="Label" parent="ExitStation"]
 position = Vector2(-24, -12)
-text = "EXIT"
+text = "SIGN_EXIT"
 
 [node name="InteractArea" type="Area2D" parent="ExitStation"]
 
@@ -75,7 +75,7 @@ shape = SubResource("ExitShape")
 [node name="PromptLabel" type="Label" parent="ExitStation"]
 visible = false
 position = Vector2(-90, -80)
-text = "Press E to head back out"
+text = "PROMPT_HEAD_BACK_OUT"
 
 [node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(400, 350)
@@ -162,13 +162,13 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
 horizontal_alignment = 1
-text = "The Dairy"
+text = "SHOP_DAIRY"
 
 [node name="InfoLabel" type="Label" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
 layout_mode = 2
 autowrap_mode = 3
 horizontal_alignment = 1
-text = "What are you after?"
+text = "SHOP_DAIRY_Q"
 
 [node name="OptionsCenter" type="CenterContainer" parent="CanvasLayer/MinigameOverlay/CenterContainer/Panel/VBoxContainer"]
 layout_mode = 2

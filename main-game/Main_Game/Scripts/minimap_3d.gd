@@ -75,7 +75,7 @@ func _discover() -> void:
 			var col := Color(0.85, 0.85, 0.85)
 			for key in DOOR_COLORS:
 				if key in scene_path:
-					label = key.capitalize()
+					label = tr("MAP_DOOR_" + str(key).to_upper())
 					col = DOOR_COLORS[key]
 					break
 			var flat := Vector2(child.global_position.x, child.global_position.z)
@@ -107,9 +107,9 @@ func _process(_delta: float) -> void:
 			if dist < nearest_dist:
 				nearest_dist = dist
 				nearest = d.name
-		_legend.text = "Nearest: %s" % nearest
+		_legend.text = tr("MAP_NEAREST") % nearest
 	else:
-		_legend.text = "Map"
+		_legend.text = tr("MAP_MINI")
 
 
 func _to_map(world_xz: Vector2) -> Vector2:

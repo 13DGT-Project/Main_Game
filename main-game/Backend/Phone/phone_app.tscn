@@ -50,32 +50,32 @@ alignment = 1
 [node name="TitleLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=1727265709]
 layout_mode = 2
 theme_override_font_sizes/font_size = 26
-text = "Phone"
+text = "PHONE_TITLE"
 horizontal_alignment = 1
 
 [node name="ChirpButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=1230838179]
 layout_mode = 2
-text = "Chirp (social feed)"
+text = "PHONE_CHIRP_APP"
 
 [node name="MessagesButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=43541065]
 layout_mode = 2
-text = "Messages"
+text = "PHONE_MESSAGES"
 
 [node name="BankButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=397756561]
 layout_mode = 2
-text = "Bank"
+text = "PHONE_BANK"
 
 [node name="GamesButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=263393012]
 layout_mode = 2
-text = "Games"
+text = "PHONE_GAMES"
 
 [node name="WeatherButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=158023654]
 layout_mode = 2
-text = "Weather"
+text = "PHONE_WEATHER"
 
 [node name="CloseButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=384585392]
 layout_mode = 2
-text = "Put Phone Away"
+text = "PHONE_PUT_AWAY"
 
 [node name="DoomscrollScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=1293462456]
 visible = false
@@ -105,11 +105,11 @@ theme_override_constants/separation = 8
 
 [node name="KeepScrollingButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen" unique_id=1966583944]
 layout_mode = 2
-text = "Refresh Feed"
+text = "PHONE_REFRESH_FEED"
 
 [node name="DoomscrollBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen" unique_id=242701741]
 layout_mode = 2
-text = "Back"
+text = "COMMON_BACK"
 
 [node name="BankScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=1133932141]
 visible = false
@@ -124,7 +124,7 @@ theme_override_constants/separation = 10
 [node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=380135646]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "Bank"
+text = "PHONE_BANK"
 horizontal_alignment = 1
 
 [node name="SummaryLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=320246430]
@@ -134,7 +134,7 @@ autowrap_mode = 3
 
 [node name="AmountInput" type="LineEdit" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=1063159618]
 layout_mode = 2
-placeholder_text = "Amount"
+placeholder_text = "PHONE_AMOUNT"
 
 [node name="QuickCashGrid" type="GridContainer" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=1249585199]
 layout_mode = 2
@@ -168,27 +168,27 @@ text = "$100"
 
 [node name="CashMax" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen/QuickCashGrid" unique_id=1129638371]
 layout_mode = 2
-text = "Max"
+text = "PHONE_MAX"
 
 [node name="CashClear" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen/QuickCashGrid" unique_id=1959084302]
 layout_mode = 2
-text = "Clear"
+text = "PHONE_CLEAR"
 
 [node name="DepositButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=511854523]
 layout_mode = 2
-text = "Deposit to Savings"
+text = "PHONE_DEPOSIT"
 
 [node name="WithdrawButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=2146961450]
 layout_mode = 2
-text = "Withdraw from Savings"
+text = "PHONE_WITHDRAW"
 
 [node name="TermDepositButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=1398123871]
 layout_mode = 2
-text = "Start Term Deposit (10 days, +6%)"
+text = "PHONE_TERM_DEPOSIT_BUTTON"
 
 [node name="BankBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=828645723]
 layout_mode = 2
-text = "Back"
+text = "COMMON_BACK"
 
 [node name="MessagesScreen" type="Control" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=1558543300]
 visible = false
@@ -211,7 +211,7 @@ theme_override_constants/separation = 6
 [node name="InboxTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen/InboxView" unique_id=749908062]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "Messages"
+text = "PHONE_MESSAGES"
 horizontal_alignment = 1
 
 [node name="InboxScroll" type="ScrollContainer" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen/InboxView" unique_id=304497685]
@@ -226,7 +226,7 @@ theme_override_constants/separation = 4
 
 [node name="InboxBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen/InboxView" unique_id=1455105926]
 layout_mode = 2
-text = "Back to home"
+text = "PHONE_BACK_HOME"
 
 [node name="ThreadView" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen" unique_id=1337840780]
 visible = false
@@ -259,7 +259,7 @@ theme_override_constants/separation = 4
 
 [node name="MessagesBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen/ThreadView" unique_id=47227154]
 layout_mode = 2
-text = "Back to inbox"
+text = "PHONE_BACK_INBOX"
 
 [node name="WeatherScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=37310338]
 visible = false
@@ -275,7 +275,7 @@ alignment = 1
 [node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/WeatherScreen" unique_id=1238004940]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "Weather"
+text = "PHONE_WEATHER"
 horizontal_alignment = 1
 
 [node name="WeatherLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/WeatherScreen" unique_id=283236464]
@@ -290,7 +290,7 @@ autowrap_mode = 3
 
 [node name="WeatherBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/WeatherScreen" unique_id=1012686353]
 layout_mode = 2
-text = "Back"
+text = "COMMON_BACK"
 
 [node name="GamesScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=958274404]
 visible = false
@@ -306,7 +306,7 @@ alignment = 1
 [node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/GamesScreen" unique_id=327949737]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "Tap Rush"
+text = "PHONE_GAME_TITLE"
 horizontal_alignment = 1
 
 [node name="GameInfoLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/GamesScreen" unique_id=2039948121]
@@ -327,8 +327,8 @@ columns = 3
 
 [node name="GameStartButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/GamesScreen" unique_id=221410165]
 layout_mode = 2
-text = "Start Game"
+text = "PHONE_START_GAME"
 
 [node name="GamesBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/GamesScreen" unique_id=1259230985]
 layout_mode = 2
-text = "Back"
+text = "COMMON_BACK"
