@@ -243,15 +243,15 @@ func _on_any_button() -> void:
 func bus_label(bus: String) -> String:
 	match bus:
 		BUS_MASTER:
-			return tr("SETTINGS_MASTER_VOLUME")
+			return "Master volume"
 		BUS_MUSIC:
-			return tr("SETTINGS_MUSIC_VOLUME")
+			return "Music"
 		BUS_SFX:
-			return tr("SETTINGS_SFX_VOLUME")
+			return "Sound effects"
 		BUS_AMBIENCE:
-			return tr("SETTINGS_AMBIENCE_VOLUME")
+			return "Ambience"
 		BUS_UI:
-			return tr("SETTINGS_UI_VOLUME")
+			return "Menus & UI"
 	return bus
 
 
