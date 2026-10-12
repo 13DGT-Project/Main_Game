@@ -1,9 +1,11 @@
 extends CharacterBody3D
+class_name Player
+
 
 var speed
 const WALK_SPEED = 5.0
 const SPRINT_SPEED = 8.0
-const JUMP_VELOCITY = 4.5
+const JUMP_VELOCITY = 8
 const SENSITIVITY = 0.005
 
 var gravity = 9.81
@@ -17,21 +19,18 @@ var t_bob = 0.0
 const BASE_FOV = 75.0
 const FOV_CHANGE = 1.5
 
-var energy := 100.0
 var exhausted := false
-const MAX_ENERGY := 100.0
+
+# Footsteps: play on a distance-based interval so the rate matches your speed
+# rather than ticking on a fixed timer.
+var _step_accum: float = 0.0
+const STEP_DISTANCE_WALK: float = 2.2
+const STEP_DISTANCE_RUN: float = 3.0
 const SPRINT_DRAIN := 20.0
 const ENERGY_REGEN := 10.0
-@onready var gui = get_tree().current_scene.get_node("GUI")
-
-func change_energy(amount: float):
-	var old_energy = energy
-
-	energy = clamp(energy + amount, 0.0, MAX_ENERGY)
-
-	# Only update the GUI if the value actually changed
-	if energy != old_energy:
-		gui.update_energy(energy)
+# NOTE: energy itself now lives on GameBackend (autoload), not here, so it
+# survives scene changes (e.g. going to school/work and coming back). Sprint
+# still reads/writes it via GameBackend.change_energy() below.
 
 
 
@@ -49,6 +48,20 @@ func _unhandled_input(event):
 		head.rotate_y(-event.relative.x * SENSITIVITY)
 		camera.rotate_x(-event.relative.y * SENSITIVITY)
 		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-90),deg_to_rad(90))
+	elif event.is_action_pressed("use_item"):
+		_use_selected_item()
+
+
+func _use_selected_item() -> void:
+	var item: ItemData = Inventory.hotbar[Inventory.selected_slot]
+	if item == null:
+		return
+	match item.item_name:
+		"Phone":
+			PhoneApp.toggle()
+		"Water Bottle":
+			if not GameBackend.use_water_bottle():
+				print("Your water bottle is empty — find a tap or fountain to refill it.")
 
 
 func _physics_process(delta: float) -> void:
@@ -78,18 +91,18 @@ func _physics_process(delta: float) -> void:
 	#	speed = SPRINT_SPEED
 	#else:
 	#	speed = WALK_SPEED
-	if energy <= 0:
+	if GameBackend.energy <= 0:
 		exhausted = true
 
-	if exhausted and energy >= 25:
+	if exhausted and GameBackend.energy >= 25:
 		exhausted = false
 
 	if Input.is_action_pressed("sprint") and !exhausted:
 		speed = SPRINT_SPEED
-		change_energy(-SPRINT_DRAIN * delta)
+		GameBackend.change_energy(-SPRINT_DRAIN * delta)
 	else:
 		speed = WALK_SPEED
-		change_energy(ENERGY_REGEN * delta)
+		GameBackend.change_energy(ENERGY_REGEN * delta)
 	
 	
 	
@@ -120,6 +133,20 @@ func _physics_process(delta: float) -> void:
 	var target_fov = BASE_FOV + FOV_CHANGE * velocity_clamped
 	camera.fov = lerp(camera.fov, target_fov, delta * 8.0)
 	move_and_slide()
+
+	# Advance the footstep accumulator by how far we actually moved on the
+	# ground, and fire a step each time we cover enough distance.
+	if is_on_floor():
+		var flat_speed: float = Vector2(velocity.x, velocity.z).length()
+		if flat_speed > 0.5:
+			var running: bool = speed == SPRINT_SPEED
+			_step_accum += flat_speed * delta
+			var threshold: float = STEP_DISTANCE_RUN if running else STEP_DISTANCE_WALK
+			if _step_accum >= threshold:
+				_step_accum = 0.0
+				Audio.play_footstep(running)
+		else:
+			_step_accum = 0.0
 
 
 func _headbob(time) -> Vector3:

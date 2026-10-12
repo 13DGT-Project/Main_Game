@@ -8,6 +8,15 @@ extends Node2D
 @onready var language_panel_chinese = $CanvasLayer/Control/Languages/Chinese
 @onready var language_panel_japanese = $CanvasLayer/Control/Languages/Japanese
 @onready var language_panel_spanish = $CanvasLayer/Control/Languages/Spanish
+## One slider per audio bus. The buses themselves are defined in
+## Backend/Audio/default_bus_layout.tres
+@onready var volume_sliders := {
+	"Master": $CanvasLayer/Control/Home/Master_Volume,
+	"Music": $CanvasLayer/Control/Home/Music_Volume,
+	"SFX": $CanvasLayer/Control/Home/SFX_Volume,
+	"Ambience": $CanvasLayer/Control/Home/Ambience_Volume,
+	"UI": $CanvasLayer/Control/Home/UI_Volume,
+}
 @onready var volume_slider = $CanvasLayer/Control/Home/Master_Volume
 
 
@@ -24,9 +33,29 @@ func _ready() -> void:
 		set_selected_language(language_panel_japanese)
 	elif locale.begins_with("es"):
 		set_selected_language(language_panel_spanish)
-	volume_slider.value = db_to_linear(AudioServer.get_bus_volume_db(
-		AudioServer.get_bus_index("Master")
-	)) * 100.0
+	_setup_volume_sliders()
+
+
+## Sets every slider to its bus's current level. Done in one
+## loop so adding a sixth bus later means adding one line to the dictionary
+## above and one node in the scene — no new signal handler.
+func _setup_volume_sliders() -> void:
+	for bus in volume_sliders:
+		var slider: HSlider = volume_sliders[bus]
+		if slider == null:
+			continue
+		slider.min_value = 0.0
+		slider.max_value = 100.0
+		slider.step = 1.0
+		# set_value_no_signal, or setting the initial value would immediately
+		# write it back and save over what was loaded.
+		slider.set_value_no_signal(Audio.get_bus_percent(bus))
+		if not slider.value_changed.is_connected(_on_bus_volume_changed):
+			slider.value_changed.connect(_on_bus_volume_changed.bind(bus))
+
+
+func _on_bus_volume_changed(value: float, bus: String) -> void:
+	Audio.set_bus_percent(bus, value)
 
 func _on_home_pressed() -> void:
 	var current_style = language_panel.get_theme_stylebox("panel")
@@ -106,5 +135,4 @@ func _on_spanish_pressed() -> void:
 
 
 func _on_master_volume_value_changed(value: float) -> void:
-	var bus_index = AudioServer.get_bus_index("Master")
-	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value / 100.0))
+	Audio.set_bus_percent("Master", value)

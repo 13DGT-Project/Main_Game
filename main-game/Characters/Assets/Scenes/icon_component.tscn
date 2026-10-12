@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://ck3yx6h5e8pnu"]
+
+[ext_resource type="Script" uid="uid://d2n8em8x7u0yj" path="res://Characters/Scripts/icon_component.gd" id="1_n2awj"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n2awj"]
+load_path = "res://.godot/imported/PlayerPosHeding.png-100df0c26ba5b25878e274fafa298765.s3tc.ctex"
+
+[node name="IconComponent" type="Node3D" unique_id=216740156]
+script = ExtResource("1_n2awj")
+
+[node name="IconSprite" type="Sprite3D" parent="." unique_id=458595852]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 40, 0)
+layers = 512
+pixel_size = 0.05
+axis = 1
+no_depth_test = true
+fixed_size = true
+texture = SubResource("CompressedTexture2D_n2awj")
