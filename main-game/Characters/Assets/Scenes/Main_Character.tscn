@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bhk3y4cnisxed" path="res://Characters/Scripts/main_character.gd" id="1_obmdt"]
 [ext_resource type="Script" uid="uid://bvrfk8d4viy7" path="res://Characters/Scripts/viewmodel.gd" id="2_0nnth"]
+[ext_resource type="PackedScene" uid="uid://ck3yx6h5e8pnu" path="res://Characters/Assets/Scenes/icon_component.tscn" id="3_6gd5o"]
+[ext_resource type="Texture2D" uid="uid://wpvkm3pvda1s" path="res://Backend/Resource/Textures/PlayerPosHeding.png" id="4_l676h"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_aci0m"]
 
@@ -22,6 +24,7 @@ shape = SubResource("ConvexPolygonShape3D_obmdt")
 
 [node name="Camera3D" type="Camera3D" parent="Head" unique_id=2106127292]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6877722, -0.1474787)
+cull_mask = 1048063
 
 [node name="SeeCast" type="RayCast3D" parent="Head/Camera3D" unique_id=1148805549]
 unique_name_in_owner = true
@@ -31,3 +34,6 @@ collide_with_areas = true
 [node name="Viewmodel" type="Node3D" parent="Head/Camera3D" unique_id=376236492]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.34274238, -0.020678818, -0.38022214)
 script = ExtResource("2_0nnth")
+
+[node name="IconComponent" parent="." unique_id=216740156 instance=ExtResource("3_6gd5o")]
+map_icon = ExtResource("4_l676h")

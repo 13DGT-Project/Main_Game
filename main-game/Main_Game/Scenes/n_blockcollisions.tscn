@@ -9,7 +9,7 @@ backface_collision = true
 
 [node name="n_block" unique_id=296384747 instance=ExtResource("1_4dmw3")]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="TPX_Buildings_436" parent_id_path=PackedInt32Array(1061148375) index="0" unique_id=1944565945]
+[node name="StaticBody3D" type="StaticBody3D" parent="TPX_Buildings_436" parent_id_path=PackedInt32Array(1297119673) index="0" unique_id=1944565945]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TPX_Buildings_436/StaticBody3D" index="0" unique_id=523015562]
 shape = SubResource("ConcavePolygonShape3D_4dmw3")

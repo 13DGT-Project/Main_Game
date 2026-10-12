@@ -1,5 +1,6 @@
 extends Control
 
+@export var capture_mouse_on_resume: bool = true
 
 @onready var main_buttons = $VBoxContainer
 @onready var pause_menu = $"."
@@ -23,7 +24,7 @@ func _process(_delta):
 			
 		if get_tree().paused:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		else:
+		elif capture_mouse_on_resume:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
@@ -31,7 +32,8 @@ func _process(_delta):
 func _on_resume_pressed() -> void:
 	get_tree().paused = false
 	visible = false
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	if capture_mouse_on_resume:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 
 
