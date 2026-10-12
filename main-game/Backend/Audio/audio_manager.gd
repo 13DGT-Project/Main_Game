@@ -1,104 +1,114 @@
-## audio_manager.gd
-## Autoload: "Audio"
-##
-## Central place for every sound effect in the game. Nothing here needs an
-## audio file to exist — a missing file logs one warning and is skipped, so
-## you can drop files in gradually and the game never breaks.
-##
-## ============================================================================
-##  WHERE TO PUT YOUR SOUND FILES
-## ============================================================================
-##  Create these folders and drop .ogg / .wav files in with these exact names:
-##
 ##    res://Backend/Audio/SFX/ui/
-##        click.ogg            button presses, phone taps
-##        back.ogg             going back a screen
-##        error.ogg            invalid action ("not enough money")
-##        open.ogg             opening phone / journal / map
-##        close.ogg            closing them
-##        notify.ogg           new text message arriving (short, quiet)
+##        click.mp3            button presses, phone taps
+##        back.mp3             going back a screen
+##        error.mp3            invalid action ("not enough money")
+##        open.mp3             opening phone / journal / map
+##        close.mp3            closing them
+##        notify.mp3           new text message arriving (short, quiet)
 ##
 ##    res://Backend/Audio/SFX/player/
-##        footstep_01.ogg .. footstep_04.ogg    walking (picked at random)
-##        run_01.ogg .. run_04.ogg              sprinting
-##        drink.ogg                             water bottle
+##        footstep_01.mp3 .. footstep_04.mp3    walking (picked at random)
+##        run_01.mp3 .. run_04.mp3              sprinting
+##        drink.mp3                             water bottle
 ##
 ##    res://Backend/Audio/SFX/game/
-##        correct.ogg          right answer
-##        wrong.ogg            wrong answer
-##        scan_beep.ogg        checkout scanner
-##        stock_place.ogg      placing an item on a shelf
-##        oven_ding.ogg        bakery timer
-##        chop.ogg             deli chopping
-##        cash.ogg             getting paid
-##        exam_start.ogg       sitting down to an exam
-##        exam_pass.ogg
-##        exam_fail.ogg
-##        level_up.ogg         grade milestone
+##        correct.mp3          right answer
+##        wrong.mp3            wrong answer
+##        scan_beep.mp3        checkout scanner
+##        stock_place.mp3      placing an item on a shelf
+##        oven_ding.mp3        bakery timer
+##        chop.mp3             deli chopping
+##        cash.mp3             getting paid
+##        exam_start.mp3       sitting down to an exam
+##        exam_pass.mp3
+##        exam_fail.mp3
+##        level_up.mp3         grade milestone
 ##
 ##    res://Backend/Audio/AMBIENCE/
-##        wind.ogg             outdoors (MainMap)
-##        school.ogg           school interior
-##        supermarket.ogg      work interior
-##        home.ogg             home interior
-##
-##  .ogg is recommended for anything longer than a second; .wav is fine for
-##  short one-shots. Godot imports both automatically.
-## ============================================================================
+##        wind.mp3             outdoors (MainMap)
+##        school.mp3           school interior
+##        supermarket.mp3      work interior
+##        home.mp3             home interior
 extends Node
 
 const SFX_DIR := "res://Backend/Audio/SFX/"
 const AMBIENCE_DIR := "res://Backend/Audio/AMBIENCE/"
-
-## name -> path (relative to SFX_DIR). Add new sounds by adding a line here.
 const SFX := {
-	"click": "ui/click.ogg",
-	"back": "ui/back.ogg",
-	"error": "ui/error.ogg",
-	"open": "ui/open.ogg",
-	"close": "ui/close.ogg",
-	"notify": "ui/notify.ogg",
+	"click": "ui/click.mp3",
+	"back": "ui/back.mp3",
+	"error": "ui/error.mp3",
+	"open": "ui/open.mp3",
+	"close": "ui/close.mp3",
+	"notify": "ui/notify.mp3",
 
-	"drink": "player/drink.ogg",
+	"drink": "player/drink.mp3",
 
-	"correct": "game/correct.ogg",
-	"wrong": "game/wrong.ogg",
-	"scan_beep": "game/scan_beep.ogg",
-	"stock_place": "game/stock_place.ogg",
-	"oven_ding": "game/oven_ding.ogg",
-	"chop": "game/chop.ogg",
-	"cash": "game/cash.ogg",
-	"exam_start": "game/exam_start.ogg",
-	"exam_pass": "game/exam_pass.ogg",
-	"exam_fail": "game/exam_fail.ogg",
-	"level_up": "game/level_up.ogg",
+	"correct": "game/correct.mp3",
+	"wrong": "game/wrong.mp3",
+	"scan_beep": "game/scan_beep.mp3",
+	"stock_place": "game/stock_place.mp3",
+	"oven_ding": "game/oven_ding.mp3",
+	"chop": "game/chop.mp3",
+	"cash": "game/cash.mp3",
+	"exam_start": "game/exam_start.mp3",
+	"exam_pass": "game/exam_pass.mp3",
+	"exam_fail": "game/exam_fail.mp3",
+	"level_up": "game/level_up.mp3",
 }
 
-## Footsteps are picked at random from these so walking doesn't sound robotic.
-const FOOTSTEPS := ["player/footstep_01.ogg", "player/footstep_02.ogg",
-					"player/footstep_03.ogg", "player/footstep_04.ogg"]
-const RUNSTEPS := ["player/run_01.ogg", "player/run_02.ogg",
-				   "player/run_03.ogg", "player/run_04.ogg"]
+## Footsteps are picked at random from these so walking doesn't sound the same.
+const FOOTSTEPS := ["player/footstep_01.mp3", "player/footstep_02.mp3",
+					"player/footstep_03.mp3", "player/footstep_04.mp3"]
+const RUNSTEPS := ["player/run_01.mp3", "player/run_02.mp3",
+				   "player/run_03.mp3", "player/run_04.mp3"]
 
 const AMBIENCE := {
-	"outdoors": "wind.ogg",
-	"school": "school.ogg",
-	"work": "supermarket.ogg",
-	"home": "home.ogg",
+	"outdoors": "wind.mp3",
+	"school": "school.mp3",
+	"work": "supermarket.mp3",
+	"home": "home.mp3",
 }
 
 ## How many sounds can overlap before the oldest is reused.
 const POOL_SIZE := 12
 
+# =============================================================================
+# AUDIO BUSES
+# =============================================================================
+#   Master
+#    ├── Music      music_manager.gd
+#    ├── SFX        gameplay — footsteps, scanner, cash, exams
+#    ├── Ambience   the looping room tone for each scene
+#    └── UI         button clicks, phone taps, notification pings
+#
+#The Master slider still scales all of them each of the others adjusts only its own category.
+
+const BUS_MASTER := "Master"
+const BUS_MUSIC := "Music"
+const BUS_SFX := "SFX"
+const BUS_AMBIENCE := "Ambience"
+const BUS_UI := "UI"
+
+## Every bus a settings screen can offer a slider for, in display order.
+const MIXER_BUSES := [BUS_MASTER, BUS_MUSIC, BUS_SFX, BUS_AMBIENCE, BUS_UI]
+
+## Which sounds belong on the UI bus rather than SFX.
+const UI_SOUNDS := ["click", "back", "error", "open", "close", "notify"]
+
+## Volumes persist between runs.
+const SETTINGS_PATH := "user://audio_settings.cfg"
+
 @export var sfx_volume_db: float = 0.0
 @export var ambience_volume_db: float = -12.0
 
 var _pool: Array[AudioStreamPlayer] = []
+var _ui_pool: Array[AudioStreamPlayer] = []
 var _next_player: int = 0
+var _next_ui_player: int = 0
 var _ambience_player: AudioStreamPlayer
 var _current_ambience: String = ""
 
-# Paths we've already warned about, so the console isn't spammed every frame.
+# Paths already warned about, so the console isn't spammed
 var _warned: Dictionary = {}
 
 
@@ -107,14 +117,24 @@ func _ready() -> void:
 
 	for i in POOL_SIZE:
 		var p := AudioStreamPlayer.new()
-		p.bus = "Master"
+		p.bus = BUS_SFX
 		add_child(p)
 		_pool.append(p)
 
+	# A smaller separate pool for UI, so a burst of menu clicks can't push a
+	# gameplay sound out of the main pool mid-playback.
+	for i in 6:
+		var u := AudioStreamPlayer.new()
+		u.bus = BUS_UI
+		add_child(u)
+		_ui_pool.append(u)
+
 	_ambience_player = AudioStreamPlayer.new()
-	_ambience_player.bus = "Master"
+	_ambience_player.bus = BUS_AMBIENCE
 	_ambience_player.volume_db = ambience_volume_db
 	add_child(_ambience_player)
+
+	load_volumes()
 
 
 func _load_or_warn(full_path: String) -> AudioStream:
@@ -127,12 +147,11 @@ func _load_or_warn(full_path: String) -> AudioStream:
 
 
 ## Play a named effect from the SFX dictionary above.
-## Example:  Audio.play("click")
 func play(sound_name: String, volume_db: float = 0.0, pitch: float = 1.0) -> void:
 	if not SFX.has(sound_name):
 		push_warning("[Audio] unknown sound '%s'" % sound_name)
 		return
-	_play_path(SFX_DIR + SFX[sound_name], volume_db, pitch)
+	_play_path(SFX_DIR + SFX[sound_name], volume_db, pitch, sound_name in UI_SOUNDS)
 
 
 ## Play a random footstep. `running` picks from the sprint set instead.
@@ -141,15 +160,20 @@ func play_footstep(running: bool = false) -> void:
 	if list.is_empty():
 		return
 	# Slight random pitch so repeated steps don't sound identical.
-	_play_path(SFX_DIR + list[randi() % list.size()], -4.0, randf_range(0.92, 1.08))
+	_play_path(SFX_DIR + list[randi() % list.size()], -4.0, randf_range(0.92, 1.08), false)
 
 
-func _play_path(full_path: String, volume_db: float, pitch: float) -> void:
+func _play_path(full_path: String, volume_db: float, pitch: float, on_ui_bus: bool = false) -> void:
 	var stream := _load_or_warn(full_path)
 	if stream == null:
 		return
-	var p: AudioStreamPlayer = _pool[_next_player]
-	_next_player = (_next_player + 1) % _pool.size()
+	var p: AudioStreamPlayer
+	if on_ui_bus:
+		p = _ui_pool[_next_ui_player]
+		_next_ui_player = (_next_ui_player + 1) % _ui_pool.size()
+	else:
+		p = _pool[_next_player]
+		_next_player = (_next_player + 1) % _pool.size()
 	p.stream = stream
 	p.volume_db = sfx_volume_db + volume_db
 	p.pitch_scale = pitch
@@ -170,11 +194,12 @@ func play_ambience(key: String) -> void:
 		_ambience_player.stop()
 		_current_ambience = ""
 		return
-	# Make it loop if the import didn't already.
 	if stream is AudioStreamOggVorbis:
 		(stream as AudioStreamOggVorbis).loop = true
 	elif stream is AudioStreamWAV:
 		(stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+	elif stream is AudioStreamMP3:
+		(stream as AudioStreamMP3).loop = true
 	_ambience_player.stream = stream
 	_ambience_player.volume_db = ambience_volume_db
 	_ambience_player.play()
@@ -198,3 +223,91 @@ func attach_click_sounds(root: Node) -> void:
 
 func _on_any_button() -> void:
 	play("click")
+
+
+# =============================================================================
+# MIXER  —  what a settings screen talks to
+# =============================================================================
+# Sliders should deal in 0..100, not decibels. Decibels are logarithmic, so a
+# slider wired straight to volume_db feels wrong: half way along is nowhere
+# near half as loud. These convert for you.
+#
+#   Audio.set_bus_percent("Music", 60.0)
+#   Audio.get_bus_percent("Music")          -> 60.0
+#
+# Anything at 0 is muted outright rather than set to a very small dB value,
+# because linear_to_db(0) is -inf and Godot will happily hand you that.
+
+
+## Human-readable name for a bus, for slider labels.
+func bus_label(bus: String) -> String:
+	match bus:
+		BUS_MASTER:
+			return tr("SETTINGS_MASTER_VOLUME")
+		BUS_MUSIC:
+			return tr("SETTINGS_MUSIC_VOLUME")
+		BUS_SFX:
+			return tr("SETTINGS_SFX_VOLUME")
+		BUS_AMBIENCE:
+			return tr("SETTINGS_AMBIENCE_VOLUME")
+		BUS_UI:
+			return tr("SETTINGS_UI_VOLUME")
+	return bus
+
+
+## 0..100 for a bus. Returns 0 if the bus is muted or missing.
+func get_bus_percent(bus: String) -> float:
+	var idx: int = AudioServer.get_bus_index(bus)
+	if idx < 0:
+		return 100.0
+	if AudioServer.is_bus_mute(idx):
+		return 0.0
+	return clampf(db_to_linear(AudioServer.get_bus_volume_db(idx)) * 100.0, 0.0, 100.0)
+
+
+## Sets a bus from a 0..100 slider and saves it.
+func set_bus_percent(bus: String, percent: float) -> void:
+	var idx: int = AudioServer.get_bus_index(bus)
+	if idx < 0:
+		push_warning("[Audio] no bus called '%s' — check default_bus_layout.tres is set in Project Settings > Audio." % bus)
+		return
+	percent = clampf(percent, 0.0, 100.0)
+	# Mute rather than trying to express silence in decibels: linear_to_db(0)
+	# is -inf, which Godot accepts and then behaves oddly with.
+	if percent <= 0.0:
+		AudioServer.set_bus_mute(idx, true)
+	else:
+		AudioServer.set_bus_mute(idx, false)
+		AudioServer.set_bus_volume_db(idx, linear_to_db(percent / 100.0))
+	save_volumes()
+
+
+func save_volumes() -> void:
+	var cfg := ConfigFile.new()
+	for bus in MIXER_BUSES:
+		cfg.set_value("audio", bus, get_bus_percent(bus))
+	cfg.save(SETTINGS_PATH)
+
+
+## Restores saved volumes at startup. Missing file = first run, leave the
+## defaults from the bus layout alone.
+func load_volumes() -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(SETTINGS_PATH) != OK:
+		return
+	for bus in MIXER_BUSES:
+		var idx: int = AudioServer.get_bus_index(bus)
+		if idx < 0:
+			continue
+		var percent: float = float(cfg.get_value("audio", bus, 100.0))
+		if percent <= 0.0:
+			AudioServer.set_bus_mute(idx, true)
+		else:
+			AudioServer.set_bus_mute(idx, false)
+			AudioServer.set_bus_volume_db(idx, linear_to_db(percent / 100.0))
+
+
+## Handy for a "reset audio" button.
+func reset_volumes() -> void:
+	for bus in MIXER_BUSES:
+		set_bus_percent(bus, 100.0)

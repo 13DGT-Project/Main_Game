@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bo5exs44cejmy"
+path="res://.godot/imported/Decision Point - Year 13 - Good Ending.mp3-b9a9cc4bae743cd1f584ae3c9ecb95fa.mp3str"
+
+[deps]
+
+source_file="res://Backend/Audio/Decision Point - Year 13 - Good Ending.mp3"
+dest_files=["res://.godot/imported/Decision Point - Year 13 - Good Ending.mp3-b9a9cc4bae743cd1f584ae3c9ecb95fa.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
