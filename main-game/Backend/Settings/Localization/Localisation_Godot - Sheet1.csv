@@ -4799,3 +4799,4 @@ MSG_DAD_CHARGER_S1_R0,thanks dad,谢谢爸,ありがとう、お父さん,"graci
 MSG_DAD_CHARGER_S2,It was sparking. I saw it sparking. Thursday.,它都冒火花了。我亲眼看见的。周四。,火花が出てた。この目で見た。木曜だ。,Echaba chispas. Lo vi echar chispas. El jueves.
 MSG_DAD_CHARGER_S2_R0,...thursday,……周四,…木曜ね,...el jueves
 WHERE_STRANGER,"Somewhere out there, a stranger still has you saved as 'wrong number (good)'. Their nan's trifle offer still stands.",在某个地方，一个陌生人仍然把你存成“发错的号码（好人）”。他奶奶的松糕邀请依然有效。,どこかで、知らない人が今もあなたを「間違い番号（いい人）」として登録している。おばあちゃんのトライフルのお誘いも有効なままだ。,"En algún lugar, un desconocido todavía te tiene guardado como «número equivocado (bueno)». La oferta del trifle de su abuela sigue en pie."
+MAP_YOU,You,你,現在地,Tú

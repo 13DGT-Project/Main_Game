@@ -20,6 +20,10 @@ var _hint: Label
 
 var _player: Node3D = null
 var _doors: Array = []
+## The overhead camera that draws the map picture. Markers are placed with
+## this same camera, so they always land on the right spot in the picture.
+var _map_cam: Camera3D = null
+var _map_vp: SubViewport = null
 var _is_open: bool = false
 
 # World bounds the schematic uses. Recomputed from whatever we find.
@@ -113,8 +117,15 @@ func _discover() -> void:
 		return
 
 	var viewport := scene.get_node_or_null("FullMapViewport")
+	_map_cam = null
+	_map_vp = null
 	if viewport is SubViewport:
-		_map_rect.texture = (viewport as SubViewport).get_texture()
+		_map_vp = viewport as SubViewport
+		_map_rect.texture = _map_vp.get_texture()
+		for c in _map_vp.get_children():
+			if c is Camera3D:
+				_map_cam = c
+				break
 	else:
 		push_warning("full_map: no FullMapViewport in this scene — showing the schematic map only.")
 
@@ -133,7 +144,7 @@ func _discover() -> void:
 					colour = DOOR_COLOURS[key]
 					break
 			var flat := Vector2(child.global_position.x, child.global_position.z)
-			_doors.append({"name": label, "pos": flat, "colour": colour})
+			_doors.append({"name": label, "pos": flat, "pos3": child.global_position, "colour": colour})
 			pts.append(flat)
 
 	if _player != null:
@@ -195,6 +206,20 @@ func _process(_delta: float) -> void:
 		_overlay.queue_redraw()
 
 
+## Where a 3D point appears on the map picture. Uses the map camera itself
+## when there is one, so it matches the picture exactly.
+func _world3_to_rect(world: Vector3, fallback_xz: Vector2) -> Vector2:
+	if _map_cam != null and is_instance_valid(_map_cam) and _map_vp != null and _map_cam.is_inside_tree():
+		var vs := Vector2(_map_vp.size)
+		var px: Vector2 = _map_cam.unproject_position(world)
+		# The picture is drawn "keep aspect, centred" inside the overlay.
+		var scale: float = minf(_overlay.size.x / vs.x, _overlay.size.y / vs.y)
+		var offset: Vector2 = (_overlay.size - vs * scale) * 0.5
+		var p: Vector2 = offset + px * scale
+		return p.clamp(Vector2(8, 8), _overlay.size - Vector2(8, 8))
+	return _world_to_rect(fallback_xz)
+
+
 func _world_to_rect(world_xz: Vector2) -> Vector2:
 	var span: Vector2 = _world_max - _world_min
 	var nx: float = (world_xz.x - _world_min.x) / maxf(1.0, span.x)
@@ -210,12 +235,29 @@ func _draw_markers() -> void:
 	_overlay.draw_rect(Rect2(Vector2.ZERO, _overlay.size), Color(1, 1, 1, 0.28), false, 2.0)
 
 	for door in _doors:
-		var p: Vector2 = _world_to_rect(door.pos)
+		var p: Vector2 = _world3_to_rect(door.get("pos3", Vector3(door.pos.x, 0, door.pos.y)), door.pos)
 		_overlay.draw_rect(Rect2(p - Vector2(8, 8), Vector2(16, 16)), door.colour, true)
 		_overlay.draw_rect(Rect2(p - Vector2(8, 8), Vector2(16, 16)), Color(0, 0, 0, 0.75), false, 2.0)
 		if font:
-			_overlay.draw_string(font, p + Vector2(14, 6), door.name,
+			# Near the right edge, put the name on the left so it isn't cut off.
+			var w: float = font.get_string_size(door.name, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+			var at: Vector2 = p + Vector2(14, 6)
+			if at.x + w > _overlay.size.x - 4.0:
+				at = p + Vector2(-14.0 - w, 6)
+			_overlay.draw_string(font, at, door.name,
 				HORIZONTAL_ALIGNMENT_LEFT, -1, 16, door.colour)
+
+	# You are here.
+	if _player != null and is_instance_valid(_player):
+		var pp: Vector3 = _player.global_position
+		var yp: Vector2 = _world3_to_rect(pp, Vector2(pp.x, pp.z))
+		var pulse: float = 0.5 + 0.5 * sin(Time.get_ticks_msec() / 250.0)
+		_overlay.draw_circle(yp, 13.0 + pulse * 4.0, Color(1, 1, 1, 0.25))
+		_overlay.draw_circle(yp, 8.0, Color(1, 1, 1))
+		_overlay.draw_circle(yp, 5.0, Color(0.95, 0.30, 0.35))
+		if font:
+			_overlay.draw_string(font, yp + Vector2(14, -10), tr("MAP_YOU"),
+				HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1, 1, 1))
 
 
 func _on_game_ended(_result: String) -> void:
