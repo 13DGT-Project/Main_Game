@@ -83,6 +83,9 @@ var desk_subjects: Dictionary = {}
 func _ready() -> void:
 	Audio.play_ambience("school")
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	GameBackend.remember_place("school")
+	# The ball, a gig in the hall, tutoring Josh — kept by turning up.
+	GameBackend.fulfil_commitment("school_event")
 	_assign_desk_subjects()
 
 	english_area.body_entered.connect(_on_station_entered.bind("desk_english"))
@@ -551,13 +554,11 @@ func _on_convo_reply(reply: Dictionary) -> void:
 	pending_sanity += float(reply.get("sanity", 0.0))
 	pending_temptation += float(reply.get("temptation", 0.0))
 
-	# Agreeing to something face to face books it, same as over text.
-	if reply.has("commit"):
-		var c: Dictionary = reply["commit"]
-		GameBackend.add_commitment(
-			str(c.get("kind", "other")),
-			tr(str(c.get("label", "COMMIT_DEFAULT"))),
-			GameBackend.get_elapsed_days() + int(c.get("in", 1)))
+	# Agreeing to something face to face books it, same as over text — and
+	# what you say can set things in motion for later (flags, money).
+	var note: String = GameBackend.apply_reply_effects(reply)
+	if note != "":
+		_set_hint(note)
 
 	var next: int = SchoolData.next_step_for(reply, convo_step)
 	# A reply that runs off the end of the steps list is how a branch ends.

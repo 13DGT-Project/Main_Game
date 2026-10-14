@@ -21,8 +21,21 @@ func _on_start_pressed() -> void:
 func _on_quit_pressed() -> void:
 	get_tree().quit()
 
+const SETTINGS_SCENE := preload("res://Backend/Settings/Scenes/settings.tscn")
+var _settings: Node = null
+
+## Settings opens on top of the main menu instead of replacing it, so closing
+## it just takes you straight back here (the pause menu does the same in-game).
 func _on_settings_pressed() -> void:
-	get_tree().change_scene_to_file("res://Backend/Settings/Scenes/settings.tscn")
+	if _settings != null and is_instance_valid(_settings):
+		return
+	_settings = SETTINGS_SCENE.instantiate()
+	_settings.embedded = true
+	_settings.closed.connect(func(): _settings = null)
+	add_child(_settings)
+	for c in _settings.get_children():
+		if c is CanvasLayer:
+			(c as CanvasLayer).layer = 10
 
 func _on_instructions_pressed() -> void:
 	get_tree().change_scene_to_file("res://Backend/Instructions/instruction.tscn")

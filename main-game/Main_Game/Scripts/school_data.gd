@@ -32,7 +32,22 @@ static func random_student_name() -> String:
 # the day before an external and they talk about the external walk up to one
 # when you're falling apart and someone notices.
 
-func _condition_met(condition: String) -> bool:
+func _condition_met(condition) -> bool:
+	if condition is Array:
+		for c in condition:
+			if not _condition_met(c):
+				return false
+		return true
+	condition = str(condition)
+	# Follow-ups to things that happened elsewhere (phone threads, choices).
+	if condition.begins_with("flag:"):
+		return GameBackend.has_flag(condition.substr(5))
+	if condition.begins_with("!flag:"):
+		return not GameBackend.has_flag(condition.substr(6))
+	if condition.begins_with("done:"):
+		return GameBackend.is_done(condition.substr(5))
+	if condition.begins_with("after_day:"):
+		return GameBackend.get_elapsed_days() >= int(condition.substr(10))
 	match condition:
 		"", "always":
 			return true
@@ -59,19 +74,41 @@ func _condition_met(condition: String) -> bool:
 			return GameBackend.loan_status == "none" and GameBackend.loan_applications_open()
 		"short_credits":
 			return not GameBackend.has_university_entrance() and GameBackend.get_elapsed_days() > 40
+		"ravi_new":
+			return GameBackend.ravi_visits <= 1
+		"late_night":
+			return GameBackend.game_hour >= 21.0 or GameBackend.game_hour < 6.0
 	return true
 
 
-## Picks a conversation from `pool` whose condition currently holds. Falls
-## back to any unconditional one so there's always something to say.
+## Picks a conversation from `pool` whose condition currently holds.
+## Prefers ones you haven't had yet, and among those the ones that are about
+## your situation right now (exams, a bad week, something that happened on
+## the phone) over general chat. Only once you've heard everything that fits
+## does anything repeat — least-heard first.
+const GENERAL_CONDITIONS := ["", "always", "early_year", "mid_year", "late_year"]
+
 func _pick(pool: Array) -> Dictionary:
 	var eligible: Array = []
 	for convo in pool:
-		if _condition_met(str(convo.get("condition", "always"))):
+		if _condition_met(convo.get("condition", "always")):
 			eligible.append(convo)
 	if eligible.is_empty():
 		eligible = pool
-	return eligible[randi() % eligible.size()]
+	var fresh: Array = eligible.filter(func(c): return int(GameBackend.seen_conversations.get(str(c.id), 0)) == 0)
+	var chosen: Dictionary
+	if not fresh.is_empty():
+		var specific: Array = fresh.filter(func(c): return not (c.get("condition", "always") is String and str(c.get("condition", "always")) in GENERAL_CONDITIONS))
+		var from: Array = specific if not specific.is_empty() else fresh
+		chosen = from[randi() % from.size()]
+	else:
+		var least: int = 1 << 30
+		for c in eligible:
+			least = mini(least, int(GameBackend.seen_conversations.get(str(c.id), 0)))
+		var tied: Array = eligible.filter(func(c): return int(GameBackend.seen_conversations.get(str(c.id), 0)) == least)
+		chosen = tied[randi() % tied.size()]
+	GameBackend.seen_conversations[str(chosen.id)] = int(GameBackend.seen_conversations.get(str(chosen.id), 0)) + 1
+	return chosen
 
 
 ## Translates a conversation (the data holds localisation keys) and
@@ -146,105 +183,6 @@ var _student_conversations: Array = [
 		]},
 
 	{
-		"id": "priya_marks", "speaker": "Priya", "role": "student", "condition": "mid_year",
-		"steps": [
-			# 0
-			{"them": "CONV_PRIYA_MARKS_S0",
-			 "replies": [
-				{"text": "CONV_PRIYA_MARKS_S0_R0", "sanity": 5.0, "goto": 1},
-				{"text": "CONV_PRIYA_MARKS_S0_R1", "sanity": 6.0, "goto": 1}]},
-			# 1
-			{"them": "CONV_PRIYA_MARKS_S1",
-			 "replies": [
-				{"text": "CONV_PRIYA_MARKS_S1_R0", "sanity": 6.0, "goto": 2},
-				{"text": "CONV_PRIYA_MARKS_S1_R1", "sanity": 9.0, "goto": 3},
-				{"text": "CONV_PRIYA_MARKS_S1_R2", "sanity": 3.0, "goto": 2}]},
-			# 2
-			{"them": "CONV_PRIYA_MARKS_S2",
-			 "replies": [
-				{"text": "CONV_PRIYA_MARKS_S2_R0", "sanity": 12.0, "goto": 4},
-				{"text": "CONV_PRIYA_MARKS_S2_R1", "sanity": 10.0, "goto": 5},
-				{"text": "CONV_PRIYA_MARKS_S2_R2", "sanity": 2.0, "temptation": 2.0, "goto": 6}]},
-			# 3
-			{"them": "CONV_PRIYA_MARKS_S3",
-			 "replies": [
-				{"text": "CONV_PRIYA_MARKS_S3_R0", "sanity": 14.0, "goto": 4},
-				{"text": "CONV_PRIYA_MARKS_S3_R1", "sanity": 12.0, "goto": 4}]},
-			# 4
-			{"them": "CONV_PRIYA_MARKS_S4",
-			 "replies": [
-				{"text": "CONV_PRIYA_MARKS_S4_R0", "sanity": 12.0, "goto": 7},
-				{"text": "CONV_PRIYA_MARKS_S4_R1", "sanity": 13.0, "goto": 7}]},
-			# 5
-			{"them": "CONV_PRIYA_MARKS_S5",
-			 "replies": [
-				{"text": "CONV_PRIYA_MARKS_S5_R0", "sanity": 13.0, "goto": 7},
-				{"text": "CONV_PRIYA_MARKS_S5_R1", "sanity": 11.0, "goto": 7}]},
-			# 6
-			{"them": "CONV_PRIYA_MARKS_S6",
-			 "replies": [
-				{"text": "CONV_PRIYA_MARKS_S6_R0", "sanity": 6.0, "goto": 4},
-				{"text": "CONV_PRIYA_MARKS_S6_R1", "sanity": 7.0, "goto": 4}]},
-			# 7
-			{"them": "CONV_PRIYA_MARKS_S7",
-			 "replies": [
-				{"text": "CONV_PRIYA_MARKS_S7_R0", "sanity": 10.0},
-				{"text": "CONV_PRIYA_MARKS_S7_R1", "sanity": 13.0}]},
-		]},
-
-	{
-		"id": "ana_notices_you", "speaker": "Ana", "role": "student", "condition": "low_sanity",
-		"steps": [
-			# 0
-			{"them": "CONV_ANA_NOTICES_YOU_S0",
-			 "replies": [
-				{"text": "CONV_ANA_NOTICES_YOU_S0_R0", "sanity": 8.0, "goto": 1},
-				{"text": "CONV_ANA_NOTICES_YOU_S0_R1", "sanity": 6.0, "goto": 2},
-				{"text": "CONV_ANA_NOTICES_YOU_S0_R2", "sanity": 3.0, "goto": 3}]},
-			# 1
-			{"them": "CONV_ANA_NOTICES_YOU_S1",
-			 "replies": [
-				{"text": "CONV_ANA_NOTICES_YOU_S1_R0", "sanity": 15.0, "goto": 4},
-				{"text": "CONV_ANA_NOTICES_YOU_S1_R1", "sanity": 11.0, "goto": 5}]},
-			# 2
-			{"them": "CONV_ANA_NOTICES_YOU_S2",
-			 "replies": [
-				{"text": "CONV_ANA_NOTICES_YOU_S2_R0", "sanity": 9.0, "goto": 1},
-				{"text": "CONV_ANA_NOTICES_YOU_S2_R1", "sanity": 6.0, "goto": 5}]},
-			# 3
-			{"them": "CONV_ANA_NOTICES_YOU_S3",
-			 "replies": [
-				{"text": "CONV_ANA_NOTICES_YOU_S3_R0", "sanity": 12.0, "goto": 1},
-				{"text": "CONV_ANA_NOTICES_YOU_S3_R1", "sanity": 5.0, "goto": 6},
-				{"text": "CONV_ANA_NOTICES_YOU_S3_R2", "sanity": 7.0, "goto": 7}]},
-			# 4
-			{"them": "CONV_ANA_NOTICES_YOU_S4",
-			 "replies": [
-				{"text": "CONV_ANA_NOTICES_YOU_S4_R0", "sanity": 18.0, "goto": 7},
-				{"text": "CONV_ANA_NOTICES_YOU_S4_R1", "sanity": 16.0, "goto": 7}]},
-			# 5
-			{"them": "CONV_ANA_NOTICES_YOU_S5",
-			 "replies": [
-				{"text": "CONV_ANA_NOTICES_YOU_S5_R0", "sanity": 14.0, "goto": 7},
-				{"text": "CONV_ANA_NOTICES_YOU_S5_R1", "sanity": 8.0, "goto": 8}]},
-			# 6
-			{"them": "CONV_ANA_NOTICES_YOU_S6",
-			 "replies": [
-				{"text": "CONV_ANA_NOTICES_YOU_S6_R0", "sanity": 13.0, "goto": 1},
-				{"text": "CONV_ANA_NOTICES_YOU_S6_R1", "sanity": 9.0, "goto": 7}]},
-			# 7
-			{"them": "CONV_ANA_NOTICES_YOU_S7",
-			 "replies": [
-				{"text": "CONV_ANA_NOTICES_YOU_S7_R0", "sanity": 12.0},
-				{"text": "CONV_ANA_NOTICES_YOU_S7_R1", "sanity": 9.0}]},
-			# 8
-			{"them": "CONV_ANA_NOTICES_YOU_S8",
-			 "replies": [
-				{"text": "CONV_ANA_NOTICES_YOU_S8_R0", "sanity": 13.0, "goto": 7},
-				{"text": "CONV_ANA_NOTICES_YOU_S8_R1", "sanity": 11.0, "goto": 7}]},
-		]},
-
-	{
 		"id": "tane_shifts", "speaker": "Tane", "role": "student", "condition": "always",
 		"steps": [
 			# 0
@@ -313,13 +251,13 @@ var _student_conversations: Array = [
 			# 4
 			{"them": "CONV_WIREMU_EXAM_NERVES_S4",
 			 "replies": [
-				{"text": "CONV_WIREMU_EXAM_NERVES_S4_R0", "sanity": 8.0},
-				{"text": "CONV_WIREMU_EXAM_NERVES_S4_R1", "sanity": 10.0}]},
+				{"text": "CONV_WIREMU_EXAM_NERVES_S4_R0", "sanity": 8.0, "goto": 7},
+				{"text": "CONV_WIREMU_EXAM_NERVES_S4_R1", "sanity": 10.0, "goto": 7}]},
 			# 5
 			{"them": "CONV_WIREMU_EXAM_NERVES_S5",
 			 "replies": [
-				{"text": "CONV_WIREMU_EXAM_NERVES_S5_R0", "sanity": 12.0, "temptation": -3.0},
-				{"text": "CONV_WIREMU_EXAM_NERVES_S5_R1", "sanity": 10.0}]},
+				{"text": "CONV_WIREMU_EXAM_NERVES_S5_R0", "sanity": 12.0, "temptation": -3.0, "goto": 7},
+				{"text": "CONV_WIREMU_EXAM_NERVES_S5_R1", "sanity": 10.0, "goto": 7}]},
 			# 6
 			{"them": "CONV_WIREMU_EXAM_NERVES_S6",
 			 "replies": [
@@ -354,8 +292,8 @@ var _student_conversations: Array = [
 			# 4
 			{"them": "CONV_SIONE_BALANCE_S4",
 			 "replies": [
-				{"text": "CONV_SIONE_BALANCE_S4_R0", "sanity": 13.0, "temptation": -8.0},
-				{"text": "CONV_SIONE_BALANCE_S4_R1", "sanity": 12.0, "temptation": -6.0}]},
+				{"text": "CONV_SIONE_BALANCE_S4_R0", "sanity": 13.0, "temptation": -8.0, "goto": 6},
+				{"text": "CONV_SIONE_BALANCE_S4_R1", "sanity": 12.0, "temptation": -6.0, "goto": 6}]},
 			# 5
 			{"them": "CONV_SIONE_BALANCE_S5",
 			 "replies": [
@@ -396,8 +334,8 @@ var _student_conversations: Array = [
 			# 5
 			{"them": "CONV_CHLOE_GOSSIP_S5",
 			 "replies": [
-				{"text": "CONV_CHLOE_GOSSIP_S5_R0", "sanity": 11.0},
-				{"text": "CONV_CHLOE_GOSSIP_S5_R1", "sanity": 9.0}]},
+				{"text": "CONV_CHLOE_GOSSIP_S5_R0", "sanity": 11.0, "goto": 7},
+				{"text": "CONV_CHLOE_GOSSIP_S5_R1", "sanity": 9.0, "goto": 7}]},
 			# 6
 			{"them": "CONV_CHLOE_GOSSIP_S6",
 			 "replies": [
@@ -570,6 +508,355 @@ var _student_conversations: Array = [
 				{"text": "CONV_PRIYA_LOAN_NAG_S4_R0", "sanity": 10.0},
 				{"text": "CONV_PRIYA_LOAN_NAG_S4_R1", "sanity": 9.0}]},
 		]},
+
+	# --- Follow-ups to what happened on the phone, and new faces of old friends
+	{
+		"id": "ana_lunch", "speaker": "Ana", "role": "student", "condition": "low_sanity",
+		"steps": [
+			{"them": "CONV_ANA_LUNCH_S0",
+			 "replies": [
+				{"text": "CONV_ANA_LUNCH_S0_R0", "sanity": 4.0, "goto": 1},
+				{"text": "CONV_ANA_LUNCH_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "CONV_ANA_LUNCH_S1",
+			 "replies": [
+				{"text": "CONV_ANA_LUNCH_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_ANA_LUNCH_S2",
+			 "replies": [
+				{"text": "CONV_ANA_LUNCH_S2_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "CONV_ANA_LUNCH_S3",
+			 "replies": [
+				{"text": "CONV_ANA_LUNCH_S3_R0", "sanity": 14.0, "goto": 4},
+				{"text": "CONV_ANA_LUNCH_S3_R1", "sanity": 12.0, "goto": 4}]},
+			{"them": "CONV_ANA_LUNCH_S4",
+			 "replies": [
+				{"text": "CONV_ANA_LUNCH_S4_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "priya_flashcards", "speaker": "Priya", "role": "student", "condition": "mid_year",
+		"steps": [
+			{"them": "CONV_PRIYA_FLASHCARDS_S0",
+			 "replies": [
+				{"text": "CONV_PRIYA_FLASHCARDS_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "CONV_PRIYA_FLASHCARDS_S0_R1", "sanity": 5.0, "goto": 2}]},
+			{"them": "CONV_PRIYA_FLASHCARDS_S1",
+			 "replies": [
+				{"text": "CONV_PRIYA_FLASHCARDS_S1_R0", "sanity": 9.0, "goto": 3},
+				{"text": "CONV_PRIYA_FLASHCARDS_S1_R1", "sanity": 7.0, "goto": 3}]},
+			{"them": "CONV_PRIYA_FLASHCARDS_S2",
+			 "replies": [
+				{"text": "CONV_PRIYA_FLASHCARDS_S2_R0", "sanity": 7.0, "goto": 1}]},
+			{"them": "CONV_PRIYA_FLASHCARDS_S3",
+			 "replies": [
+				{"text": "CONV_PRIYA_FLASHCARDS_S3_R0", "sanity": 12.0, "goto": 4},
+				{"text": "CONV_PRIYA_FLASHCARDS_S3_R1", "sanity": 10.0, "goto": 4}]},
+			{"them": "CONV_PRIYA_FLASHCARDS_S4",
+			 "replies": [
+				{"text": "CONV_PRIYA_FLASHCARDS_S4_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "tane_band_names", "speaker": "Tane", "role": "student", "condition": "flag:tane_band_yes",
+		"steps": [
+			{"them": "CONV_TANE_BAND_NAMES_S0",
+			 "replies": [
+				{"text": "CONV_TANE_BAND_NAMES_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "CONV_TANE_BAND_NAMES_S0_R1", "sanity": 8.0, "goto": 2}]},
+			{"them": "CONV_TANE_BAND_NAMES_S1",
+			 "replies": [
+				{"text": "CONV_TANE_BAND_NAMES_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_TANE_BAND_NAMES_S2",
+			 "replies": [
+				{"text": "CONV_TANE_BAND_NAMES_S2_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "CONV_TANE_BAND_NAMES_S3",
+			 "replies": [
+				{"text": "CONV_TANE_BAND_NAMES_S3_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "tane_owes_you", "speaker": "Tane", "role": "student", "condition": ["flag:lent_tane", "!done:tane_payback"],
+		"steps": [
+			{"them": "CONV_TANE_OWES_YOU_S0",
+			 "replies": [
+				{"text": "CONV_TANE_OWES_YOU_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "CONV_TANE_OWES_YOU_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "CONV_TANE_OWES_YOU_S1",
+			 "replies": [
+				{"text": "CONV_TANE_OWES_YOU_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "CONV_TANE_OWES_YOU_S2",
+			 "replies": [
+				{"text": "CONV_TANE_OWES_YOU_S2_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_TANE_OWES_YOU_S3",
+			 "replies": [
+				{"text": "CONV_TANE_OWES_YOU_S3_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "tane_cold", "speaker": "Tane", "role": "student", "condition": ["flag:tane_snubbed", "!flag:tane_made_up"],
+		"steps": [
+			{"them": "CONV_TANE_COLD_S0",
+			 "replies": [
+				{"text": "CONV_TANE_COLD_S0_R0", "sanity": 5.0, "goto": 1},
+				{"text": "CONV_TANE_COLD_S0_R1", "sanity": 1.0, "goto": 4}]},
+			{"them": "CONV_TANE_COLD_S1",
+			 "replies": [
+				{"text": "CONV_TANE_COLD_S1_R0", "sanity": 10.0, "goto": 2, "flag": "tane_made_up"},
+				{"text": "CONV_TANE_COLD_S1_R1", "sanity": 1.0, "goto": 4}]},
+			{"them": "CONV_TANE_COLD_S2",
+			 "replies": [
+				{"text": "CONV_TANE_COLD_S2_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "CONV_TANE_COLD_S3",
+			 "replies": [
+				{"text": "CONV_TANE_COLD_S3_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "wiremu_crutches", "speaker": "Wiremu", "role": "student", "condition": "done:wiremu_injury",
+		"steps": [
+			{"them": "CONV_WIREMU_CRUTCHES_S0",
+			 "replies": [
+				{"text": "CONV_WIREMU_CRUTCHES_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "CONV_WIREMU_CRUTCHES_S0_R1", "sanity": 7.0, "goto": 1}]},
+			{"them": "CONV_WIREMU_CRUTCHES_S1",
+			 "replies": [
+				{"text": "CONV_WIREMU_CRUTCHES_S1_R0", "sanity": 9.0, "goto": 2},
+				{"text": "CONV_WIREMU_CRUTCHES_S1_R1", "sanity": 6.0, "goto": 3}]},
+			{"them": "CONV_WIREMU_CRUTCHES_S2",
+			 "replies": [
+				{"text": "CONV_WIREMU_CRUTCHES_S2_R0", "sanity": 10.0, "goto": 4}]},
+			{"them": "CONV_WIREMU_CRUTCHES_S3",
+			 "replies": [
+				{"text": "CONV_WIREMU_CRUTCHES_S3_R0", "sanity": 8.0, "goto": 2}]},
+		]},
+	{
+		"id": "chloe_ball_outfit", "speaker": "Chloe", "role": "student", "condition": ["flag:ball_ticket", "!flag:went_to_ball", "!flag:missed_ball"],
+		"steps": [
+			{"them": "CONV_CHLOE_BALL_OUTFIT_S0",
+			 "replies": [
+				{"text": "CONV_CHLOE_BALL_OUTFIT_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "CONV_CHLOE_BALL_OUTFIT_S0_R1", "sanity": 5.0, "goto": 2}]},
+			{"them": "CONV_CHLOE_BALL_OUTFIT_S1",
+			 "replies": [
+				{"text": "CONV_CHLOE_BALL_OUTFIT_S1_R0", "sanity": 8.0, "goto": 2}]},
+			{"them": "CONV_CHLOE_BALL_OUTFIT_S2",
+			 "replies": [
+				{"text": "CONV_CHLOE_BALL_OUTFIT_S2_R0", "sanity": 8.0, "goto": 3},
+				{"text": "CONV_CHLOE_BALL_OUTFIT_S2_R1", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_CHLOE_BALL_OUTFIT_S3",
+			 "replies": [
+				{"text": "CONV_CHLOE_BALL_OUTFIT_S3_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "sione_fountain", "speaker": "Sione", "role": "student", "condition": "flag:went_to_ball",
+		"steps": [
+			{"them": "CONV_SIONE_FOUNTAIN_S0",
+			 "replies": [
+				{"text": "CONV_SIONE_FOUNTAIN_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "CONV_SIONE_FOUNTAIN_S0_R1", "sanity": 9.0, "goto": 2}]},
+			{"them": "CONV_SIONE_FOUNTAIN_S1",
+			 "replies": [
+				{"text": "CONV_SIONE_FOUNTAIN_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_SIONE_FOUNTAIN_S2",
+			 "replies": [
+				{"text": "CONV_SIONE_FOUNTAIN_S2_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "CONV_SIONE_FOUNTAIN_S3",
+			 "replies": [
+				{"text": "CONV_SIONE_FOUNTAIN_S3_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "mika_licence", "speaker": "Mika", "role": "student", "condition": "done:mika_driving",
+		"steps": [
+			{"them": "CONV_MIKA_LICENCE_S0",
+			 "replies": [
+				{"text": "CONV_MIKA_LICENCE_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "CONV_MIKA_LICENCE_S0_R1", "sanity": 8.0, "goto": 2}]},
+			{"them": "CONV_MIKA_LICENCE_S1",
+			 "replies": [
+				{"text": "CONV_MIKA_LICENCE_S1_R0", "sanity": 8.0, "goto": 2}]},
+			{"them": "CONV_MIKA_LICENCE_S2",
+			 "replies": [
+				{"text": "CONV_MIKA_LICENCE_S2_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "mika_gap_talk", "speaker": "Mika", "role": "student", "condition": "flag:mika_gap",
+		"steps": [
+			{"them": "CONV_MIKA_GAP_TALK_S0",
+			 "replies": [
+				{"text": "CONV_MIKA_GAP_TALK_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "CONV_MIKA_GAP_TALK_S0_R1", "sanity": 7.0, "goto": 1}]},
+			{"them": "CONV_MIKA_GAP_TALK_S1",
+			 "replies": [
+				{"text": "CONV_MIKA_GAP_TALK_S1_R0", "sanity": 9.0, "goto": 2},
+				{"text": "CONV_MIKA_GAP_TALK_S1_R1", "sanity": 9.0, "goto": 2}]},
+			{"them": "CONV_MIKA_GAP_TALK_S2",
+			 "replies": [
+				{"text": "CONV_MIKA_GAP_TALK_S2_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "ana_lighthouse", "speaker": "Ana", "role": "student", "condition": "flag:ana_book",
+		"steps": [
+			{"them": "CONV_ANA_LIGHTHOUSE_S0",
+			 "replies": [
+				{"text": "CONV_ANA_LIGHTHOUSE_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "CONV_ANA_LIGHTHOUSE_S0_R1", "sanity": 4.0, "goto": 2}]},
+			{"them": "CONV_ANA_LIGHTHOUSE_S1",
+			 "replies": [
+				{"text": "CONV_ANA_LIGHTHOUSE_S1_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "CONV_ANA_LIGHTHOUSE_S2",
+			 "replies": [
+				{"text": "CONV_ANA_LIGHTHOUSE_S2_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "CONV_ANA_LIGHTHOUSE_S3",
+			 "replies": [
+				{"text": "CONV_ANA_LIGHTHOUSE_S3_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "priya_interview", "speaker": "Priya", "role": "student", "condition": "flag:priya_helped",
+		"steps": [
+			{"them": "CONV_PRIYA_INTERVIEW_S0",
+			 "replies": [
+				{"text": "CONV_PRIYA_INTERVIEW_S0_R0", "sanity": 12.0, "goto": 1},
+				{"text": "CONV_PRIYA_INTERVIEW_S0_R1", "sanity": 8.0, "goto": 2}]},
+			{"them": "CONV_PRIYA_INTERVIEW_S1",
+			 "replies": [
+				{"text": "CONV_PRIYA_INTERVIEW_S1_R0", "sanity": 11.0, "goto": 2}]},
+			{"them": "CONV_PRIYA_INTERVIEW_S2",
+			 "replies": [
+				{"text": "CONV_PRIYA_INTERVIEW_S2_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_PRIYA_INTERVIEW_S3",
+			 "replies": [
+				{"text": "CONV_PRIYA_INTERVIEW_S3_R0", "sanity": 12.0, "flag": "priya_scholarship"}]},
+		]},
+	{
+		"id": "josh_lunch_trade", "speaker": "Josh", "role": "student", "condition": "early_year",
+		"steps": [
+			{"them": "CONV_JOSH_LUNCH_TRADE_S0",
+			 "replies": [
+				{"text": "CONV_JOSH_LUNCH_TRADE_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "CONV_JOSH_LUNCH_TRADE_S0_R1", "sanity": 8.0, "goto": 2}]},
+			{"them": "CONV_JOSH_LUNCH_TRADE_S1",
+			 "replies": [
+				{"text": "CONV_JOSH_LUNCH_TRADE_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "CONV_JOSH_LUNCH_TRADE_S2",
+			 "replies": [
+				{"text": "CONV_JOSH_LUNCH_TRADE_S2_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_JOSH_LUNCH_TRADE_S3",
+			 "replies": [
+				{"text": "CONV_JOSH_LUNCH_TRADE_S3_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "josh_tutoring_live", "speaker": "Josh", "role": "student", "condition": "flag:tutored_josh",
+		"steps": [
+			{"them": "CONV_JOSH_TUTORING_LIVE_S0",
+			 "replies": [
+				{"text": "CONV_JOSH_TUTORING_LIVE_S0_R0", "sanity": 11.0, "goto": 1},
+				{"text": "CONV_JOSH_TUTORING_LIVE_S0_R1", "sanity": 9.0, "goto": 1}]},
+			{"them": "CONV_JOSH_TUTORING_LIVE_S1",
+			 "replies": [
+				{"text": "CONV_JOSH_TUTORING_LIVE_S1_R0", "sanity": 12.0}]},
+		]},
+	{
+		"id": "josh_stood_up", "speaker": "Josh", "role": "student", "condition": "flag:stood_up_josh",
+		"steps": [
+			{"them": "CONV_JOSH_STOOD_UP_S0",
+			 "replies": [
+				{"text": "CONV_JOSH_STOOD_UP_S0_R0", "sanity": 4.0, "goto": 1},
+				{"text": "CONV_JOSH_STOOD_UP_S0_R1", "sanity": 2.0, "goto": 2}]},
+			{"them": "CONV_JOSH_STOOD_UP_S1",
+			 "replies": [
+				{"text": "CONV_JOSH_STOOD_UP_S1_R0", "sanity": 10.0, "goto": 3, "flag": "tutored_josh"},
+				{"text": "CONV_JOSH_STOOD_UP_S1_R1", "sanity": 2.0, "goto": 3}]},
+			{"them": "CONV_JOSH_STOOD_UP_S2",
+			 "replies": [
+				{"text": "CONV_JOSH_STOOD_UP_S2_R0", "sanity": 8.0, "flag": "tutored_josh"}]},
+		]},
+	{
+		"id": "chloe_couch", "speaker": "Chloe", "role": "student", "condition": "early_year",
+		"steps": [
+			{"them": "CONV_CHLOE_COUCH_S0",
+			 "replies": [
+				{"text": "CONV_CHLOE_COUCH_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "CONV_CHLOE_COUCH_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "CONV_CHLOE_COUCH_S1",
+			 "replies": [
+				{"text": "CONV_CHLOE_COUCH_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "CONV_CHLOE_COUCH_S2",
+			 "replies": [
+				{"text": "CONV_CHLOE_COUCH_S2_R0", "sanity": 8.0, "goto": 5}]},
+			{"them": "CONV_CHLOE_COUCH_S3",
+			 "replies": [
+				{"text": "CONV_CHLOE_COUCH_S3_R0", "sanity": 7.0, "goto": 4}]},
+			{"them": "CONV_CHLOE_COUCH_S4",
+			 "replies": [
+				{"text": "CONV_CHLOE_COUCH_S4_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "wiremu_pies", "speaker": "Wiremu", "role": "student", "condition": "always",
+		"steps": [
+			{"them": "CONV_WIREMU_PIES_S0",
+			 "replies": [
+				{"text": "CONV_WIREMU_PIES_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "CONV_WIREMU_PIES_S0_R1", "sanity": 6.0, "goto": 2},
+				{"text": "CONV_WIREMU_PIES_S0_R2", "sanity": 8.0, "goto": 3}]},
+			{"them": "CONV_WIREMU_PIES_S1",
+			 "replies": [
+				{"text": "CONV_WIREMU_PIES_S1_R0", "sanity": 9.0, "goto": 4}]},
+			{"them": "CONV_WIREMU_PIES_S2",
+			 "replies": [
+				{"text": "CONV_WIREMU_PIES_S2_R0", "sanity": 8.0, "goto": 4}]},
+			{"them": "CONV_WIREMU_PIES_S3",
+			 "replies": [
+				{"text": "CONV_WIREMU_PIES_S3_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "sione_flashcards", "speaker": "Sione", "role": "student", "condition": "exam_soon",
+		"steps": [
+			{"them": "CONV_SIONE_FLASHCARDS_S0",
+			 "replies": [
+				{"text": "CONV_SIONE_FLASHCARDS_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "CONV_SIONE_FLASHCARDS_S0_R1", "sanity": 9.0, "temptation": -3.0, "goto": 2}]},
+			{"them": "CONV_SIONE_FLASHCARDS_S1",
+			 "replies": [
+				{"text": "CONV_SIONE_FLASHCARDS_S1_R0", "sanity": 8.0, "goto": 2}]},
+			{"them": "CONV_SIONE_FLASHCARDS_S2",
+			 "replies": [
+				{"text": "CONV_SIONE_FLASHCARDS_S2_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "mika_lost", "speaker": "Mika", "role": "student", "condition": "late_year",
+		"steps": [
+			{"them": "CONV_MIKA_LOST_S0",
+			 "replies": [
+				{"text": "CONV_MIKA_LOST_S0_R0", "sanity": 10.0, "goto": 1},
+				{"text": "CONV_MIKA_LOST_S0_R1", "sanity": 7.0, "goto": 1}]},
+			{"them": "CONV_MIKA_LOST_S1",
+			 "replies": [
+				{"text": "CONV_MIKA_LOST_S1_R0", "sanity": 9.0, "goto": 2},
+				{"text": "CONV_MIKA_LOST_S1_R1", "sanity": 10.0, "goto": 2}]},
+			{"them": "CONV_MIKA_LOST_S2",
+			 "replies": [
+				{"text": "CONV_MIKA_LOST_S2_R0", "sanity": 12.0}]},
+		]},
+	{
+		"id": "tane_last_week", "speaker": "Tane", "role": "student", "condition": "late_year",
+		"steps": [
+			{"them": "CONV_TANE_LAST_WEEK_S0",
+			 "replies": [
+				{"text": "CONV_TANE_LAST_WEEK_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "CONV_TANE_LAST_WEEK_S0_R1", "sanity": 6.0, "goto": 1}]},
+			{"them": "CONV_TANE_LAST_WEEK_S1",
+			 "replies": [
+				{"text": "CONV_TANE_LAST_WEEK_S1_R0", "sanity": 10.0, "goto": 2},
+				{"text": "CONV_TANE_LAST_WEEK_S1_R1", "sanity": 9.0, "goto": 2}]},
+			{"them": "CONV_TANE_LAST_WEEK_S2",
+			 "replies": [
+				{"text": "CONV_TANE_LAST_WEEK_S2_R0", "sanity": 13.0}]},
+		]},
+	{
+		"id": "ana_after_run", "speaker": "Ana", "role": "student", "condition": "flag:ran_with_ana",
+		"steps": [
+			{"them": "CONV_ANA_AFTER_RUN_S0",
+			 "replies": [
+				{"text": "CONV_ANA_AFTER_RUN_S0_R0", "sanity": 10.0, "goto": 1},
+				{"text": "CONV_ANA_AFTER_RUN_S0_R1", "sanity": 8.0, "goto": 1}]},
+			{"them": "CONV_ANA_AFTER_RUN_S1",
+			 "replies": [
+				{"text": "CONV_ANA_AFTER_RUN_S1_R0", "sanity": 9.0}]},
+		]},
 ]
 
 
@@ -690,13 +977,13 @@ var _teacher_conversations: Array = [
 			# 4
 			{"them": "CONV_HALLOWAY_BURNOUT_S4",
 			 "replies": [
-				{"text": "CONV_HALLOWAY_BURNOUT_S4_R0", "sanity": 14.0},
-				{"text": "CONV_HALLOWAY_BURNOUT_S4_R1", "sanity": 12.0}]},
+				{"text": "CONV_HALLOWAY_BURNOUT_S4_R0", "sanity": 14.0, "goto": 7},
+				{"text": "CONV_HALLOWAY_BURNOUT_S4_R1", "sanity": 12.0, "goto": 7}]},
 			# 5
 			{"them": "CONV_HALLOWAY_BURNOUT_S5",
 			 "replies": [
-				{"text": "CONV_HALLOWAY_BURNOUT_S5_R0", "sanity": 14.0},
-				{"text": "CONV_HALLOWAY_BURNOUT_S5_R1", "sanity": 12.0}]},
+				{"text": "CONV_HALLOWAY_BURNOUT_S5_R0", "sanity": 14.0, "goto": 7},
+				{"text": "CONV_HALLOWAY_BURNOUT_S5_R1", "sanity": 12.0, "goto": 7}]},
 			# 6
 			{"them": "CONV_HALLOWAY_BURNOUT_S6",
 			 "replies": [
@@ -844,8 +1131,8 @@ var _teacher_conversations: Array = [
 			# 4
 			{"them": "CONV_HALLOWAY_LOAN_S4",
 			 "replies": [
-				{"text": "CONV_HALLOWAY_LOAN_S4_R0", "sanity": 10.0},
-				{"text": "CONV_HALLOWAY_LOAN_S4_R1", "sanity": 11.0}]},
+				{"text": "CONV_HALLOWAY_LOAN_S4_R0", "sanity": 10.0, "goto": 9},
+				{"text": "CONV_HALLOWAY_LOAN_S4_R1", "sanity": 11.0, "goto": 9}]},
 			# 5
 			{"them": "CONV_HALLOWAY_LOAN_S5",
 			 "replies": [
@@ -867,6 +1154,52 @@ var _teacher_conversations: Array = [
 			 "replies": [
 				{"text": "CONV_HALLOWAY_LOAN_S8_R0", "sanity": 13.0, "goto": 4},
 				{"text": "CONV_HALLOWAY_LOAN_S8_R1", "sanity": 10.0, "goto": 4}]},
+		]},
+	{
+		"id": "halloway_card", "speaker": TEACHER_NAME, "role": "teacher", "condition": "flag:halloway_card",
+		"steps": [
+			{"them": "CONV_HALLOWAY_CARD_S0",
+			 "replies": [
+				{"text": "CONV_HALLOWAY_CARD_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "CONV_HALLOWAY_CARD_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "CONV_HALLOWAY_CARD_S1",
+			 "replies": [
+				{"text": "CONV_HALLOWAY_CARD_S1_R0", "sanity": 11.0, "goto": 3}]},
+			{"them": "CONV_HALLOWAY_CARD_S2",
+			 "replies": [
+				{"text": "CONV_HALLOWAY_CARD_S2_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_HALLOWAY_CARD_S3",
+			 "replies": [
+				{"text": "CONV_HALLOWAY_CARD_S3_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "halloway_proud", "speaker": TEACHER_NAME, "role": "teacher", "condition": ["late_year", "ahead"],
+		"steps": [
+			{"them": "CONV_HALLOWAY_PROUD_S0",
+			 "replies": [
+				{"text": "CONV_HALLOWAY_PROUD_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "CONV_HALLOWAY_PROUD_S0_R1", "sanity": 8.0, "goto": 1}]},
+			{"them": "CONV_HALLOWAY_PROUD_S1",
+			 "replies": [
+				{"text": "CONV_HALLOWAY_PROUD_S1_R0", "sanity": 14.0, "goto": 2},
+				{"text": "CONV_HALLOWAY_PROUD_S1_R1", "sanity": 12.0, "goto": 2}]},
+			{"them": "CONV_HALLOWAY_PROUD_S2",
+			 "replies": [
+				{"text": "CONV_HALLOWAY_PROUD_S2_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "halloway_reference_talk", "speaker": TEACHER_NAME, "role": "teacher", "condition": "flag:halloway_reference",
+		"steps": [
+			{"them": "CONV_HALLOWAY_REFERENCE_TALK_S0",
+			 "replies": [
+				{"text": "CONV_HALLOWAY_REFERENCE_TALK_S0_R0", "sanity": 11.0, "goto": 1},
+				{"text": "CONV_HALLOWAY_REFERENCE_TALK_S0_R1", "sanity": 9.0, "goto": 2}]},
+			{"them": "CONV_HALLOWAY_REFERENCE_TALK_S1",
+			 "replies": [
+				{"text": "CONV_HALLOWAY_REFERENCE_TALK_S1_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "CONV_HALLOWAY_REFERENCE_TALK_S2",
+			 "replies": [
+				{"text": "CONV_HALLOWAY_REFERENCE_TALK_S2_R0", "sanity": 10.0}]},
 		]},
 ]
 
@@ -900,3 +1233,207 @@ func get_teacher_intro_line() -> String:
 func get_teacher_result_line(is_correct: bool) -> String:
 	var pool: Array = _teacher_lines_correct if is_correct else _teacher_lines_incorrect
 	return tr(pool[randi() % pool.size()])
+
+
+# RAVI (the dairy)
+# Ravi runs the dairy, and he's the same Ravi who texts you. You talk to him
+# at the counter; the conversations follow what's happened between you.
+
+var _ravi_conversations: Array = [
+	{
+		"id": "ravi_first", "speaker": "Ravi", "role": "shopkeeper", "condition": "ravi_new",
+		"steps": [
+			{"them": "CONV_RAVI_FIRST_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_FIRST_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "CONV_RAVI_FIRST_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "CONV_RAVI_FIRST_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_FIRST_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "CONV_RAVI_FIRST_S2",
+			 "replies": [
+				{"text": "CONV_RAVI_FIRST_S2_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "CONV_RAVI_FIRST_S3",
+			 "replies": [
+				{"text": "CONV_RAVI_FIRST_S3_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "ravi_pies", "speaker": "Ravi", "role": "shopkeeper", "condition": "always",
+		"steps": [
+			{"them": "CONV_RAVI_PIES_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_PIES_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "CONV_RAVI_PIES_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "CONV_RAVI_PIES_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_PIES_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "CONV_RAVI_PIES_S2",
+			 "replies": [
+				{"text": "CONV_RAVI_PIES_S2_R0", "sanity": 9.0, "goto": 4}]},
+			{"them": "CONV_RAVI_PIES_S3",
+			 "replies": [
+				{"text": "CONV_RAVI_PIES_S3_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "ravi_cricket_radio", "speaker": "Ravi", "role": "shopkeeper", "condition": "done:ravi_cricket",
+		"steps": [
+			{"them": "CONV_RAVI_CRICKET_RADIO_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_CRICKET_RADIO_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "CONV_RAVI_CRICKET_RADIO_S0_R1", "sanity": 9.0, "goto": 2}]},
+			{"them": "CONV_RAVI_CRICKET_RADIO_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_CRICKET_RADIO_S1_R0", "sanity": 10.0, "goto": 3},
+				{"text": "CONV_RAVI_CRICKET_RADIO_S1_R1", "sanity": 7.0, "goto": 3}]},
+			{"them": "CONV_RAVI_CRICKET_RADIO_S2",
+			 "replies": [
+				{"text": "CONV_RAVI_CRICKET_RADIO_S2_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_RAVI_CRICKET_RADIO_S3",
+			 "replies": [
+				{"text": "CONV_RAVI_CRICKET_RADIO_S3_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "ravi_asha", "speaker": "Ravi", "role": "shopkeeper", "condition": "done:ravi_daughter",
+		"steps": [
+			{"them": "CONV_RAVI_ASHA_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_ASHA_S0_R0", "sanity": 10.0, "goto": 1},
+				{"text": "CONV_RAVI_ASHA_S0_R1", "sanity": 11.0, "goto": 2}]},
+			{"them": "CONV_RAVI_ASHA_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_ASHA_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_RAVI_ASHA_S2",
+			 "replies": [
+				{"text": "CONV_RAVI_ASHA_S2_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "ravi_late_night", "speaker": "Ravi", "role": "shopkeeper", "condition": "late_night",
+		"steps": [
+			{"them": "CONV_RAVI_LATE_NIGHT_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_LATE_NIGHT_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "CONV_RAVI_LATE_NIGHT_S0_R1", "sanity": 8.0, "goto": 2}]},
+			{"them": "CONV_RAVI_LATE_NIGHT_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_LATE_NIGHT_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_RAVI_LATE_NIGHT_S2",
+			 "replies": [
+				{"text": "CONV_RAVI_LATE_NIGHT_S2_R0", "sanity": 12.0, "goto": 4}]},
+			{"them": "CONV_RAVI_LATE_NIGHT_S3",
+			 "replies": [
+				{"text": "CONV_RAVI_LATE_NIGHT_S3_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "ravi_exams", "speaker": "Ravi", "role": "shopkeeper", "condition": "exam_soon",
+		"steps": [
+			{"them": "CONV_RAVI_EXAMS_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_EXAMS_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "CONV_RAVI_EXAMS_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "CONV_RAVI_EXAMS_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_EXAMS_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "CONV_RAVI_EXAMS_S2",
+			 "replies": [
+				{"text": "CONV_RAVI_EXAMS_S2_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "ravi_worried", "speaker": "Ravi", "role": "shopkeeper", "condition": "low_sanity",
+		"steps": [
+			{"them": "CONV_RAVI_WORRIED_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_WORRIED_S0_R0", "sanity": 5.0, "goto": 1},
+				{"text": "CONV_RAVI_WORRIED_S0_R1", "sanity": 12.0, "goto": 2}]},
+			{"them": "CONV_RAVI_WORRIED_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_WORRIED_S1_R0", "sanity": 12.0, "goto": 3}]},
+			{"them": "CONV_RAVI_WORRIED_S2",
+			 "replies": [
+				{"text": "CONV_RAVI_WORRIED_S2_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "ravi_story", "speaker": "Ravi", "role": "shopkeeper", "condition": "always",
+		"steps": [
+			{"them": "CONV_RAVI_STORY_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_STORY_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "CONV_RAVI_STORY_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "CONV_RAVI_STORY_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_STORY_S1_R0", "sanity": 8.0, "goto": 2}]},
+			{"them": "CONV_RAVI_STORY_S2",
+			 "replies": [
+				{"text": "CONV_RAVI_STORY_S2_R0", "sanity": 11.0},
+				{"text": "CONV_RAVI_STORY_S2_R1", "sanity": 12.0}]},
+		]},
+	{
+		"id": "ravi_lotto", "speaker": "Ravi", "role": "shopkeeper", "condition": "always",
+		"steps": [
+			{"them": "CONV_RAVI_LOTTO_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_LOTTO_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "CONV_RAVI_LOTTO_S0_R1", "sanity": 9.0, "goto": 2}]},
+			{"them": "CONV_RAVI_LOTTO_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_LOTTO_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "CONV_RAVI_LOTTO_S2",
+			 "replies": [
+				{"text": "CONV_RAVI_LOTTO_S2_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "CONV_RAVI_LOTTO_S3",
+			 "replies": [
+				{"text": "CONV_RAVI_LOTTO_S3_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "ravi_after_shop", "speaker": "Ravi", "role": "shopkeeper", "condition": "flag:minded_ravi_shop",
+		"steps": [
+			{"them": "CONV_RAVI_AFTER_SHOP_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_AFTER_SHOP_S0_R0", "sanity": 9.0, "goto": 1},
+				{"text": "CONV_RAVI_AFTER_SHOP_S0_R1", "sanity": 9.0, "goto": 1}]},
+			{"them": "CONV_RAVI_AFTER_SHOP_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_AFTER_SHOP_S1_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "ravi_let_down", "speaker": "Ravi", "role": "shopkeeper", "condition": "flag:let_ravi_down",
+		"steps": [
+			{"them": "CONV_RAVI_LET_DOWN_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_LET_DOWN_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "CONV_RAVI_LET_DOWN_S0_R1", "sanity": 3.0, "goto": 1}]},
+			{"them": "CONV_RAVI_LET_DOWN_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_LET_DOWN_S1_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "ravi_goodbye", "speaker": "Ravi", "role": "shopkeeper", "condition": "late_year",
+		"steps": [
+			{"them": "CONV_RAVI_GOODBYE_S0",
+			 "replies": [
+				{"text": "CONV_RAVI_GOODBYE_S0_R0", "sanity": 10.0, "goto": 1},
+				{"text": "CONV_RAVI_GOODBYE_S0_R1", "sanity": 11.0, "goto": 2}]},
+			{"them": "CONV_RAVI_GOODBYE_S1",
+			 "replies": [
+				{"text": "CONV_RAVI_GOODBYE_S1_R0", "sanity": 12.0, "goto": 2}]},
+			{"them": "CONV_RAVI_GOODBYE_S2",
+			 "replies": [
+				{"text": "CONV_RAVI_GOODBYE_S2_R0", "sanity": 12.0}]},
+		]},
+]
+
+const RAVI_GREETINGS := ["RAVI_GREET_0", "RAVI_GREET_1", "RAVI_GREET_2", "RAVI_GREET_3",
+	"RAVI_GREET_4", "RAVI_GREET_5", "RAVI_GREET_6", "RAVI_GREET_7"]
+const RAVI_SIGNOFFS := ["RAVI_BYE_0", "RAVI_BYE_1", "RAVI_BYE_2", "RAVI_BYE_3", "RAVI_BYE_4"]
+
+
+func get_ravi_conversation(player_name: String) -> Dictionary:
+	return personalise(_pick(_ravi_conversations), player_name)
+
+
+func get_ravi_greeting(player_name: String) -> String:
+	var key: String = "RAVI_GREET_FIRST" if GameBackend.ravi_visits <= 1 else str(RAVI_GREETINGS[randi() % RAVI_GREETINGS.size()])
+	return tr(key).replace("{NAME}", player_name)
+
+
+func get_ravi_signoff() -> String:
+	return tr(str(RAVI_SIGNOFFS[randi() % RAVI_SIGNOFFS.size()]))

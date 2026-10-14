@@ -1,5 +1,10 @@
 extends Node2D
 
+## Set by the pause menu when this screen is opened on top of a game in
+## progress: the Back button then closes it instead of going to the main menu.
+var embedded: bool = false
+signal closed
+
 @onready var language_panel = $CanvasLayer/Control/Language
 @onready var home_panel = $CanvasLayer/Control/Home_System
 @onready var home_node = $CanvasLayer/Control/Home
@@ -95,7 +100,18 @@ func _on_language_pressed() -> void:
 	home_node.hide()
 	language_node.show()
 
+## Esc closes Settings too, when it's open on top of the menu or the game.
+func _unhandled_input(event: InputEvent) -> void:
+	if embedded and event.is_action_pressed("Escape"):
+		get_viewport().set_input_as_handled()
+		_on_exit_settings_pressed()
+
+
 func _on_exit_settings_pressed() -> void:
+	if embedded:
+		closed.emit()
+		queue_free()
+		return
 	get_tree().change_scene_to_file("res://MainMenu/Scenes/main_menu.tscn")
 
 

@@ -34,6 +34,10 @@ var task_active: bool = false
 func _ready() -> void:
 	Audio.play_ambience("school")
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	GameBackend.remember_place("canteen")
+	# Meeting a friend here counts as turning up.
+	if GameBackend.fulfil_commitment("hangout"):
+		GameBackend.socialize(10.0, 1.0, 2.0)
 
 	counter_area.body_entered.connect(_on_station_entered.bind("counter"))
 	counter_area.body_exited.connect(_on_station_exited.bind("counter"))
@@ -97,7 +101,7 @@ func _open_menu() -> void:
 	var items: Array = WorkData.pick_menu(WorkData.CANTEEN_MENU, 8)
 	for item in items:
 		var ibtn := Button.new()
-		ibtn.text = tr(str(item.label))
+		ibtn.text = tr("SHOP_ITEM_PRICE") % [tr(str(item.label)), float(item.cost)]
 		ibtn.pressed.connect(_on_buy.bind(item))
 		options_container.add_child(ibtn)
 

@@ -48,6 +48,7 @@ var current_subject: String = ""
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	Audio.play_ambience("school")
+	GameBackend.remember_place("exam_hall")
 
 	desk_area.body_entered.connect(_on_station_entered.bind("desk"))
 	desk_area.body_exited.connect(_on_station_exited.bind("desk"))

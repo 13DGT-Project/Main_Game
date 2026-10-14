@@ -69,6 +69,7 @@ var answered_current: bool = false
 func _ready() -> void:
 	Audio.play_ambience("home")
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	GameBackend.remember_place("home")
 
 	bed_area.body_entered.connect(_on_station_entered.bind("bed"))
 	bed_area.body_exited.connect(_on_station_exited.bind("bed"))

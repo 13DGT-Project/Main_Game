@@ -130,6 +130,7 @@ var shift_task_total: int = 0
 func _ready() -> void:
 	Audio.play_ambience("work")
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	GameBackend.remember_place("work")
 
 	var customer_textures := [
 		"res://Backend/Resource/Textures/customer_a.png",
@@ -537,14 +538,14 @@ func _reset_restock_box() -> void:
 	# Draw a different item for every box, so a shift isn't four identical
 	# deliveries in a row. Avoids repeating the item you just did.
 	var pool: Array = WorkData._restock_items
-	var previous_name: String = str(restock_target_item.get("name", ""))
+	var previous_tex: String = str(restock_target_item.get("texture", ""))
 	var pick: Dictionary = pool[randi() % pool.size()]
 	if pool.size() > 1:
 		var guard: int = 0
-		while str(pick.get("name", "")) == previous_name and guard < 8:
+		while str(pick.get("texture", "")) == previous_tex and guard < 8:
 			pick = pool[randi() % pool.size()]
 			guard += 1
-	restock_target_item = pick
+	restock_target_item = WorkData._translated(pick)
 
 	restock_box_opened = false
 	holding_item = false

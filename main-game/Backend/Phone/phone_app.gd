@@ -124,7 +124,7 @@ func _ready() -> void:
 	weather_back_button.pressed.connect(_show_home)
 	games_button.pressed.connect(_open_games)
 	games_back_button.pressed.connect(_end_game_and_go_home)
-	game_start_button.pressed.connect(_start_tap_rush)
+	game_start_button.pressed.connect(_on_game_start_pressed)
 
 	GameBackend.stats_changed.connect(_refresh_bank_summary)
 	GameBackend.game_ended.connect(_on_game_ended)
@@ -155,6 +155,11 @@ func _on_message_arrived_live(_sender: String, thread_id: String) -> void:
 		return
 	if GameBackend.contact_name_for(thread_id) != _active_contact:
 		return
+	# The reply you were waiting for, in the chat you have open.
+	if thread_id == _active_thread_id and not GameBackend.is_done(thread_id):
+		GameBackend.mark_read(thread_id)
+		_show_thread_step()
+		return
 	if _active_thread_id != "" and not GameBackend.is_done(_active_thread_id):
 		return   # mid-conversation; it'll be picked up when this one ends
 	GameBackend.mark_read(thread_id)
@@ -179,6 +184,10 @@ func open() -> void:
 func close() -> void:
 	Audio.play("close")
 	panel.visible = false
+	# A game left running in a closed phone would keep scoring (and spending
+	# your time) in the background.
+	if _game != "":
+		_show_arcade()
 
 
 func _hide_all_screens() -> void:
@@ -300,6 +309,9 @@ var _active_thread_id: String = ""
 var _thread_step: int = 0
 var _pending_sanity: float = 0.0
 var _pending_temptation: float = 0.0
+## The "•••" pause before someone's message appears. Tests switch it off.
+var typing_enabled: bool = true
+var _typing_token: int = 0
 
 ## Opening the app lands you on the inbox, like a real messages app.
 func _open_messages() -> void:
@@ -540,6 +552,8 @@ func _start_thread(tid: String, last_day: int = -999) -> void:
 	_thread_step = GameBackend.thread_step(tid)
 	if GameBackend.is_done(tid):
 		_end_thread()
+	elif GameBackend.is_thread_waiting(tid):
+		_show_waiting_status()
 	else:
 		_show_thread_step()
 
@@ -675,11 +689,25 @@ func _show_thread_step() -> void:
 	var log_arr: Array = GameBackend.thread_log(_active_thread_id)
 	var body: String = _expand(str(step.them))
 	var already: bool = log_arr.size() > 0 and str(log_arr[-1].body) == body and not bool(log_arr[-1].mine)
-	if not already:
-		_add_bubble(str(step.get("from", _current_thread.sender)), body, false)
-
 	for child in reply_container.get_children():
 		child.queue_free()
+	if not already:
+		var speaker: String = str(step.get("from", _current_thread.sender))
+		if typing_enabled:
+			# "…" for a moment first, so the reply feels typed rather than
+			# fired at you. Longer messages take a little longer.
+			_typing_token += 1
+			var token: int = _typing_token
+			var dots := _add_typing_bubble(speaker)
+			await get_tree().create_timer(clampf(0.45 + body.length() * 0.012, 0.5, 1.6)).timeout
+			if is_instance_valid(dots):
+				dots.queue_free()
+			# Phone closed, or a different chat opened, while they were typing:
+			# the line isn't saved yet, so it simply shows next time.
+			if token != _typing_token or not panel.visible or not thread_view.visible:
+				return
+		_add_bubble(speaker, body, false)
+
 	for reply in step.replies:
 		var btn := Button.new()
 		btn.text = reply.text
@@ -735,19 +763,81 @@ func _on_reply_chosen(reply: Dictionary) -> void:
 	_pending_sanity += float(reply.get("sanity", 0.0))
 	_pending_temptation += float(reply.get("temptation", 0.0))
 	GameBackend.stat_messages_replied += 1
-	# Saying yes to something in a text actually books it. The commitment
-	# lands on a future day, and missing it has consequences
-	# GameBackend._check_missed_commitments().
-	if reply.has("commit"):
-		var c: Dictionary = reply["commit"]
-		GameBackend.add_commitment(
-			str(c.get("kind", "other")),
-			tr(str(c.get("label", "COMMIT_DEFAULT"))),
-			GameBackend.get_elapsed_days() + int(c.get("in", 1)))
+	# Saying yes to something in a text actually books it (commit), and a
+	# reply can also set a story flag or send/receive money.
+	var note: String = GameBackend.apply_reply_effects(reply)
+	if note != "":
+		_add_system_line(note)
 	# A reply can jump elsewhere in the thread, so conversations fork.
 	_thread_step = MessageData.next_step_for(reply, _thread_step)
 	GameBackend.set_thread_step(_active_thread_id, _thread_step)
+	# Some replies don't come straight back.
+	var wait: float = MessageData.wait_before_step(_active_thread_id, _thread_step)
+	if wait > 0.0:
+		GameBackend.set_thread_wait(_active_thread_id, wait)
+		_show_waiting_status()
+		return
 	_show_thread_step()
+
+
+## Shown under your last message while they haven't answered yet.
+func _show_waiting_status() -> void:
+	for child in reply_container.get_children():
+		child.queue_free()
+	var l := Label.new()
+	var who: String = GameBackend.contact_name(str(_current_thread.get("sender", _active_contact)))
+	l.text = tr("PHONE_SEEN") % who if randi() % 2 == 0 else tr("PHONE_DELIVERED")
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.add_theme_font_size_override("font_size", 11)
+	l.add_theme_color_override("font_color", Color(0.55, 0.59, 0.66))
+	reply_container.add_child(l)
+	var hint := Label.new()
+	hint.text = tr("PHONE_WILL_REPLY")
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hint.add_theme_font_size_override("font_size", 11)
+	hint.add_theme_color_override("font_color", Color(0.45, 0.49, 0.57))
+	reply_container.add_child(hint)
+
+
+## "+$20 received" — a small centred line in the chat, not a bubble.
+func _add_system_line(text: String) -> void:
+	var l := Label.new()
+	l.text = text
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.add_theme_font_size_override("font_size", 11)
+	l.add_theme_color_override("font_color", Color(0.45, 0.80, 0.55))
+	bubbles.add_child(l)
+	_scroll_to_bottom()
+
+
+func _add_typing_bubble(speaker: String) -> Control:
+	var row := HBoxContainer.new()
+	var bubble := PanelContainer.new()
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.26, 0.27, 0.32)
+	style.content_margin_left = 10
+	style.content_margin_right = 10
+	style.content_margin_top = 4
+	style.content_margin_bottom = 4
+	style.corner_radius_top_left = 10
+	style.corner_radius_top_right = 10
+	style.corner_radius_bottom_left = 10
+	style.corner_radius_bottom_right = 10
+	bubble.add_theme_stylebox_override("panel", style)
+	var l := Label.new()
+	l.text = "•••"
+	l.add_theme_font_size_override("font_size", 14)
+	l.add_theme_color_override("font_color", Color(0.75, 0.78, 0.84))
+	bubble.add_child(l)
+	row.add_child(bubble)
+	bubbles.add_child(row)
+	var tw := l.create_tween().set_loops()
+	tw.tween_property(l, "modulate:a", 0.35, 0.35)
+	tw.tween_property(l, "modulate:a", 1.0, 0.35)
+	_scroll_to_bottom()
+	return row
 
 
 func _end_thread() -> void:
@@ -798,7 +888,8 @@ func _open_weather() -> void:
 	weather_detail_label.text = tr(str(w.detail))
 
 
-# Games: "Quick Maths" 
+# Games — a little arcade. Each game costs a quarter of an hour of in-game
+# time and gives the same small lift (and pull) as any other phone time.
 
 const QM_ROUNDS: int = 10
 const QM_TIME_PER_ROUND: float = 4.0
@@ -808,23 +899,117 @@ var _qm_score: int = 0
 var _qm_round: int = 0
 var _qm_answer: int = 0
 var _qm_timer: SceneTreeTimer = null
+## Which game is on screen: "", "maths", "memory", "higher", "tap".
+var _game: String = ""
 
 func _open_games() -> void:
 	_hide_all_screens()
 	games_screen.visible = true
-	_reset_quick_maths()
+	_show_arcade()
 
-func _reset_quick_maths() -> void:
-	_cancel_qm_timer()
-	_qm_active = false
-	_qm_score = 0
-	_qm_round = 0
-	game_info_label.text = tr("QM_INFO") % QM_ROUNDS
+
+## The list of games, with your best at each.
+func _show_arcade() -> void:
+	_stop_all_games()
+	_game = ""
+	game_info_label.text = tr("ARCADE_PICK")
+	game_score_label.text = ""
+	game_start_button.visible = false
+	game_start_button.text = tr("START_BUTTON")
+	_clear_grid()
+	game_grid.columns = 1
+	for g in [["maths", "ARCADE_MATHS"], ["memory", "ARCADE_MEMORY"], ["higher", "ARCADE_HIGHER"], ["tap", "ARCADE_TAP"]]:
+		var b := Button.new()
+		var best: String = _best_text(str(g[0]))
+		b.text = tr(str(g[1])) + ("" if best == "" else "\n" + best)
+		b.custom_minimum_size = Vector2(300, 58)
+		b.add_theme_font_size_override("font_size", 15)
+		b.pressed.connect(_choose_game.bind(str(g[0])))
+		game_grid.add_child(b)
+
+
+func _best_text(game: String) -> String:
+	if not GameBackend.phone_best.has(game):
+		return ""
+	var v: int = int(GameBackend.phone_best[game])
+	match game:
+		"memory":
+			return tr("ARCADE_BEST_MOVES") % v
+		_:
+			return tr("ARCADE_BEST") % v
+
+
+## Higher is better everywhere except Memory, where fewer moves wins.
+func _record_best(game: String, value: int) -> bool:
+	var had: bool = GameBackend.phone_best.has(game)
+	var old: int = int(GameBackend.phone_best.get(game, 0))
+	var better: bool = not had or (value < old if game == "memory" else value > old)
+	if better:
+		GameBackend.phone_best[game] = value
+	GameBackend.stat_games_played += 1
+	GameBackend.doomscroll(0.25, 6.0, 9.0)
+	return better and had
+
+
+func _choose_game(game: String) -> void:
+	_game = game
+	_clear_grid()
 	game_score_label.text = ""
 	game_start_button.visible = true
 	game_start_button.text = tr("START_BUTTON")
+	match game:
+		"maths":
+			game_info_label.text = tr("QM_INFO") % QM_ROUNDS
+		"memory":
+			game_info_label.text = tr("MEM_INFO")
+		"higher":
+			game_info_label.text = tr("HL_INFO")
+		"tap":
+			game_info_label.text = tr("TAP_INFO") % TAP_ROUNDS
+
+
+func _on_game_start_pressed() -> void:
+	game_start_button.visible = false
+	match _game:
+		"maths":
+			_start_tap_rush()
+		"memory":
+			_start_memory()
+		"higher":
+			_start_higher()
+		"tap":
+			_start_tap()
+
+
+func _clear_grid() -> void:
 	for child in game_grid.get_children():
+		game_grid.remove_child(child)
 		child.queue_free()
+
+
+func _stop_all_games() -> void:
+	_qm_active = false
+	_cancel_qm_timer()
+	_tap_active = false
+	_mem_locked = false
+
+
+func _finish_with(score_line: String, game: String, value: int) -> void:
+	_clear_grid()
+	var new_best: bool = _record_best(game, value)
+	game_info_label.text = tr("ARCADE_NEW_BEST") if new_best else tr("QM_DONE")
+	game_score_label.text = score_line
+	game_start_button.visible = true
+	game_start_button.text = tr("QM_AGAIN")
+	var menu := Button.new()
+	menu.text = tr("ARCADE_OTHER_GAMES")
+	menu.custom_minimum_size = Vector2(300, 40)
+	menu.pressed.connect(_show_arcade)
+	game_grid.columns = 1
+	game_grid.add_child(menu)
+
+
+# --- Quick Maths ---------------------------------------------------------------
 
 ## Always kill the previous timer before making another
 func _cancel_qm_timer() -> void:
@@ -884,8 +1069,7 @@ func _next_qm_round() -> void:
 			options.append(wrong)
 	options.shuffle()
 
-	for child in game_grid.get_children():
-		child.queue_free()
+	_clear_grid()
 	game_grid.columns = 2
 	for value in options:
 		var b2 := Button.new()
@@ -919,22 +1103,213 @@ func _on_qm_answer(value: int) -> void:
 func _finish_quick_maths() -> void:
 	_cancel_qm_timer()
 	_qm_active = false
-	for child in game_grid.get_children():
-		child.queue_free()
-	game_info_label.text = tr("QM_DONE")
-	game_score_label.text = tr("QM_FINAL") % [_qm_score, QM_ROUNDS]
-	game_start_button.visible = true
-	game_start_button.text = tr("QM_AGAIN")
-	GameBackend.doomscroll(0.25, 6.0, 9.0)
+	_finish_with(tr("QM_FINAL") % [_qm_score, QM_ROUNDS], "maths", _qm_score)
+
+
+# --- Memory: find the 8 pairs in as few moves as you can ---------------------------
+
+const MEM_COLOURS := [Color(0.90, 0.36, 0.36), Color(0.95, 0.62, 0.25), Color(0.93, 0.83, 0.30),
+	Color(0.40, 0.78, 0.45), Color(0.30, 0.70, 0.85), Color(0.42, 0.48, 0.92),
+	Color(0.72, 0.45, 0.88), Color(0.90, 0.48, 0.72)]
+const MEM_HIDDEN := Color(0.20, 0.22, 0.27)
+
+var _mem_values: Array = []
+var _mem_buttons: Array = []
+var _mem_found: Array = []
+var _mem_first: int = -1
+var _mem_moves: int = 0
+var _mem_locked: bool = false
+
+
+func _start_memory() -> void:
+	_mem_values = []
+	for i in 8:
+		_mem_values.append(i)
+		_mem_values.append(i)
+	_mem_values.shuffle()
+	_mem_found = []
+	_mem_found.resize(16)
+	_mem_found.fill(false)
+	_mem_first = -1
+	_mem_moves = 0
+	_mem_locked = false
+	_clear_grid()
+	game_grid.columns = 4
+	_mem_buttons = []
+	for i in 16:
+		var b := Button.new()
+		b.custom_minimum_size = Vector2(70, 70)
+		b.add_theme_font_size_override("font_size", 24)
+		b.pressed.connect(_on_mem_pressed.bind(i))
+		game_grid.add_child(b)
+		_mem_buttons.append(b)
+		_mem_paint(i, false)
+	game_info_label.text = tr("MEM_INFO")
+	game_score_label.text = tr("MEM_MOVES") % _mem_moves
+
+
+func _mem_paint(i: int, shown: bool) -> void:
+	var b: Button = _mem_buttons[i]
+	var st := StyleBoxFlat.new()
+	st.bg_color = MEM_COLOURS[_mem_values[i]] if shown else MEM_HIDDEN
+	st.set_corner_radius_all(10)
+	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
+		b.add_theme_stylebox_override(state, st)
+	b.text = str(int(_mem_values[i]) + 1) if shown else ""
+
+
+func _on_mem_pressed(i: int) -> void:
+	if _mem_locked or _mem_found[i] or i == _mem_first:
+		return
+	Audio.play("click")
+	_mem_paint(i, true)
+	if _mem_first == -1:
+		_mem_first = i
+		return
+	_mem_moves += 1
+	game_score_label.text = tr("MEM_MOVES") % _mem_moves
+	var a: int = _mem_first
+	_mem_first = -1
+	if _mem_values[a] == _mem_values[i]:
+		_mem_found[a] = true
+		_mem_found[i] = true
+		Audio.play("correct")
+		if not false in _mem_found:
+			_finish_with(tr("MEM_FINAL") % _mem_moves, "memory", _mem_moves)
+		return
+	_mem_locked = true
+	await get_tree().create_timer(0.7).timeout
+	if _game != "memory" or _mem_buttons.size() != 16 or not is_instance_valid(_mem_buttons[a]):
+		return
+	_mem_paint(a, false)
+	_mem_paint(i, false)
+	_mem_locked = false
+
+
+# --- Higher or Lower: how long can you keep the streak going? -------------------------
+
+var _hl_card: int = 0
+var _hl_streak: int = 0
+
+
+func _start_higher() -> void:
+	_hl_card = randi_range(1, 13)
+	_hl_streak = 0
+	_hl_show()
+
+
+func _hl_show() -> void:
+	_clear_grid()
+	game_grid.columns = 2
+	game_info_label.text = tr("HL_CARD") % _hl_card
+	game_score_label.text = tr("HL_STREAK") % _hl_streak
+	for choice in [["HL_LOWER", -1], ["HL_HIGHER", 1]]:
+		var b := Button.new()
+		b.text = tr(str(choice[0]))
+		b.custom_minimum_size = Vector2(140, 60)
+		b.add_theme_font_size_override("font_size", 18)
+		b.pressed.connect(_on_hl_guess.bind(int(choice[1])))
+		game_grid.add_child(b)
+
+
+func _on_hl_guess(direction: int) -> void:
+	var next: int = randi_range(1, 13)
+	while next == _hl_card:
+		next = randi_range(1, 13)
+	var right: bool = (next > _hl_card) == (direction > 0)
+	var was: int = _hl_card
+	_hl_card = next
+	if right:
+		_hl_streak += 1
+		Audio.play("correct")
+		_hl_show()
+	else:
+		Audio.play("wrong")
+		_finish_with(tr("HL_FINAL") % [was, next, _hl_streak], "higher", _hl_streak)
+
+
+# --- Tap the Light: hit the lit square before it goes out -------------------------------
+
+const TAP_ROUNDS: int = 20
+var _tap_active: bool = false
+var _tap_round: int = 0
+var _tap_hits: int = 0
+var _tap_lit: int = -1
+var _tap_buttons: Array = []
+var _tap_token: int = 0
+
+
+func _start_tap() -> void:
+	_tap_lit = -1
+	_tap_active = true
+	_tap_round = 0
+	_tap_hits = 0
+	_clear_grid()
+	game_grid.columns = 3
+	_tap_buttons = []
+	for i in 9:
+		var b := Button.new()
+		b.custom_minimum_size = Vector2(92, 92)
+		b.pressed.connect(_on_tap_pressed.bind(i))
+		game_grid.add_child(b)
+		_tap_buttons.append(b)
+	game_info_label.text = tr("TAP_GO")
+	_tap_next()
+
+
+func _tap_paint(i: int, lit: bool) -> void:
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.98, 0.80, 0.30) if lit else Color(0.20, 0.22, 0.27)
+	st.set_corner_radius_all(12)
+	for state in ["normal", "hover", "pressed", "focus"]:
+		_tap_buttons[i].add_theme_stylebox_override(state, st)
+
+
+func _tap_next() -> void:
+	if not _tap_active:
+		return
+	if _tap_round >= TAP_ROUNDS:
+		_tap_active = false
+		_finish_with(tr("TAP_FINAL") % [_tap_hits, TAP_ROUNDS], "tap", _tap_hits)
+		return
+	_tap_round += 1
+	if _tap_lit >= 0 and _tap_lit < _tap_buttons.size():
+		_tap_paint(_tap_lit, false)
+	var pick: int = randi() % 9
+	while pick == _tap_lit:
+		pick = randi() % 9
+	_tap_lit = pick
+	_tap_paint(pick, true)
+	game_score_label.text = tr("TAP_SCORE") % [_tap_hits, _tap_round, TAP_ROUNDS]
+	# Gets faster as you go.
+	_tap_token += 1
+	var token: int = _tap_token
+	await get_tree().create_timer(lerpf(1.0, 0.45, float(_tap_round) / TAP_ROUNDS)).timeout
+	if token == _tap_token and _tap_active:
+		_tap_next()
+
+
+func _on_tap_pressed(i: int) -> void:
+	if not _tap_active:
+		return
+	if i == _tap_lit:
+		_tap_hits += 1
+		Audio.play("correct")
+		_tap_paint(i, false)
+		_tap_lit = -1
+		_tap_next()
+	else:
+		Audio.play("wrong")
 
 
 func _end_game_and_go_home() -> void:
-	_qm_active = false
-	_cancel_qm_timer()
+	if _game != "":
+		_show_arcade()
+		return
+	_stop_all_games()
 	_show_home()
 
 
 func _on_game_ended(_result: String) -> void:
-	_qm_active = false
-	_cancel_qm_timer()
+	_stop_all_games()
 	close()

@@ -118,6 +118,8 @@ func university_full_name() -> String:
 	var out: String = tr(key)
 	if out != key:
 		return out
+	if selected_university == "":
+		return tr("UNI_GENERIC")
 	return str(universities.get(selected_university, {}).get("full_name", selected_university))
 
 
@@ -989,6 +991,19 @@ const COMMITMENT_PLACES := {
 		"where": "school",
 		"how": "COMMIT_HOW_STUDY",
 	},
+	# Plans made with friends. These are kept just by turning up there.
+	"hangout": {
+		"where": "the canteen",
+		"how": "COMMIT_HOW_HANGOUT",
+	},
+	"school_event": {
+		"where": "school",
+		"how": "COMMIT_HOW_SCHOOL_EVENT",
+	},
+	"dairy_help": {
+		"where": "the dairy",
+		"how": "COMMIT_HOW_DAIRY",
+	},
 }
 
 
@@ -1014,11 +1029,15 @@ func commitment_briefing() -> Array:
 	return out
 
 
-func add_commitment(kind: String, label: String, day: int) -> void:
+## `extra` can carry "money" (paid when you turn up), "flag" (set when you
+## turn up) and "miss_flag" (set if you don't).
+func add_commitment(kind: String, label: String, day: int, extra: Dictionary = {}) -> void:
 	for c in commitments:
 		if c.kind == kind and c.day == day:
 			return   # already booked for that day
-	commitments.append({"kind": kind, "label": label, "day": day})
+	var c: Dictionary = {"kind": kind, "label": label, "day": day}
+	c.merge(extra)
+	commitments.append(c)
 	log_event(tr("COMMIT_LOG_AGREED") % [label, day])
 	stats_changed.emit()
 
@@ -1033,6 +1052,11 @@ func fulfil_commitment(kind: String) -> bool:
 			commitments.remove_at(i)
 			change_sanity(8.0)
 			log_event(tr("COMMIT_LOG_TURNED_UP") % c.label)
+			if c.has("flag"):
+				set_flag(str(c.flag))
+			if float(c.get("money", 0.0)) != 0.0:
+				add_money(float(c.money))
+				log_event(tr("LOG_PAID_FOR") % [float(c.money), str(c.label)])
 			# Say so on screen, or turning up feels like nothing happened.
 			if has_node("/root/Notifier"):
 				get_node("/root/Notifier").notify(
@@ -1087,6 +1111,8 @@ func _check_missed_commitments() -> void:
 			_:
 				change_sanity(-4.0)
 				log_event(tr("COMMIT_LOG_MISSED") % c.label, true)
+		if c.has("miss_flag"):
+			set_flag(str(c.miss_flag))
 		stats_changed.emit()
 var literacy_credits: int = 0
 var numeracy_credits: int = 0
@@ -1769,6 +1795,20 @@ var journal: Array = []
 ## transcript so far — both persisted so a thread resumes where you left it
 ## instead of restarting every time you open the app.
 var message_state: Dictionary = {}
+## Choices that change what happens later. A reply (by text, at school or at
+## the dairy) can set one with "flag": "<name>", and threads, school
+## conversations and the ending all check them — this is what makes two
+## playthroughs go different ways.
+var story_flags: Dictionary = {}
+## How many times each in-person conversation has been had, so the picker can
+## prefer ones you haven't heard yet.
+var seen_conversations: Dictionary = {}
+var ravi_visits: int = 0
+## Best scores in the phone's games, for the ending's stats.
+var phone_best: Dictionary = {}
+var stat_games_played: int = 0
+## Little snapshots of the year (see capture_memory), shown during the ending.
+var memories: Array = []
 var unread_count: int = 0
 
 signal messages_changed
@@ -1831,6 +1871,8 @@ func get_elapsed_days() -> int:
 func log_event(text: String, notable: bool = false) -> void:
 	journal.append({"day": get_elapsed_days(), "text": text, "notable": notable})
 	journal_updated.emit()
+	if notable:
+		capture_memory(text)
 
 
 ## Advances the authoritative game clock. Every function that makes time pass
@@ -2290,6 +2332,8 @@ func build_epilogue() -> String:
 		paras.append(tr("EPI_LOW") % stat_lowest_sanity)
 	elif stat_lowest_sanity <= 40.0:
 		paras.append(tr("EPI_MID") % stat_lowest_sanity)
+	elif stat_lowest_sanity >= 99.5:
+		paras.append(tr("EPI_UNTOUCHED"))
 	else:
 		paras.append(tr("EPI_HIGH") % stat_lowest_sanity)
 
@@ -2299,7 +2343,8 @@ func build_epilogue() -> String:
 	# 4. Money and the loan.
 	match loan_status:
 		"approved":
-			paras.append(tr("EPI_LOAN_OK") % (loan_debt + (universities.get(selected_university, {}).get("money_needed", 0) if loan_covers_fees() and ending_result == "student_loan" else 0.0)))
+			var owed: float = loan_debt + (universities.get(selected_university, {}).get("money_needed", 0) if loan_covers_fees() and ending_result == "student_loan" else 0.0)
+			paras.append(tr("EPI_LOAN_OK") % owed if owed > 0.0 else tr("EPI_LOAN_UNUSED"))
 		"declined":
 			paras.append(tr("EPI_LOAN_NO") % loan_decline_reason)
 		"submitted":
@@ -2308,7 +2353,9 @@ func build_epilogue() -> String:
 			paras.append(tr("EPI_LOAN_NEVER"))
 
 	# 4b. Accommodation and the allowance.
-	if allowance_status == "approved":
+	if allowance_status == "approved" and allowance_received <= 0.0:
+		paras.append(tr("EPI_ALLOW_PENDING") % allowance_weekly)
+	elif allowance_status == "approved":
 		paras.append(tr("EPI_ALLOW_OK") % [
 			allowance_weekly, allowance_received])
 	elif allowance_status == "declined":
@@ -2441,6 +2488,12 @@ func reset_run() -> void:
 	message_state = {}
 	unread_count = 0
 	journal.clear()
+	story_flags = {}
+	seen_conversations = {}
+	ravi_visits = 0
+	phone_best = {}
+	stat_games_played = 0
+	memories.clear()
 
 	ird_number = ""
 	_ensure_ird()
@@ -2927,3 +2980,187 @@ func _recount_unread() -> void:
 			n += 1
 	unread_count = n
 	messages_changed.emit()
+
+
+# --- Story flags ----------------------------------------------------------------
+
+func set_flag(flag: String) -> void:
+	if flag != "":
+		story_flags[flag] = true
+
+
+func has_flag(flag: String) -> bool:
+	return bool(story_flags.get(flag, false))
+
+
+## Everything a reply can DO, wherever it was said (phone, school, dairy).
+## Returns a short line to show the player when money changed hands.
+func apply_reply_effects(reply: Dictionary) -> String:
+	if reply.has("flag"):
+		var f = reply["flag"]
+		if f is Array:
+			for one in f:
+				set_flag(str(one))
+		else:
+			set_flag(str(f))
+	if reply.has("commit"):
+		var c: Dictionary = reply["commit"]
+		var extra: Dictionary = {}
+		for k in ["money", "flag", "miss_flag"]:
+			if c.has(k):
+				extra[k] = c[k]
+		add_commitment(
+			str(c.get("kind", "other")),
+			tr(str(c.get("label", "COMMIT_DEFAULT"))),
+			get_elapsed_days() + int(c.get("in", 1)), extra)
+	var amount: float = float(reply.get("money", 0.0))
+	if amount != 0.0:
+		add_money(amount)
+		log_event(tr("LOG_MONEY_IN" if amount > 0.0 else "LOG_MONEY_OUT") % absf(amount))
+		return tr("PHONE_MONEY_IN" if amount > 0.0 else "PHONE_MONEY_OUT") % absf(amount)
+	return ""
+
+
+# --- Replies that take a while -----------------------------------------------------
+# Real people don't answer instantly. A thread can make you wait in-game hours
+# for the next line; it then arrives like a new message.
+
+## Hours since the run started — a single clock that never wraps.
+func now_hours() -> float:
+	return float(get_elapsed_days()) * 24.0 + game_hour
+
+
+func set_thread_wait(thread_id: String, hours: float) -> void:
+	_msg(thread_id)["wait_until"] = now_hours() + hours
+	messages_changed.emit()
+
+
+func is_thread_waiting(thread_id: String) -> bool:
+	return float(_msg(thread_id).get("wait_until", 0.0)) > now_hours()
+
+
+## Called a couple of times a second by MessageData. Anyone whose reply is due
+## gets it now, with a notification, exactly like a fresh text.
+func release_waiting_threads() -> void:
+	var now: float = now_hours()
+	for tid in message_state.keys():
+		var m: Dictionary = message_state[tid]
+		var until: float = float(m.get("wait_until", 0.0))
+		if until <= 0.0 or until > now:
+			continue
+		m["wait_until"] = 0.0
+		m.read = false
+		_recount_unread()
+		var sender: String = contact_name_for(str(tid))
+		message_arrived.emit(sender, str(tid))
+
+
+# --- Memories -------------------------------------------------------------------
+# Small snapshots of the screen at moments that mattered — your first time in
+# each place, and the big events — played back behind the ending credits.
+
+const MAX_MEMORIES: int = 18
+
+func capture_memory(caption: String) -> void:
+	if memories.size() >= MAX_MEMORIES or game_over:
+		return
+	if DisplayServer.get_name() == "headless":
+		return
+	_capture_memory_later.call_deferred(caption)
+
+
+func _capture_memory_later(caption: String) -> void:
+	# Wait for the scene to actually draw (a couple of frames after a scene
+	# change), so the picture isn't a blank loading frame.
+	await RenderingServer.frame_post_draw
+	await RenderingServer.frame_post_draw
+	if memories.size() >= MAX_MEMORIES or game_over:
+		return
+	var vp := get_viewport()
+	if vp == null:
+		return
+	var img: Image = vp.get_texture().get_image()
+	if img == null or img.is_empty():
+		return
+	var w: int = 480
+	img.resize(w, int(float(img.get_height()) * float(w) / float(img.get_width())), Image.INTERPOLATE_BILINEAR)
+	memories.append({"day": get_elapsed_days(), "caption": caption, "image": img})
+
+
+## The first visit to each place is always worth a picture.
+func remember_place(place: String) -> void:
+	var flag: String = "visited_" + place
+	if has_flag(flag):
+		return
+	set_flag(flag)
+	capture_memory(tr("MEMORY_FIRST_" + place.to_upper()))
+
+
+# --- Where are they now -----------------------------------------------------------
+# One line per person for the ending, chosen by what actually happened between
+# you this year (the story flags). Returns [[who, line], ...].
+
+func where_are_they_now() -> Array:
+	var out: Array = []
+	var tane: String = "WHERE_TANE_DEFAULT"
+	if has_flag("tane_snubbed") and not has_flag("tane_made_up"):
+		tane = "WHERE_TANE_DRIFTED"
+	elif has_flag("saw_gig"):
+		tane = "WHERE_TANE_GIG"
+	elif has_flag("missed_gig"):
+		tane = "WHERE_TANE_MISSED_GIG"
+	elif has_flag("helped_tane_essay"):
+		tane = "WHERE_TANE_ESSAY"
+	elif has_flag("lent_tane"):
+		tane = "WHERE_TANE_LOAN"
+	out.append(["Tane", tr(tane)])
+
+	var priya: String = "WHERE_PRIYA_DEFAULT"
+	if has_flag("priya_scholarship"):
+		priya = "WHERE_PRIYA_SCHOLARSHIP"
+	elif has_flag("priya_commerce") or (has_flag("priya_own_choice") and not has_flag("priya_law")):
+		priya = "WHERE_PRIYA_COMMERCE"
+	elif has_flag("priya_law"):
+		priya = "WHERE_PRIYA_LAW"
+	out.append(["Priya", tr(priya)])
+
+	var mika: String = "WHERE_MIKA_DEFAULT"
+	if has_flag("mika_gap"):
+		mika = "WHERE_MIKA_GAP"
+	elif has_flag("mika_defer"):
+		mika = "WHERE_MIKA_DEFER"
+	elif has_flag("mika_uni"):
+		mika = "WHERE_MIKA_UNI"
+	out.append(["Mika", tr(mika)])
+
+	var ana: String = "WHERE_ANA_DEFAULT"
+	if has_flag("ana_supported"):
+		ana = "WHERE_ANA_SUPPORTED"
+	elif has_flag("ran_with_ana"):
+		ana = "WHERE_ANA_RUN"
+	out.append(["Ana", tr(ana)])
+
+	out.append(["Wiremu", tr("WHERE_WIREMU_APPRENTICE" if has_flag("wiremu_apprentice") else "WHERE_WIREMU_DEFAULT")])
+	out.append(["Josh", tr("WHERE_JOSH_TUTORED" if has_flag("tutored_josh") else "WHERE_JOSH_DEFAULT")])
+
+	var chloe: String = "WHERE_CHLOE_DEFAULT"
+	if has_flag("went_to_ball"):
+		chloe = "WHERE_CHLOE_BALL"
+	elif has_flag("missed_ball"):
+		chloe = "WHERE_CHLOE_MISSED"
+	out.append(["Chloe", tr(chloe)])
+
+	if has_flag("met_ravi") or is_done("dairy_owner") or ravi_visits > 0:
+		out.append(["Ravi", tr("WHERE_RAVI_FRIEND" if has_flag("ravi_friend") else "WHERE_RAVI_DEFAULT")])
+	if has_flag("advised_asha"):
+		out.append(["Asha", tr("WHERE_ASHA")])
+	if has_flag("halloway_card"):
+		out.append(["Mr Halloway", tr("WHERE_HALLOWAY")])
+	out.append(["Mum", tr("WHERE_FAMILY_LOAN" if has_flag("told_mum_loan") and loan_status == "approved" else "WHERE_FAMILY_DEFAULT")])
+	if is_done("mum_dog"):
+		out.append(["Biscuit", tr("WHERE_BISCUIT")])
+	if has_flag("wrong_friend"):
+		out.append(["Unknown number", tr("WHERE_STRANGER")])
+	if has_flag("hoodie"):
+		out.append([player_name, tr("WHERE_HOODIE")])
+	return out

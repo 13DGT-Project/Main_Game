@@ -928,61 +928,6 @@ CONV_MIKA_CHEM_S5_R1,"""That's the most Year 13 sentence ever said.""",“这是
 CONV_MIKA_CHEM_S6,"""Right. Enough. Thanks {NAME}. See you at the desks.""",“好了，够了。谢谢{NAME}。课桌见。”,「よし、もう十分。ありがとう{NAME}。席で会おう。」,"«Vale. Basta. Gracias, {NAME}. Nos vemos en los pupitres.»"
 CONV_MIKA_CHEM_S6_R0,"""See you.""",“回见。”,「またね。」,«Nos vemos.»
 CONV_MIKA_CHEM_S6_R1,"""Sit next to me, I'll help with the mole stuff.""",“坐我旁边，我帮你搞摩尔那部分。”,「隣に座って。モルの部分は手伝うから。」,"«Siéntate a mi lado, te ayudo con lo de los moles.»"
-CONV_PRIYA_MARKS_S0,"""Can I show you something and you not react?""",“我能给你看样东西，你别有反应吗？”,「見せたいものがあるんだけど、反応しないでくれる？」,«¿Puedo enseñarte algo sin que reacciones?»
-CONV_PRIYA_MARKS_S0_R0,"""Go on.""",“给我看吧。”,「いいよ、見せて。」,«Adelante.»
-CONV_PRIYA_MARKS_S0_R1,"""I make no promises about my face.""",“我不保证我的表情。”,「顔については約束できないけどね。」,«No prometo nada sobre mi cara.»
-CONV_PRIYA_MARKS_S1,"""Sixty-eight. On the stats internal."" (She says it like a confession.)",“六十八。统计学平时评核。”（她说得像在坦白。）,「68。統計の内部評価で。」（彼女は告白するように言う。）,«Sesenta y ocho. En la evaluación interna de estadística.» (Lo dice como una confesión.)
-CONV_PRIYA_MARKS_S1_R0,"""Priya, that's a good mark.""",“Priya，这个分数不错。”,「Priya、それはいい点数だよ。」,"«Priya, es una buena nota.»"
-CONV_PRIYA_MARKS_S1_R1,"""How do you feel about it?""",“你自己觉得呢？”,「自分ではどう感じてる？」,«¿Cómo te sientes al respecto?»
-CONV_PRIYA_MARKS_S1_R2,"""...And? What's the problem?""",“……然后呢？问题在哪？”,「……それで？何が問題なの？」,«...¿Y? ¿Cuál es el problema?»
-CONV_PRIYA_MARKS_S2,"""It isn't. Not for what I want. Everyone I'm up against gets high eighties.""",“不行。对我想要的来说不够。和我竞争的人都是八十多分的高分。”,「よくない。私の目標にはね。競ってる人はみんな80点台後半を取る。」,«No lo es. No para lo que quiero. Todos con los que compito sacan casi un noventa.»
-CONV_PRIYA_MARKS_S2_R0,"""You're not up against anyone. That's not how offers work.""",“你没在和谁竞争。录取不是这么运作的。”,「誰とも競ってないよ。合格ってそういう仕組みじゃない。」,«No compites contra nadie. Las ofertas no funcionan así.»
-CONV_PRIYA_MARKS_S2_R1,"""Who told you that? Genuinely, who?""",“谁告诉你的？真的，是谁？”,「誰がそんなこと言ったの？本当に、誰？」,"«¿Quién te ha dicho eso? De verdad, ¿quién?»"
-CONV_PRIYA_MARKS_S2_R2,"""Then get high eighties next time.""",“那下次拿八十多分。”,「じゃあ次は80点台後半を取ればいい。」,«Pues saca casi un noventa la próxima vez.»
-CONV_PRIYA_MARKS_S3,"""Like I've failed. Which I know is insane, because sixty-eight is not failing.""",“像是挂科了。我知道这很荒谬，因为六十八不算挂科。”,「失敗したみたいな気分。おかしいってわかってる、68点は不合格じゃないから。」,"«Como si hubiera suspendido. Sé que es una locura, porque un sesenta y ocho no es suspender.»"
-CONV_PRIYA_MARKS_S3_R0,"""You're allowed to be disappointed AND fine.""",“你可以失望，同时也没问题。”,「がっかりしてても、同時に大丈夫でいいんだよ。」,«Puedes estar decepcionada Y estar bien.»
-CONV_PRIYA_MARKS_S3_R1,"""Knowing that and feeling it are different things.""",“知道是一回事，感受到是另一回事。”,「頭でわかってることと、実感することは別なの。」,«Saberlo y sentirlo son cosas distintas.»
-CONV_PRIYA_MARKS_S4,"(She lets out a breath.) ""Nobody's said that to me all year.""",（她呼出一口气。）“一整年都没人对我说过这话。”,（彼女は息を吐く。）「今年一度もそんなこと言われなかった。」,(Suelta un suspiro.) «Nadie me ha dicho eso en todo el año.»
-CONV_PRIYA_MARKS_S4_R0,"""Then everyone's been rubbish at this all year.""",“那这一年大家都做得很差。”,「じゃあ、みんな一年中ひどかったんだね。」,«Entonces todo el mundo lo ha hecho fatal todo el año.»
-CONV_PRIYA_MARKS_S4_R1,"""You say it to other people constantly, you know.""",“你对别人可是经常这么说的。”,「他の人にはしょっちゅう言ってるじゃない。」,"«Se lo dices a los demás constantemente, ¿sabes?»"
-CONV_PRIYA_MARKS_S5,"""...Me. It was me. I told me."" (She almost laughs.)",“……我。就是我。是我自己跟自己说的。”（她差点笑出来。）,「……私。私だった。自分で自分に言ったの。」（彼女は笑いそうになる。）,«...Yo. Fui yo. Me lo dije a mí misma.» (Casi se ríe.)
-CONV_PRIYA_MARKS_S5_R0,"""Then you can also untell yourself.""",“那你也可以把它收回。”,「じゃあ自分で取り消すこともできるよ。」,«Entonces también puedes desdecirte.»
-CONV_PRIYA_MARKS_S5_R1,"""Brutal source. Very unreliable.""",“来源太残酷。很不可靠。”,「ひどい情報源だね。まったく信用できない。」,«Fuente brutal. Muy poco fiable.»
-CONV_PRIYA_MARKS_S6,"""Right. Great. Thanks."" (That landed badly and you both know it.)",“好。太棒了。谢谢。”（这话说得很糟，你们都心知肚明。）,「うん。いいね。ありがとう。」（失言だったことは、二人ともわかっている。）,«Vale. Genial. Gracias.» (Eso ha sentado mal y los dos lo sabéis.)
-CONV_PRIYA_MARKS_S6_R0,"""Sorry. That was a rubbish thing to say.""",“抱歉，这话说得很糟。”,「ごめん。ひどい言い方だった。」,«Perdona. Fue una tontería decir eso.»
-CONV_PRIYA_MARKS_S6_R1,"""I meant it helpfully. I said it badly.""",“我本意是想帮忙，只是说得不好。”,「助けるつもりで言ったの。言い方が悪かっただけ。」,«Lo dije para ayudar. Lo dije mal.»
-CONV_PRIYA_MARKS_S7,"""Okay. I'm putting the mark away and going to English. Thanks {NAME}.""",“好吧。我把分数收起来，去上英语课了。谢谢{NAME}。”,「わかった。点数はしまって、英語の授業に行くね。ありがとう{NAME}。」,"«Vale. Guardo la nota y me voy a inglés. Gracias, {NAME}.»"
-CONV_PRIYA_MARKS_S7_R0,"""Any time. I mean it.""",“随时。我是认真的。”,「いつでも。本気だよ。」,«Cuando quieras. Lo digo en serio.»
-CONV_PRIYA_MARKS_S7_R1,"""Find me at lunch if it starts up again.""",“要是又开始了，午饭时来找我。”,「また始まりそうなら、お昼に私を探して。」,«Búscame a la hora de comer si vuelve a empezar.»
-CONV_ANA_NOTICES_YOU_S0,"""{NAME}. Stop for a second. When did you last have a day off? An actual one.""",“{NAME}。停一下。你上一次休息一整天是什么时候？真正的休息。”,「{NAME}。ちょっと止まって。最後に休んだのはいつ？本当の意味での休みよ。」,«{NAME}. Para un segundo. ¿Cuándo fue la última vez que tuviste un día libre? Uno de verdad.»
-CONV_ANA_NOTICES_YOU_S0_R0,"""I genuinely can't remember.""",“我真的想不起来了。”,「本当に思い出せない。」,«De verdad que no me acuerdo.»
-CONV_ANA_NOTICES_YOU_S0_R1,"""Sunday. Sort of. I did an essay.""",“周日。算是吧。我写了篇论文。”,「日曜。まあ一応。エッセイを書いたけど。」,«El domingo. Más o menos. Hice un ensayo.»
-CONV_ANA_NOTICES_YOU_S0_R2,"""I'm fine, Ana.""",“我没事，Ana。”,「大丈夫だよ、Ana。」,"«Estoy bien, Ana.»"
-CONV_ANA_NOTICES_YOU_S1,"""Right. That's what I thought. Do you want advice, or do you want someone to just say that's a lot?""",“好。我就猜到。你想要建议，还是只想要人说一句‘这太多了’？”,「そっか。そう思った。アドバイスがほしい？それとも、ただ『それは大変だね』って言ってほしい？」,«Claro. Eso pensaba. ¿Quieres consejo o solo que alguien te diga que es mucho?»
-CONV_ANA_NOTICES_YOU_S1_R0,"""The second one. Definitely the second one.""",“后者。绝对是后者。”,「後のほう。絶対に後のほう。」,«Lo segundo. Sin duda lo segundo.»
-CONV_ANA_NOTICES_YOU_S1_R1,"""Advice. I'm past the point of feelings.""",“建议。我已经过了谈感受的阶段了。”,「アドバイス。もう気持ちを語る段階は過ぎた。」,«Consejo. Ya he pasado el punto de los sentimientos.»
-CONV_ANA_NOTICES_YOU_S2,"""An essay is not a day off. That is a day at work with a worse chair.""",“写论文不算休息。那是换了把更差椅子的一天工作。”,「エッセイは休みじゃない。椅子が悪くなっただけの仕事の日だよ。」,«Un ensayo no es un día libre. Es un día de trabajo con una silla peor.»
-CONV_ANA_NOTICES_YOU_S2_R0,"""...Okay, that's fair.""",“……好吧，有道理。”,「……うん、確かにそうだね。」,"«...Vale, es justo.»"
-CONV_ANA_NOTICES_YOU_S2_R1,"""I don't have a spare day to give away.""",“我没有多余的一天可以让出来。”,「手放せる余分な一日なんてない。」,«No tengo un día libre que regalar.»
-CONV_ANA_NOTICES_YOU_S3,"""Okay."" (She doesn't push. She doesn't leave either.)",“好吧。”（她没有逼你，也没有离开。）,「そう。」（彼女は無理強いしない。でも立ち去りもしない。）,«Vale.» (No insiste. Tampoco se va.)
-CONV_ANA_NOTICES_YOU_S3_R0,"""...I'm not fine.""",“……我不好。”,「……大丈夫じゃない。」,«...No estoy bien.»
-CONV_ANA_NOTICES_YOU_S3_R1,"""Why are you still standing there?""",“你为什么还站在那儿？”,「どうしてまだそこに立ってるの？」,«¿Por qué sigues ahí parada?»
-CONV_ANA_NOTICES_YOU_S3_R2,"""Thanks for asking anyway.""",“还是谢谢你问我。”,「それでも聞いてくれてありがとう。」,«Gracias por preguntar de todos modos.»
-CONV_ANA_NOTICES_YOU_S4,"""That's a lot. That's genuinely a lot and you're allowed to be flattened by it.""",“这太多了。真的太多了，被它压垮也是可以的。”,「それは大変だね。本当に大変だよ。押しつぶされそうになるのも当然。」,«Es mucho. De verdad que es mucho y tienes derecho a sentirte aplastado/a por ello.»
-CONV_ANA_NOTICES_YOU_S4_R0,"""Thank you. That's exactly it.""",“谢谢。就是这样。”,「ありがとう。まさにそれ。」,«Gracias. Justo eso.»
-CONV_ANA_NOTICES_YOU_S4_R1,"""Nobody's said that yet.""",“还没人对我这么说过。”,「まだ誰もそう言ってくれなかった。」,«Nadie me lo había dicho aún.»
-CONV_ANA_NOTICES_YOU_S5,"""Pick one thing today. One. Do that, badly if you have to, and let the rest wait until tomorrow.""",“今天只选一件事。一件。就算做得不好也行，其余的等到明天。”,「今日は一つだけ選んで。一つ。下手でもいいからそれをやって、残りは明日まで待たせて。」,"«Elige una cosa hoy. Una. Hazla, mal si hace falta, y deja que el resto espere hasta mañana.»"
-CONV_ANA_NOTICES_YOU_S5_R0,"""One thing. Okay.""",“一件事。好。”,「一つ。わかった。」,«Una cosa. Vale.»
-CONV_ANA_NOTICES_YOU_S5_R1,"""Everything's urgent though.""",“可什么都很紧急。”,「でも全部急ぎなんだよ。」,«Pero todo es urgente.»
-CONV_ANA_NOTICES_YOU_S6,"""Because you say fine in a very particular voice and I've heard it four times this week.""",“因为你说‘没事’的时候声音很特别，这周我已经听到四次了。”,「だって『大丈夫』って言うときの声が独特で、今週もう4回聞いたもん。」,"«Porque dices ""bien"" con una voz muy particular y ya la he oído cuatro veces esta semana.»"
-CONV_ANA_NOTICES_YOU_S6_R0,"""...Okay. It's been bad.""",“……好吧。确实很糟。”,「……わかった。ひどい状態だった。」,«...Vale. Ha sido malo.»
-CONV_ANA_NOTICES_YOU_S6_R1,"""That's annoying of you.""",“你这人真讨厌。”,「そういうの、ずるいよ。」,«Qué fastidioso eres.»
-CONV_ANA_NOTICES_YOU_S7,"""Good. Go and sit down somewhere for ten minutes before class. That's the whole prescription.""",“好。上课前找个地方坐十分钟。这就是全部处方。”,「よし。授業の前にどこかで10分座ってきて。処方箋はそれだけ。」,«Bien. Ve a sentarte en algún sitio diez minutos antes de clase. Esa es toda la receta.»
-CONV_ANA_NOTICES_YOU_S7_R0,"""I'll do it.""",“我会去的。”,「やるよ。」,«Lo haré.»
-CONV_ANA_NOTICES_YOU_S7_R1,"""Ten minutes. Fine.""",“十分钟。行吧。”,「10分ね。わかった。」,«Diez minutos. Vale.»
-CONV_ANA_NOTICES_YOU_S8,"""Nothing is urgent. Two things are urgent and the rest are wearing a costume.""",“没有什么是紧急的。只有两件是紧急的，其余都是披着伪装。”,「急ぎのものなんてない。本当に急ぎなのは二つだけで、残りは仮装してるだけ。」,«Nada es urgente. Dos cosas son urgentes y el resto lleva disfraz.»
-CONV_ANA_NOTICES_YOU_S8_R0,"""...That's a very good line.""",“……这句话说得真好。”,「……それ、すごくいいセリフだね。」,«...Esa es muy buena frase.»
-CONV_ANA_NOTICES_YOU_S8_R1,"""Which two?""",“哪两件？”,「どの二つ？」,«¿Cuáles dos?»
 CONV_TANE_SHIFTS_S0,"""I picked up two more shifts. And I'm behind on everything. Was that stupid?""",“我又多接了两个班。而且我什么都落下了。这是不是很蠢？”,「シフトを2回追加で入れたんだ。しかも全部が遅れてる。バカだったかな？」,«He cogido dos turnos más. Y voy retrasado/a en todo. ¿Fue una tontería?»
 CONV_TANE_SHIFTS_S0_R0,"""You needed the money. That's not stupid.""",“你需要钱。这不蠢。”,「お金が必要だったんでしょ。バカじゃないよ。」,«Necesitabas el dinero. Eso no es una tontería.»
 CONV_TANE_SHIFTS_S0_R1,"""Yeah. A bit.""",“嗯，有一点。”,「うん。ちょっとね。」,«Sí. Un poco.»
@@ -2922,7 +2867,7 @@ PHONE_CLEAR,Clear,清除,クリア,Borrar
 PHONE_DEPOSIT,Deposit to Savings,存入储蓄,貯金に入れる,Ingresar en ahorros
 PHONE_WITHDRAW,Withdraw from Savings,从储蓄取出,貯金から引き出す,Retirar de ahorros
 PHONE_BACK_HOME,Back to home,返回主屏幕,ホームに戻る,Volver al inicio
-PHONE_GAME_TITLE,Tap Rush,极速口算,タップラッシュ,Tap Rush
+PHONE_GAME_TITLE,Arcade,游戏厅,ゲームセンター,Recreativos
 PHONE_START_GAME,Start Game,开始游戏,ゲーム開始,Empezar partida
 CONTACT_MUM,Mum,妈妈,お母さん,Mamá
 CONTACT_DAD,Dad,爸爸,お父さん,Papá
@@ -2943,7 +2888,7 @@ CONTACT_MANAIA_COUSIN,Manaia (cousin),Manaia（表亲）,Manaia（いとこ）,M
 CONTACT_RAVI_DAIRY,Ravi (dairy),Ravi（小卖部）,Ravi（商店）,Ravi (tienda)
 CONTACT_RETI_WORK,Reti (work),Reti（同事）,Reti（バイト先）,Reti (trabajo)
 CONTACT_MR_HALLOWAY,Mr Halloway,Halloway 老师,Halloway先生,Sr. Halloway
-CONTACT_MRS_TUILOMA,Mrs Tuiloma,Tuiloma 老师,Tuiloma先生,Sra. Tuiloma
+CONTACT_MRS_TUILOMA,Mrs Tuiloma,Tuiloma 太太,Tuilomaさん,Sra. Tuiloma
 CONTACT_UNIVERSITY_OF_AUCKLAND_ADMISSIONS,University of Auckland — Admissions,奥克兰大学 —— 招生办,オークランド大学 — 入学課,Universidad de Auckland — Admisiones
 CONTACT_UNIVERSITY_OF_CANTERBURY_ADMISSIONS,University of Canterbury — Admissions,坎特伯雷大学 —— 招生办,カンタベリー大学 — 入学課,Universidad de Canterbury — Admisiones
 CONTACT_UNIVERSITY_OF_WAIKATO_ADMISSIONS,University of Waikato — Admissions,怀卡托大学 —— 招生办,ワイカト大学 — 入学課,Universidad de Waikato — Admisiones
@@ -3775,3 +3720,1082 @@ ACC_DEPOSIT_INFO,A deposit of $%.0f confirms it. You have $%.2f.,支付 $%.0f �
 ACC_HONEST_NOTE,The honest note,说实话,正直なメモ,La nota sincera
 ACC_HONEST_TEXT,"Accommodation doesn't affect your grades or your offer. It affects whether the offer is one you can physically take up, and it costs money you might otherwise be putting toward fees. That's the whole trade-off.",住宿不影响你的成绩或录取。它影响的是你能不能真正去上学，而且它花的钱本可以用来付学费。这就是全部的取舍。,住まいは成績にも合否にも影響しない。影響するのは、合格を実際に受けられるかどうかと、学費に回せたはずのお金がかかること。それがトレードオフのすべてだ。,"El alojamiento no afecta a tus notas ni a tu oferta. Afecta a si puedes aceptar la oferta en la práctica, y cuesta dinero que podrías destinar a la matrícula. Ese es todo el dilema."
 ACC_CARD_HEADING,"%s — $%.0f deposit, about $%.0f a year",%s —— 订金 $%.0f，每年约 $%.0f,%s — 保証金$%.0f、年間約$%.0f,"%s — fianza de $%.0f, unos $%.0f al año"
+UNI_GENERIC,university,大学,大学,la universidad
+EPI_LOAN_UNUSED,"StudyLink approved your loan, but you never ended up drawing on it — you start next year owing nothing.",StudyLink 批了你的贷款，但你一分都没动用 —— 明年开学时你什么都不欠。,StudyLinkのローンは承認されたが、結局一度も使わなかった — 来年は借金ゼロでスタートする。,"StudyLink te aprobó el préstamo, pero nunca llegaste a tocarlo — empiezas el año que viene sin deber nada."
+EPI_ALLOW_PENDING,"The Student Allowance was approved at $%.0f a week, but no payments had landed before the year ran out.",助学津贴批下来了，每周 $%.0f，但这一年结束前一笔钱都还没到账。,学生手当は週$%.0fで承認されたが、年が終わるまでに一度も振り込まれなかった。,"La beca se aprobó a $%.0f a la semana, pero no llegó ningún pago antes de que se acabara el año."
+EPI_UNTOUCHED,Somehow nothing really got to you this year — your wellbeing never dipped once.,不知怎的，这一年什么都没真正影响到你 —— 你的状态一次都没下滑过。,なぜか今年は何にも動じなかった — 心の余裕は一度も減らなかった。,"De algún modo, este año nada llegó a afectarte — tu bienestar no bajó ni una vez."
+MSG_TANE_BAND_S0,ok hear me out. I'm starting a band,好，听我说。我要组个乐队,ちょっと聞いて。バンド始める,"vale, escúchame. voy a montar un grupo"
+MSG_TANE_BAND_S0_R0,finally,终于,やっとか,por fin
+MSG_TANE_BAND_S0_R1,you can't play anything,你什么乐器都不会啊,何も弾けないじゃん,no sabes tocar nada
+MSG_TANE_BAND_S0_R2,what kind of band,什么样的乐队？,どんなバンド？,¿qué tipo de grupo?
+MSG_TANE_BAND_S1,"garage rock. me on guitar, Sione on drums because he hits things anyway. we need a bass player.",车库摇滚。我弹吉他，Sione 打鼓，反正他本来就爱乱敲。我们还缺个贝斯手。,ガレージロック。俺がギター、Sioneがドラム。どうせ何でも叩くし。あとベースが要る。,"garage rock. yo a la guitarra, Sione a la batería porque total ya va golpeando cosas. nos falta un bajista."
+MSG_TANE_BAND_S1_R0,I've never touched a bass in my life,我这辈子都没碰过贝斯,ベースなんて触ったこともない,no he tocado un bajo en mi vida
+MSG_TANE_BAND_S1_R1,I'm in. how hard can it be,我加入。能有多难,やる。どうせ大したことないでしょ,me apunto. ¿qué tan difícil puede ser?
+MSG_TANE_BAND_S1_R2,I'll come and watch. that's my contribution,我去看你们演。这就是我的贡献,見に行くよ。それが私の貢献,iré a veros. esa es mi aportación
+MSG_TANE_BAND_S2,I can play four chords. that's three more than most bands need.,我会四个和弦。比大多数乐队需要的还多三个。,コード4つ弾けるし。普通のバンドに要る数より3つ多い。,me sé cuatro acordes. son tres más de los que necesita la mayoría de grupos.
+MSG_TANE_BAND_S2_R0,ok fair. what's the plan,好吧有道理。那计划是什么,なるほど。で、計画は？,"vale, justo. ¿y el plan?"
+MSG_TANE_BAND_S3,nobody in the band has touched their instrument. it's a level playing field.,乐队里没有一个人碰过自己的乐器。大家起点一样。,バンドの誰も楽器に触ったことないから。みんな同じスタートライン。,nadie del grupo ha tocado su instrumento. estamos todos igual.
+MSG_TANE_BAND_S3_R0,fine. I'm in,行吧。我加入,わかった。やる,vale. me apunto
+MSG_TANE_BAND_S3_R1,I'd rather support from a distance,我还是远远地支持你们吧,遠くから応援するほうがいいかな,prefiero apoyar desde lejos
+MSG_TANE_BAND_S4,"LEGEND. first practice saturday in my garage. bring earplugs, Sione's been practising on pots.",传奇。第一次排练周六在我家车库。带耳塞，Sione 一直在拿锅练习。,最高。初練習は土曜、うちのガレージで。耳栓持ってきて、Sioneが鍋で練習してるから。,"CRACK. primer ensayo el sábado en mi garaje. trae tapones, Sione ha estado practicando con ollas."
+MSG_TANE_BAND_S4_R0,what's the band called,乐队叫什么名字,バンド名は？,¿cómo se llama el grupo?
+MSG_TANE_BAND_S5,"a fan. respected. you can run the merch table, which is one t-shirt.",一位粉丝。尊重。你可以负责周边摊位，就一件 T 恤。,ファンか。尊重する。物販担当ね。Tシャツ1枚だけど。,"una fan. respeto. puedes llevar el puesto de merch, que es una camiseta."
+MSG_TANE_BAND_S5_R0,what's the band called,乐队叫什么名字,バンド名は？,¿cómo se llama el grupo?
+MSG_TANE_BAND_S6,working title is Sausage Sizzle. open to suggestions. not open to many suggestions.,暂定名叫“烤香肠”。欢迎提建议。不太欢迎太多建议。,仮の名前は「ソーセージ・シズル」。提案は受け付ける。たくさんは受け付けない。,el nombre provisional es Barbacoa de Salchichas. acepto sugerencias. no muchas.
+MSG_TANE_BAND_S6_R0,Sausage Sizzle is perfect,“烤香肠”完美,ソーセージ・シズル、完璧,Barbacoa de Salchichas es perfecto
+MSG_TANE_BAND_S6_R1,literally anything else,换成别的什么都行,それ以外なら何でもいい,literalmente cualquier otro
+MSG_TANE_CAR_S0,car's dead. like properly dead. the mechanic said 'oh' when he opened the bonnet,车挂了。彻底挂了。修车师傅打开引擎盖的时候说了一声“哦”,車が死んだ。完全に。整備士がボンネット開けて「あー」って言った,el coche ha muerto. muerto de verdad. el mecánico dijo «uy» al abrir el capó
+MSG_TANE_CAR_S0_R0,oh no. what's wrong with it,糟了。哪儿坏了,うわ。どこが悪いの,ay no. ¿qué le pasa?
+MSG_TANE_CAR_S0_R1,rip the corolla,安息吧卡罗拉,カローラ安らかに,"descansa en paz, corolla"
+MSG_TANE_CAR_S1,"something expensive. anyway this is me asking, very casually, if I could borrow $20 for the bus till payday",反正是很贵的毛病。所以我很随意地问一下，能不能借我 $20 坐公交，发工资就还,高いやつ。で、すごく軽い感じで聞くけど、給料日までバス代に$20貸してくれない？,"algo caro. total, te pregunto muy casualmente si me prestas $20 para el bus hasta que cobre"
+MSG_TANE_CAR_S1_R0,yeah course. sending it now,当然。现在就转,もちろん。今送る,claro. te lo mando ya
+MSG_TANE_CAR_S1_R1,I'm skint too sorry,我也穷得叮当响，抱歉,ごめん、私も金欠,"yo también estoy pelado, lo siento"
+MSG_TANE_CAR_S1_R2,what happened to your pay from last week,你上周的工资呢,先週の給料はどうしたの,¿y la paga de la semana pasada?
+MSG_TANE_CAR_S2,you're a saint. I'll pay you back friday. with interest. the interest is a sausage roll.,你是圣人。周五还你，还带利息。利息是一个香肠卷。,神だ。金曜に返す。利子付きで。利子はソーセージロールね。,eres un santo. te lo devuelvo el viernes. con intereses. los intereses son un hojaldre de salchicha.
+MSG_TANE_CAR_S2_R0,I'll hold you to the sausage roll,香肠卷我记住了,ソーセージロール、忘れないからね,me acordaré del hojaldre
+MSG_TANE_CAR_S3,"nah all good, I get it. everyone's skint. I'll walk, it's character building.",没事没事，我懂。大家都穷。我走路吧，就当锻炼品格。,いや大丈夫、わかるよ。みんな金欠だし。歩くわ、人間力が鍛えられる。,"nah, tranqui, lo entiendo. todo el mundo está pelado. iré andando, forja el carácter."
+MSG_TANE_CAR_S3_R0,sorry mate,抱歉哥们,ごめんな,"lo siento, tío"
+MSG_TANE_CAR_S3_R1,walking's good for you,走路对身体好,歩くのは体にいいよ,andar es sano
+MSG_TANE_CAR_S4,spent it on the car. which is now dead. it's a bit of a cycle tbh,都花在车上了。现在车也挂了。说实话有点恶性循环,車に使った。で、その車が死んだ。正直ちょっとした悪循環,"me lo gasté en el coche. que ahora está muerto. es un poco un círculo vicioso, la verdad"
+MSG_TANE_CAR_S4_R0,fine. sending $20,好吧。转你 $20,わかった。$20送る,vale. te mando $20
+MSG_TANE_CAR_S4_R1,maybe sort that out first,也许你先把这个理清楚,まずそれをどうにかしたら,quizá deberías arreglar eso primero
+MSG_TANE_PAYBACK_S0,check your account. sent you $25. twenty plus five interest.,看看你账户。给你转了 $25。二十本金加五块利息。,口座見て。$25送った。20に利子5。,mira tu cuenta. te he mandado $25. veinte más cinco de intereses.
+MSG_TANE_PAYBACK_S0_R0,you didn't have to do interest,利息就不用了吧,利子なんていいのに,no hacía falta lo de los intereses
+MSG_TANE_PAYBACK_S0_R1,it's been three weeks,都过了三个星期了,3週間経ってるけど,han pasado tres semanas
+MSG_TANE_PAYBACK_S1,I did. it's called being a man of my word. also the car's fixed. we ride again,要的。这叫说话算话。还有车修好了。我们又能上路了,要るんだよ。有言実行ってやつ。あと車直った。また走れる,sí hacía. se llama ser un hombre de palabra. y el coche está arreglado. volvemos a rodar
+MSG_TANE_PAYBACK_S1_R0,the corolla lives,卡罗拉复活了,カローラ復活,el corolla vive
+MSG_TANE_PAYBACK_S2,I said friday. I didn't say WHICH friday. read the fine print.,我说的是周五。我没说是“哪个”周五。看看小字条款。,金曜って言った。「どの」金曜とは言ってない。細則を読みな。,dije viernes. no dije QUÉ viernes. lee la letra pequeña.
+MSG_TANE_PAYBACK_S2_R0,there was no fine print,根本没有小字条款,細則なんてなかった,no había letra pequeña
+MSG_TANE_GIG_S0,"BIG NEWS. the band's got a gig. school hall, lunchtime, in two days. we're opening for the jazz band",大新闻。乐队有演出了。两天后午饭时间在学校礼堂。我们给爵士乐队暖场,ビッグニュース。バンドのライブ決まった。2日後の昼休み、学校のホール。ジャズバンドの前座,"NOTICIÓN. el grupo tiene un bolo. salón de actos, a la hora de comer, en dos días. abrimos para la banda de jazz"
+MSG_TANE_GIG_S0_R0,opening for the jazz band is huge,给爵士乐队暖场可太厉害了,ジャズバンドの前座はすごいじゃん,abrir para la banda de jazz es enorme
+MSG_TANE_GIG_S0_R1,are you ready though,不过你们准备好了吗,でも準備できてるの？,¿pero estáis preparados?
+MSG_TANE_GIG_S1,it is HUGE. the jazz band has a saxophone. we have Sione. you coming?,就是很厉害。爵士乐队有萨克斯。我们有 Sione。你来吗？,すごいんだよ。向こうはサックスがいる。こっちはSione。来る？,es ENORME. la banda de jazz tiene un saxofón. nosotros tenemos a Sione. ¿vienes?
+MSG_TANE_GIG_S1_R0,wouldn't miss it,绝对不会错过,絶対行く,no me lo pierdo
+MSG_TANE_GIG_S1_R1,"I'll try, exams are close",我尽量，快考试了,行けたら行く、試験近いし,"lo intentaré, se acercan los exámenes"
+MSG_TANE_GIG_S2,no. absolutely not. but neither was the jazz band once and look at them now. you coming?,没有。完全没有。但爵士乐队一开始也没准备好，看看人家现在。你来吗？,全然。でもジャズバンドだって昔はそうだったし、今を見てよ。来る？,no. para nada. pero la banda de jazz tampoco lo estaba al principio y míralos ahora. ¿vienes?
+MSG_TANE_GIG_S2_R0,front row,第一排,最前列で,primera fila
+MSG_TANE_GIG_S2_R1,I'll try,我尽量,行けたら行く,lo intentaré
+MSG_TANE_GIG_S3,front row. I'm telling everyone you're our manager.,第一排。我要跟所有人说你是我们的经纪人。,最前列ね。みんなにマネージャーだって言っとく。,primera fila. le voy a decir a todo el mundo que eres nuestro mánager.
+MSG_TANE_GIG_S3_R0,I accept no responsibility,我不承担任何责任,責任は一切負いません,no me hago responsable de nada
+MSG_TANE_GIG_S4,fair. no pressure. but there'll be about one person in the crowd and I'd like it to be you.,理解。不勉强。但台下大概只有一个观众，我希望那个人是你。,了解。無理しないで。でも客は多分1人だから、それがお前だといいな。,vale. sin presión. pero habrá como una persona en el público y me gustaría que fueras tú.
+MSG_TANE_GIG_S4_R0,ok fine. I'll be there,好吧。我会去的,わかった。行くよ,vale. allí estaré
+MSG_TANE_GIG_S4_R1,I'll see how I go,看情况吧,様子見る,ya veré cómo voy
+MSG_TANE_AFTER_GIG_S0,ok be honest. how bad were we,好，说实话。我们有多烂,正直に言って。どれくらいひどかった？,"vale, sé sincero. ¿cómo de mal lo hicimos?"
+MSG_TANE_AFTER_GIG_S0_R0,you were actually good??,你们居然挺好的？？,普通に良かったんだけど？？,¿¿pues estuvisteis bien??
+MSG_TANE_AFTER_GIG_S0_R1,Sione dropped a stick twice,Sione 掉了两次鼓槌,Sioneがスティック2回落としてた,a Sione se le cayó una baqueta dos veces
+MSG_TANE_AFTER_GIG_S0_R2,the crowd loved it,观众都很喜欢,客は大喜びだった,al público le encantó
+MSG_TANE_AFTER_GIG_S1,the crowd was mostly year 9s who got lost on the way to the canteen. but they CLAPPED.,观众基本都是去食堂路上迷路的初三学生。但他们“鼓掌”了。,客はほとんど食堂に行く途中で迷った中学生だったけど。でも「拍手」してくれた。,el público eran sobre todo de tercero de la ESO que se perdieron yendo a la cafetería. pero APLAUDIERON.
+MSG_TANE_AFTER_GIG_S1_R0,clapping is clapping,鼓掌就是鼓掌,拍手は拍手だよ,un aplauso es un aplauso
+MSG_TANE_AFTER_GIG_S2,three times. you missed the third. it went into the jazz band. we're banned from the hall now.,三次。第三次你没看到。飞到爵士乐队那边去了。我们现在被礼堂禁入了。,3回だよ。3回目は見てなかったな。ジャズバンドの方に飛んでった。ホール出禁になった。,tres veces. la tercera no la viste. acabó en la banda de jazz. ahora tenemos prohibido el salón.
+MSG_TANE_AFTER_GIG_S2_R0,worth it,值了,その価値はあった,mereció la pena
+MSG_TANE_AFTER_GIG_S3,thanks for coming. genuinely. it meant a lot having someone there who wasn't lost.,谢谢你来。真心的。台下有个不是迷路进来的人，对我意义很大。,来てくれてありがとう。本気で。迷子じゃない人がいてくれて、すごく嬉しかった。,gracias por venir. de verdad. significó mucho tener allí a alguien que no se había perdido.
+MSG_TANE_AFTER_GIG_S3_R0,any time. next gig I want a t-shirt,随时。下次演出我要一件 T 恤,いつでも。次のライブではTシャツちょうだい,cuando quieras. en el próximo bolo quiero camiseta
+MSG_TANE_AFTER_GIG_S3_R1,proud of you mate,为你骄傲，哥们,誇らしいよ,"qué orgullo, tío"
+MSG_TANE_MISSED_GIG_S0,saw your face in the crowd. oh wait no I didn't,在观众里看到你了。哦不对，没看到,客席にお前の顔が見えた。あ、違った、見えなかった,"vi tu cara entre el público. ah no, espera, que no"
+MSG_TANE_MISSED_GIG_S0_R0,I'm so sorry. it got away from me,真的对不起。我忙忘了,本当にごめん。気づいたら過ぎてた,lo siento muchísimo. se me pasó
+MSG_TANE_MISSED_GIG_S0_R1,something came up,临时有事,ちょっと用事が,me surgió algo
+MSG_TANE_MISSED_GIG_S1,it's fine. it's fine. Sione dropped a stick and I looked up for someone to laugh with and it was all year 9s.,没事。没事。Sione 掉了鼓槌，我抬头想找个人一起笑，结果全是初三学生。,いいよ。いいって。Sioneがスティック落として、一緒に笑える人を探したら中学生しかいなかった。,"no pasa nada. no pasa nada. a Sione se le cayó una baqueta, levanté la vista buscando a alguien con quien reírme y solo había críos de tercero."
+MSG_TANE_MISSED_GIG_S1_R0,next one. front row. promise.,下一场。第一排。保证。,次は最前列で。約束する。,el próximo. primera fila. prometido.
+MSG_TANE_MISSED_GIG_S1_R1,I'll make it up to you,我会补偿你的,埋め合わせするから,te lo compensaré
+MSG_TANE_MISSED_GIG_S2,'something'. ok.,“有事”。行吧。,「用事」ね。そう。,«algo». vale.
+MSG_TANE_MISSED_GIG_S2_R0,"you're right. I just forgot. that's worse, I know.",你说得对。我就是忘了。我知道这更糟。,その通り。忘れてただけ。そっちの方が悪いよね。,tienes razón. se me olvidó. ya sé que es peor.
+MSG_TANE_MISSED_GIG_S2_R1,don't be like that,别这样,そんな言い方しないでよ,no te pongas así
+MSG_TANE_MISSED_GIG_S3,you'd better. I'm holding you to front row. if there's a next one. the jazz band complained.,你最好说到做到。第一排我记下了。如果还有下一场的话。爵士乐队投诉我们了。,そうしてくれ。最前列、覚えとくからな。次があればだけど。ジャズバンドが苦情入れた。,más te vale. me acuerdo de lo de la primera fila. si hay otro. la banda de jazz se quejó.
+MSG_TANE_MISSED_GIG_S3_R0,front row,第一排,最前列,primera fila
+MSG_TANE_ROADTRIP_S0,"plan for after exams: me, you, whoever's still alive. road trip. beach. no phones. well, some phones.",考完试的计划：我、你、还有谁活着就谁。自驾游。海边。不带手机。好吧，带一点手机。,試験後の計画：俺とお前と、生き残ってる奴ら。ドライブ。海。スマホなし。いや、ちょっとはあり。,"plan para después de los exámenes: tú, yo y quien siga vivo. viaje en coche. playa. sin móviles. bueno, algún móvil."
+MSG_TANE_ROADTRIP_S0_R0,yes. I need it,好。我太需要了,行く。必要,sí. lo necesito
+MSG_TANE_ROADTRIP_S0_R1,whose car,谁的车,誰の車で？,¿en qué coche?
+MSG_TANE_ROADTRIP_S0_R2,I've got work,我还要上班,バイトがある,tengo que trabajar
+MSG_TANE_ROADTRIP_S1,the dream. a few more papers and then we're free. probably. sort of.,梦想啊。再考几门我们就自由了。大概吧。差不多吧。,夢だよな。あと何科目かで自由。たぶん。一応。,el sueño. unos cuantos exámenes más y somos libres. seguramente. más o menos.
+MSG_TANE_ROADTRIP_S1_R0,a few more papers,再考几门,あと何科目か,unos cuantos exámenes más
+MSG_TANE_ROADTRIP_S2,"the corolla, obviously. she's been through a lot but she's got one more beach in her.",当然是卡罗拉。她经历了很多，但还能再去一次海边。,もちろんカローラ。いろいろあったけど、海にもう一回くらい行ける。,"el corolla, obvio. ha pasado por mucho, pero le queda una playa más."
+MSG_TANE_ROADTRIP_S2_R0,she deserves a beach,她值得一次海边,あの子には海が似合う,se merece una playa
+MSG_TANE_ROADTRIP_S3,take ONE day off. one. Deb will survive. I asked her.,就请“一天”假。一天。Deb 不会有事的。我问过她了。,「一日」休め。一日。Debは大丈夫。本人に聞いた。,coge UN día libre. uno. Deb sobrevivirá. se lo he preguntado.
+MSG_TANE_ROADTRIP_S3_R0,you asked my boss??,你去问我老板了？？,うちの店長に聞いたの？？,¿¿le has preguntado a mi jefa??
+MSG_TANE_ROADTRIP_S3_R1,fine. one day,行。一天,わかった。一日だけ,vale. un día
+MSG_MIKA_MEMES_S0,{NAME} it's day two of year 13 and I've already been asked what I'm doing next year four times,{NAME}，高三才第二天，就已经有四个人问我明年打算干什么了,{NAME}、13年生2日目なのに、もう4回も来年どうするのか聞かれた,"{NAME}, es el segundo día del último curso y ya me han preguntado cuatro veces qué voy a hacer el año que viene"
+MSG_MIKA_MEMES_S0_R0,only four?,才四次？,たった4回？,¿solo cuatro?
+MSG_MIKA_MEMES_S0_R1,what did you tell them,你怎么回答的,なんて答えたの,¿y qué les dijiste?
+MSG_MIKA_MEMES_S1,four BY LUNCH. my aunt texted at 7am. she put a smiley face. it felt like a threat.,午饭“之前”就四次了。我阿姨早上 7 点发消息，还加了个笑脸。感觉像是威胁。,「昼まで」に4回だよ。おばさんなんて朝7時にLINEしてきた。笑顔マーク付きで。脅しかと思った。,cuatro ANTES de comer. mi tía me escribió a las 7 de la mañana. con una carita sonriente. sonó a amenaza.
+MSG_MIKA_MEMES_S1_R0,the smiley face is always a threat,笑脸永远是威胁,笑顔マークはいつだって脅し,la carita sonriente siempre es una amenaza
+MSG_MIKA_MEMES_S2,I said 'something with science'. which is all I've got. and I'm not even sure about the science.,我说“跟科学有关的”。这是我仅有的答案。而且我连科学都不确定。,「理系の何か」って言った。それしかない。理系かどうかも怪しいけど。,dije «algo de ciencias». es todo lo que tengo. y ni siquiera tengo claro lo de las ciencias.
+MSG_MIKA_MEMES_S2_R0,that's a valid plan for february,对二月来说这是个合理的计划,2月ならそれで十分な計画だよ,para febrero es un plan válido
+MSG_MIKA_MEMES_S2_R1,"same, honestly",说实话，我也是,正直、私も同じ,"igual, la verdad"
+MSG_MIKA_MEMES_S3,ok. new rule: nobody asks anybody about next year until at least june.,好。新规定：至少六月之前，谁都不许问谁明年的事。,よし。新ルール：少なくとも6月までは誰も来年のこと聞かないこと。,vale. nueva norma: nadie le pregunta a nadie por el año que viene hasta junio como pronto.
+MSG_MIKA_MEMES_S3_R0,seconded,附议,賛成,secundo la moción
+MSG_MIKA_MEMES_S3_R1,motion carried,动议通过,可決,moción aprobada
+MSG_MIKA_DRIVING_S0,restricted licence test tomorrow. if I fail I'm moving to the bush and never coming back,明天考驾照。要是挂了我就搬去深山老林再也不回来,明日、運転免許の試験。落ちたら山に引っ越して二度と戻らない,mañana tengo el examen de conducir. si suspendo me voy a vivir al monte y no vuelvo nunca
+MSG_MIKA_DRIVING_S0_R0,you'll smash it,你肯定能过,絶対受かるって,lo vas a bordar
+MSG_MIKA_DRIVING_S0_R1,what's your weak spot,你哪里最不行,苦手なのは何？,¿cuál es tu punto débil?
+MSG_MIKA_DRIVING_S1,I mean I've hit a bin. once. it was a stationary bin. it's in the past.,我是撞过一个垃圾桶。就一次。一个静止的垃圾桶。都过去了。,まあゴミ箱にぶつけたことはある。1回だけ。動いてないゴミ箱。過去の話。,"bueno, he chocado con un contenedor. una vez. un contenedor quieto. es el pasado."
+MSG_MIKA_DRIVING_S1_R0,the bin has forgiven you,垃圾桶已经原谅你了,ゴミ箱はもう許してるよ,el contenedor ya te ha perdonado
+MSG_MIKA_DRIVING_S2,hill starts. and roundabouts. and the general concept of other cars.,坡道起步。还有环岛。还有“其他车辆”这个概念本身。,坂道発進。あとラウンドアバウト。あと「他の車」っていう概念全般。,las arrancadas en cuesta. y las rotondas. y el concepto general de otros coches.
+MSG_MIKA_DRIVING_S2_R0,so... driving,所以……就是开车本身,つまり…運転全部じゃん,o sea... conducir
+MSG_MIKA_DRIVING_S2_R1,go slow and indicate like your life depends on it,开慢点，打灯打得像性命攸关一样,ゆっくり走って、命がけでウインカー出しな,ve despacio y pon el intermitente como si te fuera la vida en ello
+MSG_MIKA_DRIVING_S3,update: PASSED. the examiner said 'well that was eventful' but a pass is a pass,更新：过了！考官说“嗯，挺精彩的”，但过了就是过了,報告：合格！試験官に「波乱万丈でしたね」って言われたけど、合格は合格,"actualización: APROBADO. el examinador dijo «bueno, ha sido movidito» pero un aprobado es un aprobado"
+MSG_MIKA_DRIVING_S3_R0,LET'S GO,太好了！,やったー！,¡VAMOS!
+MSG_MIKA_DRIVING_S3_R1,eventful how,怎么个精彩法,波乱万丈って？,¿movidito cómo?
+MSG_MIKA_DRIVING_S4,I'll drive you to school one day. you'll need to sign a waiver.,哪天我开车送你上学。你得先签免责声明。,いつか学校まで乗せてあげる。誓約書にサインしてもらうけど。,un día te llevo al instituto. tendrás que firmar un descargo de responsabilidad.
+MSG_MIKA_DRIVING_S4_R0,looking forward to the waiver,期待那份免责声明,誓約書、楽しみにしてる,estoy deseando firmarlo
+MSG_MIKA_DRIVING_S5,a cat. we don't need to talk about the cat. the cat is fine.,一只猫。我们不用聊那只猫。那只猫没事。,猫。猫の話はしなくていい。猫は無事。,un gato. no hace falta hablar del gato. el gato está bien.
+MSG_MIKA_DRIVING_S5_R0,I'm glad the cat is fine,猫没事就好,猫が無事でよかった,me alegro de que el gato esté bien
+MSG_MIKA_GAP_S0,random thought at 1am. what if I just... didn't go to uni next year,凌晨一点的随机想法。如果我明年……就不上大学呢,深夜1時のふとした考え。来年…大学に行かなかったらどうなる？,pensamiento random a la 1 de la mañana. ¿y si el año que viene... no voy a la uni?
+MSG_MIKA_GAP_S0_R0,what would you do instead?,那你打算干什么？,代わりに何するの？,¿y qué harías en vez de eso?
+MSG_MIKA_GAP_S0_R1,your aunt would combust,你阿姨会当场自燃,おばさんが爆発するよ,tu tía entraría en combustión
+MSG_MIKA_GAP_S0_R2,you'd regret it,你会后悔的,後悔するよ,te arrepentirías
+MSG_MIKA_GAP_S1,work. save. figure out if I actually like anything. my cousin did it and now she's doing marine biology and she LOVES it.,打工。存钱。弄清楚我到底喜欢什么。我表姐就这么做了，现在在读海洋生物，而且“超爱”。,働く。貯める。自分が本当に好きなものを見つける。いとこがそうして、今は海洋生物学やってて「大好き」なんだって。,trabajar. ahorrar. averiguar si de verdad me gusta algo. mi prima lo hizo y ahora estudia biología marina y le ENCANTA.
+MSG_MIKA_GAP_S1_R0,honestly that sounds smart,说实话，这听起来挺聪明的,正直、賢いと思う,"la verdad, suena inteligente"
+MSG_MIKA_GAP_S1_R1,"you could apply anyway, and defer",你可以照样申请，然后延期入学,とりあえず出願して、入学を延期することもできるよ,podrías solicitarla igual y aplazarla
+MSG_MIKA_GAP_S1_R2,"or start, and switch if you hate it",或者先读，讨厌的话再换,まず入って、嫌なら変えればいい,"o empezar, y cambiar si lo odias"
+MSG_MIKA_GAP_S2,"she would. there would be smoke. but it's my life, not hers.",她会的。会冒烟的。但这是我的人生，不是她的。,するだろうね。煙が出る。でも私の人生で、おばさんのじゃない。,"pues sí. saldría humo. pero es mi vida, no la suya."
+MSG_MIKA_GAP_S2_R0,so what would you do instead?,那你打算干什么？,で、代わりに何するの？,¿y qué harías en vez de eso?
+MSG_MIKA_GAP_S3,that's what everyone says. nobody ever says why.,大家都这么说。从来没人说为什么。,みんなそう言う。理由は誰も言わない。,eso dice todo el mundo. nadie dice nunca por qué.
+MSG_MIKA_GAP_S3_R0,fair. what would you do instead?,有道理。那你打算干什么？,確かに。代わりに何するの？,justo. ¿qué harías en vez de eso?
+MSG_MIKA_GAP_S4,really? you're the first person who hasn't said 'but what about your future',真的吗？你是第一个没说“那你的未来怎么办”的人,本当に？「将来はどうするの」って言わなかったの、あなたが初めて,¿en serio? eres la primera persona que no me dice «¿y tu futuro qué?»
+MSG_MIKA_GAP_S4_R0,a year is part of your future,一年本身就是你未来的一部分,1年だって将来の一部だよ,un año también es parte de tu futuro
+MSG_MIKA_GAP_S5,...you can DO that? apply and then say 'not yet'?,……还能“这样”？申请了然后说“先不去”？,…そんなこと「できる」の？出願して「まだ行かない」って？,...¿se PUEDE hacer eso? ¿solicitarla y luego decir «todavía no»?
+MSG_MIKA_GAP_S5_R0,loads of unis let you defer a year. ask them.,很多大学都允许延期一年。去问问。,1年延期できる大学は多いよ。聞いてみな。,muchas unis te dejan aplazar un año. pregunta.
+MSG_MIKA_GAP_S6,yeah. maybe. I'll at least start and see. thanks for not freaking out.,嗯。也许吧。我至少先开始看看。谢谢你没大惊小怪。,うん。かもね。とりあえず始めてみる。動揺しないでくれてありがとう。,sí. puede. al menos empezaré y ya veré. gracias por no flipar.
+MSG_MIKA_GAP_S6_R0,never,怎么会,するわけない,nunca
+MSG_MIKA_FINAL_S0,last chem paper done. I will officially never have to do a titration again,最后一门化学考完了。我正式再也不用做滴定实验了,化学の最後の試験終わった。もう二度と滴定しなくていい、公式に,último examen de química hecho. oficialmente nunca tendré que volver a hacer una valoración
+MSG_MIKA_FINAL_S0_R0,how did it go,考得怎么样,どうだった？,¿qué tal te ha ido?
+MSG_MIKA_FINAL_S0_R1,free at last,终于自由了,ついに自由,libre por fin
+MSG_MIKA_FINAL_S1,I don't know and I refuse to find out until january,不知道，而且我拒绝在一月之前知道,わからないし、1月までは知りたくない,no lo sé y me niego a saberlo hasta enero
+MSG_MIKA_FINAL_S1_R0,healthy,很健康,健全だね,muy sano
+MSG_MIKA_FINAL_S2,thanks for listening to me complain about chem for an entire year. you deserve a medal. or at least a pie.,谢谢你听我抱怨了一整年的化学。你应该得块奖牌。至少一个馅饼。,一年中化学の愚痴を聞いてくれてありがとう。メダルものだよ。せめてパイ。,gracias por aguantarme quejándome de química un año entero. te mereces una medalla. o al menos un pastel.
+MSG_MIKA_FINAL_S2_R0,I'll take the pie,馅饼就行,パイでいいよ,me quedo con el pastel
+MSG_MIKA_FINAL_S2_R1,complaining together is half the fun,一起抱怨是一半的乐趣,一緒に愚痴るのが楽しみの半分,quejarse juntos es la mitad de la gracia
+MSG_ANA_BOOK_S0,finished the book I was telling you about. you HAVE to read it,我跟你说的那本书看完了。你“一定”要看,前に話してた本、読み終わった。絶対「読んで」,me he terminado el libro del que te hablé. TIENES que leerlo
+MSG_ANA_BOOK_S0_R0,what's it about,讲什么的,どんな話？,¿de qué va?
+MSG_ANA_BOOK_S0_R1,I haven't read for fun since year 9,我初三以后就没为了乐趣看过书,中学以来、趣味で本なんて読んでない,no leo por gusto desde tercero de la ESO
+MSG_ANA_BOOK_S1,a girl who runs a lighthouse and slowly stops talking to people. it sounds bleak. it's not bleak. ok it's a bit bleak.,一个女孩管着一座灯塔，慢慢地不再跟人说话。听起来很压抑。其实不压抑。好吧，有一点压抑。,灯台を守る女の子が、だんだん人と話さなくなる話。暗そうでしょ。暗くないよ。…まあ、ちょっと暗い。,"una chica que lleva un faro y poco a poco deja de hablar con la gente. suena deprimente. no es deprimente. vale, un poco sí."
+MSG_ANA_BOOK_S1_R0,sold. lend it to me,被你说动了。借我看,決まり。貸して,vendido. préstamelo
+MSG_ANA_BOOK_S1_R1,maybe after exams,也许考完试再说,試験が終わったらかな,quizá después de los exámenes
+MSG_ANA_BOOK_S2,that's exactly why. twenty minutes a night that isn't a screen or a textbook. trust me.,正因为这样才要看。每晚二十分钟，不看屏幕也不看课本。相信我。,だからこそだよ。毎晩20分、画面でも教科書でもないもの。信じて。,por eso mismo. veinte minutos cada noche que no sean una pantalla ni un libro de texto. hazme caso.
+MSG_ANA_BOOK_S2_R0,ok. lend it to me,好吧。借我看,わかった。貸して,vale. préstamelo
+MSG_ANA_BOOK_S2_R1,I'll try,我试试,やってみる,lo intentaré
+MSG_ANA_BOOK_S3,it's in your locker. I may or may not know your combination.,已经放你柜子里了。我可能知道、也可能不知道你的密码。,あなたのロッカーに入れといた。番号を知ってるかどうかはご想像に任せる。,está en tu taquilla. puede que sepa tu combinación o puede que no.
+MSG_ANA_BOOK_S3_R0,how do you know my combination,你怎么知道我的密码,なんで番号知ってるの,¿cómo sabes mi combinación?
+MSG_ANA_BOOK_S4,fair. it'll still be good in december. most books are.,也行。到十二月它也还是好书。大多数书都是。,そうだね。12月になっても面白いよ。本ってだいたいそう。,vale. en diciembre seguirá siendo bueno. casi todos los libros lo son.
+MSG_ANA_BOOK_S4_R0,I'll hold you to it,我记住了,覚えとく,te tomo la palabra
+MSG_ANA_RUN_S0,I've started running before school. it's horrible. come with me,我开始上学前跑步了。很痛苦。跟我一起来,登校前にランニング始めた。地獄。一緒に来て,he empezado a correr antes de clase. es horrible. vente conmigo
+MSG_ANA_RUN_S0_R0,why would I do something horrible,我为什么要做痛苦的事,なんで地獄に付き合うの,¿por qué iba a hacer algo horrible?
+MSG_ANA_RUN_S0_R1,how early,多早,何時？,¿cómo de temprano?
+MSG_ANA_RUN_S1,because you feel like a different person by first period. I've been weirdly calm all week.,因为第一节课的时候你会觉得自己换了个人。我这整周都莫名地平静。,1時間目には別人になれるから。今週ずっと妙に落ち着いてる。,porque a primera hora te sientes otra persona. llevo toda la semana extrañamente tranquila.
+MSG_ANA_RUN_S1_R0,fine. one run. then breakfast at the canteen,行。就跑一次。然后去食堂吃早饭,わかった。1回だけ。そのあと食堂で朝ごはん,vale. una carrera. y luego desayuno en la cafetería
+MSG_ANA_RUN_S1_R1,I'll stick to being stressed thanks,我还是继续焦虑吧，谢了,ストレス抱えてる方でいいです,"prefiero seguir con mi estrés, gracias"
+MSG_ANA_RUN_S2,"6:30. don't make that face, I can hear it.",6 点半。别做那个表情，我都听得见。,6時半。その顔やめて、聞こえてるから。,"a las 6:30. no pongas esa cara, que la oigo."
+MSG_ANA_RUN_S2_R0,fine. one run. then breakfast at the canteen,行。就跑一次。然后去食堂吃早饭,わかった。1回だけ。そのあと食堂で朝ごはん,vale. una carrera. y luego desayuno en la cafetería
+MSG_ANA_RUN_S2_R1,6:30 is a crime,6 点半是犯罪,6時半は犯罪,las 6:30 es un delito
+MSG_ANA_RUN_S3,"deal. tomorrow. bring water. you will need it, you will not want it.",成交。明天。带水。你会需要它，但你不会想喝。,決まり。明日ね。水持ってきて。必要になるけど、飲みたくはならない。,trato hecho. mañana. trae agua. la vas a necesitar y no la vas a querer.
+MSG_ANA_RUN_S3_R0,this better be worth it,最好值得,それだけの価値があるといいけど,más vale que merezca la pena
+MSG_ANA_RUN_S4,offer stands. any morning. I'll be out there being horrible on my own.,邀请一直有效。哪天早上都行。我会一个人在外面受苦。,いつでもどうぞ。どの朝でも。一人で地獄を味わってるから。,la oferta sigue en pie. cualquier mañana. estaré ahí fuera sufriendo yo sola.
+MSG_ANA_RUN_S4_R0,maybe next week,也许下周,来週かな,quizá la semana que viene
+MSG_ANA_THANKS_S0,hey. remember when I said I wasn't doing great?,嘿。还记得我说过我状态不太好吗？,ねえ。前に調子良くないって言ったの、覚えてる？,oye. ¿te acuerdas de cuando te dije que no estaba muy bien?
+MSG_ANA_THANKS_S0_R0,of course,当然记得,もちろん,claro
+MSG_ANA_THANKS_S0_R1,are you ok?,你还好吗？,大丈夫？,¿estás bien?
+MSG_ANA_THANKS_S1,"I'm better. actually better, not 'fine' better. I talked to the counsellor like you said I could.",我好多了。是真的好了，不是嘴上说的“还行”。我像你说的那样去找了辅导老师。,良くなった。本当に。「大丈夫」じゃなくて本当に。あなたが言ってくれたみたいに、カウンセラーに話した。,"estoy mejor. mejor de verdad, no «bien» de boquilla. hablé con la orientadora, como me dijiste que podía hacer."
+MSG_ANA_THANKS_S1_R0,I'm really glad,我真的很高兴,本当によかった,me alegro muchísimo
+MSG_ANA_THANKS_S1_R1,that took guts,那需要勇气,勇気がいったでしょ,eso tiene mérito
+MSG_ANA_THANKS_S2,you kept your promise. you kept noticing. most people forget after a day. so. thank you.,你遵守了承诺。你一直在留意我。大多数人一天后就忘了。所以，谢谢你。,約束を守ってくれた。ずっと気にかけてくれた。たいていの人は1日で忘れるのに。だから、ありがとう。,cumpliste tu promesa. seguiste fijándote. casi todo el mundo se olvida al día siguiente. así que gracias.
+MSG_ANA_THANKS_S2_R0,you'd have done it for me. you HAVE done it for me.,换我你也会这么做。你“已经”为我这么做过了。,あなたも私に同じことをしてくれる。いや、もう「してくれた」。,"tú habrías hecho lo mismo por mí. de hecho, YA lo hiciste."
+MSG_ANA_THANKS_S2_R1,always,一直都会,いつでも,siempre
+MSG_PRIYA_DEBATE_S0,debate final friday. we're arguing that homework should be banned. I've been assigned FOR,周五辩论决赛。辩题是应该禁止家庭作业。我被分到“正方”,金曜にディベート決勝。テーマは宿題廃止。私は「賛成」側,final de debate el viernes. defendemos que hay que prohibir los deberes. me ha tocado A FAVOR
+MSG_PRIYA_DEBATE_S0_R0,easiest win of your life,你这辈子最轻松的胜利,人生でいちばん楽勝じゃん,la victoria más fácil de tu vida
+MSG_PRIYA_DEBATE_S0_R1,isn't that a conflict of interest,这不算利益冲突吗,それって利益相反じゃない？,¿eso no es un conflicto de intereses?
+MSG_PRIYA_DEBATE_S1,you'd think. but the other team has Josh's cousin and she's terrifying. she quotes studies.,你以为呢。但对方有 Josh 的表姐，她超可怕。她会引用研究。,そう思うでしょ。でも相手チームにJoshのいとこがいて、超怖いの。研究を引用してくる。,eso pensarías. pero el otro equipo tiene a la prima de Josh y da miedo. cita estudios.
+MSG_PRIYA_DEBATE_S1_R0,quote better studies,引用更好的研究,もっといい研究を引用しな,cita estudios mejores
+MSG_PRIYA_DEBATE_S1_R1,"you'll be fine, you live for this",你没问题的，你就是为这个而生的,大丈夫、こういうの生きがいでしょ,"lo harás bien, vives para esto"
+MSG_PRIYA_DEBATE_S2,"I've done my homework on banning homework, yes. the irony is not lost on me.",是的，我为禁止作业这件事做了作业。我很清楚这有多讽刺。,宿題廃止について宿題はしたよ。皮肉なのはわかってる。,"sí, he hecho los deberes sobre prohibir los deberes. soy consciente de la ironía."
+MSG_PRIYA_DEBATE_S2_R0,make the irony your opening line,把这个讽刺当开场白,その皮肉を最初の一言にしな,usa la ironía como frase inicial
+MSG_PRIYA_DEBATE_S3,WE WON. Josh's cousin quoted four studies and I quoted my own exhaustion. the judges loved it.,我们赢了！Josh 的表姐引用了四项研究，我引用了我自己的疲惫。评委超爱。,勝った！Joshのいとこは研究を4つ引用して、私は自分の疲労を引用した。審査員にウケた。,HEMOS GANADO. la prima de Josh citó cuatro estudios y yo cité mi propio agotamiento. a los jueces les encantó.
+MSG_PRIYA_DEBATE_S3_R0,obviously,那当然,当然でしょ,obviamente
+MSG_PRIYA_DEBATE_S3_R1,proud of you,为你骄傲,誇らしいよ,qué orgullo
+MSG_PRIYA_SCHOLARSHIP_S0,can you do me a massive favour,能帮我个大忙吗,めっちゃ大きなお願いがあるんだけど,¿me haces un favor enorme?
+MSG_PRIYA_SCHOLARSHIP_S0_R0,depends how massive,看多大,どれくらい大きいかによる,depende de lo enorme
+MSG_PRIYA_SCHOLARSHIP_S0_R1,anything,什么都行,何でも言って,lo que sea
+MSG_PRIYA_SCHOLARSHIP_S1,scholarship essay. 500 words on 'a challenge you overcame'. I've written it four times and every version sounds like a LinkedIn post,奖学金作文。500 字，题目是“你克服过的一个挑战”。我写了四遍，每一版都像领英上的帖子,奨学金の作文。「乗り越えた困難」について500語。4回書いたけど、どれもLinkedInの投稿みたい,redacción para una beca. 500 palabras sobre «un reto que superaste». la he escrito cuatro veces y todas suenan a post de LinkedIn
+MSG_PRIYA_SCHOLARSHIP_S1_R0,"send it, I'll read it tonight",发给我，我今晚看,送って、今夜読む,"mándamela, la leo esta noche"
+MSG_PRIYA_SCHOLARSHIP_S1_R1,write about the 68,写那次 68 分,あの68点のことを書きなよ,escribe sobre el 68
+MSG_PRIYA_SCHOLARSHIP_S1_R2,"I'm drowning, sorry, can't this week",我自己都快淹死了，抱歉，这周不行,こっちも溺れてる、ごめん、今週は無理,"estoy hasta arriba, lo siento, esta semana no puedo"
+MSG_PRIYA_SCHOLARSHIP_S2,sent. be brutal. actually don't be brutal. be honest but in a nice font.,发了。狠狠批。算了别狠狠批。说实话，但用好看的字体。,送った。容赦なく言って。いや、容赦はして。正直に、でも優しいフォントで。,"enviada. sé brutal. bueno, no seas brutal. sé sincero pero con una letra bonita."
+MSG_PRIYA_SCHOLARSHIP_S2_R0,cut the first paragraph. start with the second,删掉第一段。从第二段开始,最初の段落を削って。2段落目から始めな,quita el primer párrafo. empieza por el segundo
+MSG_PRIYA_SCHOLARSHIP_S2_R1,"it's really good, Priya",写得真的很好，Priya,すごくいいよ、Priya,"está muy bien, Priya"
+MSG_PRIYA_SCHOLARSHIP_S3,"...the stats internal? that's not a challenge, that's an embarrassment.",……那次统计平时评核？那不是挑战，那是丢人。,…統計の内部評価？あれは困難じゃなくて黒歴史だよ。,"...¿el interno de estadística? eso no es un reto, es una vergüenza."
+MSG_PRIYA_SCHOLARSHIP_S3_R0,that's exactly why it'd be a good essay,正因为这样才是好作文,だからこそいい作文になるんだよ,precisamente por eso sería una buena redacción
+MSG_PRIYA_SCHOLARSHIP_S4,no stress. honestly. I'll ask Mika. she'll just say 'it's good' but it's something.,没关系。真的。我去问 Mika。她只会说“挺好的”，但总比没有强。,気にしないで。ほんとに。Mikaに頼む。「いいじゃん」しか言わないだろうけど、ないよりまし。,"tranqui. de verdad. se lo pido a Mika. solo dirá «está bien», pero algo es algo."
+MSG_PRIYA_SCHOLARSHIP_S4_R0,good luck with it,祝你顺利,うまくいくといいね,mucha suerte
+MSG_PRIYA_SCHOLARSHIP_S5,ok. ok. rewriting it tonight. if I get this I'm buying you something. probably a pie. it's always a pie.,好。好。今晚重写。如果我拿到了就请你吃东西。大概是馅饼。永远是馅饼。,よし。よし。今夜書き直す。もし取れたら何かおごる。たぶんパイ。いつもパイ。,vale. vale. la reescribo esta noche. si me la dan te invito a algo. seguramente un pastel. siempre es un pastel.
+MSG_PRIYA_SCHOLARSHIP_S5_R0,the whole school runs on pies,整个学校都是靠馅饼运转的,この学校はパイで回ってる,todo el instituto funciona a base de pasteles
+MSG_PRIYA_DECISION_S0,applications lock soon. I have to actually pick. law or commerce. final answer.,申请马上要锁定了。我必须真的选了。法律还是商科。最终答案。,出願がもうすぐ締まる。本当に決めなきゃ。法学か商学か。最終回答。,las solicitudes se cierran pronto. tengo que elegir de verdad. derecho o empresariales. respuesta final.
+MSG_PRIYA_DECISION_S0_R0,what does your gut say,你的直觉怎么说,直感はなんて言ってる？,¿qué te dice el instinto?
+MSG_PRIYA_DECISION_S0_R1,what did your dad say,你爸怎么说,お父さんはなんて？,¿qué dijo tu padre?
+MSG_PRIYA_DECISION_S1,my gut says commerce. my gut also ate four pies this week so I don't trust it,直觉说商科。不过我的胃这周还吃了四个馅饼，所以我不太信它,直感は商学って言ってる。でもその胃袋は今週パイを4つ食べたから信用できない,"el instinto dice empresariales. pero mi estómago también se ha comido cuatro pasteles esta semana, así que no me fío"
+MSG_PRIYA_DECISION_S1_R0,trust the gut. do commerce.,相信直觉。选商科。,直感を信じな。商学で。,hazle caso al instinto. empresariales.
+MSG_PRIYA_DECISION_S1_R1,law's safer. you can always switch,法律更稳。以后随时能换,法学の方が無難。後で変えられるし,derecho es más seguro. siempre puedes cambiar
+MSG_PRIYA_DECISION_S2,he said 'it's your decision' in the voice that means it's not my decision.,他用那种“其实不是你说了算”的语气说“你自己决定”。,「自分で決めなさい」って、私が決めることじゃないって時の声で言ってた。,dijo «es tu decisión» con esa voz que significa que no es mi decisión.
+MSG_PRIYA_DECISION_S2_R0,it IS your decision though,但这“确实”是你的决定,でも「本当に」あなたの決断だよ,pero SÍ es tu decisión
+MSG_PRIYA_DECISION_S3,commerce. done. submitted. I feel sick but like a good sick.,商科。搞定。提交了。我有点想吐，但是好的那种。,商学。決定。提出した。気持ち悪いけど、いい意味で。,"empresariales. hecho. enviado. me siento mal, pero de lo bueno."
+MSG_PRIYA_DECISION_S3_R0,good sick is the best sick,好的那种想吐是最好的,いい意味の気持ち悪さが一番,el malestar bueno es el mejor
+MSG_PRIYA_DECISION_S4,yeah. law. sensible. it's fine. I'll be fine.,嗯。法律。稳妥。没事。我会没事的。,うん。法学。堅実。大丈夫。大丈夫になる。,sí. derecho. sensato. está bien. estaré bien.
+MSG_PRIYA_DECISION_S4_R0,you can still change it,你还能改,まだ変えられるよ,todavía puedes cambiarlo
+MSG_PRIYA_DECISION_S4_R1,you'll be great either way,你选哪个都会很棒,どっちでも絶対うまくいく,serás genial en cualquiera
+MSG_MUM_DINNER_S0,What do you want for dinner Sunday? Your aunty's coming.,周日晚饭想吃什么？你阿姨要来。,日曜の夕飯、何がいい？おばさんが来るから。,¿Qué quieres de cena el domingo? Viene tu tía.
+MSG_MUM_DINNER_S0_R0,roast please,烤肉，拜托,ローストがいい,"asado, porfa"
+MSG_MUM_DINNER_S0_R1,which aunty,哪个阿姨,どのおばさん？,¿qué tía?
+MSG_MUM_DINNER_S1,Roast it is. Be home by 6. Not 6:15. 6.,那就烤肉。6 点前到家。不是 6 点 15。是 6 点。,じゃあローストね。6時までに帰ってきて。6時15分じゃなくて。6時。,Asado entonces. En casa a las 6. No a las 6:15. A las 6.
+MSG_MUM_DINNER_S1_R0,6. got it.,6 点。收到。,6時ね。了解。,a las 6. entendido.
+MSG_MUM_DINNER_S2,Aunty Lani. Yes she will ask about uni. Have an answer ready.,Lani 阿姨。对，她肯定会问大学的事。准备好答案。,Laniおばさん。そう、大学のこと聞いてくるよ。答えを用意しといて。,"La tía Lani. Sí, te va a preguntar por la uni. Ten una respuesta preparada."
+MSG_MUM_DINNER_S2_R0,can I say 'it's going well' and change the subject,我能说“挺顺利的”然后换话题吗,「順調だよ」って言って話題変えてもいい？,¿puedo decir «va bien» y cambiar de tema?
+MSG_MUM_DINNER_S2_R1,I'm working sunday actually,其实我周日要上班,実は日曜バイトなんだ,en realidad trabajo el domingo
+MSG_MUM_DINNER_S3,That's what I do. Works every time. Roast okay?,我就是这么干的。每次都管用。烤肉行吗？,お母さんもそうしてる。毎回うまくいくよ。ローストでいい？,Eso hago yo. Funciona siempre. ¿Asado te parece bien?
+MSG_MUM_DINNER_S3_R0,roast is perfect,烤肉完美,ロースト最高,asado es perfecto
+MSG_MUM_DINNER_S4,Then I'll save you a plate. Don't eat rubbish on your break.,那我给你留一份。休息的时候别吃垃圾食品。,じゃあ一皿取っておくね。休憩中にジャンクフード食べないでよ。,Pues te guardo un plato. No comas porquerías en el descanso.
+MSG_MUM_DINNER_S4_R0,no promises,不保证,約束はできない,no prometo nada
+MSG_MUM_DINNER_S4_R1,thanks mum,谢谢妈,ありがとう、お母さん,"gracias, mamá"
+MSG_MUM_DOG_S0,Biscuit ate one of your socks. He's fine. The sock is not.,Biscuit 把你的一只袜子吃了。它没事。袜子有事。,Biscuitがあなたの靴下を片方食べた。犬は無事。靴下は無事じゃない。,Biscuit se ha comido uno de tus calcetines. Él está bien. El calcetín no.
+MSG_MUM_DOG_S0_R0,which sock,哪只袜子,どの靴下？,¿qué calcetín?
+MSG_MUM_DOG_S0_R1,how is he fine,它怎么会没事,なんで無事なの,¿cómo va a estar bien?
+MSG_MUM_DOG_S1,The one with the hole. So honestly he did you a favour.,破了洞的那只。所以说实话，它帮了你一个忙。,穴の空いてたやつ。正直、あの子に助けてもらったようなもんよ。,"El del agujero. Así que, sinceramente, te ha hecho un favor."
+MSG_MUM_DOG_S1_R0,good boy,好狗狗,いい子だ,buen chico
+MSG_MUM_DOG_S2,"He's a labrador. Their stomachs are made of concrete. The vet said 'oh, again?'",它是拉布拉多。胃是混凝土做的。兽医说：“哦，又来了？”,ラブラドールだもの。胃袋がコンクリート製なの。獣医さんに「え、またですか？」って言われた。,Es un labrador. Tienen el estómago de hormigón. El veterinario dijo «¿otra vez?»
+MSG_MUM_DOG_S2_R0,again??,又来了？？,また？？,¿¿otra vez??
+MSG_MUM_DOG_S3,He misses you. He sits by your door when you're at school. Don't tell him I told you.,它想你了。你上学的时候它就坐在你房门口。别告诉它是我说的。,あなたがいなくて寂しいみたい。学校に行ってる間、部屋のドアの前に座ってるの。私が言ったって内緒ね。,Te echa de menos. Se sienta junto a tu puerta cuando estás en clase. No le digas que te lo he contado.
+MSG_MUM_DOG_S3_R0,give him a pat from me,替我摸摸它,代わりに撫でてあげて,dale una caricia de mi parte
+MSG_MUM_DOG_S3_R1,I miss him too,我也想它,私も会いたい,yo también lo echo de menos
+MSG_MUM_EXTRA_HOURS_S0,"Just so you know, I've picked up some extra shifts at work. It's nothing, don't worry.",跟你说一声，我在单位多接了几个班。没什么，别担心。,一応言っとくけど、仕事のシフトを増やしたの。大したことないから心配しないで。,"Para que lo sepas, he cogido unos turnos extra en el trabajo. No es nada, no te preocupes."
+MSG_MUM_EXTRA_HOURS_S0_R0,is it because of uni,是因为大学的事吗,大学のため？,¿es por la uni?
+MSG_MUM_EXTRA_HOURS_S0_R1,mum you're already exhausted,妈，你本来就已经很累了,お母さん、もうクタクタじゃん,"mamá, ya estás agotada"
+MSG_MUM_EXTRA_HOURS_S0_R2,"ok, thanks for telling me",好，谢谢你告诉我,わかった、教えてくれてありがとう,"vale, gracias por decírmelo"
+MSG_MUM_EXTRA_HOURS_S1,It's because I want you to go without counting every dollar. That's all. Not a big deal.,是因为我希望你去上学的时候不用一块一块地算钱。就这样。不是什么大事。,あなたが1ドル単位でお金を気にせずに行けるようにしたいだけ。それだけ。大したことじゃない。,Es porque quiero que vayas sin contar cada dólar. Nada más. No es para tanto.
+MSG_MUM_EXTRA_HOURS_S1_R0,I'll get a loan. you don't have to,我会申请贷款的。你不用这样,ローン組むよ。そこまでしなくていい,pediré el préstamo. no tienes por qué
+MSG_MUM_EXTRA_HOURS_S1_R1,thank you. really.,谢谢你。真的。,ありがとう。本当に。,gracias. de verdad.
+MSG_MUM_EXTRA_HOURS_S2,I'm your mother. Exhausted is the job description.,我是你妈。累就是这份工作的说明书。,母親だもの。クタクタなのが仕事内容よ。,Soy tu madre. Estar agotada viene en la descripción del puesto.
+MSG_MUM_EXTRA_HOURS_S2_R0,that's not a real answer,这不算回答,それ答えになってない,eso no es una respuesta
+MSG_MUM_EXTRA_HOURS_S3,Love you.,爱你。,大好きよ。,Te quiero.
+MSG_MUM_EXTRA_HOURS_S3_R0,love you too,我也爱你,私も,yo también te quiero
+MSG_MUM_EXTRA_HOURS_S4,"We'll see. Sort the loan anyway, I'd feel better knowing it's there.",再说吧。贷款还是要办，知道有这个底我会安心点。,様子を見ましょう。でもローンの手続きはしておいて。あると思うと安心だから。,"Ya veremos. Tramita el préstamo de todas formas, me quedaría más tranquila sabiendo que está ahí."
+MSG_MUM_EXTRA_HOURS_S4_R0,I will,我会的,やっとく,lo haré
+MSG_MUM_EXTRA_HOURS_S5,Don't thank me. Just eat a vegetable occasionally.,别谢我。偶尔吃点蔬菜就行。,お礼はいいの。たまには野菜を食べて。,No me des las gracias. Cómete una verdura de vez en cuando.
+MSG_MUM_EXTRA_HOURS_S5_R0,deal,成交,了解,trato hecho
+MSG_MUM_PROUD_S0,I know you've got another exam tomorrow. I'm not going to say good luck because you'll roll your eyes.,我知道你明天还有考试。我不说祝你好运了，因为你会翻白眼。,明日も試験でしょ。「頑張って」とは言わない。どうせ目を回すから。,Sé que mañana tienes otro examen. No te voy a decir suerte porque vas a poner los ojos en blanco.
+MSG_MUM_PROUD_S0_R0,I would never,我才不会,そんなことしない,yo nunca haría eso
+MSG_MUM_PROUD_S0_R1,*rolls eyes*,*翻白眼*,*目を回す*,*pone los ojos en blanco*
+MSG_MUM_PROUD_S1,"I just want you to know that whatever the results say, I've watched you work this year. I'm proud of you. That doesn't change in January.",我只是想让你知道，不管成绩怎样，这一年我都看着你在努力。我为你骄傲。到了一月也不会变。,結果がどうでも、今年あなたが頑張ってたのを見てたって知っておいてほしいの。誇りに思ってる。それは1月になっても変わらない。,"Solo quiero que sepas que, digan lo que digan las notas, te he visto trabajar este año. Estoy orgullosa de ti. Eso no cambia en enero."
+MSG_MUM_PROUD_S1_R0,thanks mum. that means a lot,谢谢妈。这对我很重要,ありがとう、お母さん。すごく嬉しい,"gracias, mamá. significa mucho"
+MSG_MUM_PROUD_S1_R1,you're going to make me cry before an exam,你要害我考试前哭了,試験前に泣かせないでよ,vas a hacer que llore antes de un examen
+MSG_MUM_PROUD_S2,"Good. Cry now, not in the exam. Love you. Sleep.",好。现在哭，别在考场哭。爱你。睡觉。,いいの。今泣いて、試験中は泣かないで。大好き。寝なさい。,"Bien. Llora ahora, no en el examen. Te quiero. A dormir."
+MSG_MUM_PROUD_S2_R0,love you,爱你,大好き,te quiero
+MSG_DAD_RUGBY_S0,Game's on at 7:35. Your uncle's coming. Bring chips.,比赛 7 点 35 开始。你叔叔要来。带薯片。,試合は7時35分から。おじさんも来る。ポテチ持ってこい。,El partido es a las 7:35. Viene tu tío. Trae patatas fritas.
+MSG_DAD_RUGBY_S0_R0,"can't, studying",去不了，在学习,無理、勉強中,"no puedo, estoy estudiando"
+MSG_DAD_RUGBY_S0_R1,which chips,哪种薯片,どのポテチ？,¿qué patatas?
+MSG_DAD_RUGBY_S0_R2,who's playing,谁跟谁打,どこの試合？,¿quién juega?
+MSG_DAD_RUGBY_S1,Fair enough. Study hard. I'll tell you the score. Unless we lose. Then I won't.,行吧。好好学。我会告诉你比分。除非我们输了。那我就不说了。,そうか。しっかり勉強しろ。スコアは教える。負けたら教えない。,Vale. Estudia mucho. Te digo el resultado. Salvo que perdamos. Entonces no.
+MSG_DAD_RUGBY_S1_R0,deal,成交,了解,trato hecho
+MSG_DAD_RUGBY_S2,The salt and vinegar ones. Not the cheap ones. We are not animals.,盐醋味的。别买便宜货。我们又不是野兽。,塩とビネガーのやつ。安いのはダメ。俺たちは獣じゃない。,Las de sal y vinagre. Las baratas no. No somos animales.
+MSG_DAD_RUGBY_S2_R0,on it,马上去,了解,marchando
+MSG_DAD_RUGBY_S3,The Blues. Same as every week. You used to know this.,Blues 队。跟每周一样。你以前都知道的。,ブルーズだよ。毎週そうだろ。昔は知ってたのに。,Los Blues. Como todas las semanas. Antes lo sabías.
+MSG_DAD_RUGBY_S3_R0,I've been busy dad,爸，我最近太忙了,最近忙しかったんだよ,"he estado liado, papá"
+MSG_DAD_RUGBY_S3_R1,I'll be there. with chips,我会去的。带着薯片,行くよ。ポテチ持って,allí estaré. con patatas
+MSG_DAD_DRIVING_S0,"Want a driving lesson Sunday? Empty car park, no pressure.",周日想练车吗？空停车场，没压力。,日曜に運転の練習するか？空いてる駐車場で、プレッシャーなし。,"¿Quieres una clase de conducir el domingo? Aparcamiento vacío, sin presión."
+MSG_DAD_DRIVING_S0_R0,yes please,好，拜托了,お願い,"sí, porfa"
+MSG_DAD_DRIVING_S0_R1,last time you held the door handle the whole time,上次你全程都抓着车门把手,前回ずっとドアの取っ手握ってたじゃん,la última vez fuiste agarrado a la manilla todo el rato
+MSG_DAD_DRIVING_S1,Good. I'll only shout twice. Once is about the handbrake.,好。我只吼两次。其中一次是关于手刹的。,よし。怒鳴るのは2回だけにする。1回はサイドブレーキについて。,Bien. Solo gritaré dos veces. Una es por el freno de mano.
+MSG_DAD_DRIVING_S1_R0,you're not allowed to shout,你不许吼,怒鳴るの禁止,no tienes permitido gritar
+MSG_DAD_DRIVING_S2,That handle is load-bearing. Sunday?,那个把手是承重结构。周日？,あの取っ手は命綱だ。日曜でいいか？,Esa manilla es estructural. ¿El domingo?
+MSG_DAD_DRIVING_S2_R0,fine. sunday,行。周日,わかった。日曜,vale. el domingo
+MSG_DAD_DRIVING_S2_R1,maybe after exams,考完试再说吧,試験が終わってからかな,quizá después de los exámenes
+MSG_DAD_DRIVING_S3,Good. Then McDonald's after. Don't tell your mother.,好。练完去麦当劳。别告诉你妈。,よし。そのあとマクドナルドな。お母さんには内緒だぞ。,Bien. Y luego McDonald's. No se lo digas a tu madre.
+MSG_DAD_DRIVING_S3_R0,she'll know,她会知道的,絶対バレる,se va a enterar
+MSG_DAD_DRIVING_S4,No worries. Offer's there.,没事。随时都可以。,わかった。いつでも言え。,Sin problema. La oferta sigue en pie.
+MSG_DAD_DRIVING_S4_R0,thanks dad,谢谢爸,ありがとう、お父さん,"gracias, papá"
+MSG_DAD_MONEY_S0,Your mum says money's tight for you at the moment. I've put $50 in your account. Don't argue.,你妈说你最近手头紧。我往你账户里打了 $50。别争。,お母さんから、最近お金がきついって聞いた。口座に$50入れといた。文句は言うな。,Tu madre dice que vas justo de dinero. Te he metido $50 en la cuenta. No discutas.
+MSG_DAD_MONEY_S0_R0,dad you didn't have to,爸，你不用这样的,お父さん、そんなことしなくていいのに,"papá, no hacía falta"
+MSG_DAD_MONEY_S0_R1,"I'm fine honestly, take it back",我真的没事，拿回去吧,本当に大丈夫、返すよ,"estoy bien, de verdad, recupéralo"
+MSG_DAD_MONEY_S1,"I know I didn't. That's what makes it a gift. Spend it on food, not rubbish.",我知道不用。所以才叫礼物。拿去买吃的，别买垃圾。,わかってる。だからプレゼントなんだ。食べ物に使え、くだらないものじゃなくて。,"Ya sé que no. Por eso es un regalo. Gástalo en comida, no en tonterías."
+MSG_DAD_MONEY_S1_R0,thanks dad. really.,谢谢爸。真的。,ありがとう。本当に。,"gracias, papá. de verdad."
+MSG_DAD_MONEY_S2,Too late. I don't know how to undo it and I'm not ringing the bank. Keep it for emergencies.,晚了。我不知道怎么撤回，我也不会给银行打电话。留着应急吧。,もう遅い。取り消し方がわからないし、銀行に電話する気もない。非常用に取っとけ。,Demasiado tarde. No sé cómo deshacerlo y no pienso llamar al banco. Guárdalo para emergencias.
+MSG_DAD_MONEY_S2_R0,ok. thanks dad,好吧。谢谢爸,わかった。ありがとう,"vale. gracias, papá"
+MSG_DAD_LAST_S0,Last exam done?,最后一门考完了？,最後の試験終わったか？,¿Último examen hecho?
+MSG_DAD_LAST_S0_R0,done,考完了,終わった,hecho
+MSG_DAD_LAST_S0_R1,one more,还有一门,あと1つ,queda uno
+MSG_DAD_LAST_S1,Proud of you. Your mum's making a cake. She says it's for no reason. It's for you.,为你骄傲。你妈在做蛋糕。她说没什么理由。其实就是为你做的。,誇りに思う。お母さんがケーキ焼いてる。理由はないって言ってるが、お前のためだ。,Orgulloso de ti. Tu madre está haciendo una tarta. Dice que no es por nada. Es por ti.
+MSG_DAD_LAST_S1_R0,I'll be home soon,我马上回家,すぐ帰る,llego pronto a casa
+MSG_DAD_LAST_S2,Then go get it. Cake's waiting either way.,那就去拿下它。蛋糕反正都在等你。,じゃあ決めてこい。ケーキはどっちにしろ待ってる。,Pues a por él. La tarta te espera igual.
+MSG_DAD_LAST_S2_R0,save me a slice,给我留一块,一切れ残しといて,guárdame un trozo
+MSG_NAN_TECH_S0,{NAME} how do I make the little yellow faces,{NAME}，那些小黄脸怎么弄出来,{NAME}、あの小さい黄色い顔はどうやって出すの,"{NAME}, ¿cómo se ponen las caritas amarillas?"
+MSG_NAN_TECH_S0_R0,the emoji? there's a smiley button next to the space bar,表情符号？空格键旁边有个笑脸按钮,絵文字？スペースキーの横にニコちゃんボタンがあるよ,¿los emojis? hay un botón con una carita al lado de la barra espaciadora
+MSG_NAN_TECH_S0_R1,nan why do you need emoji,奶奶你要表情符号干嘛,おばあちゃん、なんで絵文字がいるの,"abuela, ¿para qué quieres emojis?"
+MSG_NAN_TECH_S1,I found them. There are HUNDREDS. I sent your uncle a turtle by accident and now he thinks something is wrong.,找到了。有“好几百个”。我不小心给你叔叔发了个乌龟，现在他以为出什么事了。,見つけた。何百個もあるのね。間違えておじさんに亀を送ったら、何かあったのかと思われたわ。,Los encontré. Hay CIENTOS. Le mandé a tu tío una tortuga sin querer y ahora cree que pasa algo.
+MSG_NAN_TECH_S1_R0,the turtle is a good choice,乌龟选得好,亀はいいチョイスだよ,la tortuga es buena elección
+MSG_NAN_TECH_S2,Your cousin sends them and I don't know if she is happy or sad. There is one that is crying AND laughing.,你表妹老发这些，我都不知道她是高兴还是难过。有一个又哭“又”笑的。,いとこが送ってくるんだけど、嬉しいのか悲しいのかわからなくて。泣きながら笑ってるのがあるのよ。,Tu prima me los manda y no sé si está contenta o triste. Hay uno que llora Y se ríe.
+MSG_NAN_TECH_S2_R0,that one means it's very funny,那个意思是特别好笑,それは「めっちゃ面白い」って意味,ese significa que algo es muy gracioso
+MSG_NAN_TECH_S3,He rang me. We had a lovely chat. So the turtle worked out.,他给我打电话了。我们聊得很开心。所以乌龟还挺管用。,おじさんから電話が来てね。楽しくおしゃべりしたわ。亀のおかげね。,Me llamó. Tuvimos una charla preciosa. Así que la tortuga funcionó.
+MSG_NAN_TECH_S3_R0,the turtle always works out,乌龟永远管用,亀はいつだって正解,la tortuga siempre funciona
+MSG_NAN_TECH_S3_R1,love you nan,爱你奶奶,大好きだよ、おばあちゃん,"te quiero, abuela"
+MSG_NAN_MONEY_S0,"I have put $20 in your bank. Do not tell your mother, she says I spoil you.",我往你银行卡里存了 $20。别告诉你妈，她说我太惯着你了。,あなたの口座に$20入れておいたわ。お母さんには内緒よ、甘やかしすぎだって言われるから。,"Te he metido $20 en el banco. No se lo digas a tu madre, dice que te malcrío."
+MSG_NAN_MONEY_S0_R0,nan!! thank you,奶奶！！谢谢你,おばあちゃん！！ありがとう,¡¡abuela!! gracias
+MSG_NAN_MONEY_S0_R1,you don't have to do that,你不用这样的,そんなことしなくていいのに,no tienes que hacer eso
+MSG_NAN_MONEY_S1,Buy something hot to eat. Not the noodles.,买点热乎的吃。别买方便面。,温かいものを買って食べなさい。あの麺じゃなくて。,Cómprate algo caliente. Los fideos no.
+MSG_NAN_MONEY_S1_R0,"a hot pie, promise",一个热馅饼，保证,温かいパイにする、約束,"un pastel caliente, prometido"
+MSG_NAN_MONEY_S2,I know I don't have to. I want to. That is what grandmothers are for. That and knitting.,我知道不用。但我想。奶奶就是干这个的。还有织毛衣。,しなくていいのはわかってる。したいの。それがおばあちゃんの役目。それと編み物。,Ya sé que no tengo que hacerlo. Quiero. Para eso están las abuelas. Para eso y para tejer.
+MSG_NAN_MONEY_S2_R0,you're the best,你最好了,最高のおばあちゃんだよ,eres la mejor
+MSG_NAN_GARDEN_S0,The tomatoes are coming in. I will save you a bag. Do you still eat tomatoes,番茄熟了。我给你留一袋。你还吃番茄吗,トマトが採れ始めたの。一袋取っておくわね。まだトマト食べる？,Ya salen los tomates. Te guardo una bolsa. ¿Sigues comiendo tomates?
+MSG_NAN_GARDEN_S0_R0,always,一直吃,もちろん,siempre
+MSG_NAN_GARDEN_S0_R1,only on toast,只放在吐司上吃,トーストに乗せる時だけ,solo en tostadas
+MSG_NAN_GARDEN_S1,Good. Your grandfather planted the first ones in this bed forty years ago. I always think of him when they come in.,好。四十年前你爷爷在这块地里种下了第一批。每次番茄熟了我都会想起他。,よかった。40年前におじいちゃんがこの畑に最初のトマトを植えたの。実がなるといつも思い出すのよ。,Bien. Tu abuelo plantó los primeros en este bancal hace cuarenta años. Siempre pienso en él cuando salen.
+MSG_NAN_GARDEN_S1_R0,tell me about him,跟我讲讲他吧,おじいちゃんのこと教えて,háblame de él
+MSG_NAN_GARDEN_S1_R1,he'd be proud of the tomatoes,他会为这些番茄骄傲的,おじいちゃんもトマトを誇りに思うよ,estaría orgulloso de los tomates
+MSG_NAN_GARDEN_S2,"He was stubborn and kind and he never once read the instructions for anything. You are quite like him, actually.",他很固执，也很善良，而且从来不看任何东西的说明书。说起来，你挺像他的。,頑固で優しくて、何の説明書も一度も読まない人だった。実はあなた、そっくりなのよ。,"Era cabezota y bueno y nunca leyó las instrucciones de nada. Te pareces bastante a él, la verdad."
+MSG_NAN_GARDEN_S2_R0,I'll take that as a compliment,我就当这是夸我了,褒め言葉として受け取っとく,me lo tomo como un cumplido
+MSG_NAN_GARDEN_S3,Come and see me after exams. I'll make soup. With the tomatoes. Properly.,考完试来看我。我给你煮汤。用这些番茄。好好煮。,試験が終わったら会いに来て。スープを作るわ。トマトで。ちゃんとしたのを。,Ven a verme después de los exámenes. Haré sopa. Con los tomates. Como Dios manda.
+MSG_NAN_GARDEN_S3_R0,it's a date nan,说定了奶奶,約束だよ、おばあちゃん,"es una cita, abuela"
+MSG_NAN_LUCK_S0,Your mother says the big exams have started. I have lit a candle for you. It cannot hurt.,你妈说大考开始了。我为你点了一支蜡烛。总没坏处。,お母さんから大事な試験が始まったって聞いたわ。あなたのためにろうそくを灯したの。害はないでしょう。,Tu madre dice que han empezado los exámenes gordos. He encendido una vela por ti. Daño no hace.
+MSG_NAN_LUCK_S0_R0,thanks nan,谢谢奶奶,ありがとう、おばあちゃん,"gracias, abuela"
+MSG_NAN_LUCK_S0_R1,does the candle know maths,蜡烛会数学吗,そのろうそく、数学わかるの？,¿la vela sabe mates?
+MSG_NAN_LUCK_S1,Eat breakfast. Take two pens. Read the question twice. That is all the advice I have and it has always been enough.,吃早饭。带两支笔。题目读两遍。这就是我所有的建议，而且一直都够用。,朝ごはんを食べること。ペンは2本。問題は2回読むこと。私の助言はこれだけ。いつもこれで十分だったわ。,Desayuna. Lleva dos bolis. Lee la pregunta dos veces. Es todo el consejo que tengo y siempre ha bastado.
+MSG_NAN_LUCK_S1_R0,two pens. noted.,两支笔。记住了。,ペン2本。了解。,dos bolis. apuntado.
+MSG_NAN_LUCK_S2,The candle knows everything. It is a very good candle.,蜡烛什么都知道。是一支很好的蜡烛。,ろうそくは何でも知ってるの。とてもいいろうそくなのよ。,La vela lo sabe todo. Es una vela muy buena.
+MSG_NAN_LUCK_S2_R0,then I'm in safe hands,那我就放心了,なら安心だ,entonces estoy en buenas manos
+MSG_WIREMU_TRIAL_S0,trial for the regional squad on saturday. can't eat. can't sleep. can't think,周六有地区队选拔。吃不下。睡不着。脑子转不动,土曜に地区選抜のトライアウト。食べられない。眠れない。頭が回らない,el sábado son las pruebas para la selección regional. no puedo comer. no puedo dormir. no puedo pensar
+MSG_WIREMU_TRIAL_S0_R0,you've been training for this all year,你为这个练了一整年,1年ずっとこのために練習してきたじゃん,llevas todo el año entrenando para esto
+MSG_WIREMU_TRIAL_S0_R1,eat something. seriously.,吃点东西。认真的。,何か食べな。マジで。,come algo. en serio.
+MSG_WIREMU_TRIAL_S1,yeah but what if all year wasn't enough,是啊，但如果一整年还不够呢,でも1年じゃ足りなかったら？,"ya, pero ¿y si todo el año no ha sido suficiente?"
+MSG_WIREMU_TRIAL_S1_R0,then you'll know what to work on,那你就知道该练什么了,そしたら何を鍛えればいいかわかる,entonces sabrás en qué trabajar
+MSG_WIREMU_TRIAL_S1_R1,it was enough,够了,足りてるよ,ha sido suficiente
+MSG_WIREMU_TRIAL_S2,had a banana. it's sitting there like a rock.,吃了根香蕉。像块石头一样堵在那儿。,バナナ食べた。石みたいに胃に居座ってる。,me he comido un plátano. está ahí como una piedra.
+MSG_WIREMU_TRIAL_S2_R0,the banana believes in you,香蕉相信你,バナナは信じてるよ,el plátano cree en ti
+MSG_WIREMU_TRIAL_S3,made the squad. MADE IT. coach said I've got 'a good engine'. I'll take it,入选了。入选了！教练说我有“一台好引擎”。我收下了,選抜入った。入ったぞ！コーチに「いいエンジン持ってる」って言われた。褒め言葉と受け取る,he entrado en la selección. ¡LO CONSEGUÍ! el entrenador dijo que tengo «buen motor». lo acepto
+MSG_WIREMU_TRIAL_S3_R0,LET'S GO WIREMU,冲啊 WIREMU,やったなWIREMU,¡VAMOS WIREMU!
+MSG_WIREMU_TRIAL_S3_R1,a good engine!!,一台好引擎！！,いいエンジン！！,¡¡buen motor!!
+MSG_WIREMU_INJURY_S0,bad news. rolled my ankle at training. it's purple. like actually purple,坏消息。训练时把脚踝扭了。紫了。真的紫了,悪いニュース。練習で足首ひねった。紫色。本当に紫,malas noticias. me he torcido el tobillo entrenando. está morado. morado de verdad
+MSG_WIREMU_INJURY_S0_R0,have you seen someone,看医生了吗,誰かに診てもらった？,¿te ha visto alguien?
+MSG_WIREMU_INJURY_S0_R1,oh no. how long are you out,糟了。要休多久,うわ。どれくらい離脱？,ay no. ¿cuánto tiempo estarás de baja?
+MSG_WIREMU_INJURY_S1,physio tomorrow. mum's making me ice it every hour. she set alarms.,明天去看理疗。我妈让我每小时冰敷一次。她还设了闹钟。,明日フィジオ。母さんに1時間ごとに冷やせって言われてる。アラームまでセットされた。,mañana fisio. mi madre me obliga a ponerle hielo cada hora. ha puesto alarmas.
+MSG_WIREMU_INJURY_S1_R0,listen to your mum,听你妈的,お母さんの言うこと聞きな,hazle caso a tu madre
+MSG_WIREMU_INJURY_S2,4-6 weeks. which is the rest of the season. which is... yeah.,4 到 6 周。也就是这个赛季剩下的全部。也就是……嗯。,4〜6週間。つまりシーズンの残り全部。つまり…まあ。,"de 4 a 6 semanas. o sea, el resto de la temporada. o sea... ya."
+MSG_WIREMU_INJURY_S2_R0,that's gutting. I'm sorry,太让人难受了。我很遗憾,それはきついな。残念だ,qué palo. lo siento
+MSG_WIREMU_INJURY_S2_R1,"more time for study, silver lining?",更多时间学习了，往好处想？,勉強の時間が増えた、って前向きに考えれば？,"más tiempo para estudiar, ¿lo bueno de lo malo?"
+MSG_WIREMU_INJURY_S3,it is gutting. thanks for not giving me a silver lining. everyone's giving me silver linings.,确实难受。谢谢你没跟我说“往好处想”。所有人都在跟我说往好处想。,きついよ。前向きなこと言わないでくれてありがとう。みんな前向きなことばっかり言ってくる。,es un palo. gracias por no buscarle el lado bueno. todo el mundo me está buscando el lado bueno.
+MSG_WIREMU_INJURY_S3_R0,no silver linings. just pies.,不往好处想。只有馅饼。,前向きなことはなし。パイだけ。,nada de lado bueno. solo pasteles.
+MSG_WIREMU_INJURY_S4,yeah. everyone keeps saying that. it's not really helping tbh.,嗯。大家都这么说。说实话没什么用。,うん。みんなそう言う。正直あんまり助けにならない。,ya. todo el mundo dice eso. la verdad es que no ayuda mucho.
+MSG_WIREMU_INJURY_S4_R0,sorry. it's rubbish. that's all.,抱歉。这就是很糟。就这样。,ごめん。最悪だよな。それだけ。,perdona. es una mierda. y punto.
+MSG_WIREMU_APPRENTICE_S0,{NAME}. got some news,{NAME}。有消息了,{NAME}。ニュースがある,{NAME}. tengo noticias
+MSG_WIREMU_APPRENTICE_S0_R0,good news?,好消息？,いいニュース？,¿buenas noticias?
+MSG_WIREMU_APPRENTICE_S1,I'm not going to uni. got offered an apprenticeship. electrician. starts in january and they PAY me,我不上大学了。拿到了一个学徒岗位。电工。一月开始，而且他们“付我工资”,大学には行かない。見習いの話をもらった。電気工事士。1月からで、しかも「給料が出る」,no voy a ir a la uni. me han ofrecido unas prácticas de aprendiz. electricista. empiezo en enero y me PAGAN
+MSG_WIREMU_APPRENTICE_S1_R0,that's massive. congrats!!,太厉害了。恭喜！！,すごいじゃん。おめでとう！！,eso es enorme. ¡¡enhorabuena!!
+MSG_WIREMU_APPRENTICE_S1_R1,you're sure? not even trying uni?,你确定？连大学都不试试？,本当に？大学は試しもしないの？,¿seguro? ¿ni siquiera vas a probar la uni?
+MSG_WIREMU_APPRENTICE_S2,my dad cried. like a little bit. he's an electrician too. he said 'you'll be better than me' and then left the room,我爸哭了。就一点点。他也是电工。他说“你会比我强”，然后就走出了房间,父さんが泣いた。ちょっとだけ。父さんも電気工事士なんだ。「俺よりうまくなる」って言って部屋を出てった,mi padre lloró. un poquito. él también es electricista. dijo «serás mejor que yo» y se fue de la habitación
+MSG_WIREMU_APPRENTICE_S2_R0,that's the best thing I've ever heard,这是我听过最好的事,今まで聞いた中でいちばんいい話,es lo más bonito que he oído nunca
+MSG_WIREMU_APPRENTICE_S3,yeah. I sat at a desk for 13 years. I want to use my hands. uni will still be there if I change my mind.,嗯。我在课桌前坐了 13 年。我想用双手干活。如果我改主意了，大学也还在那儿。,うん。13年間机に座ってきた。手を使いたいんだ。気が変わっても大学はなくならない。,"sí. me he pasado 13 años sentado en un pupitre. quiero trabajar con las manos. si cambio de idea, la uni seguirá ahí."
+MSG_WIREMU_APPRENTICE_S3_R0,that makes total sense. congrats,完全说得通。恭喜,すごく納得。おめでとう,tiene todo el sentido. enhorabuena
+MSG_BALL_WEEK_S0,BALL IS THIS SATURDAY. in the school hall. if you have a ticket and you are not there I will find you,舞会就在这周六。在学校礼堂。谁有票还不来，我会去找你的,ダンスパーティーは今週土曜。学校のホールで。チケット持ってて来なかったら探し出すからね,"EL BAILE ES ESTE SÁBADO. en el salón de actos. si tienes entrada y no vienes, te encontraré"
+MSG_BALL_WEEK_S0_R0,I'll be there,我会去的,行くよ,allí estaré
+MSG_BALL_WEEK_S0_R1,what's the dress code again,着装要求是什么来着,ドレスコードなんだっけ,¿cuál era el código de vestimenta?
+MSG_BALL_WEEK_S1,is it a problem if I wear my rugby boots,我穿橄榄球鞋去有问题吗,ラグビーのスパイクで行ったらまずい？,¿pasa algo si voy con las botas de rugby?
+MSG_BALL_WEEK_S1_R0,yes,有,まずい,sí
+MSG_BALL_WEEK_S1_R1,iconic,经典,伝説になる,icónico
+MSG_BALL_WEEK_S2,FORMAL. which means not your school jumper {NAME},正装。意思是别穿你的校服毛衣，{NAME},フォーマル。つまり制服のセーターはダメってことだよ、{NAME},"FORMAL. o sea, no el jersey del uniforme, {NAME}"
+MSG_BALL_WEEK_S2_R0,fine. I'll be there in my one good shirt,行。我穿我唯一一件好衬衫去,わかった。一枚しかないちゃんとしたシャツで行く,vale. iré con mi única camisa buena
+MSG_BALL_WEEK_S2_R1,I might skip it actually,我可能不去了,やっぱりやめとくかも,igual me lo salto
+MSG_BALL_WEEK_S3,see everyone there. photos at 6 so we look nice before Sione eats anything,到时候见。6 点拍照，趁 Sione 还没吃东西我们都还体面,みんな当日ね。写真は6時。Sioneが何か食べる前に、きれいなうちに撮ろう,"nos vemos allí. fotos a las 6, para salir bien antes de que Sione coma nada"
+MSG_BALL_WEEK_S3_R0,see you there,到时候见,当日ね,nos vemos allí
+MSG_CHLOE_AFTER_BALL_S0,ok the photos are IN. you look so good in the one where you're not blinking,好，照片出来了。你没眨眼的那张超好看,写真届いた！まばたきしてない一枚、めっちゃいい感じだよ,"vale, ya están las fotos. sales genial en la que no parpadeas"
+MSG_CHLOE_AFTER_BALL_S0_R0,there's one where I'm not blinking?,居然有一张我没眨眼？,まばたきしてないのがあるの？,¿hay una en la que no parpadeo?
+MSG_CHLOE_AFTER_BALL_S0_R1,send them all,全发给我,全部送って,mándamelas todas
+MSG_CHLOE_AFTER_BALL_S1,ONE. treasure it. also Sione fell into the chocolate fountain. there is video.,就“一张”。好好珍藏。还有 Sione 掉进巧克力喷泉了。有视频。,「一枚」だけ。大事にして。あとSioneがチョコレートファウンテンに落ちた。動画あり。,UNA. guárdala como un tesoro. y Sione se cayó en la fuente de chocolate. hay vídeo.
+MSG_CHLOE_AFTER_BALL_S1_R0,I was there. I saw it. I'll never recover.,我在现场。我看见了。我永远好不了了。,その場にいた。見た。一生忘れない。,estaba allí. lo vi. no me recuperaré nunca.
+MSG_CHLOE_AFTER_BALL_S2,best night of the year. I'm calling it. nothing beats it. not even results day.,今年最棒的一晚。我说了算。没有什么能比得上。连出成绩那天都比不上。,今年最高の夜。断言する。何にも勝てない。結果発表の日だって無理。,la mejor noche del año. lo digo yo. nada la supera. ni el día de las notas.
+MSG_CHLOE_AFTER_BALL_S2_R0,nothing beats it,没有什么能比得上,何にも勝てない,nada la supera
+MSG_CHLOE_AFTER_BALL_S2_R1,"results day might, if results are good",如果成绩好，出成绩那天也许能,結果が良ければ勝つかも,"el día de las notas igual sí, si salen bien"
+MSG_CHLOE_MISSED_BALL_S0,where WERE you on saturday,你周六“到底”去哪了,土曜「どこに」いたの,¿DÓNDE estabas el sábado?
+MSG_CHLOE_MISSED_BALL_S0_R0,I'm so sorry. I fell asleep,真的对不起。我睡着了,本当にごめん。寝落ちした,lo siento muchísimo. me dormí
+MSG_CHLOE_MISSED_BALL_S0_R1,something came up,临时有事,ちょっと用事が,me surgió algo
+MSG_CHLOE_MISSED_BALL_S1,you paid $95 to not come. that's the most expensive nap in history.,你花了 $95 买了个不来。这是史上最贵的午觉。,$95払って来なかったの。史上いちばん高い昼寝だよ。,pagaste $95 para no venir. es la siesta más cara de la historia.
+MSG_CHLOE_MISSED_BALL_S1_R0,I know. I'm gutted,我知道。我难受死了,わかってる。めちゃくちゃ悔しい,lo sé. estoy fatal
+MSG_CHLOE_MISSED_BALL_S1_R1,how was it?,怎么样？,どうだった？,¿qué tal estuvo?
+MSG_CHLOE_MISSED_BALL_S2,it was amazing and Sione fell in the chocolate fountain and you missed it. I'll send you the video. it's the least I can do.,太棒了，Sione 还掉进了巧克力喷泉，你都错过了。我把视频发给你。这是我最起码能做的。,最高だったし、Sioneがチョコレートファウンテンに落ちたのに、見逃したんだよ。動画送るね。せめてもの情け。,fue increíble y Sione se cayó en la fuente de chocolate y te lo perdiste. te mando el vídeo. es lo mínimo que puedo hacer.
+MSG_CHLOE_MISSED_BALL_S2_R0,please,求你了,お願い,porfa
+MSG_CHLOE_HALLOWAY_S0,ok I have real gossip this time. verified. two sources.,好，这次我有真八卦。已核实。两个信源。,今回は本物のゴシップ。確認済み。情報源2つ。,"vale, esta vez tengo un cotilleo de verdad. verificado. dos fuentes."
+MSG_CHLOE_HALLOWAY_S0_R0,go on,说吧,続けて,"venga, cuenta"
+MSG_CHLOE_HALLOWAY_S0_R1,last time you had 'real gossip' it was a lie,上次你说“真八卦”结果是假的,前回の「本物のゴシップ」は嘘だったじゃん,la última vez que tenías un «cotilleo de verdad» era mentira
+MSG_CHLOE_HALLOWAY_S1,Mr Halloway is leaving at the end of the year. he's moving to Dunedin to 'write a book'.,Halloway 老师年底要走了。他要搬去但尼丁“写书”。,Halloway先生が年度末で辞めるんだって。ダニーデンに引っ越して「本を書く」らしい。,el Sr. Halloway se va a final de curso. se muda a Dunedin a «escribir un libro».
+MSG_CHLOE_HALLOWAY_S1_R0,no way. he can't leave,不会吧。他不能走,うそ。辞めちゃダメ,no puede ser. no se puede ir
+MSG_CHLOE_HALLOWAY_S1_R1,he's definitely going to write about us,他肯定会把我们写进去,絶対うちらのこと書くよ,seguro que escribe sobre nosotros
+MSG_CHLOE_HALLOWAY_S2,that was ONE time and it was a joke and you fell for it. this is real. ask anyone.,那就“一次”，而且是开玩笑，是你自己信了。这次是真的。随便问谁。,あれは「1回」だけで、冗談で、引っかかったのはそっち。これは本当。誰に聞いてもいい。,eso fue UNA vez y era broma y picaste. esto es real. pregunta a quien quieras.
+MSG_CHLOE_HALLOWAY_S2_R0,fine. go on,行。说吧,わかった。続けて,vale. sigue
+MSG_CHLOE_HALLOWAY_S3,he can and he is. I'm devastated. he's the only teacher who learned my actual name.,他能，而且就要走了。我好伤心。他是唯一一个记住我真名的老师。,辞めるんだよ。ショック。私の本当の名前を覚えてくれた唯一の先生なのに。,sí puede y se va. estoy destrozada. es el único profe que se aprendió mi nombre de verdad.
+MSG_CHLOE_HALLOWAY_S3_R0,we should get him a card,我们该给他送张卡片,カード贈ろうよ,deberíamos regalarle una tarjeta
+MSG_CHLOE_HALLOWAY_S4,chapter one: the year 13 who forgot their calculator. chapter two: also them.,第一章：忘带计算器的高三学生。第二章：还是那个人。,第1章：電卓を忘れた13年生。第2章：またその人。,capítulo uno: el de último curso que se olvidó la calculadora. capítulo dos: el mismo.
+MSG_CHLOE_HALLOWAY_S4_R0,that's slander,这是诽谤,それは名誉毀損,eso es difamación
+MSG_CHLOE_HALLOWAY_S4_R1,we should get him a card,我们该给他送张卡片,カード贈ろうよ,deberíamos regalarle una tarjeta
+MSG_SIONE_EGGS_S0,bro is it normal to eat 6 eggs for breakfast,兄弟，早饭吃 6 个鸡蛋正常吗,なあ、朝ごはんに卵6個って普通？,"tío, ¿es normal desayunar 6 huevos?"
+MSG_SIONE_EGGS_S0_R0,no,不正常,普通じゃない,no
+MSG_SIONE_EGGS_S0_R1,depends. are you a farmer,看情况。你是农民吗,場合による。農家なの？,depende. ¿eres granjero?
+MSG_SIONE_EGGS_S1,coach says protein. mum says I'm 'eating the house'. I'm caught in the middle,教练说要蛋白质。我妈说我“要把家吃空了”。我被夹在中间,コーチはタンパク質って言う。母さんは「家を食い尽くす気か」って言う。板挟み,el entrenador dice proteína. mi madre dice que «me estoy comiendo la casa». estoy entre dos fuegos
+MSG_SIONE_EGGS_S1_R0,have some toast with them like a normal person,像正常人一样配点吐司,普通の人みたいにトーストも食べな,acompáñalos con tostadas como una persona normal
+MSG_SIONE_EGGS_S1_R1,"listen to your mum, she buys the eggs",听你妈的，鸡蛋是她买的,お母さんの言うこと聞きな、卵買ってるのはお母さんだ,"hazle caso a tu madre, ella compra los huevos"
+MSG_SIONE_EGGS_S2,toast. ok. revolutionary. also wanna come to the gym after school? I'll show you the basics,吐司。好。革命性的建议。还有放学后要不要来健身房？我教你基础,トースト。了解。革命的。あと放課後ジム来ない？基本教えるよ,"tostadas. vale. revolucionario. por cierto, ¿te vienes al gimnasio después de clase? te enseño lo básico"
+MSG_SIONE_EGGS_S2_R0,go on then,那走吧,じゃあ行く,"venga, vale"
+MSG_SIONE_EGGS_S2_R1,my basics are walking to the fridge,我的基础就是走到冰箱前,私の基本は冷蔵庫まで歩くこと,mi nivel básico es ir andando a la nevera
+MSG_SIONE_PB_S0,NEW PB. 100kg squat. I screamed. a lady at the gym clapped,新纪录。深蹲 100 公斤。我叫出声了。健身房一位阿姨给我鼓掌,自己ベスト更新。スクワット100kg。叫んだ。ジムのおばちゃんが拍手してくれた,NUEVA MARCA. 100 kg de sentadilla. grité. una señora del gimnasio aplaudió
+MSG_SIONE_PB_S0_R0,huge!!,太猛了！！,すげえ！！,¡¡brutal!!
+MSG_SIONE_PB_S0_R1,was the clap sarcastic,她是在讽刺地鼓掌吗,その拍手、皮肉じゃない？,¿el aplauso era sarcástico?
+MSG_SIONE_PB_S1,and now I can't walk. stairs are my enemy. worth it.,然后我现在走不了路了。楼梯是我的敌人。值了。,で、今は歩けない。階段が敵。でも価値はあった。,y ahora no puedo andar. las escaleras son mi enemigo. mereció la pena.
+MSG_SIONE_PB_S1_R0,worth it,值了,価値あり,mereció la pena
+MSG_SIONE_PB_S2,no she was genuinely proud. she's like 70. she squats more than my dad.,不，她是真心为我骄傲。她大概 70 岁。深蹲比我爸还重。,いや、本気で喜んでくれてた。70歳くらい。うちの父さんより重いの担いでる。,"no, estaba orgullosa de verdad. tiene como 70 años. hace más sentadilla que mi padre."
+MSG_SIONE_PB_S2_R0,she's the real champion here,她才是真正的冠军,本当のチャンピオンはその人だ,la verdadera campeona es ella
+MSG_SIONE_PB_S3,"how's your study going? you need a PB too. in like, maths.",你学习怎么样？你也需要破个纪录。比如数学。,勉強はどう？お前も自己ベスト更新しないと。数学とかで。,"¿qué tal el estudio? tú también necesitas una marca personal. en mates, por ejemplo."
+MSG_SIONE_PB_S3_R0,working on it,在努力,頑張ってる,en ello estoy
+MSG_SIONE_PB_S3_R1,my PB is not crying at the textbook,我的纪录是没对着课本哭,私の自己ベストは教科書の前で泣かなかったこと,mi marca es no llorar delante del libro
+MSG_JOSH_TUTOR_S0,hey so. this is embarrassing. could you tutor me in maths? I'd pay. my mum said she'd pay. $30.,嘿，那个。有点丢人。你能给我补数学吗？我付钱。我妈说她出。$30。,あのさ。恥ずかしいんだけど。数学教えてくれない？お金払う。母さんが払うって。$30。,oye. esto es un poco vergonzoso. ¿me darías clases de mates? pagaría. mi madre dice que paga ella. $30.
+MSG_JOSH_TUTOR_S0_R0,"yeah, I can do that",行，我可以,うん、いいよ,"sí, puedo hacerlo"
+MSG_JOSH_TUTOR_S0_R1,why me?,为什么找我？,なんで私？,¿por qué yo?
+MSG_JOSH_TUTOR_S0_R2,"I don't have time, sorry",我没时间，抱歉,時間ない、ごめん,"no tengo tiempo, lo siento"
+MSG_JOSH_TUTOR_S1,"legend. two days from now after school, in the library? I'll bring snacks",传奇。后天放学后，在图书馆？我带零食,神。明後日の放課後、図書館で？お菓子持ってく,"crack. pasado mañana después de clase, en la biblioteca? llevo picoteo"
+MSG_JOSH_TUTOR_S1_R0,deal. bring the good snacks,成交。带好吃的零食,決まり。いいお菓子持ってきて,trato hecho. trae picoteo del bueno
+MSG_JOSH_TUTOR_S2,you explained that integration thing in class better than the textbook. and you're nice about it when people are dumb.,你上课讲那个积分比课本讲得还清楚。而且别人笨的时候你也挺耐心的。,授業で積分のやつ、教科書より説明うまかったじゃん。それに、こっちがバカでも優しいし。,explicaste lo de las integrales en clase mejor que el libro. y eres majo cuando la gente no se entera.
+MSG_JOSH_TUTOR_S2_R0,"you're not dumb. ok, I'll do it",你不笨。好，我来,バカじゃないよ。わかった、やる,"no eres tonto. vale, lo hago"
+MSG_JOSH_TUTOR_S3,all good. I'll try youtube. a man with a whiteboard will save me.,没事。我去看 YouTube。会有个拿白板的男人拯救我。,大丈夫。YouTube見てみる。ホワイトボードの人が救ってくれるはず。,tranqui. probaré con youtube. un señor con una pizarra me salvará.
+MSG_JOSH_TUTOR_S3_R0,good luck Josh,加油 Josh,頑張れJosh,"suerte, Josh"
+MSG_JOSH_THANKS_S0,{NAME}!! got an excellence on the calculus internal. EXCELLENCE. me.,{NAME}！！微积分平时评核我拿了优秀。优秀。我。,{NAME}！！微積分の内部評価で優秀取った。優秀だよ。この俺が。,{NAME}!! he sacado un sobresaliente en el interno de cálculo. SOBRESALIENTE. yo.
+MSG_JOSH_THANKS_S0_R0,JOSH!!!,JOSH！！！,JOSH！！！,¡¡¡JOSH!!!
+MSG_JOSH_THANKS_S0_R1,told you you weren't dumb,早说了你不笨,バカじゃないって言ったでしょ,te dije que no eras tonto
+MSG_JOSH_THANKS_S1,mum's framing it. she's never framed anything. not even my birth certificate.,我妈要把它裱起来。她从来没裱过任何东西。连我的出生证明都没有。,母さんが額に入れるって。何も額に入れたことないのに。出生証明書すら。,mi madre lo va a enmarcar. nunca ha enmarcado nada. ni mi partida de nacimiento.
+MSG_JOSH_THANKS_S1_R0,it deserves a frame,它值得一个相框,額に入れる価値あるよ,se merece un marco
+MSG_JOSH_THANKS_S2,"seriously thank you. mum's sent you a $10 bonus. don't argue, it's her orders.",真的谢谢你。我妈给你转了 $10 奖金。别争，这是她的命令。,本当にありがとう。母さんがボーナス$10送ったって。断るなよ、母さんの命令だから。,"en serio, gracias. mi madre te ha mandado $10 de propina. no discutas, son órdenes suyas."
+MSG_JOSH_THANKS_S2_R0,tell your mum thanks,替我谢谢你妈,お母さんにありがとうって伝えて,dale las gracias a tu madre
+MSG_JOSH_THANKS_S2_R1,you didn't have to,不用这样的,そんなのいいのに,no hacía falta
+MSG_MANAIA_HALLS_S0,cuz. tips for halls next year if you're going: bring your own pan. NEVER leave it in the kitchen.,老表。明年住宿舍的话给你几个建议：自己带锅。“永远”别把它留在厨房。,いとこへ。来年寮に入るならアドバイス：自分のフライパンを持っていけ。キッチンに「絶対」置きっぱなしにするな。,"oye, familia. consejos para la residencia el año que viene si vas: llévate tu propia sartén. NUNCA la dejes en la cocina."
+MSG_MANAIA_HALLS_S0_R0,why,为什么,なんで,¿por qué?
+MSG_MANAIA_HALLS_S0_R1,noted. what else,记下了。还有呢,了解。他には？,apuntado. ¿qué más?
+MSG_MANAIA_HALLS_S1,because it will be gone. it will be used to cook something unspeakable at 3am. I lost three pans in first year.,因为它会不见。会被人凌晨三点拿去煮些不可名状的东西。我大一丢了三口锅。,なくなるから。夜中の3時に口にするのもおぞましい何かを作るのに使われる。1年目で3つなくした。,porque desaparecerá. la usarán para cocinar algo innombrable a las 3 de la mañana. yo perdí tres sartenes en primero.
+MSG_MANAIA_HALLS_S1_R0,three??,三口？？,3つ？？,¿¿tres??
+MSG_MANAIA_HALLS_S2,go to the first-week stuff even if it's cringe. that's where you make friends. everyone's as scared as you are.,开学第一周的活动再尴尬也要去。朋友就是在那儿交的。大家都跟你一样害怕。,最初の週のイベントは、どんなにイタくても行け。友達はそこでできる。みんなお前と同じくらいビビってる。,ve a lo de la primera semana aunque dé vergüenza. ahí es donde haces amigos. todos están igual de asustados que tú.
+MSG_MANAIA_HALLS_S2_R0,that's actually helpful,这个真的有用,それは本当に役立つ,eso sí que ayuda
+MSG_MANAIA_HALLS_S2_R1,I'm not scared,我不害怕,ビビってないし,yo no tengo miedo
+MSG_MANAIA_HALLS_S3,"and sort your accommodation EARLY. the good halls fill up. don't be me, sleeping on a couch for two weeks.",还有住宿要“早点”搞定。好的宿舍很快就满。别学我，在沙发上睡了两个星期。,あと住む場所は「早めに」決めろ。いい寮はすぐ埋まる。2週間ソファで寝てた俺みたいになるな。,"y resuelve el alojamiento PRONTO. las buenas residencias se llenan. no seas como yo, que dormí dos semanas en un sofá."
+MSG_MANAIA_HALLS_S3_R0,on it,马上办,すぐやる,me pongo
+MSG_MANAIA_HALLS_S3_R1,you slept on a couch for two weeks??,你在沙发上睡了两个星期？？,2週間ソファで寝てたの？？,¿¿dormiste dos semanas en un sofá??
+MSG_MANAIA_EXAM_S0,exam tip from someone who's done 2 years of uni exams: do the questions you know first. then come back.,来自考过两年大学考试的人的建议：先做会的题。然后再回头。,大学の試験を2年やった人間からのアドバイス：わかる問題から解け。それから戻れ。,consejo de alguien con 2 años de exámenes en la uni: haz primero las preguntas que sabes. luego vuelve.
+MSG_MANAIA_EXAM_S0_R0,that's it?,就这？,それだけ？,¿ya está?
+MSG_MANAIA_EXAM_S0_R1,thanks cuz,谢了,ありがとう,"gracias, primo"
+MSG_MANAIA_EXAM_S1,that's it. and don't look at anyone else. they always look like they're writing more than you. they're not.,就这。还有别看别人。他们看起来总像写得比你多。其实没有。,それだけ。あと周りを見るな。みんな自分より書いてるように見える。実際はそうじゃない。,ya está. y no mires a nadie. siempre parece que escriben más que tú. no es verdad.
+MSG_MANAIA_EXAM_S1_R0,that's genuinely helpful,这个真的有用,それは本当に助かる,eso ayuda de verdad
+MSG_MANAIA_EXAM_S2,"you'll be fine. you're smarter than I was and I got through. barely, but through.",你会没事的。你比我当年聪明，我都过来了。勉强，但过来了。,大丈夫だよ。お前は俺より頭いいし、俺でも乗り切れた。ギリギリだけど、乗り切った。,"te irá bien. tienes más cabeza que yo y yo lo saqué. por los pelos, pero lo saqué."
+MSG_MANAIA_EXAM_S2_R0,barely counts,勉强也算,ギリギリでも合格は合格,por los pelos cuenta
+MSG_DEB_COMPLIMENT_S0,Quick one. A customer rang to say you were lovely to her at checkout. Mrs Patel. Wanted to pass it on.,说一下。有位顾客打电话来说你在收银台对她特别好。Patel 太太。想转达给你。,ちょっと連絡。お客さんから電話があって、レジでの対応がすごく良かったって。Patelさん。伝えておきたくて。,Una cosa rápida. Una clienta ha llamado para decir que fuiste un encanto con ella en caja. La Sra. Patel. Quería decírtelo.
+MSG_DEB_COMPLIMENT_S0_R0,oh that's nice!,哇，真好！,わあ、嬉しい！,¡qué bien!
+MSG_DEB_COMPLIMENT_S0_R1,the lady with the 40 cans of tomatoes?,就是买了 40 罐番茄的那位？,トマト缶40個の人？,¿la señora de las 40 latas de tomate?
+MSG_DEB_COMPLIMENT_S1,It is. Doesn't happen often. Keep it up.,确实。这种事不常有。继续保持。,そうね。めったにないことよ。その調子で。,Lo es. No pasa a menudo. Sigue así.
+MSG_DEB_COMPLIMENT_S1_R0,will do,会的,頑張ります,lo haré
+MSG_DEB_COMPLIMENT_S2,That's her. She said you didn't sigh once. That's a first for that order.,就是她。她说你一次都没叹气。那张订单还是头一回有人没叹气。,その人。一度もため息をつかなかったって。あの注文でそれは初めてよ。,Esa. Dice que no suspiraste ni una vez. Es la primera vez con ese pedido.
+MSG_DEB_COMPLIMENT_S2_R0,I sighed internally,我在心里叹了,心の中ではついてました,suspiré por dentro
+MSG_DEB_EXAM_HOURS_S0,Externals are coming up. Want me to cut your hours for the next few weeks? No shame in it.,期末统考快到了。要不要我这几周给你减少点班？这没什么丢人的。,もうすぐ外部試験ね。しばらくシフト減らそうか？恥ずかしいことじゃないわよ。,Se acercan los exámenes externos. ¿Quieres que te reduzca las horas unas semanas? No tiene nada de malo.
+MSG_DEB_EXAM_HOURS_S0_R0,"yes please, that would help a lot",好的，拜托了，这会帮大忙,お願いします、すごく助かります,"sí, por favor, me ayudaría mucho"
+MSG_DEB_EXAM_HOURS_S0_R1,"no, I need the money",不用，我需要钱,いえ、お金が必要なので,"no, necesito el dinero"
+MSG_DEB_EXAM_HOURS_S1,Done. Come back stronger in December. Good luck.,好了。十二月满血回来。祝好运。,了解。12月に元気に戻ってきて。頑張ってね。,Hecho. Vuelve con fuerzas en diciembre. Suerte.
+MSG_DEB_EXAM_HOURS_S1_R0,"thanks Deb, really",谢谢你 Deb，真的,ありがとうございます、Debさん,"gracias, Deb, de verdad"
+MSG_DEB_EXAM_HOURS_S2,Understood. Tell me if it gets too much. I'd rather lose a shift than lose a worker.,明白。如果撑不住了告诉我。我宁愿少一个班，也不愿少一个员工。,わかった。きつくなったら言って。シフトが1つ減る方が、スタッフが1人減るよりずっといい。,Entendido. Dime si se vuelve demasiado. Prefiero perder un turno que perder a un trabajador.
+MSG_DEB_EXAM_HOURS_S2_R0,I will,我会的,そうします,te lo diré
+MSG_Y13_MUFTI_S0,MUFTI DAY FRIDAY. gold coin donation. theme is 'what you'll be in 10 years',周五便装日。捐一枚硬币。主题是“十年后的你”,金曜は私服デー。募金はコイン1枚。テーマは「10年後の自分」,EL VIERNES SE VIENE SIN UNIFORME. donativo de una moneda. el tema es «lo que serás dentro de 10 años»
+MSG_Y13_MUFTI_S0_R0,tired,很累的人,疲れた人,de cansancio
+MSG_Y13_MUFTI_S0_R1,still a uni student,还在读大学的人,まだ大学生,todavía estudiante
+MSG_Y13_MUFTI_S0_R2,what are you going as,你打算扮成什么,何で行くの？,¿de qué vas a ir tú?
+MSG_Y13_MUFTI_S1,I'm going as a millionaire. it's a suit and a confused face.,我扮百万富翁。就是一套西装加一张困惑的脸。,俺は億万長者で行く。スーツと困った顔。,yo voy de millonario. es un traje y cara de confusión.
+MSG_Y13_MUFTI_S1_R0,accurate,很准确,リアル,muy realista
+MSG_Y13_MUFTI_S2,a famous author. I'm bringing a notebook and looking mysterious,知名作家。我会带个笔记本，装得很神秘,有名作家。ノート持って、ミステリアスな顔しとく,una escritora famosa. llevaré una libreta y pondré cara misteriosa
+MSG_Y13_MUFTI_S2_R0,very mysterious,很神秘,すごくミステリアス,muy misteriosa
+MSG_Y13_MUFTI_S3,I'm going as 'well rested'. it's my pyjamas.,我扮“睡饱了的人”。就是穿睡衣。,私は「よく寝た人」で行く。パジャマで。,yo voy de «descansada». es mi pijama.
+MSG_Y13_MUFTI_S3_R0,this is the winner,冠军就是你,優勝,esto gana
+MSG_Y13_MUFTI_S3_R1,I'm stealing that,我要偷这个创意,それパクる,te lo robo
+MSG_Y13_HOODIE_S0,LEAVERS HOODIES. $55. order form closes friday. your name goes on the back with everyone else's,毕业卫衣。$55。订购周五截止。背后会印上你和所有人的名字,卒業パーカー。$55。注文は金曜締め切り。背中にみんなと一緒に名前が入るよ,SUDADERAS DE GRADUACIÓN. $55. el pedido cierra el viernes. tu nombre va en la espalda con el de todos
+MSG_Y13_HOODIE_S0_R0,I'm in. take my money,算我一个。拿走我的钱,買う。お金持ってって,me apunto. toma mi dinero
+MSG_Y13_HOODIE_S0_R1,$55 for a hoodie??,一件卫衣 $55？？,パーカーに$55？？,¿¿$55 por una sudadera??
+MSG_Y13_HOODIE_S1,mine's gonna say SIONE in massive letters on the front. they said no. it's still gonna say it.,我那件前面要印超大的 SIONE。他们说不行。照样要印。,俺のは前にでっかくSIONEって入れる。ダメって言われた。それでも入れる。,la mía va a poner SIONE en letras enormes por delante. dijeron que no. lo va a poner igual.
+MSG_Y13_HOODIE_S1_R0,legend,传奇,伝説,leyenda
+MSG_Y13_HOODIE_S2,it's a MEMORY {NAME}. you'll wear it for 20 years. that's like $2.75 a year.,这是“回忆”啊 {NAME}。你会穿 20 年。一年才 $2.75 左右。,「思い出」だよ{NAME}。20年は着るよ。1年あたり$2.75くらい。,"es un RECUERDO, {NAME}. la llevarás 20 años. eso sale a unos $2.75 al año."
+MSG_Y13_HOODIE_S2_R0,ok fine. put me down,好吧。给我登记,わかった。入れといて,"vale, apúntame"
+MSG_Y13_HOODIE_S2_R1,"I'll pass, money's tight",我就算了，手头紧,パスする、お金ないし,"paso, voy justo de dinero"
+MSG_Y13_HOODIE_S3,"no pressure, honestly. half the year isn't getting one.",真的没压力。年级里一半人都不买。,本当に無理しないで。学年の半分は買わないし。,"sin presión, en serio. la mitad del curso no se la va a comprar."
+MSG_Y13_HOODIE_S3_R0,thanks Ana,谢谢 Ana,ありがとう、Ana,"gracias, Ana"
+MSG_Y13_LAST_DAY_S0,LAST DAY OF CLASSES TOMORROW. we're signing shirts. bring a vivid.,明天是最后一天上课。我们要在衬衫上签名。带支马克笔。,明日は最後の授業の日。シャツにサインし合うよ。マーカー持ってきて。,MAÑANA ES EL ÚLTIMO DÍA DE CLASE. vamos a firmar camisetas. trae un rotulador.
+MSG_Y13_LAST_DAY_S0_R0,I'll bring three,我带三支,3本持ってく,llevo tres
+MSG_Y13_LAST_DAY_S0_R1,I'm going to cry,我要哭了,泣きそう,voy a llorar
+MSG_Y13_LAST_DAY_S1,I'm writing something rude on Sione's shirt. something classy rude.,我要在 Sione 的衬衫上写点粗鲁的话。有格调的那种粗鲁。,Sioneのシャツに失礼なこと書く。上品に失礼なやつ。,voy a escribir algo grosero en la camiseta de Sione. algo grosero con clase.
+MSG_Y13_LAST_DAY_S1_R0,classy rude is the best rude,有格调的粗鲁才是最好的粗鲁,上品な失礼が一番,lo grosero con clase es lo mejor
+MSG_Y13_LAST_DAY_S2,"everyone is going to cry. it's allowed. it's the last day of being kids, sort of.",大家都会哭的。哭是可以的。某种意义上，这是当小孩的最后一天。,みんな泣くよ。泣いていいの。ある意味、子どもでいられる最後の日だから。,"todo el mundo va a llorar. está permitido. es el último día de ser críos, más o menos."
+MSG_Y13_LAST_DAY_S2_R0,too real Ana,太真实了 Ana,リアルすぎるよAna,"demasiado real, Ana"
+MSG_Y13_LAST_DAY_S3,13 years. done. tomorrow. how is that even real,13 年。结束了。就在明天。这怎么可能是真的,13年。終わり。明日で。そんなの現実？,13 años. se acabó. mañana. ¿cómo puede ser real?
+MSG_Y13_LAST_DAY_S3_R0,it's not. it can't be.,不是真的。不可能。,現実じゃない。ありえない。,no lo es. no puede ser.
+MSG_Y13_LAST_DAY_S3_R1,here's to us,敬我们,うちらに乾杯,por nosotros
+MSG_NOTICES_CAREERS_S0,"Careers expo in the hall Thursday, period 3. Representatives from Auckland, Canterbury and Waikato will be attending.",周四第三节课在礼堂举办升学博览会。奥克兰大学、坎特伯雷大学和怀卡托大学的代表都会出席。,木曜3限、ホールで進路説明会。オークランド大学、カンタベリー大学、ワイカト大学の担当者が来ます。,"Feria de orientación en el salón de actos el jueves, a tercera hora. Asistirán representantes de Auckland, Canterbury y Waikato."
+MSG_NOTICES_CAREERS_S0_R0,might go,也许会去,行くかも,igual voy
+MSG_NOTICES_CAREERS_S0_R1,free period then,那就是自由时间了,じゃあ自由時間だ,pues hora libre
+MSG_NOTICES_LEAVERS_S0,Leavers' assembly Friday 9am. Families welcome. Please return all library books before the end of term.,毕业生集会周五上午 9 点。欢迎家长参加。请在学期结束前归还所有图书馆的书。,卒業生集会は金曜9時から。ご家族の参加も歓迎します。学期末までに図書館の本をすべて返却してください。,Asamblea de despedida el viernes a las 9. Las familias son bienvenidas. Devolved todos los libros de la biblioteca antes de fin de trimestre.
+MSG_NOTICES_LEAVERS_S0_R0,the library books...,图书馆的书……,図書館の本…,los libros de la biblioteca...
+MSG_NOTICES_LEAVERS_S0_R1,noted,知道了,了解,apuntado
+MSG_SCAM_IRD_S0,IRD: You are eligible for a tax refund of $412.80. Claim within 24hrs: ird-refunds-nz.co/claim,IRD：您有资格获得 $412.80 的退税。请在 24 小时内领取：ird-refunds-nz.co/claim,IRD：$412.80の税金還付の対象です。24時間以内に請求：ird-refunds-nz.co/claim,IRD: Tiene derecho a una devolución de impuestos de $412.80. Reclámela en 24 h: ird-refunds-nz.co/claim
+MSG_SCAM_IRD_S0_R0,ignore it — IRD doesn't text links,无视 —— IRD 不会发链接短信,無視 — IRDはリンクをSMSで送らない,ignorarlo — Hacienda no manda enlaces por SMS
+MSG_SCAM_IRD_S0_R1,tap the link,点开链接,リンクを開く,pulsar el enlace
+MSG_SCAM_IRD_S1,IRD: FINAL NOTICE. Your refund will be cancelled if not claimed today.,IRD：最后通知。今天不领取，退税将被取消。,IRD：最終通知。本日中に請求されない場合、還付は取り消されます。,IRD: ÚLTIMO AVISO. Su devolución se cancelará si no la reclama hoy.
+MSG_SCAM_IRD_S1_R0,block number,拉黑号码,番号をブロック,bloquear número
+MSG_SCAM_IRD_S2,Please enter your bank login and IRD number to receive your refund.,请输入您的网银登录信息和 IRD 号码以领取退税。,還付を受け取るには、ネットバンキングのログイン情報とIRD番号を入力してください。,Introduzca su acceso a la banca online y su número IRD para recibir la devolución.
+MSG_SCAM_IRD_S2_R0,wait. no. this is a scam,等等。不对。这是诈骗,待って。違う。これ詐欺だ,espera. no. esto es una estafa
+MSG_SCAM_IRD_S2_R1,close the page,关掉页面,ページを閉じる,cerrar la página
+MSG_RAVI_CRICKET_S0,Do you follow the cricket,你看板球吗,クリケット見てる？,¿Sigues el críquet?
+MSG_RAVI_CRICKET_S0_R0,not really,不怎么看,あんまり,no mucho
+MSG_RAVI_CRICKET_S0_R1,a bit,看一点,ちょっとだけ,un poco
+MSG_RAVI_CRICKET_S1,"This is a tragedy. Come by the shop, the radio is always on. I will educate you.",这是个悲剧。来店里，收音机一直开着。我来教育你。,それは悲劇だ。店に来なさい、ラジオはいつもついてる。教えてあげる。,"Esto es una tragedia. Pásate por la tienda, la radio siempre está puesta. Te educaré."
+MSG_RAVI_CRICKET_S1_R0,I'll come by,我会去的,寄るよ,me pasaré
+MSG_RAVI_CRICKET_S1_R1,is there a test,要考试吗,テストある？,¿hay examen?
+MSG_RAVI_CRICKET_S2,Then you know we are losing. Badly. I have not slept. The customers are suffering because I am suffering.,那你知道我们在输。输得很惨。我没睡觉。我在受苦，所以顾客也在受苦。,なら負けてるのは知ってるね。ボロ負け。寝てない。私が苦しんでるから客も苦しんでる。,Entonces sabes que vamos perdiendo. De mala manera. No he dormido. Los clientes sufren porque yo sufro.
+MSG_RAVI_CRICKET_S2_R0,I'll come keep you company,我去陪你,付き合いに行くよ,iré a hacerte compañía
+MSG_RAVI_CRICKET_S2_R1,it's only a game Ravi,只是比赛而已啦 Ravi,ただの試合だよ、Ravi,"solo es un partido, Ravi"
+MSG_RAVI_CRICKET_S3,Only a game. ONLY a game. I will pretend I did not read that.,只是比赛。“只是”比赛。我就当没看见这句话。,ただの試合。「ただの」試合。今のは読まなかったことにする。,Solo un partido. SOLO un partido. Haré como que no he leído eso.
+MSG_RAVI_CRICKET_S3_R0,sorry. it's everything.,对不起。它就是一切。,ごめん。全てだよね。,perdón. lo es todo.
+MSG_RAVI_HELP_S0,{NAME}. Favour. I need to go to the wholesaler in two days. Can you mind the shop for two hours? I pay $30.,{NAME}。帮个忙。后天我要去批发商那儿。你能帮我看两个小时店吗？我付 $30。,{NAME}。お願いがある。明後日、問屋に行かないといけない。2時間店番してくれる？$30払う。,{NAME}. Un favor. Pasado mañana tengo que ir al mayorista. ¿Me cuidas la tienda dos horas? Pago $30.
+MSG_RAVI_HELP_S0_R0,"yeah, I can do that",行，我可以,うん、いいよ,"sí, puedo"
+MSG_RAVI_HELP_S0_R1,I don't know how to use the till,我不会用收银机,レジの使い方わからない,no sé usar la caja
+MSG_RAVI_HELP_S0_R2,"sorry, I'm flat out",抱歉，我忙得不可开交,ごめん、手一杯,"lo siento, voy a tope"
+MSG_RAVI_HELP_S1,Good. After school. Do not eat the stock. I count the Pineapple Lumps.,好。放学后。别偷吃货。菠萝软糖我是数过的。,よし。放課後に。商品は食べないこと。パイナップル・ランプスは数えてあるから。,Bien. Después de clase. No te comas el género. Cuento los Pineapple Lumps.
+MSG_RAVI_HELP_S1_R0,I would never,我才不会,そんなことしない,yo nunca haría eso
+MSG_RAVI_HELP_S2,Nobody knows how to use the till. Not even me. You press the big green button and hope.,没人会用那个收银机。连我都不会。你就按那个绿色大按钮然后祈祷。,誰もあのレジの使い方なんて知らない。私も。大きい緑のボタンを押して祈るだけ。,Nadie sabe usar la caja. Ni yo. Pulsas el botón verde grande y rezas.
+MSG_RAVI_HELP_S2_R0,ok. count me in,好吧。算我一个,わかった。やるよ,vale. cuenta conmigo
+MSG_RAVI_HELP_S2_R1,"I'll pass, sorry",我还是算了，抱歉,やめとく、ごめん,"paso, lo siento"
+MSG_RAVI_HELP_S3,No problem. I will ask my cousin. He eats the stock.,没问题。我去问我表弟。他会偷吃货。,問題ない。いとこに頼む。あいつは商品を食べるけど。,No pasa nada. Se lo pediré a mi primo. Él sí se come el género.
+MSG_RAVI_HELP_S3_R0,good luck,祝你好运,頑張って,suerte
+MSG_RAVI_DAUGHTER_S0,"My daughter Asha is in Year 12. She wants to know what Year 13 is really like. Honest answer, not brochure answer.",我女儿 Asha 在读高二。她想知道高三到底是什么样。要实话，别说宣传册上那种。,娘のAshaが12年生なんだ。13年生が本当はどんな感じか知りたがってる。パンフレットじゃなく、正直な答えを。,"Mi hija Asha está en penúltimo curso. Quiere saber cómo es de verdad el último. Respuesta sincera, no de folleto."
+MSG_RAVI_DAUGHTER_S0_R0,honest? it's a lot,实话？压力很大,正直？大変だよ,¿sincera? es mucho
+MSG_RAVI_DAUGHTER_S0_R1,it's the best and worst year,这是最好也是最糟的一年,最高で最悪の1年,es el mejor y el peor año
+MSG_RAVI_DAUGHTER_S1,She can handle a lot. What should she do differently from you?,她扛得住。她应该跟你做得有什么不一样？,あの子はけっこう耐えられる。あなたと違うふうにやるとしたら、何をすべき？,Ella aguanta mucho. ¿Qué debería hacer diferente a ti?
+MSG_RAVI_DAUGHTER_S1_R0,apply for StudyLink early. like day one,早点申请 StudyLink。第一天就申请,StudyLinkは早く申し込むこと。初日に,pedir lo de StudyLink pronto. el primer día
+MSG_RAVI_DAUGHTER_S1_R1,sleep. actual sleep.,睡觉。真正地睡觉。,寝ること。ちゃんと。,dormir. dormir de verdad.
+MSG_RAVI_DAUGHTER_S1_R2,say yes to more things with friends,多答应朋友的邀约,友達の誘いにもっと乗ること,decir que sí a más planes con amigos
+MSG_RAVI_DAUGHTER_S2,That is what I say about running a shop. Best and worst. So what should she do differently from you?,我说开店也是这样。最好也最糟。那她应该跟你做得有什么不一样？,店をやるのも同じだよ。最高で最悪。じゃあ、あなたと違うふうにやるなら何をすべき？,Eso digo yo de llevar una tienda. Lo mejor y lo peor. ¿Y qué debería hacer diferente a ti?
+MSG_RAVI_DAUGHTER_S2_R0,apply for StudyLink early,早点申请 StudyLink,StudyLinkは早めに,pedir StudyLink pronto
+MSG_RAVI_DAUGHTER_S2_R1,sleep more,多睡觉,もっと寝る,dormir más
+MSG_RAVI_DAUGHTER_S3,I will tell her. She will ignore it because it comes from me. Maybe I say it came from you.,我会告诉她。她会无视，因为是我说的。也许我说是你说的。,伝えておく。私から言うと無視するだろうけど。あなたからだって言おうかな。,Se lo diré. Lo ignorará porque viene de mí. Igual le digo que viene de ti.
+MSG_RAVI_DAUGHTER_S3_R0,say it came from me,就说是我说的,私からって言って,dile que viene de mí
+MSG_RAVI_DAUGHTER_S3_R1,tell her she can come ask me,告诉她可以直接来问我,直接聞きに来ていいって伝えて,dile que puede venir a preguntarme
+MSG_RAVI_LAST_S0,"Last exams soon, yes? Come by after. Pie on the house.",快考最后几门了吧？考完过来。馅饼我请。,もうすぐ最後の試験でしょ？終わったら寄って。パイはおごり。,"Los últimos exámenes ya, ¿no? Pásate después. El pastel invita la casa."
+MSG_RAVI_LAST_S0_R0,you don't have to do that,你不用这样的,そんなのいいのに,no hace falta
+MSG_RAVI_LAST_S0_R1,I'll be there,我会去的,行くよ,allí estaré
+MSG_RAVI_LAST_S1,I know I don't. Your face this year has been very stressed. I want to see the other face.,我知道不用。你这一年脸上全是压力。我想看看另一张脸。,わかってる。今年のあなたの顔はずっとストレスだらけだった。もう一つの顔が見たいんだ。,Ya sé que no. Este año has tenido cara de mucho estrés. Quiero ver la otra cara.
+MSG_RAVI_LAST_S1_R0,I'll bring the other face,我会带着另一张脸去,もう一つの顔で行くよ,llevaré la otra cara
+MSG_RAVI_LAST_S2,"Good. I will warm it. The pie, not your face.",好。我会热好。热馅饼，不是热你的脸。,よし。温めておく。パイをね、顔じゃなくて。,"Bien. Lo calentaré. El pastel, no tu cara."
+MSG_RAVI_LAST_S2_R0,thanks Ravi,谢谢 Ravi,ありがとう、Ravi,"gracias, Ravi"
+MSG_HALLOWAY_REFERENCE_S0,"{NAME}, I'm happy to write you a reference for your university application if you'd like one. Just reply here.",{NAME}，如果你需要，我很乐意为你的大学申请写一封推荐信。直接回复这里就行。,{NAME}さん、大学の出願用に推薦状が必要なら喜んで書きます。ここに返信してください。,"{NAME}, si quieres, te escribo encantado una carta de recomendación para la universidad. Contesta aquí."
+MSG_HALLOWAY_REFERENCE_S0_R0,"yes please, thank you",好的，谢谢您,お願いします、ありがとうございます,"sí, por favor, gracias"
+MSG_HALLOWAY_REFERENCE_S0_R1,do I need one?,我需要吗？,必要ですか？,¿la necesito?
+MSG_HALLOWAY_REFERENCE_S1,"Done. I'll say something nice. It'll be true, which helps.",好的。我会写些好话。都是真的，这很有帮助。,わかりました。いいことを書きます。本当のことなので、なお良い。,"Hecho. Diré algo bonito. Y será verdad, lo cual ayuda."
+MSG_HALLOWAY_REFERENCE_S1_R0,thank you sir,谢谢老师,ありがとうございます、先生,"gracias, profe"
+MSG_HALLOWAY_REFERENCE_S2,Not for most programmes. But a reference never hurts and it costs you nothing.,大多数专业不需要。但推荐信总没坏处，而且对你来说零成本。,ほとんどの学部では不要です。でも推薦状は害にならないし、あなたは何も損しません。,"Para la mayoría de carreras, no. Pero una carta nunca viene mal y no te cuesta nada."
+MSG_HALLOWAY_REFERENCE_S2_R0,then yes please,那就麻烦您了,では、お願いします,"entonces sí, por favor"
+MSG_HALLOWAY_REFERENCE_S2_R1,"I'll be fine, thanks",我没问题的，谢谢,大丈夫です、ありがとうございます,"no hace falta, gracias"
+LOG_PAID_FOR,Paid $%.2f for: %s.,获得报酬 $%.2f：%s。,報酬$%.2f：%s。,Te han pagado $%.2f por: %s.
+LOG_MONEY_IN,Received $%.2f.,收到 $%.2f。,$%.2fを受け取った。,Has recibido $%.2f.
+LOG_MONEY_OUT,Spent $%.2f.,花了 $%.2f。,$%.2fを使った。,Has gastado $%.2f.
+PHONE_MONEY_IN,+$%.2f received,+$%.2f 已到账,+$%.2f 受け取り,+$%.2f recibidos
+PHONE_MONEY_OUT,−$%.2f sent,−$%.2f 已转出,−$%.2f 送金,−$%.2f enviados
+PHONE_SEEN,Seen by %s,%s 已读,%sが既読,Visto por %s
+PHONE_DELIVERED,Delivered,已送达,送信済み,Entregado
+PHONE_WILL_REPLY,They'll answer when they're free — you'll get a notification.,对方有空时会回复 —— 到时会通知你。,相手の手が空いたら返事が来る — 通知でお知らせ。,Te contestará cuando pueda — te llegará una notificación.
+COMMIT_HOW_HANGOUT,Go to the canteen — that's where you said you'd meet.,去食堂 —— 你们约好在那儿见。,食堂へ行こう — そこで会う約束だ。,Ve a la cafetería — quedasteis allí.
+COMMIT_HOW_SCHOOL_EVENT,Go to school — it's on in the hall.,去学校 —— 在礼堂举行。,学校へ行こう — ホールでやっている。,Ve al instituto — es en el salón de actos.
+COMMIT_HOW_DAIRY,Go to the dairy and mind the shop for Ravi.,去小卖部帮 Ravi 看店。,商店に行ってRaviの店番をしよう。,Ve a la tienda y cuídasela a Ravi.
+PLACE_THE_CANTEEN,the canteen,食堂,食堂,cafetería
+PLACE_THE_DAIRY,the dairy,小卖部,商店,tienda
+COMMIT_TANE_GIG,Tane's gig in the school hall,Tane 在学校礼堂的演出,Taneの学校ホールでのライブ,El bolo de Tane en el salón de actos
+COMMIT_BALL,The Year 13 Ball,高三毕业舞会,13年生のダンスパーティー,El baile de último curso
+COMMIT_ANA_RUN,"Morning run with Ana, then breakfast",和 Ana 晨跑，然后吃早饭,Anaと朝ラン、そのあと朝ごはん,Correr con Ana por la mañana y luego desayunar
+COMMIT_TUTOR_JOSH,Tutoring Josh in the library,在图书馆给 Josh 补课,図書館でJoshに勉強を教える,Dar clase a Josh en la biblioteca
+COMMIT_RAVI_SHOP,Minding the dairy for Ravi,帮 Ravi 看小卖部,Raviの商店の店番,Cuidar la tienda de Ravi
+MEMORY_FIRST_HOME,"Home. The desk, the bed, the fridge.",家。书桌、床、冰箱。,家。机とベッドと冷蔵庫。,"Casa. El escritorio, la cama, la nevera."
+MEMORY_FIRST_WORK,First shift at the supermarket.,在超市的第一个班。,スーパーでの初シフト。,Primer turno en el supermercado.
+MEMORY_FIRST_SCHOOL,Back at school for the last time.,最后一次回到学校。,最後の学校生活の始まり。,De vuelta al instituto por última vez.
+MEMORY_FIRST_CANTEEN,"The canteen, and its questionable pies.",食堂，还有它可疑的馅饼。,食堂と、怪しいパイ。,La cafetería y sus pasteles dudosos.
+MEMORY_FIRST_DAIRY,Ravi's dairy.,Ravi 的小卖部。,Raviの商店。,La tienda de Ravi.
+MEMORY_FIRST_EXAM_HALL,The exam hall. Rows of desks and silence.,考场。一排排课桌和寂静。,試験会場。並んだ机と静けさ。,La sala de exámenes. Filas de pupitres y silencio.
+MEMORY_FIRST_TOWN,"The town, on day one.",第一天的小镇。,初日の町。,"El pueblo, el primer día."
+ARCADE_PICK,Pick a game.,选个游戏。,ゲームを選ぼう。,Elige un juego.
+ARCADE_MATHS,Quick Maths,快速口算,クイック計算,Cálculo rápido
+ARCADE_MEMORY,Memory Match,记忆翻牌,神経衰弱,Parejas
+ARCADE_HIGHER,Higher or Lower,比大小,ハイ＆ロー,Mayor o menor
+ARCADE_TAP,Tap the Light,点亮方块,ライトをタップ,Toca la luz
+ARCADE_BEST,Best: %d,最佳：%d,ベスト：%d,Récord: %d
+ARCADE_BEST_MOVES,Best: %d moves,最佳：%d 步,ベスト：%d手,Récord: %d movimientos
+ARCADE_NEW_BEST,New best!,新纪录！,自己ベスト更新！,¡Nuevo récord!
+ARCADE_OTHER_GAMES,Other games,其他游戏,ほかのゲーム,Otros juegos
+MEM_INFO,Find all 8 pairs in as few moves as you can.,用尽可能少的步数找出全部 8 对。,できるだけ少ない手数で8組すべて見つけよう。,Encuentra las 8 parejas en los menos movimientos posibles.
+MEM_MOVES,Moves: %d,步数：%d,手数：%d,Movimientos: %d
+MEM_FINAL,All pairs found in %d moves.,%d 步找出全部配对。,%d手ですべてのペアを発見。,Todas las parejas en %d movimientos.
+HL_INFO,Will the next card be higher or lower? Keep the streak going.,下一张牌会更大还是更小？保持连胜。,次のカードは高い？低い？連勝を続けよう。,¿La siguiente carta será mayor o menor? Mantén la racha.
+HL_CARD,Card: %d,当前牌：%d,カード：%d,Carta: %d
+HL_STREAK,Streak: %d,连胜：%d,連勝：%d,Racha: %d
+HL_HIGHER,Higher,更大,ハイ,Mayor
+HL_LOWER,Lower,更小,ロー,Menor
+HL_FINAL,"%d, then %d — streak over at %d.",%d 之后是 %d —— 连胜止于 %d。,%dの次は%d — 連勝は%dで終了。,%d y luego %d — racha terminada en %d.
+TAP_INFO,"Tap the lit square before it goes out. %d rounds, and it speeds up.",在方块熄灭前点它。共 %d 轮，会越来越快。,消える前に光ったマスをタップ。全%dラウンド、だんだん速くなる。,"Toca el cuadrado iluminado antes de que se apague. %d rondas, y cada vez más rápido."
+TAP_GO,Go!,开始！,スタート！,¡Ya!
+TAP_SCORE,Hits: %d    (%d / %d),命中：%d    （%d / %d）,ヒット：%d    （%d / %d）,Aciertos: %d    (%d / %d)
+TAP_FINAL,You hit %d of %d.,命中 %d / %d。,%d / %d ヒット。,Acertaste %d de %d.
+SHOP_ITEM_PRICE,%s — $%.2f,%s —— $%.2f,%s — $%.2f,%s — $%.2f
+PROMPT_TALK_RAVI,Press E to talk to Ravi,按 E 和 Ravi 说话,EキーでRaviと話す,Pulsa E para hablar con Ravi
+RAVI_MATES_RATES,Mate's rates: Ravi knocks 15% off for you.,熟人价：Ravi 给你打八五折。,仲間割引：Raviが15%引いてくれる。,Precio de colega: Ravi te rebaja un 15 por ciento.
+RAVI_MIND_SHOP,Mind the shop (you promised),帮忙看店（你答应过的）,店番をする（約束した）,Cuidar la tienda (lo prometiste)
+RAVI_CHAT,Have a yarn,聊几句,おしゃべりする,Charlar un rato
+RAVI_BUY,Buy something,买点东西,何か買う,Comprar algo
+RAVI_BYE,"See you, Ravi",回头见，Ravi,またね、Ravi,"Hasta luego, Ravi"
+RAVI_SHOP_DONE,"Two hours behind the counter. Three customers, one of whom was a dog. Ravi comes back, counts the Pineapple Lumps, and nods.",在柜台后面站了两个小时。来了三位顾客，其中一位是条狗。Ravi 回来数了数菠萝软糖，点了点头。,カウンターの中で2時間。客は3人、うち1人は犬。戻ってきたRaviがパイナップル・ランプスを数えて、うなずいた。,"Dos horas detrás del mostrador. Tres clientes, uno de ellos un perro. Ravi vuelve, cuenta los Pineapple Lumps y asiente."
+RAVI_NOW_FRIENDS,Ravi's decided you're alright. Mate's rates from now on.,Ravi 认定你是个好人了。以后给你熟人价。,Raviに認められた。これからは仲間割引だ。,Ravi ha decidido que eres buena gente. Precio de colega a partir de ahora.
+CONV_ANA_LUNCH_S0,"(Ana puts a sandwich on your desk.) ""Eat that. Then come outside. It's not a question.""",（Ana 把一个三明治放在你桌上。）“吃了。然后出去。这不是在问你。”,（Anaがサンドイッチを机に置く。）「それ食べて。それから外に出よう。質問じゃないから。」,(Ana te deja un sándwich en la mesa.) «Cómetelo. Luego sal fuera. No es una pregunta.»
+CONV_ANA_LUNCH_S0_R0,"""I've got a test next period.""",“我下节课有测验。”,「次の時間、小テストがあるんだけど。」,«Tengo un examen la hora que viene.»
+CONV_ANA_LUNCH_S0_R1,"""...Is this tuna?""",“……这是金枪鱼的吗？”,「…これツナ？」,«...¿Esto es de atún?»
+CONV_ANA_LUNCH_S1,"""And you'll do better on it after ten minutes of sky. Come on. Field. Now.""",“晒十分钟太阳你会考得更好。走吧。操场。现在。”,「10分間空を見てからの方がうまくいくよ。ほら。グラウンド。今すぐ。」,«Y te saldrá mejor después de diez minutos de cielo. Venga. Al campo. Ya.»
+CONV_ANA_LUNCH_S1_R0,"""Ten minutes.""",“十分钟。”,「10分だけね。」,«Diez minutos.»
+CONV_ANA_LUNCH_S2,"""Tuna and too much mayonnaise. My mum makes two in case I 'meet someone who needs one'. That's you today.""",“金枪鱼加太多蛋黄酱。我妈总是做两个，以防我‘遇到需要的人’。今天就是你。”,「ツナとマヨ多め。お母さんがいつも『必要な人に会うかもしれない』って2つ作るの。今日はそれがあなた。」,«Atún y demasiada mayonesa. Mi madre hace dos por si «me encuentro a alguien que lo necesite». Hoy eres tú.»
+CONV_ANA_LUNCH_S2_R0,"""Tell your mum she's right.""",“告诉你妈她说得对。”,「お母さんに、正解だって伝えて。」,«Dile a tu madre que tiene razón.»
+CONV_ANA_LUNCH_S3,(You sit on the grass. Neither of you says much. Somewhere a seagull is fighting a chip packet and winning.),（你们坐在草地上。谁都没怎么说话。不远处一只海鸥在和薯片袋搏斗，而且赢了。）,（芝生に座る。二人ともあまり喋らない。どこかでカモメがポテチの袋と戦っていて、勝っている。）,(Os sentáis en el césped. Ninguno dice mucho. En algún sitio una gaviota pelea con una bolsa de patatas y gana.)
+CONV_ANA_LUNCH_S3_R0,"""Thanks, Ana. I needed this.""",“谢谢你，Ana。我需要这个。”,「ありがとう、Ana。これが必要だった。」,"«Gracias, Ana. Lo necesitaba.»"
+CONV_ANA_LUNCH_S3_R1,"""That seagull is living my life.""",“那只海鸥在过我的人生。”,「あのカモメ、私の人生そのもの。」,«Esa gaviota está viviendo mi vida.»
+CONV_ANA_LUNCH_S4,"""I know. Same time tomorrow if you need it. I'll bring the second sandwich.""",“我知道。明天同一时间，需要的话就来。我带第二个三明治。”,「知ってる。必要なら明日も同じ時間に。2つ目のサンドイッチ持ってくる。」,«Lo sé. Mañana a la misma hora si te hace falta. Traeré el segundo sándwich.»
+CONV_ANA_LUNCH_S4_R0,"""Deal.""",“成交。”,「決まり。」,«Trato hecho.»
+CONV_PRIYA_FLASHCARDS_S0,"(Priya holds out a stack of flashcards thick as a sandwich.) ""Quiz me. Please. I've been saying them to my mirror and my mirror is not engaged.""",（Priya 递过来一沓跟三明治一样厚的单词卡。）“考考我。拜托了。我一直对着镜子背，镜子一点都不投入。”,（Priyaがサンドイッチくらいの厚さの単語カードを差し出す。）「問題出して。お願い。ずっと鏡に向かって言ってるけど、鏡がやる気ないの。」,(Priya te tiende un taco de fichas gordo como un sándwich.) «Pregúntame. Por favor. Llevo días diciéndoselas al espejo y el espejo no se implica.»
+CONV_PRIYA_FLASHCARDS_S0_R0,"""Go on then. First card.""",“来吧。第一张。”,「いいよ。1枚目。」,«Venga. Primera ficha.»
+CONV_PRIYA_FLASHCARDS_S0_R1,"""How many cards is that?""",“这一共多少张？”,「それ何枚あるの？」,«¿Cuántas fichas son esas?»
+CONV_PRIYA_FLASHCARDS_S1,(You read one out. She answers before you finish. You read another. Same thing. Eight in a row.),（你念了一张。你还没念完她就答出来了。又念一张。还是一样。连续八张。）,（1枚読み上げる。読み終わる前に答えられる。もう1枚。同じ。8枚連続。）,(Lees una. Responde antes de que termines. Lees otra. Igual. Ocho seguidas.)
+CONV_PRIYA_FLASHCARDS_S1_R0,"""Priya. You know all of this.""",“Priya。这些你全都会。”,「Priya。全部わかってるじゃん。」,«Priya. Te lo sabes todo.»
+CONV_PRIYA_FLASHCARDS_S1_R1,"""Okay, show-off.""",“好吧，炫耀鬼。”,「はいはい、自慢ね。」,"«Vale, fanfarrona.»"
+CONV_PRIYA_FLASHCARDS_S2,"""Two hundred and twelve. I counted. I colour-coded them by how scared they make me.""",“两百一十二张。我数过。我按它们让我多害怕用颜色分了类。”,「212枚。数えた。怖さの度合いで色分けしてある。」,«Doscientas doce. Las conté. Las he clasificado por colores según el miedo que me dan.»
+CONV_PRIYA_FLASHCARDS_S2_R0,"""Which colour is the scariest?""",“哪个颜色最可怕？”,「一番怖いのは何色？」,«¿Qué color es el que más miedo da?»
+CONV_PRIYA_FLASHCARDS_S3,"(She looks at the stack like it might have lied to her.) ""...Then why does it feel like I don't?""",（她看着那沓卡片，好像它骗了她。）“……那为什么我感觉自己不会？”,（嘘をつかれたかのようにカードの束を見つめる。）「…じゃあ、なんでわかってない気がするんだろう？」,(Mira el taco como si le hubiera mentido.) «...¿Entonces por qué siento que no me lo sé?»
+CONV_PRIYA_FLASHCARDS_S3_R0,"""Because you're scared, not because you're unprepared.""",“因为你害怕，不是因为你没准备好。”,「準備不足じゃなくて、怖いからだよ。」,"«Porque tienes miedo, no porque no estés preparada.»"
+CONV_PRIYA_FLASHCARDS_S3_R1,"""Everyone feels that. Even the people who know it all.""",“谁都会这样。连全都会的人也是。”,「みんなそう感じるよ。全部わかってる人でも。」,«Le pasa a todo el mundo. Incluso a quien se lo sabe todo.»
+CONV_PRIYA_FLASHCARDS_S4,"""...Okay. Okay. I'm putting the cards away for one whole evening. Hold me to it.""",“……好。好。我要把卡片收起来整整一个晚上。监督我。”,「…わかった。わかった。今夜一晩、カードはしまう。見張ってて。」,«...Vale. Vale. Voy a guardar las fichas una noche entera. Vigílame.»
+CONV_PRIYA_FLASHCARDS_S4_R0,"""I'll text you at eight to check.""",“我八点给你发消息查岗。”,「8時に確認のLINEする。」,«Te escribo a las ocho para comprobarlo.»
+CONV_TANE_BAND_NAMES_S0,"""Band meeting. Agenda item one: the name. Sione wants 'Thunder Pie'. I want to die.""",“乐队会议。议程第一项：名字。Sione 想叫‘雷霆馅饼’。我想死。”,「バンド会議。議題その1：名前。Sioneは『サンダー・パイ』がいいって。俺は死にたい。」,«Reunión del grupo. Punto uno del orden del día: el nombre. Sione quiere «Pastel Trueno». Yo quiero morirme.»
+CONV_TANE_BAND_NAMES_S0_R0,"""Thunder Pie is incredible.""",“雷霆馅饼太棒了。”,「サンダー・パイ最高じゃん。」,«Pastel Trueno es increíble.»
+CONV_TANE_BAND_NAMES_S0_R1,"""What about 'Four Chords'?""",“叫‘四个和弦’怎么样？”,「『フォー・コーズ』は？」,«¿Y «Cuatro Acordes»?»
+CONV_TANE_BAND_NAMES_S1,"""Don't encourage him. He's already ordered stickers.""",“别助长他。他都已经订贴纸了。”,「あいつを調子に乗らせるな。もうステッカー注文してる。」,«No le des alas. Ya ha encargado pegatinas.»
+CONV_TANE_BAND_NAMES_S1_R0,"""Then it's decided. Thunder Pie.""",“那就定了。雷霆馅饼。”,「じゃあ決定。サンダー・パイ。」,«Pues decidido. Pastel Trueno.»
+CONV_TANE_BAND_NAMES_S2,"(He stares at you.) ""That's... actually good. Because it's true. That's all we know.""",（他盯着你。）“这……居然挺好。因为是真的。我们就会这些。”,（じっと見てくる。）「それ…普通にいいな。本当のことだし。俺たち、それしか弾けない。」,"(Te mira fijamente.) «Eso... está bien, la verdad. Porque es verdad. Es todo lo que sabemos.»"
+CONV_TANE_BAND_NAMES_S2_R0,"""Manager's privilege.""",“经纪人特权。”,「マネージャーの特権。」,«Privilegio de mánager.»
+CONV_TANE_BAND_NAMES_S3,"""Right. Practice Saturday. You're on bass whether you like it or not. You've been promoted.""",“好。周六排练。不管你愿不愿意，你都是贝斯手。你升职了。”,「よし。土曜に練習。嫌でもお前がベース。昇進したぞ。」,«Bien. Ensayo el sábado. Estás al bajo te guste o no. Te han ascendido.»
+CONV_TANE_BAND_NAMES_S3_R0,"""I'll bring earplugs.""",“我会带耳塞。”,「耳栓持ってく。」,«Llevaré tapones.»
+CONV_TANE_OWES_YOU_S0,"(Tane sees you and immediately pats his pockets.) ""I know. I KNOW. Twenty bucks. It's coming. It's practically in the mail.""",（Tane 一看到你就立刻拍自己的口袋。）“我知道。我“知道”。二十块。马上就还。基本上已经在路上了。”,（Taneはお前を見るなりポケットを叩く。）「わかってる。「わかってる」って。20ドル。すぐ返す。もう郵送中みたいなもん。」,(Tane te ve y se palpa los bolsillos al instante.) «Lo sé. LO SÉ. Veinte pavos. Ya llegan. Prácticamente están en el correo.»
+CONV_TANE_OWES_YOU_S0_R0,"""I didn't say anything.""",“我什么都没说。”,「何も言ってないけど。」,«Yo no he dicho nada.»
+CONV_TANE_OWES_YOU_S0_R1,"""With interest, I was promised.""",“我记得还有利息。”,「利子付きって約束だったよね。」,"«Con intereses, me prometiste.»"
+CONV_TANE_OWES_YOU_S1,"""Your face said something. Your face said 'sausage roll'.""",“你的脸说了。你的脸说的是‘香肠卷’。”,「顔が言ってた。顔が『ソーセージロール』って言ってた。」,«Tu cara ha dicho algo. Tu cara ha dicho «hojaldre de salchicha».»
+CONV_TANE_OWES_YOU_S1_R0,"""My face is very direct.""",“我的脸很直接。”,「私の顔は正直なの。」,«Mi cara es muy directa.»
+CONV_TANE_OWES_YOU_S2,"""With interest. I am a man of my word. My word is just slow.""",“带利息。我说话算话。只是我的话走得比较慢。”,「利子付きで。俺は有言実行の男だ。言葉の足が遅いだけ。」,"«Con intereses. Soy un hombre de palabra. Mi palabra es lenta, nada más.»"
+CONV_TANE_OWES_YOU_S2_R0,"""Take your time. Seriously.""",“慢慢来。真的。”,「ゆっくりでいいよ。本当に。」,«Tómate tu tiempo. En serio.»
+CONV_TANE_OWES_YOU_S3,"""The corolla's nearly fixed. When she runs, you're getting the first ride. And the money. Mostly the money.""",“卡罗拉快修好了。等她能跑了，你第一个坐。还有钱。主要是钱。”,「カローラはもうすぐ直る。走れるようになったら最初に乗せてやる。あと金も。主に金。」,"«El corolla está casi arreglado. Cuando ande, tú te das la primera vuelta. Y el dinero. Sobre todo el dinero.»"
+CONV_TANE_OWES_YOU_S3_R0,"""Deal.""",“成交。”,「決まり。」,«Trato hecho.»
+CONV_TANE_COLD_S0,(Tane nods at you. Just a nod. It's the kind of nod you give someone from your bus stop.),（Tane 冲你点了点头。就点了个头。是那种对公交站上的陌生人点的头。）,（Taneが会釈だけしてくる。バス停で見かける人にするような会釈。）,(Tane te saluda con la cabeza. Solo eso. Es el gesto que le haces a alguien de tu parada de bus.)
+CONV_TANE_COLD_S0_R0,"""Hey. Can we talk for a sec?""",“嘿。能聊一下吗？”,「ねえ。ちょっと話せる？」,«Oye. ¿Podemos hablar un momento?»
+CONV_TANE_COLD_S0_R1,"""Alright."" (Nod back.)",“嗯。”（也点个头。）,「よう。」（会釈を返す。）,«Buenas.» (Le devuelves el gesto.)
+CONV_TANE_COLD_S1,"""Sure. What's up."" (He's polite. That's worse.)",“行啊。怎么了。”（他很礼貌。这更糟。）,「いいけど。何？」（礼儀正しい。それが余計にきつい。）,«Claro. ¿Qué pasa?» (Es educado. Eso es peor.)
+CONV_TANE_COLD_S1_R0,"""I was a bit of a jerk when you asked for help. I'm sorry.""",“你找我帮忙的时候我有点混蛋。对不起。”,「助けてって言われた時、ちょっと嫌な奴だった。ごめん。」,«Me porté fatal cuando me pediste ayuda. Lo siento.»
+CONV_TANE_COLD_S1_R1,"""Nothing. Never mind.""",“没什么。算了。”,「何でもない。気にしないで。」,«Nada. Déjalo.»
+CONV_TANE_COLD_S2,"(He breathes out, and suddenly he's Tane again.) ""Yeah. You were. ...Thanks for saying it, though. Most people just wait for it to go away.""",（他呼了口气，一下子又变回了 Tane。）“是啊。你是挺混蛋的。……不过谢谢你说出来。大多数人只会等着它自己过去。”,（ふっと息を吐いて、いつものTaneに戻る。）「ああ。嫌な奴だった。…でも言ってくれてありがとな。たいていの奴は自然消滅を待つだけだから。」,"(Suelta el aire, y de repente vuelve a ser Tane.) «Sí. Te portaste fatal. ...Gracias por decirlo, eso sí. Casi todo el mundo espera a que se le pase.»"
+CONV_TANE_COLD_S2_R0,"""Pie on me?""",“我请你吃馅饼？”,「パイおごるよ？」,«¿Te invito a un pastel?»
+CONV_TANE_COLD_S3,"""Pie on you. Obviously. And you're carrying my bag. Penance.""",“当然是你请。还有你帮我拿书包。赎罪。”,「お前のおごりな。当然。あとカバン持て。罰として。」,«Invitas tú. Obvio. Y me llevas la mochila. Penitencia.»
+CONV_TANE_COLD_S3_R0,"""Fair.""",“公平。”,「妥当だね。」,«Justo.»
+CONV_WIREMU_CRUTCHES_S0,"(Wiremu swings towards you on crutches, much faster than seems safe.) ""Watch this. Watch. I've got a whole technique now.""",（Wiremu 拄着拐杖朝你荡过来，速度快得不太安全。）“看着。看好了。我现在有一整套技术了。”,（Wiremuが松葉杖で、安全とは思えない速さで寄ってくる。）「見てて。見てて。もう技術を確立したから。」,"(Wiremu se acerca con muletas, mucho más rápido de lo que parece seguro.) «Mira esto. Mira. Ya tengo toda una técnica.»"
+CONV_WIREMU_CRUTCHES_S0_R0,"""Please slow down.""",“拜托慢点。”,「お願いだからゆっくり。」,"«Por favor, frena.»"
+CONV_WIREMU_CRUTCHES_S0_R1,"""Impressive. Terrifying, but impressive.""",“厉害。吓人，但厉害。”,「すごい。怖いけど、すごい。」,"«Impresionante. Aterrador, pero impresionante.»"
+CONV_WIREMU_CRUTCHES_S1,"""Can't. If I stop I have to think about how I'm not playing. Moving is better.""",“不行。一停下来我就会想自己不能上场了。动起来好些。”,「無理。止まると試合に出られないこと考えちゃう。動いてる方がいい。」,«No puedo. Si me paro tengo que pensar en que no juego. Moverme es mejor.»
+CONV_WIREMU_CRUTCHES_S1_R0,"""Want to come and sit at the study desk with me? You can still move your brain.""",“要不要跟我去学习桌坐坐？你的脑子还能动。”,「一緒に勉強机に座る？頭なら動かせるよ。」,«¿Te vienes a la mesa de estudio conmigo? El cerebro sí lo puedes mover.»
+CONV_WIREMU_CRUTCHES_S1_R1,"""Season's not everything, bro.""",“赛季不是一切，兄弟。”,「シーズンが全てじゃないよ。」,"«La temporada no lo es todo, tío.»"
+CONV_WIREMU_CRUTCHES_S2,"(He grins.) ""Brain's the only muscle I haven't injured. Go on then. You explain, I'll nod.""",（他咧嘴笑了。）“脑子是我唯一没伤着的肌肉。走吧。你讲，我点头。”,（ニヤッと笑う。）「脳みそは唯一ケガしてない筋肉だな。よし。説明してくれ、俺はうなずく。」,"(Sonríe.) «El cerebro es el único músculo que no me he lesionado. Venga. Tú explicas, yo asiento.»"
+CONV_WIREMU_CRUTCHES_S2_R0,"""That's how all the best studying works.""",“最好的学习都是这么进行的。”,「最高の勉強ってそういうもんだよ。」,«Así funciona el mejor estudio.»
+CONV_WIREMU_CRUTCHES_S3,"""Easy for you to say. You've got two working ankles."" (But he laughs.)",“说得轻巧。你两只脚踝都是好的。”（但他笑了。）,「言うのは簡単だよな。足首が両方無事なんだから。」（でも笑ってる。）,«Qué fácil decirlo con los dos tobillos sanos.» (Pero se ríe.)
+CONV_WIREMU_CRUTCHES_S3_R0,"""Want a study buddy for a bit?""",“要不要找个学习搭子？”,「しばらく勉強仲間になる？」,«¿Quieres compañía para estudiar un rato?»
+CONV_CHLOE_BALL_OUTFIT_S0,"""Ball outfit. Status report. Now.""",“舞会穿什么。汇报进度。现在。”,「ダンスパーティーの服。進捗報告。今すぐ。」,«Ropa para el baile. Informe de situación. Ya.»
+CONV_CHLOE_BALL_OUTFIT_S0_R0,"""I have a plan.""",“我有计划。”,「計画はある。」,«Tengo un plan.»
+CONV_CHLOE_BALL_OUTFIT_S0_R1,"""I've been ignoring it.""",“我一直在逃避这件事。”,「見ないふりしてる。」,«Lo he estado ignorando.»
+CONV_CHLOE_BALL_OUTFIT_S1,"""Is the plan 'my one good shirt'?""",“你的计划是不是‘我唯一那件好衬衫’？”,「その計画って『一枚しかないちゃんとしたシャツ』でしょ？」,«¿El plan es «mi única camisa buena»?»
+CONV_CHLOE_BALL_OUTFIT_S1_R0,"""...It might be.""",“……可能是。”,「…かもしれない。」,«...Puede.»
+CONV_CHLOE_BALL_OUTFIT_S2,"(Chloe pulls out her phone and starts scrolling with terrifying purpose.) ""Op shop. Saturday. I'll find you something for under twenty dollars that makes Sione cry.""",（Chloe 掏出手机，带着可怕的目的性开始划屏幕。）“二手店。周六。我会给你找一件不到二十块、能让 Sione 哭出来的衣服。”,（Chloeがスマホを取り出し、恐ろしい集中力でスクロールし始める。）「古着屋。土曜。20ドル以下で、Sioneが泣くくらいのやつ見つけてあげる。」,(Chloe saca el móvil y empieza a deslizar con un propósito aterrador.) «Tienda de segunda mano. Sábado. Te encuentro algo por menos de veinte dólares que haga llorar a Sione.»
+CONV_CHLOE_BALL_OUTFIT_S2_R0,"""Why would Sione cry?""",“Sione 为什么会哭？”,「なんでSioneが泣くの？」,«¿Por qué iba a llorar Sione?»
+CONV_CHLOE_BALL_OUTFIT_S2_R1,"""You're a hero.""",“你是英雄。”,「ヒーローだ。」,«Eres una heroína.»
+CONV_CHLOE_BALL_OUTFIT_S3,"""Because he's wearing his rugby boots and he will be jealous. Trust the process.""",“因为他要穿橄榄球鞋去，他会嫉妒的。相信过程。”,「あいつラグビーのスパイクで来るから、嫉妬するの。プロセスを信じて。」,«Porque va a ir con las botas de rugby y se va a morir de envidia. Confía en el proceso.»
+CONV_CHLOE_BALL_OUTFIT_S3_R0,"""I trust the process.""",“我相信过程。”,「プロセスを信じる。」,«Confío en el proceso.»
+CONV_SIONE_FOUNTAIN_S0,"(Sione walks up very seriously.) ""We need to talk about the fountain.""",（Sione 一本正经地走过来。）“我们得谈谈喷泉的事。”,（Sioneがやけに真剣な顔で近づいてくる。）「ファウンテンの件で話がある。」,(Sione se acerca muy serio.) «Tenemos que hablar de la fuente.»
+CONV_SIONE_FOUNTAIN_S0_R0,"""We do not need to talk about the fountain.""",“我们不需要谈喷泉的事。”,「ファウンテンの件は話さなくていい。」,«No hace falta hablar de la fuente.»
+CONV_SIONE_FOUNTAIN_S0_R1,"""I have the video saved in three places.""",“视频我存了三份。”,「動画、3か所に保存してある。」,«Tengo el vídeo guardado en tres sitios.»
+CONV_SIONE_FOUNTAIN_S1,"""I tripped. On a chair leg. The chair leg was in a bad place. That's the official story.""",“我绊倒了。被椅子腿绊的。椅子腿放的位置不对。这是官方说法。”,「つまずいたんだ。椅子の脚に。椅子の脚の位置が悪かった。それが公式見解。」,«Tropecé. Con la pata de una silla. La pata estaba mal puesta. Esa es la versión oficial.»
+CONV_SIONE_FOUNTAIN_S1_R0,"""The chair leg will be blamed.""",“锅就让椅子腿背吧。”,「椅子の脚のせいにしとく。」,«Culparemos a la pata.»
+CONV_SIONE_FOUNTAIN_S2,"""THREE. Chloe has it in four. My mum has watched it eleven times. She says it's the happiest she's been all year.""",“三份？！Chloe 存了四份。我妈看了十一遍。她说这是她今年最开心的时刻。”,「3か所？！Chloeは4か所。母さんは11回見た。今年一番幸せだって言ってた。」,«¡¿TRES?! Chloe lo tiene en cuatro. Mi madre lo ha visto once veces. Dice que es lo más feliz que ha estado en todo el año.»
+CONV_SIONE_FOUNTAIN_S2_R0,"""Then it was worth it.""",“那就值了。”,「じゃあ価値はあった。」,«Entonces mereció la pena.»
+CONV_SIONE_FOUNTAIN_S3,"(He finally cracks and laughs.) ""Best night of the year though. Chocolate in my ears for two days. No regrets.""",（他终于憋不住笑了。）“不过那是今年最棒的一晚。耳朵里两天都是巧克力。不后悔。”,（ついに吹き出す。）「でも今年最高の夜だった。2日間耳からチョコが出てきた。後悔なし。」,(Al final se le escapa la risa.) «Pero fue la mejor noche del año. Dos días con chocolate en las orejas. Sin arrepentimientos.»
+CONV_SIONE_FOUNTAIN_S3_R0,"""No regrets.""",“不后悔。”,「後悔なし。」,«Sin arrepentimientos.»
+CONV_MIKA_LICENCE_S0,"(Mika slaps a laminated card on your desk.) ""Look at it. Look at my face on it. That is the face of a licensed driver.""",（Mika 把一张塑封卡片拍在你桌上。）“看。看上面我的脸。这是一张持证司机的脸。”,（Mikaがラミネートされたカードを机に叩きつける。）「見て。この顔見て。これが免許持ちの顔。」,(Mika planta una tarjeta plastificada en tu mesa.) «Mírala. Mira mi cara. Es la cara de alguien con carné.»
+CONV_MIKA_LICENCE_S0_R0,"""You look like you've seen a ghost.""",“你看起来像见了鬼。”,「幽霊見たみたいな顔してる。」,«Pareces haber visto un fantasma.»
+CONV_MIKA_LICENCE_S0_R1,"""How's the cat?""",“那只猫怎么样了？”,「猫は元気？」,«¿Y el gato?»
+CONV_MIKA_LICENCE_S1,"""The photo was taken right after the cat. So yes. I had seen something.""",“照片是在猫的事之后马上拍的。所以没错。我确实看见了什么。”,「写真は猫の直後に撮ったの。だからそう。何かを見た顔。」,«La foto me la hicieron justo después de lo del gato. Así que sí. Había visto algo.»
+CONV_MIKA_LICENCE_S1_R0,"""Ah. The cat.""",“啊。那只猫。”,「ああ。猫ね。」,«Ah. El gato.»
+CONV_MIKA_LICENCE_S2,"""The cat is FINE. The cat lives three doors down from me now and glares at my car every morning. We have an understanding.""",“那只猫“没事”。它现在住在我家隔三户，每天早上都瞪我的车。我们之间有默契。”,「猫は「無事」。今はうちの3軒隣に住んでて、毎朝私の車をにらんでる。わかり合ってるの。」,«El gato está BIEN. Ahora vive a tres casas de la mía y fulmina mi coche con la mirada cada mañana. Tenemos un acuerdo.»
+CONV_MIKA_LICENCE_S2_R0,"""That's the most growth I've seen from anyone this year.""",“这是我今年见过的最大的成长。”,「今年見た中で一番の成長だよ。」,«Es el mayor crecimiento personal que he visto este año.»
+CONV_MIKA_GAP_TALK_S0,"""I told my aunt. About the gap year.""",“我跟我阿姨说了。间隔年的事。”,「おばさんに言った。ギャップイヤーのこと。」,«Se lo he dicho a mi tía. Lo del año sabático.»
+CONV_MIKA_GAP_TALK_S0_R0,"""Is there smoke?""",“冒烟了吗？”,「煙は出た？」,«¿Salió humo?»
+CONV_MIKA_GAP_TALK_S0_R1,"""How did it go?""",“怎么样？”,「どうだった？」,«¿Qué tal fue?»
+CONV_MIKA_GAP_TALK_S1,"""She was quiet for ages. Then she said she wishes she'd done it. Then she cried. Then she gave me forty dollars. I don't understand adults.""",“她沉默了好久。然后说她真希望自己当年也这么做了。然后她哭了。然后给了我四十块钱。我搞不懂大人。”,「長いこと黙ってた。それから、自分もそうすればよかったって。それから泣いた。それから40ドルくれた。大人ってわからない。」,«Se quedó callada un buen rato. Luego dijo que ojalá lo hubiera hecho ella. Luego lloró. Luego me dio cuarenta dólares. No entiendo a los adultos.»
+CONV_MIKA_GAP_TALK_S1_R0,"""Nobody does. Least of all adults.""",“谁都搞不懂。大人自己最搞不懂。”,「誰もわからないよ。大人自身が一番わかってない。」,«Nadie los entiende. Ellos los que menos.»
+CONV_MIKA_GAP_TALK_S1_R1,"""That's a win.""",“这算赢了。”,「それは勝ちだね。」,«Eso es una victoria.»
+CONV_MIKA_GAP_TALK_S2,"""I'm going to work at the aquarium. Feeding the penguins. If I still love it in a year, it's marine bio. If not, I'll know that too.""",“我要去水族馆工作。喂企鹅。如果一年后我还喜欢，就读海洋生物。如果不喜欢，那我也就知道了。”,「水族館で働く。ペンギンの餌やり。1年後もまだ好きだったら海洋生物学。好きじゃなかったら、それもわかる。」,"«Voy a trabajar en el acuario. Dando de comer a los pingüinos. Si dentro de un año me sigue encantando, biología marina. Si no, también lo sabré.»"
+CONV_MIKA_GAP_TALK_S2_R0,"""Penguins. Of course it's penguins.""",“企鹅。当然是企鹅。”,「ペンギン。そりゃペンギンだよね。」,«Pingüinos. Cómo no iban a ser pingüinos.»
+CONV_ANA_LIGHTHOUSE_S0,"""Well? The lighthouse. Where are you up to?""",“怎么样？灯塔那本。你看到哪儿了？”,「で？灯台の本。どこまで読んだ？」,«¿Y bien? El faro. ¿Por dónde vas?»
+CONV_ANA_LIGHTHOUSE_S0_R0,"""She just stopped answering the radio.""",“她刚刚不再回应无线电了。”,「ちょうど無線に応答しなくなったところ。」,«Acaba de dejar de contestar a la radio.»
+CONV_ANA_LIGHTHOUSE_S0_R1,"""I haven't started. Sorry.""",“我还没开始看。抱歉。”,「まだ読んでない。ごめん。」,«No lo he empezado. Perdona.»
+CONV_ANA_LIGHTHOUSE_S1,"(Ana clutches your arm.) ""Oh, that's the BEST bit. Don't read the next chapter at night. Or do. It's worth the bad sleep.""",（Ana 抓住你的胳膊。）“哦，那是“最精彩”的部分。下一章别在晚上看。或者看吧。睡不好也值得。”,（Anaに腕をつかまれる。）「あ、そこが「一番」いいところ！次の章は夜に読まないで。いや、読んで。寝不足になる価値ある。」,"(Ana te agarra del brazo.) «Ay, esa es la MEJOR parte. No leas el siguiente capítulo de noche. O sí. Merece la pena dormir mal.»"
+CONV_ANA_LIGHTHOUSE_S1_R0,"""Now I have to read it tonight.""",“这下我今晚必须看了。”,「今夜読むしかなくなった。」,«Ahora tengo que leerlo esta noche.»
+CONV_ANA_LIGHTHOUSE_S2,"""That's okay. Twenty minutes, remember? Not homework. Just a lighthouse.""",“没关系。二十分钟，记得吗？不是作业。只是一座灯塔。”,「大丈夫。20分だよ、覚えてる？宿題じゃない。ただの灯台。」,"«No pasa nada. Veinte minutos, ¿recuerdas? No son deberes. Solo un faro.»"
+CONV_ANA_LIGHTHOUSE_S2_R0,"""Twenty minutes. Tonight.""",“二十分钟。今晚。”,「20分。今夜。」,«Veinte minutos. Esta noche.»
+CONV_ANA_LIGHTHOUSE_S3,"""Good. And then we can talk about the ending, because I have FEELINGS about the ending.""",“好。然后我们就能聊结局了，因为我对结局有很多“感受”。”,「よし。そしたら結末の話ができる。結末にはいろいろ「思うところ」があるの。」,"«Bien. Y luego hablamos del final, porque tengo SENTIMIENTOS sobre el final.»"
+CONV_ANA_LIGHTHOUSE_S3_R0,"""No spoilers.""",“不许剧透。”,「ネタバレ禁止。」,«Nada de spoilers.»
+CONV_PRIYA_INTERVIEW_S0,"(Priya grabs you by both shoulders.) ""I got an INTERVIEW. For the scholarship. The essay worked.""",（Priya 抓住你的两边肩膀。）“我拿到“面试”了。奖学金的。作文奏效了。”,（Priyaに両肩をつかまれる。）「「面接」が決まった！奨学金の！作文が効いた！」,(Priya te agarra por los hombros.) «¡Tengo una ENTREVISTA! Para la beca. La redacción funcionó.»
+CONV_PRIYA_INTERVIEW_S0_R0,"""Priya!! Of course it did.""",“Priya！！那当然。”,「Priya！！当然でしょ。」,«¡¡Priya!! Pues claro que sí.»
+CONV_PRIYA_INTERVIEW_S0_R1,"""When is it?""",“什么时候？”,「いつ？」,«¿Cuándo es?»
+CONV_PRIYA_INTERVIEW_S1,"""You told me to cut the first paragraph. The interviewer said the opening line was 'refreshingly honest'. That was YOUR edit.""",“你让我删掉第一段。面试官说开头那句‘坦诚得让人耳目一新’。那是“你”改的。”,「最初の段落を削れって言ってくれたでしょ。面接官が書き出しを『新鮮なほど正直』って。それ「あなた」の修正だよ。」,«Me dijiste que quitara el primer párrafo. El entrevistador dijo que la primera frase era «de una sinceridad refrescante». Esa fue TU corrección.»
+CONV_PRIYA_INTERVIEW_S1_R0,"""It was your writing. I just pointed.""",“那是你写的。我只是指了一下。”,「書いたのはあなた。私は指さしただけ。」,«La escribiste tú. Yo solo señalé.»
+CONV_PRIYA_INTERVIEW_S2,"""Next week. Will you do a practice interview with me? Ask me horrible questions. Be the meanest version of you.""",“下周。你能陪我练一次面试吗？问我可怕的问题。拿出你最刻薄的一面。”,「来週。模擬面接に付き合ってくれる？ひどい質問して。一番意地悪なあなたで。」,«La semana que viene. ¿Me haces una entrevista de práctica? Hazme preguntas horribles. Sé la versión más cruel de ti.»
+CONV_PRIYA_INTERVIEW_S2_R0,"""'Why should we pick you over two hundred other people?'""",“‘我们为什么要从两百人里选你？’”,「『なぜ他の200人ではなくあなたを選ぶべきなのですか？』」,«‘¿Por qué deberíamos elegirte a ti y no a otras doscientas personas?’»
+CONV_PRIYA_INTERVIEW_S3,"(She takes a breath, and answers it properly. It's good. It's really good.) ""...Was that okay?""",（她深吸一口气，认真地回答了。很好。真的很好。）“……这样可以吗？”,（深呼吸して、ちゃんと答える。いい答えだ。本当にいい。）「…今のどうだった？」,(Respira hondo y contesta en serio. Está bien. Está muy bien.) «...¿Ha estado bien?»
+CONV_PRIYA_INTERVIEW_S3_R0,"""You're going to get it.""",“你会拿到的。”,「絶対取れるよ。」,«La vas a conseguir.»
+CONV_JOSH_LUNCH_TRADE_S0,"(Josh opens his lunchbox, sighs, and holds up a sad-looking sandwich.) ""Trade? It's egg. I think. It was egg this morning.""",（Josh 打开饭盒，叹了口气，举起一个看起来很惨的三明治。）“换吗？是鸡蛋的。我觉得。今天早上还是鸡蛋的。”,（Joshが弁当箱を開けて、ため息をつき、しょんぼりしたサンドイッチを掲げる。）「交換する？卵。だと思う。今朝は卵だった。」,"(Josh abre la fiambrera, suspira y levanta un sándwich con mala pinta.) «¿Cambiamos? Es de huevo. Creo. Esta mañana era de huevo.»"
+CONV_JOSH_LUNCH_TRADE_S0_R0,"""Absolutely not.""",“绝对不换。”,「絶対いや。」,«Ni de broma.»
+CONV_JOSH_LUNCH_TRADE_S0_R1,"""Fine. Half my chips for half the... egg.""",“行吧。我一半的薯片换你一半的……鸡蛋。”,「いいよ。ポテチ半分と、その…卵の半分。」,«Vale. Media bolsa de patatas por la mitad del... huevo.»
+CONV_JOSH_LUNCH_TRADE_S1,"""Respect. You'd be surprised how many people say yes. Mostly year 9s. They don't know better yet.""",“尊重。你会惊讶有多少人答应换。大多是初三的。他们还不懂。”,「さすが。意外とOKする人多いんだよ。ほとんど中学生だけど。まだわかってないから。」,«Respeto. Te sorprendería cuánta gente dice que sí. Sobre todo los de tercero. Todavía no saben.»
+CONV_JOSH_LUNCH_TRADE_S1_R0,"""You're scamming children with eggs.""",“你在用鸡蛋骗小孩。”,「卵で子どもを騙してるの？」,«Estás estafando a niños con huevo.»
+CONV_JOSH_LUNCH_TRADE_S2,"(He takes a chip, chews thoughtfully.) ""You're a good person. A bad negotiator. But a good person.""",（他拿了一片薯片，若有所思地嚼着。）“你是个好人。一个糟糕的谈判者。但是个好人。”,（ポテチを1枚取って、考え深げに噛む。）「いい人だな。交渉は下手だけど。いい人だ。」,(Coge una patata y mastica pensativo.) «Eres buena gente. Negocias fatal. Pero buena gente.»
+CONV_JOSH_LUNCH_TRADE_S2_R0,"""The egg is warm, Josh.""",“鸡蛋是温的，Josh。”,「卵がぬるいよ、Josh。」,"«El huevo está tibio, Josh.»"
+CONV_JOSH_LUNCH_TRADE_S3,"""It's called the circle of life. Same time tomorrow?""",“这叫生命的循环。明天同一时间？”,「これが命の循環ってやつ。また明日同じ時間に？」,«Se llama el ciclo de la vida. ¿Mañana a la misma hora?»
+CONV_JOSH_LUNCH_TRADE_S3_R0,"""Never again.""",“再也不了。”,「二度とない。」,«Nunca más.»
+CONV_JOSH_TUTORING_LIVE_S0,"""Okay so I tried the thing you showed me. Drawing it before you do the maths. And it... worked? On its own?""",“好，我试了你教我的方法。先画图再算。然后它……居然管用了？自己就管用了？”,「教えてもらったやつ試した。計算の前に図を描くやつ。そしたら…できた？勝手に？」,"«Vale, probé lo que me enseñaste. Dibujarlo antes de hacer las cuentas. Y... ¿funcionó? ¿Solo?»"
+CONV_JOSH_TUTORING_LIVE_S0_R0,"""It doesn't work on its own. You did it.""",“不是它自己管用。是你做到的。”,「勝手にじゃない。あなたがやったんだよ。」,«No funciona solo. Lo hiciste tú.»
+CONV_JOSH_TUTORING_LIVE_S0_R1,"""Told you.""",“早跟你说了。”,「言ったでしょ。」,«Te lo dije.»
+CONV_JOSH_TUTORING_LIVE_S1,"(Josh looks genuinely stunned.) ""I've never been the one who gets it. I'm always the one who copies off the one who gets it.""",（Josh 一脸真心的震惊。）“我从来都不是那个懂的人。我一直是抄懂的人的那个。”,（Joshは本気で呆然としている。）「わかる側になったことなんてなかった。いつもわかる奴のを写す側だった。」,(Josh parece realmente alucinado.) «Nunca he sido el que lo pilla. Siempre he sido el que copia al que lo pilla.»
+CONV_JOSH_TUTORING_LIVE_S1_R0,"""Well. Now you're the one who gets it.""",“现在你就是那个懂的人。”,「じゃあ、今はあなたがわかる側。」,«Pues ahora eres tú el que lo pilla.»
+CONV_JOSH_STOOD_UP_S0,"(Josh is at the library table with two packets of chips and a textbook. He sees you.) ""Oh. Hey. I waited, like, an hour, the other day.""",（Josh 坐在图书馆的桌子边，面前两包薯片和一本课本。他看到了你。）“哦。嘿。前几天我等了大概一个小时。”,（Joshが図書館の机に、ポテチ2袋と教科書を置いて座っている。目が合う。）「あ。どうも。この前、1時間くらい待ってた。」,(Josh está en la mesa de la biblioteca con dos bolsas de patatas y un libro. Te ve.) «Ah. Hola. El otro día esperé como una hora.»
+CONV_JOSH_STOOD_UP_S0_R0,"""I'm really sorry. I completely forgot.""",“真的对不起。我完全忘了。”,「本当にごめん。完全に忘れてた。」,«Lo siento muchísimo. Se me olvidó por completo.»
+CONV_JOSH_STOOD_UP_S0_R1,"""Something came up.""",“临时有事。”,「急用ができて。」,«Me surgió algo.»
+CONV_JOSH_STOOD_UP_S1,"""It's fine. I ate both packets of chips. Out of spite. ...Could we try again? Mum already paid you in her head.""",“没事。我把两包薯片都吃了。出于怨气。……我们能再试一次吗？我妈在心里已经付过你钱了。”,「いいよ。ポテチは2袋とも食べた。腹いせに。…もう一回やってくれない？母さんは頭の中でもう払ったことになってる。」,«No pasa nada. Me comí las dos bolsas. Por despecho. ...¿Lo intentamos otra vez? Mi madre ya te ha pagado mentalmente.»
+CONV_JOSH_STOOD_UP_S1_R0,"""Right now. Open the textbook.""",“就现在。翻开课本。”,「今やろう。教科書開いて。」,«Ahora mismo. Abre el libro.»
+CONV_JOSH_STOOD_UP_S1_R1,"""Can't this week, sorry.""",“这周不行，抱歉。”,「今週は無理、ごめん。」,"«Esta semana no puedo, lo siento.»"
+CONV_JOSH_STOOD_UP_S2,"""Right. Yeah."" (He looks back down at the textbook.)",“行。好吧。”（他又低头看课本。）,「そっか。うん。」（また教科書に目を落とす。）,«Ya. Vale.» (Vuelve a mirar el libro.)
+CONV_JOSH_STOOD_UP_S2_R0,"""Sorry, Josh. Really. Let's do it now.""",“对不起，Josh。真的。我们现在就开始。”,「ごめん、Josh。本当に。今からやろう。」,"«Lo siento, Josh. De verdad. Hagámoslo ahora.»"
+CONV_CHLOE_COUCH_S0,"""Okay. Verified intel. The common room is getting a couch.""",“好。核实过的情报。休息室要放一张沙发了。”,「よし。確かな情報。談話室にソファが入るって。」,«Vale. Información verificada. Van a poner un sofá en la sala común.»
+CONV_CHLOE_COUCH_S0_R0,"""Source?""",“来源？”,「情報源は？」,«¿Fuente?»
+CONV_CHLOE_COUCH_S0_R1,"""A couch. For us. Real?""",“沙发？给我们的？真的假的？”,「ソファ？うちらに？マジ？」,«¿Un sofá? ¿Para nosotros? ¿En serio?»
+CONV_CHLOE_COUCH_S1,"""The caretaker. I saw him carrying one. I asked where it was going and he said 'not for you'. Which is basically confirmation.""",“校工。我看见他在搬一张。我问搬去哪，他说‘不是给你的’。这基本上就是确认了。”,「用務員さん。運んでるの見た。どこ行くのか聞いたら『君らのじゃない』って。ほぼ確定でしょ。」,«El conserje. Lo vi cargando uno. Le pregunté adónde iba y dijo «no es para vosotros». Lo cual es básicamente una confirmación.»
+CONV_CHLOE_COUCH_S1_R0,"""That's the opposite of confirmation.""",“这恰恰是否认。”,「それ確定の真逆だよ。」,«Eso es justo lo contrario de una confirmación.»
+CONV_CHLOE_COUCH_S2,"""Real. Probably. Fifty percent. Look, I'm running a hope-based news service.""",“真的。大概吧。百分之五十。听着，我经营的是一家靠希望运转的新闻社。”,「マジ。たぶん。50パーセント。いい？私がやってるのは希望ベースのニュースなの。」,"«En serio. Probablemente. Al cincuenta por ciento. Mira, lo mío es un servicio de noticias basado en la esperanza.»"
+CONV_CHLOE_COUCH_S2_R0,"""I'll subscribe.""",“我订阅了。”,「購読する。」,«Me suscribo.»
+CONV_CHLOE_COUCH_S3,"(Chloe narrows her eyes.) ""You sound like Mr Halloway. Fine. If there's a couch by Friday, you owe me a pie.""",（Chloe 眯起眼睛。）“你说话像 Halloway 老师。行。如果周五前有沙发，你欠我一个馅饼。”,（Chloeが目を細める。）「Halloway先生みたいな言い方。いいよ。金曜までにソファがあったら、パイおごりね。」,"(Chloe entorna los ojos.) «Hablas como el Sr. Halloway. Vale. Si el viernes hay sofá, me debes un pastel.»"
+CONV_CHLOE_COUCH_S3_R0,"""And if there isn't?""",“如果没有呢？”,「なかったら？」,«¿Y si no lo hay?»
+CONV_CHLOE_COUCH_S4,"""Then I'll have new intel by then. That's how news works.""",“那到时候我就有新情报了。新闻就是这么运作的。”,「そしたらその頃には新しい情報があるから。ニュースってそういうもの。」,«Pues para entonces tendré información nueva. Así funcionan las noticias.»
+CONV_CHLOE_COUCH_S4_R0,"""Unbeatable.""",“无懈可击。”,「無敵だ。」,«Imbatible.»
+CONV_WIREMU_PIES_S0,"""Serious question. Canteen pies. Rank them. Go.""",“认真的问题。食堂的馅饼。给它们排个名。开始。”,「真面目な質問。食堂のパイ。ランキングつけて。どうぞ。」,«Pregunta seria. Los pasteles de la cafetería. Clasifícalos. Ya.»
+CONV_WIREMU_PIES_S0_R0,"""Mince and cheese, obviously.""",“肉末芝士的，显然。”,「ミンス＆チーズ、当然。」,"«Carne con queso, obviamente.»"
+CONV_WIREMU_PIES_S0_R1,"""Steak and kidney.""",“牛排腰子的。”,「ステーキ＆キドニー。」,«Ternera con riñones.»
+CONV_WIREMU_PIES_S0_R2,"""They're all the same pie in different hats.""",“它们都是同一个馅饼戴了不同的帽子。”,「全部同じパイが違う帽子かぶってるだけ。」,«Son todos el mismo pastel con distinto sombrero.»
+CONV_WIREMU_PIES_S1,"""Correct. You'd be amazed how many people say butter chicken. In a PIE.""",“正确。你都想不到有多少人说黄油鸡。“馅饼”里放黄油鸡。”,「正解。バターチキンって答える奴が多くてびっくりするよ。「パイ」にバターチキン。」,«Correcto. No te imaginas cuánta gente dice pollo a la mantequilla. En un PASTEL.»
+CONV_WIREMU_PIES_S1_R0,"""Some people just want to watch the world burn.""",“有些人就是想看世界毁灭。”,「世界の破滅を望む奴もいるんだよ。」,«Hay gente que solo quiere ver arder el mundo.»
+CONV_WIREMU_PIES_S2,"(He looks at you with new respect and mild fear.) ""Old school. My grandad would like you.""",（他带着新的敬意和一丝恐惧看着你。）“老派。我爷爷会喜欢你的。”,（新たな尊敬と少しの恐怖のまなざしで見てくる。）「渋いな。うちのじいちゃんに気に入られるよ。」,(Te mira con un respeto nuevo y algo de miedo.) «De la vieja escuela. A mi abuelo le caerías bien.»
+CONV_WIREMU_PIES_S2_R0,"""Your grandad has taste.""",“你爷爷有品位。”,「おじいさん、センスいいね。」,«Tu abuelo tiene buen gusto.»
+CONV_WIREMU_PIES_S3,"""...That's deep. That's actually deep. I'm going to be thinking about that in my exam.""",“……好深刻。真的很深刻。考试的时候我会一直想这个。”,「…深いな。本当に深い。試験中ずっと考えちゃいそう。」,«...Qué profundo. Profundo de verdad. Voy a estar pensando en eso en el examen.»
+CONV_WIREMU_PIES_S3_R0,"""Please don't.""",“拜托别。”,「やめて。」,"«Por favor, no.»"
+CONV_SIONE_FLASHCARDS_S0,"(Sione is doing squats while reading flashcards.) ""Blood to the brain, bro. It's science.""",（Sione 一边做深蹲一边看单词卡。）“让血流到脑子里，兄弟。这是科学。”,（Sioneが単語カードを読みながらスクワットしている。）「脳に血を送るんだよ。科学だ。」,"(Sione hace sentadillas mientras lee fichas.) «Sangre al cerebro, tío. Es ciencia.»"
+CONV_SIONE_FLASHCARDS_S0_R0,"""Is it?""",“是吗？”,「そうなの？」,«¿Lo es?»
+CONV_SIONE_FLASHCARDS_S0_R1,"""Move over, I'm joining.""",“让开，我也来。”,「どいて、私もやる。」,"«Hazme sitio, me apunto.»"
+CONV_SIONE_FLASHCARDS_S1,"""I don't know. I read it on a protein tub. But I've remembered nineteen cards in a row, so.""",“不知道。我是在一桶蛋白粉上看到的。但我已经连续记住十九张卡了，所以嘛。”,「知らない。プロテインの容器に書いてあった。でも19枚連続で覚えたし。」,"«No lo sé. Lo leí en un bote de proteínas. Pero me he acordado de diecinueve fichas seguidas, así que.»"
+CONV_SIONE_FLASHCARDS_S1_R0,"""Results don't lie.""",“结果不会说谎。”,「結果は嘘つかない。」,«Los resultados no mienten.»
+CONV_SIONE_FLASHCARDS_S2,"(Ten minutes later you're both sweating, laughing and somehow know the causes of the First World War.)",（十分钟后，你们俩满头大汗、笑个不停，而且不知怎么都记住了一战的起因。）,（10分後、二人とも汗だくで笑っていて、なぜか第一次世界大戦の原因を覚えている。）,"(Diez minutos después estáis los dos sudando, riéndoos y, no se sabe cómo, os sabéis las causas de la Primera Guerra Mundial.)"
+CONV_SIONE_FLASHCARDS_S2_R0,"""Same time tomorrow?""",“明天同一时间？”,「明日も同じ時間に？」,«¿Mañana a la misma hora?»
+CONV_MIKA_LOST_S0,"""Is it weird that I'm going to miss this? Like, the actual building. The bad chairs.""",“我会想念这里，这奇怪吗？我是说，这栋楼本身。那些烂椅子。”,「ここが恋しくなるって変かな？建物そのものが。あのボロい椅子とか。」,"«¿Es raro que vaya a echar de menos esto? O sea, el edificio en sí. Las sillas malas.»"
+CONV_MIKA_LOST_S0_R0,"""Not weird. I'll miss the bad chairs too.""",“不奇怪。我也会想念那些烂椅子。”,「変じゃない。私もボロ椅子が恋しくなる。」,«Nada raro. Yo también echaré de menos las sillas malas.»
+CONV_MIKA_LOST_S0_R1,"""I won't miss the chairs.""",“我不会想念那些椅子。”,「椅子は恋しくならない。」,«Yo las sillas no.»
+CONV_MIKA_LOST_S1,"""Thirteen years of the same corridors. And next year it's all new people who don't know I cried in year 8 because of a fire drill.""",“十三年都是同样的走廊。明年全是新面孔，没人知道我初二因为消防演习哭过。”,「13年間同じ廊下。来年は、私が中学の時に避難訓練で泣いたことを知らない人ばっかり。」,«Trece años en los mismos pasillos. Y el año que viene todo gente nueva que no sabe que lloré en segundo por un simulacro de incendio.»
+CONV_MIKA_LOST_S1_R0,"""That's the good part. Fresh start.""",“这正是好的一面。重新开始。”,「それがいいところじゃん。リセット。」,«Eso es lo bueno. Empezar de cero.»
+CONV_MIKA_LOST_S1_R1,"""I'll tell them. As a welcome gift.""",“我会告诉他们的。当作见面礼。”,「私が教えてあげる。歓迎の印に。」,«Ya se lo contaré yo. Como regalo de bienvenida.»
+CONV_MIKA_LOST_S2,"(She laughs.) ""Promise we'll still see each other. Not 'we should catch up'. Actually see each other.""",（她笑了。）“保证我们还会见面。不是那种‘有空聚聚’。是真的见面。”,（笑う。）「これからも会うって約束して。『また今度ね』じゃなくて。本当に会うの。」,(Se ríe.) «Prométeme que nos seguiremos viendo. No «a ver si quedamos». Vernos de verdad.»
+CONV_MIKA_LOST_S2_R0,"""Promise.""",“我保证。”,「約束する。」,«Prometido.»
+CONV_TANE_LAST_WEEK_S0,"(Tane is sitting on the steps, staring at nothing.) ""Did you know this is the last week we'll ever have to be here?""",（Tane 坐在台阶上，发着呆。）“你知道吗，这是我们最后一个必须来这儿的星期了。”,（Taneが階段に座ってぼんやりしている。）「ここに来なきゃいけないの、今週が最後って知ってた？」,"(Tane está sentado en las escaleras, mirando a la nada.) «¿Sabías que esta es la última semana que tenemos que venir aquí?»"
+CONV_TANE_LAST_WEEK_S0_R0,"""Feels weird.""",“感觉好奇怪。”,「変な感じ。」,«Qué raro se siente.»
+CONV_TANE_LAST_WEEK_S0_R1,"""Finally.""",“终于。”,「やっとだ。」,«Por fin.»
+CONV_TANE_LAST_WEEK_S1,"""Year 4. You and me. That sandpit. You threw sand in my eyes and then cried harder than me.""",“小学四年级。你和我。那个沙坑。你往我眼睛里扔沙子，然后哭得比我还厉害。”,「小4。お前と俺。あの砂場。お前が俺の目に砂かけて、俺より大泣きしたんだよな。」,«Cuarto de primaria. Tú y yo. Aquel arenero. Me echaste arena en los ojos y luego lloraste más que yo.»
+CONV_TANE_LAST_WEEK_S1_R0,"""I was defending my sandcastle.""",“我在保卫我的沙堡。”,「砂の城を守ってたんだよ。」,«Estaba defendiendo mi castillo.»
+CONV_TANE_LAST_WEEK_S1_R1,"""You deserved it.""",“你活该。”,「自業自得でしょ。」,«Te lo merecías.»
+CONV_TANE_LAST_WEEK_S2,"(He laughs, then goes quiet.) ""Whatever happens next year. Same as always, yeah?""",（他笑了，然后安静下来。）“不管明年怎样。还跟以前一样，对吧？”,（笑ってから、静かになる。）「来年どうなっても。いつも通りだよな？」,"(Se ríe y luego se queda callado.) «Pase lo que pase el año que viene. Como siempre, ¿no?»"
+CONV_TANE_LAST_WEEK_S2_R0,"""Same as always.""",“跟以前一样。”,「いつも通り。」,«Como siempre.»
+CONV_ANA_AFTER_RUN_S0,"""So? Different person by first period?""",“怎么样？第一节课的时候是不是换了个人？”,「で？1時間目には別人になれた？」,«¿Y? ¿Otra persona a primera hora?»
+CONV_ANA_AFTER_RUN_S0_R0,"""Annoyingly, yes.""",“很烦人，但是。”,「悔しいけど、うん。」,"«Por desgracia, sí.»"
+CONV_ANA_AFTER_RUN_S0_R1,"""My legs are a different person.""",“我的腿换了个人。”,「足が別人になった。」,«Mis piernas son otra persona.»
+CONV_ANA_AFTER_RUN_S1,"(Ana looks extremely pleased with herself.) ""Tomorrow? You don't have to. But you know where I'll be.""",（Ana 一脸得意。）“明天？你不用非来。但你知道我会在哪。”,（Anaはものすごく得意げだ。）「明日は？来なくてもいいけど。どこにいるかは知ってるでしょ。」,(Ana parece muy satisfecha consigo misma.) «¿Mañana? No tienes por qué. Pero ya sabes dónde estaré.»
+CONV_ANA_AFTER_RUN_S1_R0,"""I'll think about it. From bed.""",“我会考虑的。在床上考虑。”,「考えとく。ベッドの中で。」,«Lo pensaré. Desde la cama.»
+CONV_HALLOWAY_CARD_S0,"(Mr Halloway is holding the card the class signed. He looks at it like it's a test paper he can't mark.) ""I gather I have you to thank for this.""",（Halloway 老师拿着全班签名的卡片。他看着它，就像看一份他没法批改的试卷。）“我猜我该为这个谢谢你。”,（Halloway先生がクラスで寄せ書きしたカードを持っている。採点できない答案を見るような顔で。）「これは、あなたのおかげだと聞きました。」,(El Sr. Halloway sostiene la tarjeta que firmó la clase. La mira como un examen que no sabe corregir.) «Tengo entendido que esto te lo debo a ti.»
+CONV_HALLOWAY_CARD_S0_R0,"""It was Chloe's idea too.""",“也是 Chloe 的主意。”,「Chloeのアイデアでもあります。」,«También fue idea de Chloe.»
+CONV_HALLOWAY_CARD_S0_R1,"""Is it true you're leaving?""",“您真的要走吗？”,「本当に辞めるんですか？」,«¿Es verdad que se va?»
+CONV_HALLOWAY_CARD_S1,"""Someone wrote 'thanks for learning my actual name'. I've read it about nine times.""",“有人写了‘谢谢您记住我的真名’。我大概读了九遍。”,「誰かが『本当の名前を覚えてくれてありがとう』と書いていました。9回くらい読みましたよ。」,«Alguien ha escrito «gracias por aprenderse mi nombre de verdad». Lo he leído unas nueve veces.»
+CONV_HALLOWAY_CARD_S1_R0,"""You'll be missed, sir.""",“我们会想您的，老师。”,「寂しくなります、先生。」,"«Le echaremos de menos, profe.»"
+CONV_HALLOWAY_CARD_S2,"""Dunedin. A book. Thirty years of teaching and I've finally decided to do my own homework."" (He almost smiles.)",“但尼丁。一本书。教了三十年书，我终于决定做我自己的作业了。”（他差点笑了。）,「ダニーデンです。本を書きます。教師を30年やって、ようやく自分の宿題をやる気になりました。」（ほとんど笑っている。）,«Dunedin. Un libro. Treinta años dando clase y por fin he decidido hacer mis propios deberes.» (Casi sonríe.)
+CONV_HALLOWAY_CARD_S2_R0,"""Are we in it?""",“我们会在书里吗？”,「私たちも出てきますか？」,«¿Salimos nosotros?»
+CONV_HALLOWAY_CARD_S3,"""Every one of you. Names changed to protect the guilty. Now. Go and do some work before I get sentimental in front of a student.""",“你们每一个人都在。为了保护罪人，名字都改了。好了。在我当着学生的面变得多愁善感之前，去学习吧。”,「全員出てきます。名前は変えますよ、罪人を守るために。さあ。私が生徒の前で感傷的になる前に、勉強しに行きなさい。」,"«Todos y cada uno. Con los nombres cambiados para proteger a los culpables. Y ahora, a trabajar antes de que me ponga sentimental delante de un alumno.»"
+CONV_HALLOWAY_CARD_S3_R0,"""Yes, sir.""",“是，老师。”,「はい、先生。」,"«Sí, profe.»"
+CONV_HALLOWAY_PROUD_S0,"""{NAME}. A moment. I've been looking at where you started this year, and where you are now.""",“{NAME}。耽误你一下。我一直在看你今年起步的位置，和你现在的位置。”,「{NAME}さん。少しいいですか。今年あなたがどこから始めて、今どこにいるのか見ていました。」,«{NAME}. Un momento. He estado mirando dónde empezaste este año y dónde estás ahora.»
+CONV_HALLOWAY_PROUD_S0_R0,"""Is that good or bad?""",“这是好事还是坏事？”,「いい話ですか、悪い話ですか？」,«¿Eso es bueno o malo?»
+CONV_HALLOWAY_PROUD_S0_R1,"""I've been trying, sir.""",“我一直在努力，老师。”,「頑張ってきました、先生。」,"«Lo he intentado, profe.»"
+CONV_HALLOWAY_PROUD_S1,"""It's good. It's the kind of good I don't say often, because it goes to people's heads. You've done the work. It shows.""",“是好事。是我不常说的那种好，因为说多了人会飘。你下了功夫。看得出来。”,「いい話です。調子に乗るのであまり言わない種類の、いい話です。あなたはやるべきことをやった。それが表れています。」,"«Es bueno. Del tipo de bueno que no digo a menudo, porque se les sube a la cabeza. Has hecho el trabajo. Se nota.»"
+CONV_HALLOWAY_PROUD_S1_R0,"""Thank you. That means a lot.""",“谢谢您。这对我意义很大。”,「ありがとうございます。すごく嬉しいです。」,«Gracias. Significa mucho.»
+CONV_HALLOWAY_PROUD_S1_R1,"""Don't worry, it's already gone to my head.""",“别担心，我已经飘了。”,「ご心配なく、もう調子に乗ってます。」,"«Tranquilo, ya se me ha subido.»"
+CONV_HALLOWAY_PROUD_S2,"""Good. Now finish it. Sleep before the externals. Don't cram the night before. And for heaven's sake bring a calculator.""",“很好。那就善始善终。统考前好好睡觉。别前一晚临时抱佛脚。看在老天的份上，带上计算器。”,「よろしい。では最後までやり遂げなさい。外部試験の前は寝ること。前の晩に詰め込まないこと。それと、頼むから電卓を持ってきなさい。」,"«Bien. Ahora termínalo. Duerme antes de los externos. No te des un atracón la noche antes. Y por lo que más quieras, trae calculadora.»"
+CONV_HALLOWAY_PROUD_S2_R0,"""Yes, sir.""",“是，老师。”,「はい、先生。」,"«Sí, profe.»"
+CONV_HALLOWAY_REFERENCE_TALK_S0,"""Your reference is done. I'm not going to tell you what's in it, but I will say I didn't have to make anything up.""",“你的推荐信写好了。我不会告诉你写了什么，但我可以说我一个字都不用编。”,「推薦状、書き終わりました。中身は言いませんが、何も作り話をする必要はなかったとだけ言っておきます。」,"«Tu carta de recomendación está terminada. No te voy a decir qué pone, pero sí que no he tenido que inventarme nada.»"
+CONV_HALLOWAY_REFERENCE_TALK_S0_R0,"""Thank you, sir. Really.""",“谢谢您，老师。真的。”,「ありがとうございます。本当に。」,"«Gracias, profe. De verdad.»"
+CONV_HALLOWAY_REFERENCE_TALK_S0_R1,"""Did you mention the calculator incident?""",“您提了计算器那件事吗？”,「電卓事件のことは書きました？」,«¿Mencionó lo de la calculadora?»
+CONV_HALLOWAY_REFERENCE_TALK_S1,"""Don't thank me. Earn it. Which, so far, you have.""",“别谢我。配得上它就行。到目前为止，你配得上。”,「お礼は結構。ふさわしくあればいい。今のところ、ふさわしいですよ。」,"«No me des las gracias. Gánatela. Que, de momento, lo has hecho.»"
+CONV_HALLOWAY_REFERENCE_TALK_S1_R0,"""I'll keep earning it.""",“我会继续配得上的。”,「これからもそうします。」,«Seguiré ganándomela.»
+CONV_HALLOWAY_REFERENCE_TALK_S2,"""I described it as 'resourceful under pressure'. Which is the kindest possible way of putting it.""",“我把它描述为‘压力下足智多谋’。这已经是最仁慈的说法了。”,「『プレッシャー下での機転』と書きました。考えうる限り最も優しい表現です。」,«Lo describí como «recursos bajo presión». Que es la forma más amable posible de decirlo.»
+CONV_HALLOWAY_REFERENCE_TALK_S2_R0,"""Very generous, sir.""",“您真宽厚，老师。”,「寛大ですね、先生。」,"«Muy generoso, profe.»"
+CONV_RAVI_FIRST_S0,"(The man behind the counter looks up from a crossword.) ""Ah. The student ID. In person. Welcome back. I am Ravi.""",（柜台后的男人从填字游戏上抬起头。）“啊。学生证本人。欢迎回来。我是 Ravi。”,（カウンターの男性がクロスワードから顔を上げる。）「ああ。学生証の本人だ。おかえり。私はRavi。」,(El hombre del mostrador levanta la vista del crucigrama.) «Ah. El carné de estudiante. En persona. Hola de nuevo. Soy Ravi.»
+CONV_RAVI_FIRST_S0_R0,"""Sorry about leaving it. Again.""",“抱歉又把它落在这儿。”,「また置き忘れてすみません。」,«Perdona por dejármelo. Otra vez.»
+CONV_RAVI_FIRST_S0_R1,"""How long have you had this shop?""",“这店你开多久了？”,「このお店、いつからやってるんですか？」,«¿Cuánto tiempo llevas con la tienda?»
+CONV_RAVI_FIRST_S1,"""Every week someone leaves something. A phone, a shoe once. You are not the worst. The shoe was the worst.""",“每周都有人落下点东西。手机，有一次是一只鞋。你不是最糟的。鞋才是最糟的。”,「毎週誰かが何か忘れていく。スマホとか、一度は靴。君は最悪じゃない。最悪は靴だ。」,"«Cada semana alguien se deja algo. Un móvil, una vez un zapato. No eres lo peor. Lo peor fue el zapato.»"
+CONV_RAVI_FIRST_S1_R0,"""How do you leave a shoe?""",“怎么会落下一只鞋？”,「どうやったら靴を忘れるの？」,«¿Cómo te dejas un zapato?»
+CONV_RAVI_FIRST_S2,"""Eighteen years. Before me, my uncle. Before him, a man who only sold fishing bait. Some of the old customers still ask for worms.""",“十八年。我之前是我叔叔。再之前是一个只卖鱼饵的人。有些老顾客现在还来问有没有虫子。”,「18年。その前は叔父。その前は釣り餌だけ売ってた人。昔からの客にまだミミズはあるかって聞かれる。」,"«Dieciocho años. Antes de mí, mi tío. Antes de él, un hombre que solo vendía cebo de pesca. Algunos clientes de siempre aún piden gusanos.»"
+CONV_RAVI_FIRST_S2_R0,"""Do you have worms?""",“你有虫子吗？”,「ミミズあるんですか？」,«¿Y tienes gusanos?»
+CONV_RAVI_FIRST_S3,"""I do not ask questions. I just keep it behind the till. Now. You look hungry. Pies are hot.""",“我从不多问。我就把东西放在收银台后面。好了。你看起来饿了。馅饼是热的。”,「余計なことは聞かない。レジの裏に置いておくだけ。さて。お腹空いてる顔だね。パイは温かいよ。」,«Yo no hago preguntas. Lo guardo detrás de la caja y ya. Bueno. Tienes cara de hambre. Los pasteles están calientes.»
+CONV_RAVI_FIRST_S3_R0,"""Sold.""",“成交。”,「買います。」,«Vendido.»
+CONV_RAVI_PIES_S0,"""Important question. The pie warmer. I am thinking of changing the order. Mince at the front, or butter chicken?""",“重要问题。馅饼保温柜。我在考虑换个摆放顺序。肉末的放前面，还是黄油鸡的？”,「重要な質問。パイのウォーマー。並び順を変えようと思ってる。ミンスを前に？それともバターチキン？」,«Pregunta importante. El calentador de pasteles. Estoy pensando cambiar el orden. ¿Delante el de carne picada o el de pollo a la mantequilla?»
+CONV_RAVI_PIES_S0_R0,"""Mince. Always mince.""",“肉末。永远是肉末。”,「ミンス。いつだってミンス。」,«Carne picada. Siempre carne picada.»
+CONV_RAVI_PIES_S0_R1,"""Butter chicken. Be bold.""",“黄油鸡。大胆点。”,「バターチキン。攻めましょう。」,«Pollo a la mantequilla. Arriésgate.»
+CONV_RAVI_PIES_S1,"""Safe. Traditional. This is what my wife said. I was hoping you would disagree with her so I could win.""",“稳妥。传统。我老婆也是这么说的。我还指望你跟她唱反调，我好赢一次。”,「無難。伝統的。妻もそう言った。君が反対してくれたら私の勝ちだったのに。」,«Seguro. Tradicional. Es lo que dijo mi mujer. Esperaba que le llevaras la contraria para ganar yo.»
+CONV_RAVI_PIES_S1_R0,"""Sorry. She's right.""",“抱歉。她是对的。”,「すみません。奥さんが正しい。」,«Lo siento. Tiene razón ella.»
+CONV_RAVI_PIES_S2,"(Ravi points at you, delighted.) ""Bold! Yes! I will tell my wife a customer agreed with me. I will not tell her it was a student.""",（Ravi 指着你，很高兴。）“大胆！对！我要告诉我老婆有个顾客赞同我。我不会告诉她那是个学生。”,（Raviが嬉しそうに指さす。）「攻める！そう！お客さんが賛成したって妻に言おう。学生だったとは言わない。」,"(Ravi te señala, encantado.) «¡Arriesgarse! ¡Sí! Le diré a mi mujer que un cliente me dio la razón. No le diré que era un estudiante.»"
+CONV_RAVI_PIES_S2_R0,"""Your secret's safe.""",“你的秘密我守住了。”,「秘密は守ります。」,«Tu secreto está a salvo.»
+CONV_RAVI_PIES_S3,"""Everyone says that. She is always right. It is a very difficult marriage. Twenty-two years."" (He beams.)",“大家都这么说。她永远是对的。这是一段很艰难的婚姻。二十二年了。”（他笑得很灿烂。）,「みんなそう言う。妻はいつも正しい。とても大変な結婚生活だよ。22年。」（満面の笑み。）,«Todo el mundo dice eso. Siempre tiene razón. Es un matrimonio muy difícil. Veintidós años.» (Sonríe de oreja a oreja.)
+CONV_RAVI_PIES_S3_R0,"""Sounds terrible.""",“听起来太惨了。”,「大変そうですね。」,«Suena horrible.»
+CONV_RAVI_CRICKET_RADIO_S0,"(A radio behind the counter is murmuring about run rates. Ravi holds up a finger.) ""Wait. Wait. ...No. NO. Out. He is out.""",（柜台后的收音机在低声播报跑分率。Ravi 竖起一根手指。）“等等。等等。……不。“不”。出局。他出局了。”,（カウンターの後ろでラジオがランレートについてつぶやいている。Raviが指を1本立てる。）「待って。待って。…ああ。「ああ」。アウト。アウトだ。」,(Una radio detrás del mostrador murmura algo sobre carreras. Ravi levanta un dedo.) «Espera. Espera. ...No. NO. Eliminado. Está eliminado.»
+CONV_RAVI_CRICKET_RADIO_S0_R0,"""Is that bad?""",“这不好吗？”,「それ、まずいんですか？」,«¿Eso es malo?»
+CONV_RAVI_CRICKET_RADIO_S0_R1,"""Unbelievable. The umpire's blind.""",“难以置信。裁判瞎了吧。”,「信じられない。審判の目はどこについてるんだ。」,«Increíble. El árbitro está ciego.»
+CONV_RAVI_CRICKET_RADIO_S1,"(He puts his head in his hands.) ""It is very bad. Sit. I will explain. It will take forty minutes. You will love it.""",（他双手抱头。）“非常不好。坐下。我来解释。要四十分钟。你会爱上它的。”,（頭を抱える。）「すごくまずい。座って。説明する。40分かかる。きっと好きになる。」,(Se lleva las manos a la cabeza.) «Es muy malo. Siéntate. Te lo explico. Son cuarenta minutos. Te va a encantar.»
+CONV_RAVI_CRICKET_RADIO_S1_R0,"""...Okay. Teach me.""",“……好吧。教我。”,「…わかった。教えて。」,«...Vale. Enséñame.»
+CONV_RAVI_CRICKET_RADIO_S1_R1,"""Maybe the short version?""",“或许来个简短版？”,「短いバージョンで…？」,«¿Quizá la versión corta?»
+CONV_RAVI_CRICKET_RADIO_S2,"(Ravi looks at you like you have finally said something sensible.) ""THANK you. You have been listening to the radio. I am so proud.""",（Ravi 看着你，好像你终于说了句明白话。）“谢谢！你一直在听收音机。我太骄傲了。”,（ようやくまともなことを言ったという顔で見てくる。）「ありがとう！ラジオ聴いてたんだね。誇らしいよ。」,(Ravi te mira como si por fin dijeras algo sensato.) «¡GRACIAS! Has estado escuchando la radio. Qué orgullo.»
+CONV_RAVI_CRICKET_RADIO_S2_R0,"""I'm a quick learner.""",“我学得快。”,「飲み込みが早いので。」,«Aprendo rápido.»
+CONV_RAVI_CRICKET_RADIO_S3,(Ten minutes later you understand roughly a third of cricket and Ravi is happier than you've ever seen him.),（十分钟后，你大概懂了三分之一的板球，而 Ravi 比你见过的任何时候都开心。）,（10分後、クリケットの3分の1くらいは理解できて、Raviは見たことがないくらい上機嫌だ。）,(Diez minutos después entiendes más o menos un tercio del críquet y Ravi está más contento que nunca.)
+CONV_RAVI_CRICKET_RADIO_S3_R0,"""Same time next match?""",“下场比赛同一时间？”,「次の試合も同じ時間に？」,«¿Mismo plan en el próximo partido?»
+CONV_RAVI_ASHA_S0,"""I told Asha what you said. She rolled her eyes. Then I saw her writing it on a sticky note. On her mirror.""",“我把你说的告诉了 Asha。她翻了个白眼。然后我看见她把它写在便利贴上。贴在镜子上。”,「君が言ったことをAshaに伝えた。目を回してたよ。でもそのあと付箋に書いてるのを見た。鏡に貼ってた。」,«Le dije a Asha lo que dijiste. Puso los ojos en blanco. Luego la vi escribiéndolo en un pósit. En su espejo.»
+CONV_RAVI_ASHA_S0_R0,"""That's the highest honour.""",“这是最高荣誉。”,「それは最高の名誉です。」,«Es el mayor honor.»
+CONV_RAVI_ASHA_S0_R1,"""She'll be fine. She's got you.""",“她会没事的。她有你。”,「大丈夫ですよ。Raviさんがいるし。」,«Le irá bien. Te tiene a ti.»
+CONV_RAVI_ASHA_S1,"""It is. I have been trying to get on that mirror for seventeen years.""",“确实。我努力了十七年都没能上那面镜子。”,「そうだね。17年かけても、私はあの鏡に載れなかった。」,«Lo es. Llevo diecisiete años intentando salir en ese espejo.»
+CONV_RAVI_ASHA_S1_R0,"""Maybe next year.""",“也许明年吧。”,「来年こそ。」,«Quizá el año que viene.»
+CONV_RAVI_ASHA_S2,"(Ravi gets very busy straightening the gum display.) ""Yes. Well. Here. A chocolate. For the advice. Do not argue.""",（Ravi 突然忙着整理口香糖货架。）“是啊。好了。给。一块巧克力。谢谢你的建议。别争。”,（Raviが急にガムの陳列を直すのに忙しくなる。）「まあ。うん。ほら。チョコ。アドバイスのお礼。断らないで。」,(Ravi de repente se pone muy ocupado colocando los chicles.) «Sí. Bueno. Toma. Un chocolate. Por el consejo. No discutas.»
+CONV_RAVI_ASHA_S2_R0,"""Thanks, Ravi.""",“谢谢 Ravi。”,「ありがとう、Ravi。」,"«Gracias, Ravi.»"
+CONV_RAVI_LATE_NIGHT_S0,"(The shop is quiet. Ravi is drinking tea from a mug that says WORLD'S OKAYEST DAD.) ""Late for a student. Exams, or life?""",（店里很安静。Ravi 正用一个印着“世界还行的爸爸”的马克杯喝茶。）“学生这么晚还出来。考试，还是生活？”,（店内は静か。Raviは「世界でまあまあなパパ」と書かれたマグで紅茶を飲んでいる。）「学生にしては遅い時間だね。試験？それとも人生？」,(La tienda está en silencio. Ravi bebe té en una taza que pone EL PADRE MÁS NORMALITO DEL MUNDO.) «Tarde para un estudiante. ¿Exámenes o la vida?»
+CONV_RAVI_LATE_NIGHT_S0_R0,"""Exams.""",“考试。”,「試験。」,«Exámenes.»
+CONV_RAVI_LATE_NIGHT_S0_R1,"""Life.""",“生活。”,「人生。」,«La vida.»
+CONV_RAVI_LATE_NIGHT_S1,"""When I was your age I studied by candle. Not because I was poor. Because my brother kept stealing the lightbulb.""",“我在你这个年纪是借着蜡烛学习的。不是因为穷。是因为我哥老偷灯泡。”,「君くらいの歳の頃、ろうそくの明かりで勉強した。貧乏だったからじゃない。兄が電球を盗んでたからだ。」,«A tu edad yo estudiaba a la luz de una vela. No porque fuéramos pobres. Porque mi hermano no paraba de robar la bombilla.»
+CONV_RAVI_LATE_NIGHT_S1_R0,"""Why did he steal the lightbulb?""",“他为什么偷灯泡？”,「なんで電球を？」,«¿Por qué robaba la bombilla?»
+CONV_RAVI_LATE_NIGHT_S2,"(Ravi nods slowly.) ""Life is the harder one. Exams finish."" (He pushes a packet of biscuits across the counter.) ""Life you just get better at.""",（Ravi 慢慢点头。）“生活更难。考试会结束。”（他把一包饼干推过柜台。）“生活只能越过越熟练。”,（Raviがゆっくりうなずく。）「人生の方が難しい。試験は終わるから。」（ビスケットの袋をカウンター越しに押し出す。）「人生は、うまくなっていくしかない。」,(Ravi asiente despacio.) «La vida es lo más difícil. Los exámenes se acaban.» (Te acerca un paquete de galletas por el mostrador.) «En la vida simplemente vas mejorando.»
+CONV_RAVI_LATE_NIGHT_S2_R0,"""Thanks, Ravi.""",“谢谢 Ravi。”,「ありがとう、Ravi。」,"«Gracias, Ravi.»"
+CONV_RAVI_LATE_NIGHT_S3,"""To study in the dark, he said. Like a monk. He failed. He is an accountant now. Go home and sleep.""",“他说是为了在黑暗中学习。像个僧人。他没考过。他现在是会计。回家睡觉去吧。”,「暗闇で勉強するためだと言ってた。修行僧みたいに。落ちたよ。今は会計士だ。帰って寝なさい。」,"«Para estudiar a oscuras, decía. Como un monje. Suspendió. Ahora es contable. Vete a casa a dormir.»"
+CONV_RAVI_LATE_NIGHT_S3_R0,"""Night, Ravi.""",“晚安，Ravi。”,「おやすみ、Ravi。」,"«Buenas noches, Ravi.»"
+CONV_RAVI_EXAMS_S0,"""Exam soon. I can tell. Students before an exam buy only two things: energy drinks and chocolate. You are holding both.""",“快考试了。我看得出来。考试前的学生只买两样东西：能量饮料和巧克力。你两样都拿着。”,「もうすぐ試験だね。わかるよ。試験前の学生は2つしか買わない。エナジードリンクとチョコ。両方持ってる。」,«Examen pronto. Se nota. Antes de un examen los estudiantes solo compran dos cosas: bebidas energéticas y chocolate. Llevas las dos.»
+CONV_RAVI_EXAMS_S0_R0,"""Busted.""",“被抓包了。”,「バレた。」,«Me has pillado.»
+CONV_RAVI_EXAMS_S0_R1,"""What would you buy instead?""",“换你会买什么？”,「Raviさんなら何を買います？」,«¿Tú qué comprarías?»
+CONV_RAVI_EXAMS_S1,"(He takes the energy drink out of your hand and replaces it with a banana.) ""This one is on me. The drink you can buy after.""",（他从你手里拿走能量饮料，换成一根香蕉。）“这个我请。饮料考完再买。”,（手からエナジードリンクを取って、バナナに替える。）「これは私のおごり。ドリンクは試験の後に買いなさい。」,"(Te quita la bebida energética de la mano y te pone un plátano.) «Esto invito yo. La bebida, después.»"
+CONV_RAVI_EXAMS_S1_R0,"""...Fine.""",“……行吧。”,「…わかりました。」,«...Vale.»
+CONV_RAVI_EXAMS_S2,"""A banana and eight hours of sleep. Boring. Works every time. My daughter does not listen either.""",“一根香蕉加八小时睡眠。很无聊。每次都管用。我女儿也不听。”,「バナナと8時間の睡眠。つまらない。でも毎回効く。娘も聞かないけどね。」,«Un plátano y ocho horas de sueño. Aburrido. Funciona siempre. Mi hija tampoco me hace caso.»
+CONV_RAVI_EXAMS_S2_R0,"""I'll take the banana.""",“香蕉我拿了。”,「バナナはもらいます。」,«Me llevo el plátano.»
+CONV_RAVI_WORRIED_S0,"(Ravi watches you put things on the counter and doesn't ring them up.) ""You know you can just stand here for a minute. You don't have to buy anything.""",（Ravi 看着你把东西放在柜台上，却没给你结账。）“你知道你可以在这儿站一会儿的。不用买东西。”,（カウンターに商品を置いても、Raviはレジを打たずに見ている。）「ここにちょっと立ってるだけでもいいんだよ。何も買わなくていい。」,(Ravi te ve dejar cosas en el mostrador y no las cobra.) «Sabes que puedes quedarte aquí un minuto sin más. No tienes que comprar nada.»
+CONV_RAVI_WORRIED_S0_R0,"""I'm fine. Just tired.""",“我没事。就是累了。”,「大丈夫です。疲れてるだけ。」,«Estoy bien. Solo cansancio.»
+CONV_RAVI_WORRIED_S0_R1,(Stand there for a minute.),（在那儿站一会儿。）,（しばらくそこに立つ。）,(Te quedas ahí un minuto.)
+CONV_RAVI_WORRIED_S1,"""Tired is fine. Tired for weeks is not fine. My shop is open until eleven. If you need somewhere that isn't home or school. That's all.""",“累没关系。连着累好几周就不行了。我的店开到十一点。如果你需要一个既不是家也不是学校的地方。就这样。”,「疲れるのはいい。何週間も疲れてるのは良くない。店は11時まで開いてる。家でも学校でもない場所が必要なら。それだけ。」,"«El cansancio es normal. Semanas de cansancio, no. Mi tienda abre hasta las once. Por si necesitas un sitio que no sea tu casa ni el instituto. Nada más.»"
+CONV_RAVI_WORRIED_S1_R0,"""Thanks, Ravi. I mean it.""",“谢谢你，Ravi。我是认真的。”,「ありがとう、Ravi。本当に。」,"«Gracias, Ravi. Lo digo en serio.»"
+CONV_RAVI_WORRIED_S2,"(The radio plays. A car goes past. Ravi hands you a cup of the tea he was drinking, in a paper cup. Nobody says anything. It helps.)",（收音机响着。一辆车开过。Ravi 用纸杯给你倒了一杯他正在喝的茶。谁都没说话。但这有用。）,（ラジオが流れている。車が通り過ぎる。Raviが自分の飲んでいた紅茶を紙コップに注いで渡してくれる。誰も何も言わない。それが救いになる。）,(Suena la radio. Pasa un coche. Ravi te da un vaso de papel con el té que estaba bebiendo. Nadie dice nada. Ayuda.)
+CONV_RAVI_WORRIED_S2_R0,"""...Thanks.""",“……谢谢。”,「…ありがとう。」,«...Gracias.»
+CONV_RAVI_STORY_S0,"""You know I was a civil engineer? Before. In Mumbai. Bridges.""",“你知道我以前是土木工程师吗？在孟买。造桥的。”,「昔、土木技師だったって知ってた？ムンバイで。橋を作ってた。」,«¿Sabías que era ingeniero civil? Antes. En Bombay. Puentes.»
+CONV_RAVI_STORY_S0_R0,"""Really? What happened?""",“真的吗？后来怎么了？”,「本当に？何があったんですか？」,«¿En serio? ¿Qué pasó?»
+CONV_RAVI_STORY_S0_R1,"""Do you miss it?""",“你想念那份工作吗？”,「恋しいですか？」,«¿Lo echas de menos?»
+CONV_RAVI_STORY_S1,"""We came here. The degree did not count. They said: study again, three years. I had a baby and no money. My uncle had a shop. So.""",“我们来了这里。学位不被承认。他们说：重新读，三年。我有个孩子，没钱。我叔叔有家店。所以就这样了。”,「こっちに来たら、学位が認められなかった。もう3年勉強し直せと言われた。赤ん坊がいて、お金がなかった。叔父が店を持ってた。それで。」,"«Vinimos aquí. El título no contaba. Me dijeron: vuelve a estudiar, tres años. Tenía un bebé y nada de dinero. Mi tío tenía una tienda. Así que.»"
+CONV_RAVI_STORY_S1_R0,"""That's really unfair.""",“这太不公平了。”,「それはひどい。」,«Eso es muy injusto.»
+CONV_RAVI_STORY_S2,"(He looks around the little shop.) ""Sometimes. But I know every person on this street. A bridge does not know anybody."" (He shrugs.) ""So. You choose your bridge carefully, yes?""",（他环顾这家小店。）“有时候会。但这条街上的每个人我都认识。桥可不认识任何人。”（他耸耸肩。）“所以。你要好好选你的桥，明白吗？”,（小さな店を見回す。）「時々ね。でも、この通りの人は全員知ってる。橋は誰のことも知らない。」（肩をすくめる。）「だから。自分の橋は慎重に選びなさい、いいね？」,"(Mira la tiendecita a su alrededor.) «A veces. Pero conozco a todo el mundo en esta calle. Un puente no conoce a nadie.» (Se encoge de hombros.) «Así que elige bien tu puente, ¿vale?»"
+CONV_RAVI_STORY_S2_R0,"""I will.""",“我会的。”,「そうします。」,«Lo haré.»
+CONV_RAVI_STORY_S2_R1,"""I think you chose a good one.""",“我觉得你选了座好桥。”,「いい橋を選んだと思いますよ。」,«Creo que elegiste uno bueno.»
+CONV_RAVI_LOTTO_S0,"""If you won the lotto tonight. Forty million. First thing you buy?""",“如果你今晚中了彩票。四千万。第一样买什么？”,「今夜宝くじが当たったら。4000万ドル。最初に何を買う？」,«Si esta noche te tocara la lotería. Cuarenta millones. ¿Qué es lo primero que comprarías?»
+CONV_RAVI_LOTTO_S0_R0,"""Pay off my uni fees.""",“付清我的大学学费。”,「大学の学費を払う。」,«Pagar la matrícula de la uni.»
+CONV_RAVI_LOTTO_S0_R1,"""Every pie in this shop.""",“这家店里的所有馅饼。”,「この店のパイ全部。」,«Todos los pasteles de esta tienda.»
+CONV_RAVI_LOTTO_S1,"""Sensible. Boring, but sensible. You will be a very good adult. Very bad lotto winner.""",“明智。无聊，但是明智。你会是个很好的大人。很差劲的彩票中奖者。”,「堅実。つまらないけど堅実。いい大人になるよ。宝くじの当選者としては最悪だけど。」,"«Sensato. Aburrido, pero sensato. Serás una persona adulta estupenda. Y pésima para la lotería.»"
+CONV_RAVI_LOTTO_S1_R0,"""What would you buy?""",“那你会买什么？”,「Raviさんは？」,«¿Tú qué comprarías?»
+CONV_RAVI_LOTTO_S2,"(Ravi laughs, a big surprised laugh.) ""Correct answer! I would sell you every pie at full price. Then I would be forty million and twelve dollars.""",（Ravi 大笑起来，是那种惊喜的大笑。）“正确答案！我会按原价把所有馅饼卖给你。这样我就有四千万零十二块了。”,（Raviが驚いたように大笑いする。）「正解！パイ全部を定価で売るよ。そしたら私は4000万と12ドルだ。」,(Ravi suelta una carcajada de sorpresa.) «¡Respuesta correcta! Te vendería todos los pasteles a precio completo. Así tendría cuarenta millones y doce dólares.»
+CONV_RAVI_LOTTO_S2_R0,"""Ruthless.""",“冷酷无情。”,「容赦ない。」,«Despiadado.»
+CONV_RAVI_LOTTO_S3,"""Nothing. I would keep the shop. Who else would hold your student ID?""",“什么都不买。我会继续开这家店。不然谁帮你保管学生证？”,「何も。店を続ける。他に誰が君の学生証を預かるの？」,«Nada. Me quedaría con la tienda. ¿Quién te iba a guardar el carné si no?»
+CONV_RAVI_LOTTO_S3_R0,"""Fair point.""",“有道理。”,「確かに。」,«Buen argumento.»
+CONV_RAVI_AFTER_SHOP_S0,"""My best employee. Unpaid most of the time, but still. The till balanced to the cent. Do you know how rare that is?""",“我最好的员工。虽然大部分时候不拿工资。收银台的账分毫不差。你知道这有多难得吗？”,「うちの最高の従業員だ。ほとんど無給だけど。レジが1セントも狂ってなかった。それがどれだけ珍しいか分かる？」,"«Lo mejor de mi plantilla. Sin cobrar casi nunca, pero bueno. La caja cuadró al céntimo. ¿Sabes lo raro que es eso?»"
+CONV_RAVI_AFTER_SHOP_S0_R0,"""I pressed the big green button and hoped.""",“我按了那个绿色大按钮然后祈祷。”,「大きい緑のボタンを押して祈りました。」,«Pulsé el botón verde grande y recé.»
+CONV_RAVI_AFTER_SHOP_S0_R1,"""I counted the Pineapple Lumps twice.""",“菠萝软糖我数了两遍。”,「パイナップル・ランプスは2回数えました。」,«Conté los Pineapple Lumps dos veces.»
+CONV_RAVI_AFTER_SHOP_S1,"""Exactly as I trained you. If uni does not work, there is a job here. I mean it. Full benefits. The benefits are pies.""",“完全按我教的来。如果大学读不下去，这里有份工作给你。我是认真的。全套福利。福利就是馅饼。”,「私が教えた通りだ。大学がダメだったら、ここで雇うよ。本気で。福利厚生付き。福利厚生はパイ。」,"«Tal como te enseñé. Si la uni no sale bien, aquí tienes trabajo. Lo digo en serio. Con todos los beneficios. Los beneficios son pasteles.»"
+CONV_RAVI_AFTER_SHOP_S1_R0,"""I'll keep it in mind.""",“我会记着的。”,「覚えておきます。」,«Lo tendré en cuenta.»
+CONV_RAVI_LET_DOWN_S0,"(Ravi is polite. Too polite.) ""Ah. Hello. My cousin minded the shop in the end. He ate the stock.""",（Ravi 很礼貌。礼貌过头了。）“啊。你好。最后是我表弟帮我看的店。他偷吃了货。”,（Raviは礼儀正しい。正しすぎる。）「ああ。どうも。結局いとこに店番してもらったよ。商品を食べられた。」,(Ravi es educado. Demasiado educado.) «Ah. Hola. Al final me cuidó la tienda mi primo. Se comió el género.»
+CONV_RAVI_LET_DOWN_S0_R0,"""I'm really sorry I didn't turn up.""",“真的很抱歉我没来。”,「行けなくて本当にすみません。」,«Siento muchísimo no haber venido.»
+CONV_RAVI_LET_DOWN_S0_R1,"""Sorry, I got busy.""",“抱歉，我太忙了。”,「すみません、忙しくて。」,"«Perdona, me lié.»"
+CONV_RAVI_LET_DOWN_S1,"(He waves a hand, and some of the warmth comes back.) ""It happens. You are seventeen and everything is on fire. Next time, a text. That is all I ask.""",（他摆摆手，暖意回来了一些。）“常有的事。你十七岁，什么都火烧眉毛。下次发个消息就行。我就这点要求。”,（手を振ると、少し温かさが戻る。）「よくあることだ。17歳で、何もかもが火事みたいなもんだろう。次はメッセージを1本。それだけでいい。」,"(Hace un gesto con la mano y vuelve algo de calidez.) «Pasa. Tienes diecisiete años y todo está en llamas. La próxima vez, un mensaje. Es lo único que pido.»"
+CONV_RAVI_LET_DOWN_S1_R0,"""A text. Promise.""",“发消息。保证。”,「メッセージ。約束します。」,«Un mensaje. Prometido.»
+CONV_RAVI_GOODBYE_S0,"""So. Nearly finished. Next year, maybe a different city. A different dairy.""",“那么。快结束了。明年也许换个城市了。换个小卖部。”,「さて。もうすぐ終わりだね。来年は違う街かもしれない。違う商店。」,"«Bueno. Ya casi has terminado. El año que viene, quizá otra ciudad. Otra tienda.»"
+CONV_RAVI_GOODBYE_S0_R0,"""It won't be as good.""",“不会有这家好。”,「ここほど良くないですよ。」,«No será tan buena.»
+CONV_RAVI_GOODBYE_S0_R1,"""I'll come back to visit.""",“我会回来看你的。”,「遊びに戻ってきます。」,«Volveré de visita.»
+CONV_RAVI_GOODBYE_S1,"""Of course not. They will not have Pineapple Lumps at the correct temperature. Nobody understands this.""",“当然不会。他们的菠萝软糖温度不会刚好。没人懂这个。”,「当然だ。パイナップル・ランプスを正しい温度で置いてないだろうからね。誰もわかってない。」,«Claro que no. No tendrán los Pineapple Lumps a la temperatura correcta. Nadie entiende esto.»
+CONV_RAVI_GOODBYE_S1_R0,"""I'll miss you, Ravi.""",“我会想你的，Ravi。”,「寂しくなります、Ravi。」,"«Te echaré de menos, Ravi.»"
+CONV_RAVI_GOODBYE_S2,"(He nods, very fast, and looks at the ceiling for a moment.) ""Good. Come back with a degree. I will put it on the wall next to the shoe.""",（他飞快地点头，抬头盯着天花板看了一会儿。）“好。拿着学位回来。我把它挂在墙上，就在那只鞋旁边。”,（すごい速さでうなずいて、しばらく天井を見上げる。）「よし。学位を持って帰ってきなさい。壁に飾るよ。あの靴の隣に。」,(Asiente muy deprisa y mira al techo un momento.) «Bien. Vuelve con un título. Lo colgaré en la pared al lado del zapato.»
+CONV_RAVI_GOODBYE_S2_R0,"""Deal.""",“一言为定。”,「約束です。」,«Trato hecho.»
+RAVI_GREET_FIRST,"""You must be {NAME}. Your face is on a student ID behind my till. Welcome.""",“你一定是 {NAME}。你的脸在我收银台后面的一张学生证上。欢迎。”,「君が{NAME}だね。うちのレジの裏の学生証に顔が載ってる。いらっしゃい。」,"«Tú debes de ser {NAME}. Tu cara está en un carné detrás de mi caja. Pasa, pasa.»"
+RAVI_GREET_0,"""{NAME}! The usual? I do not know what the usual is. Tell me and it can become the usual.""",“{NAME}！老样子？我不知道你的老样子是什么。告诉我，它就能变成老样子。”,「{NAME}！いつもの？いつものが何か知らないけど。教えてくれたら、それがいつものになる。」,«¡{NAME}! ¿Lo de siempre? No sé qué es lo de siempre. Dímelo y pasará a serlo.»
+RAVI_GREET_1,"""Ah, my favourite customer. Do not tell the others. They also think they are my favourite.""",“啊，我最喜欢的顾客。别告诉别人。他们也都以为自己是我最喜欢的。”,「ああ、一番好きなお客さん。他の人には内緒ね。みんな自分が一番だと思ってるから。」,"«Ah, la mejor visita del día. No se lo digas a los demás. Ellos también creen que lo son.»"
+RAVI_GREET_2,"""Hello hello. Pies are hot, milk is cold, and the cricket is a disaster.""",“你好你好。馅饼是热的，牛奶是凉的，板球是一场灾难。”,「やあやあ。パイは温かい、牛乳は冷たい、クリケットは大惨事。」,"«Hola, hola. Los pasteles están calientes, la leche fría y el críquet es un desastre.»"
+RAVI_GREET_3,"""{NAME}. You look like a person who has been reading all day. Sit for a minute.""",“{NAME}。你看上去像读了一整天书的人。坐一会儿吧。”,「{NAME}。一日中本を読んでた人の顔だね。ちょっと座っていきな。」,«{NAME}. Tienes cara de haber estado leyendo todo el día. Siéntate un minuto.»
+RAVI_GREET_4,"""Welcome. Please do not leave anything on the counter. I am running out of room behind the till.""",“欢迎。请别在柜台上落东西。我收银台后面快放不下了。”,「いらっしゃい。カウンターに何も置き忘れないでね。レジの裏がもういっぱいなんだ。」,"«Hola, hola. Por favor, no te dejes nada en el mostrador. Me estoy quedando sin sitio detrás de la caja.»"
+RAVI_GREET_5,"""Ah! Just in time. I need a second opinion on whether this banana is still a banana.""",“啊！来得正好。我需要第二个意见：这根香蕉还算不算香蕉。”,「おっ！ちょうどいい。このバナナがまだバナナかどうか、セカンドオピニオンが欲しかった。」,«¡Ah! Justo a tiempo. Necesito una segunda opinión sobre si este plátano sigue siendo un plátano.»
+RAVI_GREET_6,"""Back again. Good. Tell me something good that happened today. I have had only customers.""",“又来了。好。告诉我今天发生的一件好事。我今天只见到了顾客。”,「また来たね。よし。今日あったいいことを一つ教えて。今日はお客さんしか来てないんだ。」,«Otra vez por aquí. Bien. Cuéntame algo bueno que te haya pasado hoy. Yo solo he tenido clientes.»
+RAVI_GREET_7,"""{NAME}! My wife says hello. She has never met you. I talk about the customers.""",“{NAME}！我老婆向你问好。她从没见过你。我会聊起顾客。”,「{NAME}！妻がよろしくって。会ったことはないけど。お客さんの話をするんだよ。」,«¡{NAME}! Mi mujer te manda saludos. No te conoce. Yo le hablo de los clientes.»
+RAVI_BYE_0,"""Go on. Eat something proper. And sleep.""",“去吧。好好吃点东西。还有睡觉。”,「ほら。ちゃんと食べて。それと寝なさい。」,«Venga. Come algo como es debido. Y duerme.»
+RAVI_BYE_1,"""Good talk. Now buy something, I have a mortgage.""",“聊得不错。现在买点东西吧，我还有房贷。”,「いい話だった。さあ何か買って、ローンがあるんだ。」,"«Buena charla. Ahora compra algo, que tengo hipoteca.»"
+RAVI_BYE_2,"""Come back tomorrow. Bring good news. Or bad news. Any news.""",“明天再来。带点好消息。或者坏消息。什么消息都行。”,「明日もおいで。いいニュースを持って。悪いニュースでも。何でもいい。」,«Vuelve mañana. Trae buenas noticias. O malas. Cualquier noticia.»
+RAVI_BYE_3,"(Ravi goes back to his crossword, humming.)",（Ravi 哼着歌，回去做他的填字游戏。）,（Raviは鼻歌まじりにクロスワードに戻る。）,"(Ravi vuelve a su crucigrama, tarareando.)"
+RAVI_BYE_4,"""Okay. Enough wisdom for one day. Wisdom is free, pies are four dollars.""",“好了。今天的智慧够多了。智慧免费，馅饼四块。”,「よし。一日分の知恵はこれで十分。知恵は無料、パイは4ドル。」,"«Vale. Suficiente sabiduría por hoy. La sabiduría es gratis, los pasteles cuestan cuatro dólares.»"
+END_GAME_TITLE,Decision Point: Year 13,抉择时刻：高三,ディシジョン・ポイント：13年生,Punto de decisión: último curso
+END_MEMORIES,THE YEAR IN PICTURES,这一年的照片,写真で振り返る1年,EL AÑO EN FOTOS
+END_PEOPLE,WHERE ARE THEY NOW,他们后来怎样了,みんなのその後,QUÉ FUE DE ELLOS
+END_RESULTS,YOUR RESULTS,你的成绩,あなたの成績,TUS NOTAS
+END_CREDITS,CREDITS,鸣谢,クレジット,CRÉDITOS
+END_MUSIC_TITLE,MUSIC,音乐,音楽,MÚSICA
+END_MUSIC_TEXT,Original score: Decision Point — Year 13,原创配乐：Decision Point — Year 13,オリジナルスコア：Decision Point — Year 13,Banda sonora original: Decision Point — Year 13
+END_ENGINE,Made with the Godot Engine,使用 Godot 引擎制作,Godot Engineで制作,Hecho con el motor Godot
+END_THANKS,Thanks for playing.,感谢游玩。,遊んでくれてありがとう。,Gracias por jugar.
+END_SPEED_HINT,Hold Space to speed up  ·  Scroll to look back,按住空格键加速  ·  滚动鼠标回看,スペースキー長押しで早送り  ·  スクロールで戻る,Mantén Espacio para acelerar  ·  Usa la rueda para volver atrás
+END_SUBJECT_LINE,%s — %s  (%d credits),%s —— %s（%d 学分）,%s — %s（%d単位）,%s — %s  (%d créditos)
+END_GAMES_PLAYED,Phone games played,玩手机游戏次数,スマホゲームのプレイ回数,Partidas en el móvil
+END_RAVI_VISITS,Visits to Ravi's,光顾 Ravi 的店,Raviの店に寄った回数,Visitas a la tienda de Ravi
+END_BEST_SCORES,Best scores — Quick Maths %d · Memory %d moves · Higher or Lower %d · Tap the Light %d,最佳成绩 —— 快速口算 %d · 记忆翻牌 %d 步 · 比大小 %d · 点亮方块 %d,ベストスコア — クイック計算 %d · 神経衰弱 %d手 · ハイ＆ロー %d · ライトをタップ %d,Récords — Cálculo rápido %d · Parejas %d movimientos · Mayor o menor %d · Toca la luz %d
+WHERE_TANE_DRIFTED,"You and Tane drifted for a while. It took until summer, and a beach, to get back to normal.",你和 Tane 疏远了一段时间。直到夏天，去了一趟海边，才恢复正常。,Taneとはしばらく距離ができた。元に戻るには、夏と海が必要だった。,"Tane y tú os distanciasteis un tiempo. Hizo falta el verano, y una playa, para volver a la normalidad."
+WHERE_TANE_GIG,"Tane's band played four more gigs, none of them in the school hall. Sione dropped a stick in every single one.",Tane 的乐队又演了四场，没有一场在学校礼堂。Sione 每一场都掉了鼓槌。,Taneのバンドはその後4回ライブをした。どれも学校のホール以外で。Sioneは毎回スティックを落とした。,"El grupo de Tane dio cuatro bolos más, ninguno en el salón de actos. A Sione se le cayó una baqueta en todos."
+WHERE_TANE_MISSED_GIG,Tane's band split up after one gig. He still brings up that you weren't there — only as a joke now. Mostly.,Tane 的乐队演了一场就解散了。他还是会提起你没来的事 —— 现在只是开玩笑了。大部分时候。,Taneのバンドは1回のライブで解散した。お前が来なかった話は今でも出る — 今は冗談としてだけ。たぶん。,El grupo de Tane se separó tras un solo bolo. Todavía saca que no fuiste — ahora solo en broma. Casi siempre.
+WHERE_TANE_ESSAY,Tane finished that 1500-word essay at 4am with you on the phone. He got a Merit and printed the email.,Tane 在凌晨四点、你陪他打着电话的时候写完了那篇 1500 字的作文。他拿了优良，还把邮件打印了出来。,Taneは朝4時、お前と電話をつなぎながらあの1500語のエッセイを書き上げた。優良を取って、そのメールを印刷した。,Tane terminó aquella redacción de 1500 palabras a las 4 de la mañana contigo al teléfono. Sacó un Notable e imprimió el correo.
+WHERE_TANE_LOAN,"Tane paid back every cent, plus a sausage roll. Three weeks late, as is tradition.",Tane 还清了每一分钱，外加一个香肠卷。晚了三周，这是传统。,Taneは1セント残らず返した。ソーセージロール付きで。3週間遅れで、いつものように。,"Tane te devolvió hasta el último céntimo, más un hojaldre de salchicha. Tres semanas tarde, como manda la tradición."
+WHERE_TANE_DEFAULT,Tane passed enough. He says that was the plan all along.,Tane 刚好及格。他说这一直就是计划。,Taneは何とか合格した。最初からそのつもりだったと言っている。,Tane aprobó lo justo. Dice que ese era el plan desde el principio.
+WHERE_PRIYA_SCHOLARSHIP,"Priya got the scholarship. She bought you a pie, as promised — then another one, unprompted.",Priya 拿到了奖学金。她兑现承诺请你吃了个馅饼 —— 然后又主动请了一个。,Priyaは奨学金を取った。約束通りパイをおごってくれた — 頼んでないのにもう1個。,"Priya consiguió la beca. Te invitó a un pastel, como prometió — y luego a otro sin que se lo pidieras."
+WHERE_PRIYA_COMMERCE,"Priya is doing commerce. She hasn't regretted it once, and her dad has come around.",Priya 在读商科。她一次都没后悔过，她爸也想通了。,Priyaは商学部に進んだ。一度も後悔していないし、お父さんも納得した。,"Priya estudia empresariales. No se ha arrepentido ni una vez, y su padre ha acabado aceptándolo."
+WHERE_PRIYA_LAW,Priya started law. She is very good at it. She still sends you commerce memes at 2am.,Priya 开始读法律了。她读得很好。她还是会在凌晨两点给你发商科表情包。,Priyaは法学部に進んだ。とても優秀だ。でも夜中の2時に商学のミームを送ってくる。,Priya empezó Derecho. Se le da muy bien. Aún te manda memes de empresariales a las 2 de la mañana.
+WHERE_PRIYA_DEFAULT,Priya got into her first choice. Obviously.,Priya 考上了第一志愿。显然。,Priyaは第一志望に合格した。当然だ。,Priya entró en su primera opción. Obviamente.
+WHERE_MIKA_GAP,Mika feeds penguins at the aquarium now. She sends you a penguin photo every Monday.,Mika 现在在水族馆喂企鹅。她每周一都给你发一张企鹅照片。,Mikaは今、水族館でペンギンに餌をあげている。毎週月曜にペンギンの写真が届く。,Mika da de comer a los pingüinos en el acuario. Te manda una foto de un pingüino cada lunes.
+WHERE_MIKA_DEFER,"Mika deferred a year, then started marine biology. Waiting was the right call.",Mika 延期了一年，然后开始读海洋生物。等一等是对的。,Mikaは1年延期してから海洋生物学を始めた。待って正解だった。,Mika aplazó un año y luego empezó Biología Marina. Esperar fue lo correcto.
+WHERE_MIKA_UNI,"Mika started uni, hated her first paper, switched to marine biology, and loves it.",Mika 上了大学，讨厌第一门课，转去读海洋生物，现在很喜欢。,Mikaは大学に入って、最初の科目を嫌いになって、海洋生物学に移って、今は大好きだ。,"Mika empezó la uni, odió su primera asignatura, se cambió a Biología Marina y le encanta."
+WHERE_MIKA_DEFAULT,"Mika has never done another titration, and never will.",Mika 再也没做过滴定实验，以后也不会了。,Mikaはそれ以来一度も滴定をしていないし、これからもしない。,"Mika no ha vuelto a hacer una valoración química, ni lo hará."
+WHERE_ANA_SUPPORTED,Ana let someone notice her for once. She says that someone was you. She is doing much better.,Ana 终于让别人留意到她一次。她说那个人就是你。她现在好多了。,Anaは初めて、誰かに気づいてもらうことを自分に許した。それはあなただったと言っている。今はずっと元気だ。,"Ana dejó, por una vez, que alguien se fijara en ella. Dice que fuiste tú. Está mucho mejor."
+WHERE_ANA_RUN,Ana still runs before class. Some mornings you go with her. It is still horrible.,Ana 还是每天课前跑步。有些早上你会陪她。还是很痛苦。,Anaは今も授業前に走っている。時々一緒に走る。相変わらず地獄だ。,Ana sigue corriendo antes de clase. Algunas mañanas vas con ella. Sigue siendo horrible.
+WHERE_ANA_DEFAULT,Ana went on to study psychology. Nobody was surprised.,Ana 后来读了心理学。没人感到意外。,Anaは心理学を学ぶことにした。誰も驚かなかった。,Ana acabó estudiando Psicología. A nadie le sorprendió.
+WHERE_WIREMU_APPRENTICE,Wiremu started his apprenticeship in January. His dad brags about him to anyone who'll stand still.,Wiremu 一月开始当学徒了。他爸逢人就夸他。,Wiremuは1月から見習いを始めた。お父さんは立ち止まった人全員に自慢している。,Wiremu empezó su aprendizaje en enero. Su padre presume de él ante cualquiera que se quede quieto.
+WHERE_WIREMU_DEFAULT,Wiremu made the regional squad again the next season. The good engine is still running.,Wiremu 下个赛季又入选了地区队。那台好引擎还在运转。,Wiremuは次のシーズンも地区選抜に入った。いいエンジンはまだ回っている。,Wiremu volvió a entrar en la selección regional la temporada siguiente. El buen motor sigue funcionando.
+WHERE_JOSH_TUTORED,Josh tutors Year 11s in calculus now. He charges them in pies.,Josh 现在给高一学生补微积分。他收馅饼当学费。,Joshは今、11年生に微積分を教えている。授業料はパイ。,Josh da clases de cálculo a los de cuarto. Les cobra en pasteles.
+WHERE_JOSH_DEFAULT,Josh is still trading his egg sandwiches. The market is shrinking.,Josh 还在用他的鸡蛋三明治跟人交换。市场在萎缩。,Joshはまだ卵サンドを交換している。市場は縮小中だ。,Josh sigue cambiando sus sándwiches de huevo. El mercado se está reduciendo.
+WHERE_CHLOE_BALL,"Chloe still says the ball was the best night of the year, and she has the video of Sione to prove it.",Chloe 还是说舞会是那一年最棒的一晚，而且她有 Sione 的视频作证。,Chloeは今でもダンスパーティーが一番の夜だったと言っている。証拠のSioneの動画もある。,"Chloe sigue diciendo que el baile fue la mejor noche del año, y tiene el vídeo de Sione para demostrarlo."
+WHERE_CHLOE_MISSED,Chloe forgave you for missing the ball. She still sends you the fountain video every few months.,Chloe 原谅了你错过舞会。她还是每隔几个月就给你发一次喷泉视频。,Chloeはダンスパーティーに来なかったことを許してくれた。でも数か月ごとにファウンテンの動画を送ってくる。,Chloe te perdonó que faltaras al baile. Aun así te manda el vídeo de la fuente cada pocos meses.
+WHERE_CHLOE_DEFAULT,Chloe started a gossip podcast. It is mostly wrong and extremely popular.,Chloe 开了个八卦播客。内容大多不靠谱，但非常火。,Chloeはゴシップのポッドキャストを始めた。ほとんど間違っていて、大人気だ。,Chloe ha empezado un pódcast de cotilleos. Casi todo es falso y es popularísimo.
+WHERE_RAVI_FRIEND,"Ravi still keeps a photocopy of your student ID behind the till. 'For security,' he says.",Ravi 还在收银台后面留着你学生证的复印件。他说是“为了安全”。,Raviは今もレジの裏にあなたの学生証のコピーを置いている。「防犯のため」だそうだ。,"Ravi aún guarda una fotocopia de tu carné detrás de la caja. «Por seguridad», dice."
+WHERE_RAVI_DEFAULT,"Ravi is still at the dairy, still losing at cricket, still keeping the pies warm.",Ravi 还在小卖部，还在为板球输球，还在给馅饼保温。,Raviは今も商店にいて、クリケットでは負け続け、パイを温め続けている。,"Ravi sigue en la tienda, sigue perdiendo al críquet y sigue manteniendo calientes los pasteles."
+WHERE_ASHA,Ravi's daughter Asha applied for StudyLink on her first day of Year 13. She says someone told her to.,Ravi 的女儿 Asha 在高三第一天就申请了 StudyLink。她说是有人让她这么做的。,Raviの娘のAshaは、13年生の初日にStudyLinkを申し込んだ。誰かにそう言われたんだって。,"Asha, la hija de Ravi, pidió lo de StudyLink el primer día de su último curso. Dice que alguien se lo aconsejó."
+WHERE_HALLOWAY,Mr Halloway moved to Dunedin. Chapter three of his book is about a student who forgot their calculator.,Halloway 老师搬去了但尼丁。他书里的第三章写的是一个忘带计算器的学生。,Halloway先生はダニーデンに引っ越した。本の第3章は、電卓を忘れた生徒の話だ。,El Sr. Halloway se mudó a Dunedin. El capítulo tres de su libro trata de un alumno que se olvidó la calculadora.
+WHERE_FAMILY_LOAN,Mum went back to her normal hours once your loan came through. She says she sleeps better.,你的贷款批下来后，妈妈恢复了正常工时。她说她睡得好些了。,あなたのローンが下りてから、お母さんは元の勤務時間に戻った。よく眠れるようになったそうだ。,Mamá volvió a su horario normal cuando te aprobaron el préstamo. Dice que duerme mejor.
+WHERE_FAMILY_DEFAULT,Mum made a cake. Dad pretended it wasn't for you. Nan sent tomatoes.,妈妈做了蛋糕。爸爸假装不是为你做的。奶奶寄来了番茄。,お母さんはケーキを焼いた。お父さんはあなたのためじゃないふりをした。おばあちゃんはトマトを送ってくれた。,Mamá hizo una tarta. Papá fingió que no era para ti. La abuela mandó tomates.
+WHERE_BISCUIT,Biscuit ate another sock.,Biscuit 又吃了一只袜子。,Biscuitはまた靴下を食べた。,Biscuit se comió otro calcetín.
+WHERE_HOODIE,"You still wear the leavers' hoodie. Your name is on the back, between Sione's and Tane's.",你还穿着那件毕业卫衣。你的名字印在背后，在 Sione 和 Tane 中间。,今でも卒業パーカーを着ている。背中の名前は、SioneとTaneの間にある。,"Todavía llevas la sudadera de graduación. Tu nombre está en la espalda, entre el de Sione y el de Tane."
+MSG_WRONG_NUMBER_2_S0,hi it's the wrong number from before. my sister changed her number AGAIN and I think you got her old one. sorry in advance,嗨，我是之前发错号码的那个人。我妹妹“又”换号了，我觉得你拿到的是她的旧号码。先说声抱歉,どうも、前に番号間違えた者です。妹がまた番号を変えて、たぶんあなたが妹の古い番号を持ってる。先に謝っとく,"hola, soy el número equivocado de la otra vez. mi hermana ha vuelto a cambiar de número y creo que tú tienes el antiguo. perdón por adelantado"
+MSG_WRONG_NUMBER_2_S0_R0,it's fine. how was nan's?,没事。你奶奶家怎么样？,大丈夫。おばあちゃんちはどうだった？,no pasa nada. ¿qué tal en casa de tu abuela?
+MSG_WRONG_NUMBER_2_S0_R1,please stop texting me,请别再给我发消息了,もう送ってこないで,"por favor, deja de escribirme"
+MSG_WRONG_NUMBER_2_S1,nan's was great. she made the trifle. my sister didn't come because she was texting YOU apparently,奶奶家很好。她做了乳脂松糕。我妹妹没来，因为她显然在给“你”发消息,おばあちゃんちは最高だった。トライフル作ってくれた。妹は来なかったけど、どうやら「あなた」とやり取りしてたらしい,en casa de la abuela genial. hizo trifle. mi hermana no vino porque al parecer te estaba escribiendo a TI
+MSG_WRONG_NUMBER_2_S1_R0,I'm honoured to be part of the family drama,能参与你们的家庭剧我很荣幸,家族のドラマに参加できて光栄です,es un honor formar parte del drama familiar
+MSG_WRONG_NUMBER_2_S1_R1,that wasn't me,那不是我,それ私じゃない,esa no era yo
+MSG_WRONG_NUMBER_2_S2,"fair. sorry. last time, I promise.",好的。抱歉。最后一次，我保证。,了解。ごめん。これで最後、約束する。,"vale. perdona. última vez, lo prometo."
+MSG_WRONG_NUMBER_2_S2_R0,no worries,没关系,気にしないで,tranqui
+MSG_WRONG_NUMBER_2_S3,you're basically a cousin now. I'm saving you as 'wrong number (good)',你现在基本算是表亲了。我把你存成“发错的号码（好人）”,もう実質いとこだね。「間違い番号（いい人）」で登録しとく,ya eres prácticamente de la familia. te guardo como «número equivocado (bueno)»
+MSG_WRONG_NUMBER_2_S3_R0,I'll save you as 'right number',那我把你存成“对的号码”,こっちは「正しい番号」で登録する,yo te guardo como «número correcto»
+MSG_WRONG_NUMBER_3_S0,wrong number (good) — urgent question. my sister's birthday is tomorrow. she likes 'books and vibes'. what does that MEAN,发错的号码（好人）—— 紧急问题。我妹妹明天生日。她喜欢“书和氛围感”。这到底是“什么意思”,間違い番号（いい人）へ — 緊急の質問。明日妹の誕生日。好きなのは「本と雰囲気」だって。それ「どういう意味」,número equivocado (bueno) — pregunta urgente. mañana es el cumple de mi hermana. le gustan «los libros y el rollo». ¿qué SIGNIFICA eso?
+MSG_WRONG_NUMBER_3_S0_R0,a candle and a book. trust me,一支蜡烛加一本书。相信我,キャンドルと本。信じて,una vela y un libro. hazme caso
+MSG_WRONG_NUMBER_3_S0_R1,a gift voucher. zero risk,礼品卡。零风险,ギフトカード。リスクゼロ,una tarjeta regalo. riesgo cero
+MSG_WRONG_NUMBER_3_S1,a candle and a book. you're a genius. you've saved me. I owe you a trifle,一支蜡烛加一本书。你是天才。你救了我。我欠你一份乳脂松糕,キャンドルと本。天才だ。助かった。トライフル1つ借りね,una vela y un libro. eres un genio. me has salvado. te debo un trifle
+MSG_WRONG_NUMBER_3_S1_R0,I accept trifle as payment,我接受用松糕付款,支払いはトライフルで受け付けます,acepto trifle como pago
+MSG_WRONG_NUMBER_3_S2,the coward's choice. buying it anyway. thank you stranger,胆小鬼的选择。不过我还是买了。谢谢你，陌生人,臆病者の選択。でも買う。ありがとう、知らない人,"la opción cobarde. la compro igual. gracias, desconocido"
+MSG_WRONG_NUMBER_3_S2_R0,any time,随时,いつでも,cuando quieras
+MSG_WRONG_NUMBER_4_S0,update: my sister wants to know who you are. I said 'a stranger who is good at presents'. she said that's the most me thing ever,更新：我妹妹想知道你是谁。我说“一个很会挑礼物的陌生人”。她说这是我干过最像我的事,報告：妹があなたが誰か知りたがってる。「プレゼント選びがうまい知らない人」って言ったら、いかにも私らしいって,novedades: mi hermana quiere saber quién eres. le dije «un desconocido que elige bien los regalos». dice que es lo más típico mío del mundo
+MSG_WRONG_NUMBER_4_S0_R0,tell her happy birthday from me,替我祝她生日快乐,誕生日おめでとうって伝えて,dile feliz cumpleaños de mi parte
+MSG_WRONG_NUMBER_4_S0_R1,it IS the most you thing ever,这确实是最像你的事,確かにいかにもあなたらしい,es que ES lo más típico tuyo
+MSG_WRONG_NUMBER_4_S1,also. I can tell from your 1am texts that you're doing exams. good luck. from a stranger who believes in you,还有。从你凌晨一点的消息我看得出你在考试。祝你好运。来自一个相信你的陌生人,あと。夜中1時のメッセージで試験中なのはわかるよ。頑張って。あなたを信じてる知らない人より,y otra cosa. por tus mensajes a la 1 de la mañana sé que estás de exámenes. suerte. de parte de un desconocido que cree en ti
+MSG_WRONG_NUMBER_4_S1_R0,"thanks, stranger. that helped more than you'd think",谢谢你，陌生人。这比你想的更有用,ありがとう、知らない人。思ってるより励みになった,"gracias, desconocido. me ha ayudado más de lo que crees"
+MSG_WRONG_NUMBER_FINAL_S0,"hey wrong number. hope the exams went ok. if you're ever near nan's, she makes enough trifle for a small army. the offer's real",嘿，发错的号码。希望你考得还行。如果你哪天路过奶奶家，她做的松糕够一支小部队吃。我是认真邀请的,やあ、間違い番号さん。試験うまくいったといいな。おばあちゃんちの近くに来たら、小隊分くらいトライフルがあるよ。本気の誘い,"hola, número equivocado. espero que los exámenes fueran bien. si alguna vez pasas cerca de casa de la abuela, hace trifle para un pequeño ejército. la oferta va en serio"
+MSG_WRONG_NUMBER_FINAL_S0_R0,tell nan I said hi,替我向奶奶问好,おばあちゃんによろしく,saluda a la abuela de mi parte
+MSG_WRONG_NUMBER_FINAL_S0_R1,I might take you up on that,我说不定真会去,本当に行っちゃうかも,igual te tomo la palabra
+MSG_TUILOMA_BREAD_S0,I've left a loaf of banana bread on your doorstep. It's still warm. Don't let the dog get it.,我在你家门口放了一条香蕉面包。还热着。别让狗吃了。,玄関先にバナナブレッドを置いておいたわ。まだ温かいの。犬に取られないようにね。,Te he dejado un bizcocho de plátano en la puerta. Todavía está caliente. Que no se lo coma el perro.
+MSG_TUILOMA_BREAD_S0_R0,thank you so much!,太谢谢你了！,本当にありがとうございます！,¡muchísimas gracias!
+MSG_TUILOMA_BREAD_S0_R1,what's the occasion?,今天是什么日子？,何かのお祝いですか？,¿y eso por qué?
+MSG_TUILOMA_BREAD_S1,"You're welcome, love. Eat it while you study. Bananas are good for the brain, I read that somewhere.",不客气，孩子。边学习边吃。香蕉对大脑好，我在哪儿看到过。,どういたしまして。勉強しながら食べてね。バナナは脳にいいって、どこかで読んだわ。,"De nada, cielo. Cómetelo mientras estudias. El plátano es bueno para el cerebro, lo leí en algún sitio."
+MSG_TUILOMA_BREAD_S1_R0,I'll report back on my brain,我会汇报大脑的情况,脳の調子を報告します,ya te contaré cómo va el cerebro
+MSG_TUILOMA_BREAD_S2,No occasion. I had three black bananas and a student next door who works too hard. That's an occasion.,没什么日子。我有三根发黑的香蕉，隔壁有个学习太拼的学生。这就是日子。,お祝いなんてないわ。黒くなったバナナが3本と、頑張りすぎの隣の学生。それで十分お祝いよ。,No hay motivo. Tenía tres plátanos negros y un estudiante en la casa de al lado que trabaja demasiado. Eso ya es un motivo.
+MSG_TUILOMA_BREAD_S2_R0,that's the best kind of occasion,这是最好的那种日子,それが一番のお祝いです,es el mejor tipo de motivo
+MSG_TUILOMA_QUIET_S0,I can hear you studying through the wall at night. Not complaining! I can hear the pages. It's nice. Like having the radio on.,晚上隔着墙我能听见你在学习。不是抱怨！我能听见翻书的声音。挺好的。就像开着收音机。,夜、壁越しに勉強してる音が聞こえるの。苦情じゃないわよ！ページをめくる音。いいものね。ラジオをつけてるみたい。,Por la noche te oigo estudiar a través de la pared. ¡No me quejo! Oigo las páginas. Es agradable. Como tener la radio puesta.
+MSG_TUILOMA_QUIET_S0_R0,sorry if I'm keeping you up,抱歉，是不是吵到你睡觉了,うるさくて眠れなかったらすみません,perdona si no te dejo dormir
+MSG_TUILOMA_QUIET_S0_R1,that's oddly lovely,这莫名地很温馨,なんだか素敵ですね,eso es extrañamente bonito
+MSG_TUILOMA_QUIET_S1,Not at all. But if you're still going at 2am I will knock on the wall. That means bed.,完全不会。不过要是凌晨两点你还在学，我会敲墙。意思是去睡觉。,全然。でも夜中の2時になってもまだやってたら、壁をノックするわよ。それは「寝なさい」の合図。,"Para nada. Pero si a las 2 de la mañana sigues, daré golpes en la pared. Significa: a la cama."
+MSG_TUILOMA_QUIET_S1_R0,deal. one knock means bed,成交。敲一下就是睡觉,わかりました。ノック1回は寝る合図,trato hecho. un golpe significa a la cama
+MSG_RETI_AFTER_S0,bro. remember when you covered my shift? I passed my driving test that friday. first try.,兄弟。还记得你替我上的那个班吗？那个周五我考过驾照了。一次过。,なあ。シフト代わってくれた時のこと覚えてる？あの金曜に運転免許受かった。一発で。,tío. ¿te acuerdas de cuando me cubriste el turno? ese viernes aprobé el carné. a la primera.
+MSG_RETI_AFTER_S0_R0,no way! congrats!,不会吧！恭喜！,マジで！おめでとう！,¡no me digas! ¡enhorabuena!
+MSG_RETI_AFTER_S0_R1,so that's where you were,原来你去干这个了,それで休んでたのか,así que era eso
+MSG_RETI_AFTER_S1,so technically my licence is half yours. I'll drive you anywhere. within reason. not the airport.,所以从技术上讲我的驾照有一半是你的。我开车送你去哪儿都行。在合理范围内。机场不行。,だから厳密には免許の半分はお前のもんだ。どこでも送ってく。常識の範囲で。空港はなし。,así que técnicamente medio carné es tuyo. te llevo a donde quieras. dentro de lo razonable. al aeropuerto no.
+MSG_RETI_AFTER_S1_R0,I'll hold you to that,我记住了,覚えとくよ,te tomo la palabra
+MSG_ANA_EXAM_EVE_LOW_S0,externals start soon. I know you've had a rough few weeks. what's one thing you can take off your plate this week?,统考快开始了。我知道你这几周过得很艰难。这周你能从盘子里拿走哪一件事？,もうすぐ外部試験だね。ここ数週間きつかったの知ってる。今週、手放せることを一つ挙げるなら何？,los externos empiezan pronto. sé que llevas unas semanas duras. ¿qué es una cosa que puedes quitarte de encima esta semana?
+MSG_ANA_EXAM_EVE_LOW_S0_R0,"work shifts, probably",大概是打工的班,たぶんバイトのシフト,"los turnos del trabajo, seguramente"
+MSG_ANA_EXAM_EVE_LOW_S0_R1,"my phone, honestly",说实话，是手机,正直、スマホ,"el móvil, la verdad"
+MSG_ANA_EXAM_EVE_LOW_S0_R2,nothing. it's all important,没有。每件事都重要,何もない。全部大事,nada. todo es importante
+MSG_ANA_EXAM_EVE_LOW_S1,"then do that. today. and tell me when you have, so I can be smug about it.",那就去做。今天就做。做完告诉我，好让我得意一下。,じゃあそれをやって。今日。やったら教えて、ドヤ顔したいから。,"pues hazlo. hoy. y avísame cuando lo hayas hecho, para que pueda presumir."
+MSG_ANA_EXAM_EVE_LOW_S1_R0,you can be smug,你可以得意了,ドヤ顔していいよ,puedes presumir
+MSG_ANA_EXAM_EVE_LOW_S2,"it can't all be important. if everything is, nothing is. pick one. I'll wait.",不可能每件都重要。如果每件都重要，那就没有一件重要。挑一件。我等你。,全部が大事なんてありえない。全部大事なら、何も大事じゃないのと同じ。一つ選んで。待ってるから。,"no puede ser todo importante. si todo lo es, nada lo es. elige una. espero."
+MSG_ANA_EXAM_EVE_LOW_S2_R0,...work shifts,……打工的班,…バイトのシフト,...los turnos
+MSG_ANA_EXAM_EVE_LOW_S2_R1,...my phone,……手机,…スマホ,...el móvil
+MSG_ANA_EXAM_EVE_OK_S0,externals start soon and you seem... calm? weirdly calm? teach me your ways,统考快开始了，而你看起来……很冷静？冷静得有点奇怪？教教我,もうすぐ外部試験なのに…落ち着いてる？妙に落ち着いてる？コツ教えて,los externos empiezan pronto y pareces... ¿en calma? ¿extrañamente en calma? enséñame tus trucos
+MSG_ANA_EXAM_EVE_OK_S0_R0,"sleep, food, small chunks",睡觉、吃饭、一小块一小块地学,睡眠、食事、少しずつ,"dormir, comer y poco a poco"
+MSG_ANA_EXAM_EVE_OK_S0_R1,I'm panicking very quietly,我只是在很安静地慌,すごく静かにパニクってる,estoy entrando en pánico muy calladamente
+MSG_ANA_EXAM_EVE_OK_S1,that's literally my advice. you've been listening. I'm so proud I could cry.,这简直就是我的建议。你一直在听。我骄傲得快哭了。,それ私のアドバイスそのまんまじゃん。ちゃんと聞いてたんだ。誇らしくて泣きそう。,"eso es literalmente mi consejo. me has hecho caso. qué orgullo, voy a llorar."
+MSG_ANA_EXAM_EVE_OK_S1_R0,please don't cry,拜托别哭,泣かないで,"no llores, porfa"
+MSG_ANA_EXAM_EVE_OK_S2,ha. same. we can panic quietly together. library tomorrow?,哈。我也是。我们可以一起安静地慌。明天图书馆？,はは。私も。一緒に静かにパニクろう。明日図書館行く？,ja. igual. podemos entrar en pánico calladamente juntos. ¿biblioteca mañana?
+MSG_ANA_EXAM_EVE_OK_S2_R0,library tomorrow,明天图书馆,明日図書館で,biblioteca mañana
+MSG_JOSH_EXAM_S0,calc external tomorrow. I'm drawing the diagrams first like you said. thinking of you. not in a weird way. in a maths way,明天考微积分统考。我会像你说的那样先画图。想着你。不是奇怪的那种。是数学的那种,明日は微積分の外部試験。言われた通り、まず図を描く。お前のこと考えてる。変な意味じゃなくて。数学的な意味で,"mañana es el externo de cálculo. voy a dibujar los diagramas primero, como dijiste. pienso en ti. no en plan raro. en plan mates"
+MSG_JOSH_EXAM_S0_R0,"you've got this, Josh",你没问题的，Josh,いけるよ、Josh,"lo tienes, Josh"
+MSG_JOSH_EXAM_S0_R1,in a maths way is the best way,数学的那种是最好的那种,数学的な意味が一番,en plan mates es el mejor plan
+MSG_MIKA_LIFT_S0,I have the car tomorrow. want a lift to school? the waiver is ready,明天车归我用。要不要我送你上学？免责声明准备好了,明日車使えるんだ。学校まで乗せてく？誓約書は準備済み,mañana tengo el coche. ¿te llevo al insti? el descargo de responsabilidad está listo
+MSG_MIKA_LIFT_S0_R0,I'll sign it,我签,サインする,lo firmo
+MSG_MIKA_LIFT_S0_R1,"I'll walk, thanks",我走路吧，谢谢,歩くよ、ありがとう,"iré andando, gracias"
+MSG_MIKA_LIFT_S1,"excellent. pick you up at 8:10. if I'm not there by 8:20, I've met the cat again",太好了。8 点 10 分接你。如果 8 点 20 我还没到，那就是我又遇到那只猫了,了解。8時10分に迎えに行く。8時20分までに来なかったら、またあの猫に会ったってこと,"genial. te recojo a las 8:10. si a las 8:20 no he llegado, es que me he vuelto a encontrar con el gato"
+MSG_MIKA_LIFT_S1_R0,say hi to the cat,替我向猫问好,猫によろしく,saluda al gato de mi parte
+MSG_MIKA_LIFT_S2,wise. honestly. I wouldn't get in a car with me either,明智。说真的。换我也不会坐我的车,賢明。正直、私も自分の車には乗らない,"sabia decisión. sinceramente, yo tampoco me subiría a un coche conmigo"
+MSG_MIKA_LIFT_S2_R0,I believe in you,我相信你,信じてるよ,creo en ti
+MSG_SIONE_LAST_S0,exams nearly done bro. celebration gym session after? one last lift as school kids,考试快考完了兄弟。之后来场庆祝健身？作为学生的最后一举,試験もうすぐ終わりだな。終わったらお祝いのジム行かない？学生として最後の一挙,"los exámenes casi acabados, tío. ¿sesión de gimnasio para celebrar? un último levantamiento como estudiantes"
+MSG_SIONE_LAST_S0_R0,I'm in,算我一个,行く,me apunto
+MSG_SIONE_LAST_S0_R1,can the celebration be pies instead,庆祝能不能改成吃馅饼,お祝いはパイにできない？,¿la celebración puede ser con pasteles?
+MSG_SIONE_LAST_S1,legend. I'll go easy on you. that's a lie. but it's a nice lie,传奇。我会对你手下留情。这是假话。但是个善意的谎言,さすが。手加減する。…嘘だけど。優しい嘘,crack. iré suave contigo. es mentira. pero es una mentira bonita
+MSG_SIONE_LAST_S1_R0,see you there,到时见,じゃあそこで,nos vemos allí
+MSG_SIONE_LAST_S2,...gym THEN pies. compromise. we're adults now basically,……先健身“再”吃馅饼。折中一下。我们现在基本算大人了,…ジムの「後に」パイ。妥協案。もうほぼ大人だし,...gimnasio y DESPUÉS pasteles. término medio. ya somos prácticamente adultos
+MSG_SIONE_LAST_S2_R0,deal,成交,決まり,trato hecho
+MSG_CHLOE_SUMMER_S0,SUMMER PLANS. I'm making a spreadsheet. column A is beaches. column B is also beaches,暑假计划。我在做个表格。A 列是海滩。B 列也是海滩,夏休みの計画。スプレッドシート作ってる。A列はビーチ。B列もビーチ,PLANES DE VERANO. estoy haciendo una hoja de cálculo. la columna A son playas. la columna B también son playas
+MSG_CHLOE_SUMMER_S0_R0,add a column C: naps,加个 C 列：午睡,C列追加：昼寝,añade una columna C: siestas
+MSG_CHLOE_SUMMER_S0_R1,put me down for every beach,每个海滩都给我登记,全部のビーチに私も入れて,apúntame a todas las playas
+MSG_CHLOE_SUMMER_S1,DONE. this is going to be the best summer ever. we earned it. well. most of us earned it. Sione is coming anyway,搞定。这会是有史以来最好的暑假。这是我们应得的。好吧，大部分人应得的。Sione 反正也会来,完了。史上最高の夏になるよ。頑張ったご褒美。まあ、ほとんどの人はね。Sioneはどうせ来るけど,HECHO. va a ser el mejor verano de la historia. nos lo hemos ganado. bueno. casi todos. Sione viene igual
+MSG_CHLOE_SUMMER_S1_R0,we earned it,我们应得的,頑張ったもんね,nos lo hemos ganado
+MSG_DAD_CHARGER_S0,Your mum says your laptop charger is held together with tape. I've ordered a new one. It'll come Thursday.,你妈说你的笔记本充电器是用胶带缠着的。我订了个新的。周四到。,お母さんから、パソコンの充電器がテープでつないであるって聞いた。新しいの注文した。木曜に届く。,Tu madre dice que el cargador de tu portátil está sujeto con cinta. Te he pedido uno nuevo. Llega el jueves.
+MSG_DAD_CHARGER_S0_R0,dad you legend,爸，你太棒了,お父さん、最高,"papá, eres un crack"
+MSG_DAD_CHARGER_S0_R1,the tape was working fine,胶带缠着也挺好用的,テープでちゃんと使えてたのに,con la cinta funcionaba bien
+MSG_DAD_CHARGER_S1,I know. Don't make a big deal of it. Your mother will.,我知道。别大惊小怪。你妈会的。,知ってる。大げさにするな。お母さんがするから。,Lo sé. No le des importancia. Ya se la dará tu madre.
+MSG_DAD_CHARGER_S1_R0,thanks dad,谢谢爸,ありがとう、お父さん,"gracias, papá"
+MSG_DAD_CHARGER_S2,It was sparking. I saw it sparking. Thursday.,它都冒火花了。我亲眼看见的。周四。,火花が出てた。この目で見た。木曜だ。,Echaba chispas. Lo vi echar chispas. El jueves.
+MSG_DAD_CHARGER_S2_R0,...thursday,……周四,…木曜ね,...el jueves
+WHERE_STRANGER,"Somewhere out there, a stranger still has you saved as 'wrong number (good)'. Their nan's trifle offer still stands.",在某个地方，一个陌生人仍然把你存成“发错的号码（好人）”。他奶奶的松糕邀请依然有效。,どこかで、知らない人が今もあなたを「間違い番号（いい人）」として登録している。おばあちゃんのトライフルのお誘いも有効なままだ。,"En algún lugar, un desconocido todavía te tiene guardado como «número equivocado (bueno)». La oferta del trifle de su abuela sigue en pie."

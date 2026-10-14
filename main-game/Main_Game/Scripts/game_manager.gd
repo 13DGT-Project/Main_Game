@@ -18,6 +18,7 @@ const MONTHS = [
 
 func _ready():
 	Audio.play_ambience("outdoors")
+	GameBackend.remember_place("town")
 	time_of_day.minute_changed.connect(_update_clock)
 	time_of_day.day_changed.connect(_update_clock)
 

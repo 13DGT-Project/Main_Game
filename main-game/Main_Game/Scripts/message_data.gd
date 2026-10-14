@@ -17,6 +17,19 @@
 ##   replies   2-3 options; each has text, optional sanity / temptation,
 ##             and an optional "goto": <step index> to branch
 ##
+##   wait      OPTIONAL — in-game hours before this line arrives. The chat
+##             shows your message as seen and the reply turns up later
+##             as a fresh notification.
+##
+## Thread extras:
+##   pace      "slow" — this person often takes a while to answer
+##   requires  a condition (see _requirement_met), or an Array of them
+##
+## Reply extras (see GameBackend.apply_reply_effects):
+##   flag      a story flag to set, which later threads/conversations check
+##   money     dollars in (+) or out (-)
+##   commit    books a plan on a future day
+##
 ## {NAME} anywhere is replaced with the player's name.
 ## {UNI} is replaced with the player's chosen university's full name.
 ##
@@ -33,6 +46,34 @@ signal message_arrived(sender: String)
 
 func _ready() -> void:
 	reset_state()
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+
+var _poll: float = 0.0
+
+func _process(delta: float) -> void:
+	_poll += delta
+	if _poll < 0.5:
+		return
+	_poll = 0.0
+	if get_tree().paused:
+		return
+	GameBackend.release_waiting_threads()
+
+
+## How long (in-game hours) before step `step_index` of a thread arrives.
+## Explicit "wait" on the step wins; slow-paced people sometimes make you
+## wait anyway.
+func wait_before_step(thread_id: String, step_index: int) -> float:
+	var t: Dictionary = thread_by_id(thread_id)
+	if t.is_empty() or step_index >= t.steps.size():
+		return 0.0
+	var step: Dictionary = t.steps[step_index]
+	if step.has("wait"):
+		return float(step.wait)
+	if str(t.get("pace", "")) == "slow" and randf() < 0.35:
+		return randf_range(1.0, 3.0)
+	return 0.0
 
 
 ## Nothing to clear locally any more — GameBackend owns thread state. Kept as
@@ -146,11 +187,11 @@ var threads: Array = [
 				{"text": "MSG_WORK_FIRST_ROSTER_S0_R1", "sanity": 3.0, "goto": 2},
 				{"text": "MSG_WORK_FIRST_ROSTER_S0_R2", "sanity": 5.0, "goto": 3}]},
 			{"them": "MSG_WORK_FIRST_ROSTER_S1",
-			 "replies": [{"text": "MSG_WORK_FIRST_ROSTER_S1_R0", "sanity": 2.0}]},
+			 "replies": [{"text": "MSG_WORK_FIRST_ROSTER_S1_R0", "sanity": 2.0, "goto": 4}]},
 			{"them": "MSG_WORK_FIRST_ROSTER_S2",
 			 "replies": [
-				{"text": "MSG_WORK_FIRST_ROSTER_S2_R0", "sanity": 5.0},
-				{"text": "MSG_WORK_FIRST_ROSTER_S2_R1", "sanity": -2.0}]},
+				{"text": "MSG_WORK_FIRST_ROSTER_S2_R0", "sanity": 5.0, "goto": 4},
+				{"text": "MSG_WORK_FIRST_ROSTER_S2_R1", "sanity": -2.0, "goto": 4}]},
 			{"them": "MSG_WORK_FIRST_ROSTER_S3",
 			 "replies": [
 				{"text": "MSG_WORK_FIRST_ROSTER_S3_R0", "sanity": 9.0},
@@ -176,7 +217,7 @@ var threads: Array = [
 				{"text": "MSG_STUDY_GROUP_FORMING_S3_R1", "sanity": 5.0, "goto": 5},
 				{"text": "MSG_STUDY_GROUP_FORMING_S3_R2", "sanity": 2.0, "goto": 4}]},
 			{"from": "Priya", "them": "MSG_STUDY_GROUP_FORMING_S4",
-			 "replies": [{"text": "MSG_STUDY_GROUP_FORMING_S4_R0", "sanity": 3.0}]},
+			 "replies": [{"text": "MSG_STUDY_GROUP_FORMING_S4_R0", "sanity": 3.0, "goto": 6}]},
 			{"from": "Mika", "them": "MSG_STUDY_GROUP_FORMING_S5",
 			 "replies": [
 				{"text": "MSG_STUDY_GROUP_FORMING_S5_R0", "sanity": 8.0},
@@ -230,17 +271,17 @@ var threads: Array = [
 				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S0_R1", "sanity": 5.0, "goto": 1}]},
 			{"them": "MSG_PRIYA_LAW_OR_COMMERCE_S1",
 			 "replies": [
-				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S1_R0", "sanity": 11.0, "goto": 2},
-				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S1_R1", "sanity": 10.0, "goto": 2},
+				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S1_R0", "sanity": 11.0, "goto": 2, "flag": "priya_own_choice"},
+				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S1_R1", "sanity": 10.0, "goto": 2, "flag": "priya_own_choice"},
 				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S1_R2", "sanity": 4.0, "goto": 3}]},
 			{"them": "MSG_PRIYA_LAW_OR_COMMERCE_S2",
 			 "replies": [
-				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S2_R0", "sanity": 8.0},
-				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S2_R1", "sanity": 10.0}]},
+				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S2_R0", "sanity": 8.0, "goto": 4},
+				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S2_R1", "sanity": 10.0, "goto": 4}]},
 			{"them": "MSG_PRIYA_LAW_OR_COMMERCE_S3",
 			 "replies": [
-				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S3_R0", "sanity": 12.0},
-				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S3_R1", "sanity": 9.0}]},
+				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S3_R0", "sanity": 12.0, "flag": "priya_own_choice"},
+				{"text": "MSG_PRIYA_LAW_OR_COMMERCE_S3_R1", "sanity": 9.0, "flag": "priya_own_choice"}]},
 		]},
 	{
 		"id": "sione_gym", "sender": "Sione", "avatar": "SI", "arrives": 11,
@@ -251,9 +292,9 @@ var threads: Array = [
 				{"text": "MSG_SIONE_GYM_S0_R1", "sanity": 3.0, "goto": 2},
 				{"text": "MSG_SIONE_GYM_S0_R2", "sanity": 4.0, "goto": 3}]},
 			{"them": "MSG_SIONE_GYM_S1",
-			 "replies": [{"text": "MSG_SIONE_GYM_S1_R0", "sanity": 5.0}]},
+			 "replies": [{"text": "MSG_SIONE_GYM_S1_R0", "sanity": 5.0, "goto": 4}]},
 			{"them": "MSG_SIONE_GYM_S2",
-			 "replies": [{"text": "MSG_SIONE_GYM_S2_R0", "sanity": 5.0}]},
+			 "replies": [{"text": "MSG_SIONE_GYM_S2_R0", "sanity": 5.0, "goto": 4}]},
 			{"them": "MSG_SIONE_GYM_S3",
 			 "replies": [
 				{"text": "MSG_SIONE_GYM_S3_R0", "sanity": 12.0, "temptation": 2.0},
@@ -287,12 +328,12 @@ var threads: Array = [
 				{"text": "MSG_MIKA_GROUP_PROJECT_S0_R2", "sanity": 5.0, "goto": 3}]},
 			{"them": "MSG_MIKA_GROUP_PROJECT_S1",
 			 "replies": [
-				{"text": "MSG_MIKA_GROUP_PROJECT_S1_R0", "sanity": 7.0},
-				{"text": "MSG_MIKA_GROUP_PROJECT_S1_R1", "sanity": 8.0}]},
+				{"text": "MSG_MIKA_GROUP_PROJECT_S1_R0", "sanity": 7.0, "goto": 4},
+				{"text": "MSG_MIKA_GROUP_PROJECT_S1_R1", "sanity": 8.0, "goto": 4}]},
 			{"them": "MSG_MIKA_GROUP_PROJECT_S2",
 			 "replies": [
-				{"text": "MSG_MIKA_GROUP_PROJECT_S2_R0", "sanity": 7.0},
-				{"text": "MSG_MIKA_GROUP_PROJECT_S2_R1", "sanity": 5.0}]},
+				{"text": "MSG_MIKA_GROUP_PROJECT_S2_R0", "sanity": 7.0, "goto": 4},
+				{"text": "MSG_MIKA_GROUP_PROJECT_S2_R1", "sanity": 5.0, "goto": 4}]},
 			{"them": "MSG_MIKA_GROUP_PROJECT_S3",
 			 "replies": [
 				{"text": "MSG_MIKA_GROUP_PROJECT_S3_R0", "sanity": 8.0},
@@ -307,8 +348,8 @@ var threads: Array = [
 				{"text": "MSG_CHLOE_PRANK_S0_R1", "sanity": 5.0, "goto": 2}]},
 			{"them": "MSG_CHLOE_PRANK_S1",
 			 "replies": [
-				{"text": "MSG_CHLOE_PRANK_S1_R0", "sanity": 6.0},
-				{"text": "MSG_CHLOE_PRANK_S1_R1", "sanity": 5.0}]},
+				{"text": "MSG_CHLOE_PRANK_S1_R0", "sanity": 6.0, "goto": 3},
+				{"text": "MSG_CHLOE_PRANK_S1_R1", "sanity": 5.0, "goto": 3}]},
 			{"them": "MSG_CHLOE_PRANK_S2",
 			 "replies": [{"text": "MSG_CHLOE_PRANK_S2_R0", "sanity": 7.0}]},
 		]},
@@ -368,10 +409,10 @@ var threads: Array = [
 				{"text": "MSG_JOSH_NOTES_S0_R2", "sanity": 3.0, "goto": 3}]},
 			{"them": "MSG_JOSH_NOTES_S1",
 			 "replies": [
-				{"text": "MSG_JOSH_NOTES_S1_R0", "sanity": 8.0},
-				{"text": "MSG_JOSH_NOTES_S1_R1", "sanity": 5.0}]},
+				{"text": "MSG_JOSH_NOTES_S1_R0", "sanity": 8.0, "goto": 4},
+				{"text": "MSG_JOSH_NOTES_S1_R1", "sanity": 5.0, "goto": 4}]},
 			{"them": "MSG_JOSH_NOTES_S2",
-			 "replies": [{"text": "MSG_JOSH_NOTES_S2_R0", "sanity": 6.0}]},
+			 "replies": [{"text": "MSG_JOSH_NOTES_S2_R0", "sanity": 6.0, "goto": 4}]},
 			{"them": "MSG_JOSH_NOTES_S3",
 			 "replies": [
 				{"text": "MSG_JOSH_NOTES_S3_R0", "sanity": 7.0},
@@ -389,9 +430,9 @@ var threads: Array = [
 				{"text": "MSG_WORK_EXTRA_SHIFT_S0_R1", "sanity": 4.0, "goto": 2},
 				{"text": "MSG_WORK_EXTRA_SHIFT_S0_R2", "sanity": 6.0, "goto": 3}]},
 			{"them": "MSG_WORK_EXTRA_SHIFT_S1",
-			 "replies": [{"text": "MSG_WORK_EXTRA_SHIFT_S1_R0", "sanity": 1.0}]},
+			 "replies": [{"text": "MSG_WORK_EXTRA_SHIFT_S1_R0", "sanity": 1.0, "goto": 4}]},
 			{"them": "MSG_WORK_EXTRA_SHIFT_S2",
-			 "replies": [{"text": "MSG_WORK_EXTRA_SHIFT_S2_R0", "sanity": 5.0}]},
+			 "replies": [{"text": "MSG_WORK_EXTRA_SHIFT_S2_R0", "sanity": 5.0, "goto": 4}]},
 			{"them": "MSG_WORK_EXTRA_SHIFT_S3",
 			 "replies": [
 				{"text": "MSG_WORK_EXTRA_SHIFT_S3_R0", "sanity": 12.0},
@@ -410,11 +451,11 @@ var threads: Array = [
 				{"text": "MSG_ANA_NOTICED_S1_R0", "sanity": 13.0, "goto": 3},
 				{"text": "MSG_ANA_NOTICED_S1_R1", "sanity": 10.0, "goto": 4}]},
 			{"them": "MSG_ANA_NOTICED_S2",
-			 "replies": [{"text": "MSG_ANA_NOTICED_S2_R0", "sanity": 8.0}]},
+			 "replies": [{"text": "MSG_ANA_NOTICED_S2_R0", "sanity": 8.0, "goto": 5}]},
 			{"them": "MSG_ANA_NOTICED_S3",
 			 "replies": [
-				{"text": "MSG_ANA_NOTICED_S3_R0", "sanity": 15.0},
-				{"text": "MSG_ANA_NOTICED_S3_R1", "sanity": 12.0}]},
+				{"text": "MSG_ANA_NOTICED_S3_R0", "sanity": 15.0, "goto": 5},
+				{"text": "MSG_ANA_NOTICED_S3_R1", "sanity": 12.0, "goto": 5}]},
 			{"them": "MSG_ANA_NOTICED_S4",
 			 "replies": [
 				{"text": "MSG_ANA_NOTICED_S4_R0", "sanity": 13.0},
@@ -449,13 +490,13 @@ var threads: Array = [
 				{"text": "MSG_TANE_PANIC_S0_R1", "sanity": 4.0, "goto": 1}]},
 			{"them": "MSG_TANE_PANIC_S1",
 			 "replies": [
-				{"text": "MSG_TANE_PANIC_S1_R0", "sanity": 9.0, "goto": 2},
-				{"text": "MSG_TANE_PANIC_S1_R1", "sanity": 11.0, "temptation": 3.0, "goto": 3},
-				{"text": "MSG_TANE_PANIC_S1_R2", "sanity": 3.0, "goto": 4}]},
+				{"text": "MSG_TANE_PANIC_S1_R0", "sanity": 9.0, "goto": 2, "flag": "tane_extension"},
+				{"text": "MSG_TANE_PANIC_S1_R1", "sanity": 11.0, "temptation": 3.0, "goto": 3, "flag": "helped_tane_essay"},
+				{"text": "MSG_TANE_PANIC_S1_R2", "sanity": 3.0, "goto": 4, "flag": "tane_snubbed"}]},
 			{"them": "MSG_TANE_PANIC_S2",
-			 "replies": [{"text": "MSG_TANE_PANIC_S2_R0", "sanity": 7.0}]},
+			 "replies": [{"text": "MSG_TANE_PANIC_S2_R0", "sanity": 7.0, "goto": 5}]},
 			{"them": "MSG_TANE_PANIC_S3",
-			 "replies": [{"text": "MSG_TANE_PANIC_S3_R0", "sanity": 9.0}]},
+			 "replies": [{"text": "MSG_TANE_PANIC_S3_R0", "sanity": 9.0, "goto": 5}]},
 			{"them": "MSG_TANE_PANIC_S4",
 			 "replies": [{"text": "MSG_TANE_PANIC_S4_R0", "sanity": 5.0}]},
 		]},
@@ -480,9 +521,9 @@ var threads: Array = [
 				{"text": "MSG_WIREMU_LAST_GAME_S0_R1", "sanity": 8.0, "temptation": 2.0, "goto": 2},
 				{"text": "MSG_WIREMU_LAST_GAME_S0_R2", "sanity": 3.0, "goto": 3}]},
 			{"them": "MSG_WIREMU_LAST_GAME_S1",
-			 "replies": [{"text": "MSG_WIREMU_LAST_GAME_S1_R0", "sanity": 8.0}]},
+			 "replies": [{"text": "MSG_WIREMU_LAST_GAME_S1_R0", "sanity": 8.0, "goto": 4}]},
 			{"them": "MSG_WIREMU_LAST_GAME_S2",
-			 "replies": [{"text": "MSG_WIREMU_LAST_GAME_S2_R0", "sanity": 9.0}]},
+			 "replies": [{"text": "MSG_WIREMU_LAST_GAME_S2_R0", "sanity": 9.0, "goto": 4}]},
 			{"them": "MSG_WIREMU_LAST_GAME_S3",
 			 "replies": [
 				{"text": "MSG_WIREMU_LAST_GAME_S3_R0", "sanity": 9.0, "temptation": 3.0},
@@ -537,16 +578,16 @@ var threads: Array = [
 				{"text": "MSG_NEIGHBOUR_LAWNS_S0_R2", "sanity": 9.0, "goto": 3}]},
 			{"them": "MSG_NEIGHBOUR_LAWNS_S1",
 			 "replies": [
-				{"text": "MSG_NEIGHBOUR_LAWNS_S1_R0", "sanity": 8.0},
-				{"text": "MSG_NEIGHBOUR_LAWNS_S1_R1", "sanity": 9.0}]},
+				{"text": "MSG_NEIGHBOUR_LAWNS_S1_R0", "sanity": 8.0, "goto": 4, "money": 40.0},
+				{"text": "MSG_NEIGHBOUR_LAWNS_S1_R1", "sanity": 9.0, "goto": 4, "money": 40.0}]},
 			{"them": "MSG_NEIGHBOUR_LAWNS_S2",
 			 "replies": [
-				{"text": "MSG_NEIGHBOUR_LAWNS_S2_R0", "sanity": 7.0},
-				{"text": "MSG_NEIGHBOUR_LAWNS_S2_R1", "sanity": 9.0}]},
+				{"text": "MSG_NEIGHBOUR_LAWNS_S2_R0", "sanity": 7.0, "goto": 4},
+				{"text": "MSG_NEIGHBOUR_LAWNS_S2_R1", "sanity": 9.0, "goto": 4}]},
 			{"them": "MSG_NEIGHBOUR_LAWNS_S3",
 			 "replies": [
-				{"text": "MSG_NEIGHBOUR_LAWNS_S3_R0", "sanity": 10.0},
-				{"text": "MSG_NEIGHBOUR_LAWNS_S3_R1", "sanity": 11.0}]},
+				{"text": "MSG_NEIGHBOUR_LAWNS_S3_R0", "sanity": 10.0, "money": 40.0},
+				{"text": "MSG_NEIGHBOUR_LAWNS_S3_R1", "sanity": 11.0, "money": 20.0}]},
 		]},
 	{
 		"id": "school_notices_timetable", "sender": "School Notices", "avatar": "SN", "arrives": 40,
@@ -590,16 +631,16 @@ var threads: Array = [
 			{"from": "Chloe", "them": "MSG_BALL_COMMITTEE_S0",
 			 "replies": [
 				{"text": "MSG_BALL_COMMITTEE_S0_R0", "sanity": 3.0, "goto": 1},
-				{"text": "MSG_BALL_COMMITTEE_S0_R1", "sanity": 8.0, "temptation": 4.0, "goto": 2},
+				{"text": "MSG_BALL_COMMITTEE_S0_R1", "sanity": 8.0, "temptation": 4.0, "goto": 2, "flag": "ball_ticket", "money": -95.0},
 				{"text": "MSG_BALL_COMMITTEE_S0_R2", "sanity": 3.0, "goto": 3}]},
 			{"from": "Chloe", "them": "MSG_BALL_COMMITTEE_S1",
 			 "replies": [
 				{"text": "MSG_BALL_COMMITTEE_S1_R0", "sanity": 9.0, "goto": 3},
-				{"text": "MSG_BALL_COMMITTEE_S1_R1", "sanity": 7.0, "temptation": 4.0, "goto": 2}]},
+				{"text": "MSG_BALL_COMMITTEE_S1_R1", "sanity": 7.0, "temptation": 4.0, "goto": 2, "flag": "ball_ticket", "money": -95.0}]},
 			{"from": "Chloe", "them": "MSG_BALL_COMMITTEE_S2",
 			 "replies": [
-				{"text": "MSG_BALL_COMMITTEE_S2_R0", "sanity": 8.0},
-				{"text": "MSG_BALL_COMMITTEE_S2_R1", "sanity": 7.0}]},
+				{"text": "MSG_BALL_COMMITTEE_S2_R0", "sanity": 8.0, "goto": 4},
+				{"text": "MSG_BALL_COMMITTEE_S2_R1", "sanity": 7.0, "goto": 4}]},
 			{"from": "Ana", "them": "MSG_BALL_COMMITTEE_S3",
 			 "replies": [
 				{"text": "MSG_BALL_COMMITTEE_S3_R0", "sanity": 9.0},
@@ -645,7 +686,7 @@ var threads: Array = [
 				{"text": "MSG_TANE_APOLOGY_S3_R1", "sanity": 12.0, "temptation": 3.0}]},
 		]},
 	{
-		"id": "dairy_owner", "sender": "Ravi (dairy)", "avatar": "RA", "arrives": 50,
+		"id": "dairy_owner", "sender": "Ravi (dairy)", "avatar": "RA", "arrives": 6,
 		"steps": [
 			{"them": "MSG_DAIRY_OWNER_S0",
 			 "replies": [
@@ -653,7 +694,7 @@ var threads: Array = [
 				{"text": "MSG_DAIRY_OWNER_S0_R1", "sanity": 4.0, "goto": 2}]},
 			{"them": "MSG_DAIRY_OWNER_S1",
 			 "replies": [
-				{"text": "MSG_DAIRY_OWNER_S1_R0", "sanity": 6.0, "goto": 3},
+				{"text": "MSG_DAIRY_OWNER_S1_R0", "sanity": 6.0, "goto": 3, "flag": "met_ravi"},
 				{"text": "MSG_DAIRY_OWNER_S1_R1", "sanity": 7.0, "goto": 3}]},
 			{"them": "MSG_DAIRY_OWNER_S2",
 			 "replies": [
@@ -661,7 +702,7 @@ var threads: Array = [
 			{"them": "MSG_DAIRY_OWNER_S3",
 			 "replies": [
 				{"text": "MSG_DAIRY_OWNER_S3_R0", "sanity": 8.0},
-				{"text": "MSG_DAIRY_OWNER_S3_R1", "sanity": 9.0}]},
+				{"text": "MSG_DAIRY_OWNER_S3_R1", "sanity": 9.0, "flag": "met_ravi"}]},
 		]},
 	{
 		"id": "mika_meltdown", "sender": "Mika", "avatar": "MI", "arrives": 52,
@@ -775,8 +816,8 @@ var threads: Array = [
 				{"text": "MSG_WIREMU_AFTER_SEASON_S2_R0", "sanity": 6.0, "goto": 3}]},
 			{"them": "MSG_WIREMU_AFTER_SEASON_S3",
 			 "replies": [
-				{"text": "MSG_WIREMU_AFTER_SEASON_S3_R0", "sanity": 12.0, "temptation": -3.0},
-				{"text": "MSG_WIREMU_AFTER_SEASON_S3_R1", "sanity": 10.0, "temptation": -2.0}]},
+				{"text": "MSG_WIREMU_AFTER_SEASON_S3_R0", "sanity": 12.0, "temptation": -3.0, "flag": "studied_with_wiremu"},
+				{"text": "MSG_WIREMU_AFTER_SEASON_S3_R1", "sanity": 10.0, "temptation": -2.0, "flag": "studied_with_wiremu"}]},
 		]},
 	{
 		"id": "teacher_email", "sender": "Mr Halloway", "avatar": "MH", "arrives": 62,
@@ -815,8 +856,8 @@ var threads: Array = [
 				{"text": "MSG_ANA_HER_TURN_S2_R0", "sanity": 12.0, "goto": 1}]},
 			{"them": "MSG_ANA_HER_TURN_S3",
 			 "replies": [
-				{"text": "MSG_ANA_HER_TURN_S3_R0", "sanity": 16.0},
-				{"text": "MSG_ANA_HER_TURN_S3_R1", "sanity": 12.0}]},
+				{"text": "MSG_ANA_HER_TURN_S3_R0", "sanity": 16.0, "flag": "ana_supported"},
+				{"text": "MSG_ANA_HER_TURN_S3_R1", "sanity": 12.0, "flag": "ana_supported"}]},
 		]},
 	{
 		"id": "scam_courier", "sender": "Unknown number", "avatar": "??", "arrives": 66,
@@ -918,12 +959,12 @@ var threads: Array = [
 				{"text": "MSG_RETI_SHIFT_SWAP_S0_R2", "sanity": 7.0, "goto": 3}]},
 			{"them": "MSG_RETI_SHIFT_SWAP_S1",
 			 "replies": [
-				{"text": "MSG_RETI_SHIFT_SWAP_S1_R0", "sanity": 8.0},
-				{"text": "MSG_RETI_SHIFT_SWAP_S1_R1", "sanity": 6.0}]},
+				{"text": "MSG_RETI_SHIFT_SWAP_S1_R0", "sanity": 8.0, "goto": 4},
+				{"text": "MSG_RETI_SHIFT_SWAP_S1_R1", "sanity": 6.0, "goto": 4}]},
 			{"them": "MSG_RETI_SHIFT_SWAP_S2",
 			 "replies": [
-				{"text": "MSG_RETI_SHIFT_SWAP_S2_R0", "sanity": 5.0},
-				{"text": "MSG_RETI_SHIFT_SWAP_S2_R1", "sanity": 2.0}]},
+				{"text": "MSG_RETI_SHIFT_SWAP_S2_R0", "sanity": 5.0, "goto": 4},
+				{"text": "MSG_RETI_SHIFT_SWAP_S2_R1", "sanity": 2.0, "goto": 4}]},
 			{"them": "MSG_RETI_SHIFT_SWAP_S3",
 			 "replies": [
 				{"text": "MSG_RETI_SHIFT_SWAP_S3_R0", "sanity": 9.0},
@@ -931,6 +972,1217 @@ var threads: Array = [
 		]},
 
 	# --- STORY THREADS: delivered by the game, never at random ---------------
+	# --- MORE OF THE YEAR: routes that depend on what you said earlier ---------
+	{
+		"id": "tane_band", "sender": "Tane", "avatar": "TA", "arrives": 7,
+		"steps": [
+			{"them": "MSG_TANE_BAND_S0",
+			 "replies": [
+				{"text": "MSG_TANE_BAND_S0_R0", "sanity": 5.0, "goto": 1},
+				{"text": "MSG_TANE_BAND_S0_R1", "sanity": 4.0, "goto": 2},
+				{"text": "MSG_TANE_BAND_S0_R2", "sanity": 5.0, "goto": 1}]},
+			{"them": "MSG_TANE_BAND_S1",
+			 "replies": [
+				{"text": "MSG_TANE_BAND_S1_R0", "sanity": 6.0, "goto": 3},
+				{"text": "MSG_TANE_BAND_S1_R1", "sanity": 9.0, "temptation": 3.0, "goto": 4, "flag": ["tane_band", "tane_band_yes"]},
+				{"text": "MSG_TANE_BAND_S1_R2", "sanity": 7.0, "goto": 5, "flag": ["tane_band", "tane_band_fan"]}]},
+			{"them": "MSG_TANE_BAND_S2",
+			 "replies": [
+				{"text": "MSG_TANE_BAND_S2_R0", "sanity": 5.0, "goto": 1}]},
+			{"them": "MSG_TANE_BAND_S3",
+			 "replies": [
+				{"text": "MSG_TANE_BAND_S3_R0", "sanity": 9.0, "temptation": 3.0, "goto": 4, "flag": ["tane_band", "tane_band_yes"]},
+				{"text": "MSG_TANE_BAND_S3_R1", "sanity": 5.0, "goto": 5, "flag": ["tane_band", "tane_band_fan"]}]},
+			{"them": "MSG_TANE_BAND_S4",
+			 "replies": [
+				{"text": "MSG_TANE_BAND_S4_R0", "sanity": 6.0, "goto": 6}]},
+			{"them": "MSG_TANE_BAND_S5",
+			 "replies": [
+				{"text": "MSG_TANE_BAND_S5_R0", "sanity": 6.0, "goto": 6}]},
+			{"them": "MSG_TANE_BAND_S6",
+			 "replies": [
+				{"text": "MSG_TANE_BAND_S6_R0", "sanity": 8.0},
+				{"text": "MSG_TANE_BAND_S6_R1", "sanity": 7.0}]},
+		]},
+	{
+		"id": "tane_car", "sender": "Tane", "avatar": "TA", "arrives": 20,
+		"steps": [
+			{"them": "MSG_TANE_CAR_S0",
+			 "replies": [
+				{"text": "MSG_TANE_CAR_S0_R0", "sanity": 5.0, "goto": 1},
+				{"text": "MSG_TANE_CAR_S0_R1", "sanity": 6.0, "goto": 1}]},
+			{"them": "MSG_TANE_CAR_S1",
+			 "replies": [
+				{"text": "MSG_TANE_CAR_S1_R0", "sanity": 8.0, "goto": 2, "flag": "lent_tane", "money": -20.0},
+				{"text": "MSG_TANE_CAR_S1_R1", "sanity": 3.0, "goto": 3},
+				{"text": "MSG_TANE_CAR_S1_R2", "sanity": 2.0, "goto": 4}]},
+			{"them": "MSG_TANE_CAR_S2",
+			 "replies": [
+				{"text": "MSG_TANE_CAR_S2_R0", "sanity": 7.0, "goto": 5}]},
+			{"them": "MSG_TANE_CAR_S3",
+			 "replies": [
+				{"text": "MSG_TANE_CAR_S3_R0", "sanity": 4.0, "goto": 5},
+				{"text": "MSG_TANE_CAR_S3_R1", "sanity": 3.0, "goto": 5}]},
+			{"them": "MSG_TANE_CAR_S4",
+			 "replies": [
+				{"text": "MSG_TANE_CAR_S4_R0", "sanity": 6.0, "goto": 2, "flag": "lent_tane", "money": -20.0},
+				{"text": "MSG_TANE_CAR_S4_R1", "sanity": 1.0, "goto": 5, "flag": "tane_snubbed"}]},
+		]},
+	{
+		"id": "tane_payback", "sender": "Tane", "avatar": "TA", "arrives": 40,
+		"requires": "flag:lent_tane",
+		"steps": [
+			{"them": "MSG_TANE_PAYBACK_S0",
+			 "replies": [
+				{"text": "MSG_TANE_PAYBACK_S0_R0", "sanity": 6.0, "goto": 1, "money": 25.0},
+				{"text": "MSG_TANE_PAYBACK_S0_R1", "sanity": 5.0, "goto": 2, "money": 25.0}]},
+			{"them": "MSG_TANE_PAYBACK_S1",
+			 "replies": [
+				{"text": "MSG_TANE_PAYBACK_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "MSG_TANE_PAYBACK_S2",
+			 "replies": [
+				{"text": "MSG_TANE_PAYBACK_S2_R0", "sanity": 7.0, "goto": 1}]},
+		]},
+	{
+		"id": "tane_gig", "sender": "Tane", "avatar": "TA", "arrives": 51,
+		"requires": "flag:tane_band",
+		"steps": [
+			{"them": "MSG_TANE_GIG_S0",
+			 "replies": [
+				{"text": "MSG_TANE_GIG_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "MSG_TANE_GIG_S0_R1", "sanity": 5.0, "goto": 2}]},
+			{"them": "MSG_TANE_GIG_S1",
+			 "replies": [
+				{"text": "MSG_TANE_GIG_S1_R0", "sanity": 10.0, "goto": 3, "commit": {"kind": "school_event", "label": "COMMIT_TANE_GIG", "in": 2, "flag": "saw_gig", "miss_flag": "missed_gig"}},
+				{"text": "MSG_TANE_GIG_S1_R1", "sanity": 4.0, "goto": 4}]},
+			{"them": "MSG_TANE_GIG_S2",
+			 "replies": [
+				{"text": "MSG_TANE_GIG_S2_R0", "sanity": 10.0, "goto": 3, "commit": {"kind": "school_event", "label": "COMMIT_TANE_GIG", "in": 2, "flag": "saw_gig", "miss_flag": "missed_gig"}},
+				{"text": "MSG_TANE_GIG_S2_R1", "sanity": 4.0, "goto": 4}]},
+			{"them": "MSG_TANE_GIG_S3",
+			 "replies": [
+				{"text": "MSG_TANE_GIG_S3_R0", "sanity": 8.0, "goto": 5}]},
+			{"them": "MSG_TANE_GIG_S4",
+			 "replies": [
+				{"text": "MSG_TANE_GIG_S4_R0", "sanity": 9.0, "goto": 3, "commit": {"kind": "school_event", "label": "COMMIT_TANE_GIG", "in": 2, "flag": "saw_gig", "miss_flag": "missed_gig"}},
+				{"text": "MSG_TANE_GIG_S4_R1", "sanity": 3.0}]},
+		]},
+	{
+		"id": "tane_after_gig", "sender": "Tane", "avatar": "TA", "arrives": 55,
+		"requires": "flag:saw_gig",
+		"steps": [
+			{"them": "MSG_TANE_AFTER_GIG_S0",
+			 "replies": [
+				{"text": "MSG_TANE_AFTER_GIG_S0_R0", "sanity": 10.0, "goto": 1},
+				{"text": "MSG_TANE_AFTER_GIG_S0_R1", "sanity": 8.0, "goto": 2},
+				{"text": "MSG_TANE_AFTER_GIG_S0_R2", "sanity": 9.0, "goto": 1}]},
+			{"them": "MSG_TANE_AFTER_GIG_S1",
+			 "replies": [
+				{"text": "MSG_TANE_AFTER_GIG_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "MSG_TANE_AFTER_GIG_S2",
+			 "replies": [
+				{"text": "MSG_TANE_AFTER_GIG_S2_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "MSG_TANE_AFTER_GIG_S3",
+			 "replies": [
+				{"text": "MSG_TANE_AFTER_GIG_S3_R0", "sanity": 11.0},
+				{"text": "MSG_TANE_AFTER_GIG_S3_R1", "sanity": 12.0}]},
+		]},
+	{
+		"id": "tane_missed_gig", "sender": "Tane", "avatar": "TA", "arrives": 55,
+		"requires": "flag:missed_gig",
+		"steps": [
+			{"them": "MSG_TANE_MISSED_GIG_S0",
+			 "replies": [
+				{"text": "MSG_TANE_MISSED_GIG_S0_R0", "sanity": 3.0, "goto": 1},
+				{"text": "MSG_TANE_MISSED_GIG_S0_R1", "sanity": 2.0, "goto": 2}]},
+			{"them": "MSG_TANE_MISSED_GIG_S1",
+			 "replies": [
+				{"text": "MSG_TANE_MISSED_GIG_S1_R0", "sanity": 7.0, "goto": 3},
+				{"text": "MSG_TANE_MISSED_GIG_S1_R1", "sanity": 6.0, "goto": 3}]},
+			{"them": "MSG_TANE_MISSED_GIG_S2",
+			 "replies": [
+				{"text": "MSG_TANE_MISSED_GIG_S2_R0", "sanity": 5.0, "goto": 1},
+				{"text": "MSG_TANE_MISSED_GIG_S2_R1", "sanity": 1.0, "goto": 4}]},
+			{"them": "MSG_TANE_MISSED_GIG_S3",
+			 "replies": [
+				{"text": "MSG_TANE_MISSED_GIG_S3_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "tane_roadtrip", "sender": "Tane", "avatar": "TA", "arrives": 86,
+		"steps": [
+			{"them": "MSG_TANE_ROADTRIP_S0",
+			 "replies": [
+				{"text": "MSG_TANE_ROADTRIP_S0_R0", "sanity": 10.0, "goto": 1},
+				{"text": "MSG_TANE_ROADTRIP_S0_R1", "sanity": 6.0, "goto": 2},
+				{"text": "MSG_TANE_ROADTRIP_S0_R2", "sanity": 3.0, "goto": 3}]},
+			{"them": "MSG_TANE_ROADTRIP_S1",
+			 "replies": [
+				{"text": "MSG_TANE_ROADTRIP_S1_R0", "sanity": 8.0, "goto": 4}]},
+			{"them": "MSG_TANE_ROADTRIP_S2",
+			 "replies": [
+				{"text": "MSG_TANE_ROADTRIP_S2_R0", "sanity": 9.0, "goto": 4}]},
+			{"them": "MSG_TANE_ROADTRIP_S3",
+			 "replies": [
+				{"text": "MSG_TANE_ROADTRIP_S3_R0", "sanity": 8.0, "goto": 1},
+				{"text": "MSG_TANE_ROADTRIP_S3_R1", "sanity": 9.0, "goto": 1}]},
+		]},
+	{
+		"id": "mika_memes", "sender": "Mika", "avatar": "MI", "arrives": 2,
+		"steps": [
+			{"them": "MSG_MIKA_MEMES_S0",
+			 "replies": [
+				{"text": "MSG_MIKA_MEMES_S0_R0", "sanity": 5.0, "goto": 1},
+				{"text": "MSG_MIKA_MEMES_S0_R1", "sanity": 5.0, "goto": 2}]},
+			{"them": "MSG_MIKA_MEMES_S1",
+			 "replies": [
+				{"text": "MSG_MIKA_MEMES_S1_R0", "sanity": 7.0, "goto": 3}]},
+			{"them": "MSG_MIKA_MEMES_S2",
+			 "replies": [
+				{"text": "MSG_MIKA_MEMES_S2_R0", "sanity": 7.0, "goto": 3},
+				{"text": "MSG_MIKA_MEMES_S2_R1", "sanity": 8.0, "goto": 3}]},
+			{"them": "MSG_MIKA_MEMES_S3",
+			 "replies": [
+				{"text": "MSG_MIKA_MEMES_S3_R0", "sanity": 6.0},
+				{"text": "MSG_MIKA_MEMES_S3_R1", "sanity": 6.0}]},
+		]},
+	{
+		"id": "mika_driving", "sender": "Mika", "avatar": "MI", "arrives": 31,
+		"steps": [
+			{"them": "MSG_MIKA_DRIVING_S0",
+			 "replies": [
+				{"text": "MSG_MIKA_DRIVING_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_MIKA_DRIVING_S0_R1", "sanity": 6.0, "goto": 2}]},
+			{"them": "MSG_MIKA_DRIVING_S1",
+			 "replies": [
+				{"text": "MSG_MIKA_DRIVING_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "MSG_MIKA_DRIVING_S2",
+			 "replies": [
+				{"text": "MSG_MIKA_DRIVING_S2_R0", "sanity": 6.0, "goto": 3},
+				{"text": "MSG_MIKA_DRIVING_S2_R1", "sanity": 7.0, "goto": 3}]},
+			{"wait": 8.0, "them": "MSG_MIKA_DRIVING_S3",
+			 "replies": [
+				{"text": "MSG_MIKA_DRIVING_S3_R0", "sanity": 10.0, "goto": 4},
+				{"text": "MSG_MIKA_DRIVING_S3_R1", "sanity": 8.0, "goto": 5}]},
+			{"them": "MSG_MIKA_DRIVING_S4",
+			 "replies": [
+				{"text": "MSG_MIKA_DRIVING_S4_R0", "sanity": 8.0, "goto": 6}]},
+			{"them": "MSG_MIKA_DRIVING_S5",
+			 "replies": [
+				{"text": "MSG_MIKA_DRIVING_S5_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "mika_gap", "sender": "Mika", "avatar": "MI", "arrives": 61,
+		"steps": [
+			{"them": "MSG_MIKA_GAP_S0",
+			 "replies": [
+				{"text": "MSG_MIKA_GAP_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "MSG_MIKA_GAP_S0_R1", "sanity": 6.0, "goto": 2},
+				{"text": "MSG_MIKA_GAP_S0_R2", "sanity": 3.0, "goto": 3}]},
+			{"them": "MSG_MIKA_GAP_S1",
+			 "replies": [
+				{"text": "MSG_MIKA_GAP_S1_R0", "sanity": 10.0, "goto": 4, "flag": "mika_gap"},
+				{"text": "MSG_MIKA_GAP_S1_R1", "sanity": 9.0, "goto": 5, "flag": "mika_defer"},
+				{"text": "MSG_MIKA_GAP_S1_R2", "sanity": 8.0, "goto": 6, "flag": "mika_uni"}]},
+			{"them": "MSG_MIKA_GAP_S2",
+			 "replies": [
+				{"text": "MSG_MIKA_GAP_S2_R0", "sanity": 6.0, "goto": 1}]},
+			{"them": "MSG_MIKA_GAP_S3",
+			 "replies": [
+				{"text": "MSG_MIKA_GAP_S3_R0", "sanity": 6.0, "goto": 1}]},
+			{"them": "MSG_MIKA_GAP_S4",
+			 "replies": [
+				{"text": "MSG_MIKA_GAP_S4_R0", "sanity": 11.0, "goto": 7}]},
+			{"them": "MSG_MIKA_GAP_S5",
+			 "replies": [
+				{"text": "MSG_MIKA_GAP_S5_R0", "sanity": 10.0, "goto": 7}]},
+			{"them": "MSG_MIKA_GAP_S6",
+			 "replies": [
+				{"text": "MSG_MIKA_GAP_S6_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "mika_final", "sender": "Mika", "avatar": "MI", "arrives": 84,
+		"steps": [
+			{"them": "MSG_MIKA_FINAL_S0",
+			 "replies": [
+				{"text": "MSG_MIKA_FINAL_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_MIKA_FINAL_S0_R1", "sanity": 8.0, "goto": 2}]},
+			{"them": "MSG_MIKA_FINAL_S1",
+			 "replies": [
+				{"text": "MSG_MIKA_FINAL_S1_R0", "sanity": 7.0, "goto": 2}]},
+			{"them": "MSG_MIKA_FINAL_S2",
+			 "replies": [
+				{"text": "MSG_MIKA_FINAL_S2_R0", "sanity": 9.0},
+				{"text": "MSG_MIKA_FINAL_S2_R1", "sanity": 10.0}]},
+		]},
+	{
+		"id": "ana_book", "sender": "Ana", "avatar": "AN", "arrives": 13,
+		"steps": [
+			{"them": "MSG_ANA_BOOK_S0",
+			 "replies": [
+				{"text": "MSG_ANA_BOOK_S0_R0", "sanity": 5.0, "goto": 1},
+				{"text": "MSG_ANA_BOOK_S0_R1", "sanity": 4.0, "goto": 2}]},
+			{"them": "MSG_ANA_BOOK_S1",
+			 "replies": [
+				{"text": "MSG_ANA_BOOK_S1_R0", "sanity": 8.0, "goto": 3, "flag": "ana_book"},
+				{"text": "MSG_ANA_BOOK_S1_R1", "sanity": 5.0, "goto": 4}]},
+			{"them": "MSG_ANA_BOOK_S2",
+			 "replies": [
+				{"text": "MSG_ANA_BOOK_S2_R0", "sanity": 8.0, "goto": 3, "flag": "ana_book"},
+				{"text": "MSG_ANA_BOOK_S2_R1", "sanity": 5.0, "goto": 4}]},
+			{"them": "MSG_ANA_BOOK_S3",
+			 "replies": [
+				{"text": "MSG_ANA_BOOK_S3_R0", "sanity": 8.0, "goto": 5}]},
+			{"them": "MSG_ANA_BOOK_S4",
+			 "replies": [
+				{"text": "MSG_ANA_BOOK_S4_R0", "sanity": 6.0}]},
+		]},
+	{
+		"id": "ana_run", "sender": "Ana", "avatar": "AN", "arrives": 37,
+		"steps": [
+			{"them": "MSG_ANA_RUN_S0",
+			 "replies": [
+				{"text": "MSG_ANA_RUN_S0_R0", "sanity": 5.0, "goto": 1},
+				{"text": "MSG_ANA_RUN_S0_R1", "sanity": 5.0, "goto": 2}]},
+			{"them": "MSG_ANA_RUN_S1",
+			 "replies": [
+				{"text": "MSG_ANA_RUN_S1_R0", "sanity": 9.0, "goto": 3, "commit": {"kind": "hangout", "label": "COMMIT_ANA_RUN", "in": 1, "flag": "ran_with_ana"}},
+				{"text": "MSG_ANA_RUN_S1_R1", "sanity": 3.0, "goto": 4}]},
+			{"them": "MSG_ANA_RUN_S2",
+			 "replies": [
+				{"text": "MSG_ANA_RUN_S2_R0", "sanity": 9.0, "goto": 3, "commit": {"kind": "hangout", "label": "COMMIT_ANA_RUN", "in": 1, "flag": "ran_with_ana"}},
+				{"text": "MSG_ANA_RUN_S2_R1", "sanity": 3.0, "goto": 4}]},
+			{"them": "MSG_ANA_RUN_S3",
+			 "replies": [
+				{"text": "MSG_ANA_RUN_S3_R0", "sanity": 7.0, "goto": 5}]},
+			{"them": "MSG_ANA_RUN_S4",
+			 "replies": [
+				{"text": "MSG_ANA_RUN_S4_R0", "sanity": 4.0}]},
+		]},
+	{
+		"id": "ana_thanks", "sender": "Ana", "avatar": "AN", "arrives": 72,
+		"requires": "flag:ana_supported",
+		"steps": [
+			{"them": "MSG_ANA_THANKS_S0",
+			 "replies": [
+				{"text": "MSG_ANA_THANKS_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_ANA_THANKS_S0_R1", "sanity": 7.0, "goto": 1}]},
+			{"them": "MSG_ANA_THANKS_S1",
+			 "replies": [
+				{"text": "MSG_ANA_THANKS_S1_R0", "sanity": 11.0, "goto": 2},
+				{"text": "MSG_ANA_THANKS_S1_R1", "sanity": 12.0, "goto": 2}]},
+			{"them": "MSG_ANA_THANKS_S2",
+			 "replies": [
+				{"text": "MSG_ANA_THANKS_S2_R0", "sanity": 14.0},
+				{"text": "MSG_ANA_THANKS_S2_R1", "sanity": 12.0}]},
+		]},
+	{
+		"id": "priya_debate", "sender": "Priya", "avatar": "PR", "arrives": 18,
+		"steps": [
+			{"them": "MSG_PRIYA_DEBATE_S0",
+			 "replies": [
+				{"text": "MSG_PRIYA_DEBATE_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_PRIYA_DEBATE_S0_R1", "sanity": 6.0, "goto": 2}]},
+			{"them": "MSG_PRIYA_DEBATE_S1",
+			 "replies": [
+				{"text": "MSG_PRIYA_DEBATE_S1_R0", "sanity": 7.0, "goto": 3},
+				{"text": "MSG_PRIYA_DEBATE_S1_R1", "sanity": 8.0, "goto": 3}]},
+			{"them": "MSG_PRIYA_DEBATE_S2",
+			 "replies": [
+				{"text": "MSG_PRIYA_DEBATE_S2_R0", "sanity": 9.0, "goto": 3}]},
+			{"wait": 20.0, "them": "MSG_PRIYA_DEBATE_S3",
+			 "replies": [
+				{"text": "MSG_PRIYA_DEBATE_S3_R0", "sanity": 9.0},
+				{"text": "MSG_PRIYA_DEBATE_S3_R1", "sanity": 10.0}]},
+		]},
+	{
+		"id": "priya_scholarship", "sender": "Priya", "avatar": "PR", "arrives": 38,
+		"steps": [
+			{"them": "MSG_PRIYA_SCHOLARSHIP_S0",
+			 "replies": [
+				{"text": "MSG_PRIYA_SCHOLARSHIP_S0_R0", "sanity": 5.0, "goto": 1},
+				{"text": "MSG_PRIYA_SCHOLARSHIP_S0_R1", "sanity": 6.0, "goto": 1}]},
+			{"them": "MSG_PRIYA_SCHOLARSHIP_S1",
+			 "replies": [
+				{"text": "MSG_PRIYA_SCHOLARSHIP_S1_R0", "sanity": 8.0, "goto": 2, "flag": "priya_helped"},
+				{"text": "MSG_PRIYA_SCHOLARSHIP_S1_R1", "sanity": 9.0, "goto": 3, "flag": "priya_helped"},
+				{"text": "MSG_PRIYA_SCHOLARSHIP_S1_R2", "sanity": 3.0, "goto": 4}]},
+			{"wait": 3.0, "them": "MSG_PRIYA_SCHOLARSHIP_S2",
+			 "replies": [
+				{"text": "MSG_PRIYA_SCHOLARSHIP_S2_R0", "sanity": 10.0, "goto": 5},
+				{"text": "MSG_PRIYA_SCHOLARSHIP_S2_R1", "sanity": 8.0, "goto": 5}]},
+			{"them": "MSG_PRIYA_SCHOLARSHIP_S3",
+			 "replies": [
+				{"text": "MSG_PRIYA_SCHOLARSHIP_S3_R0", "sanity": 10.0, "goto": 5}]},
+			{"them": "MSG_PRIYA_SCHOLARSHIP_S4",
+			 "replies": [
+				{"text": "MSG_PRIYA_SCHOLARSHIP_S4_R0", "sanity": 4.0, "goto": 6}]},
+			{"them": "MSG_PRIYA_SCHOLARSHIP_S5",
+			 "replies": [
+				{"text": "MSG_PRIYA_SCHOLARSHIP_S5_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "priya_decision", "sender": "Priya", "avatar": "PR", "arrives": 63,
+		"steps": [
+			{"them": "MSG_PRIYA_DECISION_S0",
+			 "replies": [
+				{"text": "MSG_PRIYA_DECISION_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "MSG_PRIYA_DECISION_S0_R1", "sanity": 5.0, "goto": 2}]},
+			{"them": "MSG_PRIYA_DECISION_S1",
+			 "replies": [
+				{"text": "MSG_PRIYA_DECISION_S1_R0", "sanity": 10.0, "goto": 3, "flag": "priya_commerce"},
+				{"text": "MSG_PRIYA_DECISION_S1_R1", "sanity": 5.0, "goto": 4, "flag": "priya_law"}]},
+			{"them": "MSG_PRIYA_DECISION_S2",
+			 "replies": [
+				{"text": "MSG_PRIYA_DECISION_S2_R0", "sanity": 9.0, "goto": 1}]},
+			{"them": "MSG_PRIYA_DECISION_S3",
+			 "replies": [
+				{"text": "MSG_PRIYA_DECISION_S3_R0", "sanity": 9.0, "goto": 5}]},
+			{"them": "MSG_PRIYA_DECISION_S4",
+			 "replies": [
+				{"text": "MSG_PRIYA_DECISION_S4_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_PRIYA_DECISION_S4_R1", "sanity": 5.0}]},
+		]},
+	{
+		"id": "mum_dinner", "sender": "Mum", "avatar": "MU", "arrives": 9,
+		"steps": [
+			{"them": "MSG_MUM_DINNER_S0",
+			 "replies": [
+				{"text": "MSG_MUM_DINNER_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_MUM_DINNER_S0_R1", "sanity": 5.0, "goto": 2}]},
+			{"them": "MSG_MUM_DINNER_S1",
+			 "replies": [
+				{"text": "MSG_MUM_DINNER_S1_R0", "sanity": 6.0, "goto": 5}]},
+			{"them": "MSG_MUM_DINNER_S2",
+			 "replies": [
+				{"text": "MSG_MUM_DINNER_S2_R0", "sanity": 7.0, "goto": 3},
+				{"text": "MSG_MUM_DINNER_S2_R1", "sanity": 3.0, "goto": 4}]},
+			{"them": "MSG_MUM_DINNER_S3",
+			 "replies": [
+				{"text": "MSG_MUM_DINNER_S3_R0", "sanity": 7.0, "goto": 5}]},
+			{"them": "MSG_MUM_DINNER_S4",
+			 "replies": [
+				{"text": "MSG_MUM_DINNER_S4_R0", "sanity": 5.0},
+				{"text": "MSG_MUM_DINNER_S4_R1", "sanity": 7.0}]},
+		]},
+	{
+		"id": "mum_dog", "sender": "Mum", "avatar": "MU", "arrives": 26,
+		"steps": [
+			{"them": "MSG_MUM_DOG_S0",
+			 "replies": [
+				{"text": "MSG_MUM_DOG_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_MUM_DOG_S0_R1", "sanity": 6.0, "goto": 2}]},
+			{"them": "MSG_MUM_DOG_S1",
+			 "replies": [
+				{"text": "MSG_MUM_DOG_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "MSG_MUM_DOG_S2",
+			 "replies": [
+				{"text": "MSG_MUM_DOG_S2_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "MSG_MUM_DOG_S3",
+			 "replies": [
+				{"text": "MSG_MUM_DOG_S3_R0", "sanity": 9.0},
+				{"text": "MSG_MUM_DOG_S3_R1", "sanity": 10.0}]},
+		]},
+	{
+		"id": "mum_extra_hours", "sender": "Mum", "avatar": "MU", "arrives": 50,
+		"steps": [
+			{"them": "MSG_MUM_EXTRA_HOURS_S0",
+			 "replies": [
+				{"text": "MSG_MUM_EXTRA_HOURS_S0_R0", "sanity": 5.0, "goto": 1},
+				{"text": "MSG_MUM_EXTRA_HOURS_S0_R1", "sanity": 6.0, "goto": 2},
+				{"text": "MSG_MUM_EXTRA_HOURS_S0_R2", "sanity": 4.0, "goto": 3}]},
+			{"them": "MSG_MUM_EXTRA_HOURS_S1",
+			 "replies": [
+				{"text": "MSG_MUM_EXTRA_HOURS_S1_R0", "sanity": 8.0, "goto": 4, "flag": "told_mum_loan"},
+				{"text": "MSG_MUM_EXTRA_HOURS_S1_R1", "sanity": 10.0, "goto": 5}]},
+			{"them": "MSG_MUM_EXTRA_HOURS_S2",
+			 "replies": [
+				{"text": "MSG_MUM_EXTRA_HOURS_S2_R0", "sanity": 6.0, "goto": 1}]},
+			{"them": "MSG_MUM_EXTRA_HOURS_S3",
+			 "replies": [
+				{"text": "MSG_MUM_EXTRA_HOURS_S3_R0", "sanity": 8.0, "goto": 6}]},
+			{"them": "MSG_MUM_EXTRA_HOURS_S4",
+			 "replies": [
+				{"text": "MSG_MUM_EXTRA_HOURS_S4_R0", "sanity": 7.0, "goto": 6}]},
+			{"them": "MSG_MUM_EXTRA_HOURS_S5",
+			 "replies": [
+				{"text": "MSG_MUM_EXTRA_HOURS_S5_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "mum_proud", "sender": "Mum", "avatar": "MU", "arrives": 85,
+		"steps": [
+			{"them": "MSG_MUM_PROUD_S0",
+			 "replies": [
+				{"text": "MSG_MUM_PROUD_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "MSG_MUM_PROUD_S0_R1", "sanity": 8.0, "goto": 1}]},
+			{"them": "MSG_MUM_PROUD_S1",
+			 "replies": [
+				{"text": "MSG_MUM_PROUD_S1_R0", "sanity": 14.0, "goto": 3},
+				{"text": "MSG_MUM_PROUD_S1_R1", "sanity": 13.0, "goto": 2}]},
+			{"them": "MSG_MUM_PROUD_S2",
+			 "replies": [
+				{"text": "MSG_MUM_PROUD_S2_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "dad_rugby", "sender": "Dad", "avatar": "DA", "arrives": 13, "pace": "slow",
+		"steps": [
+			{"them": "MSG_DAD_RUGBY_S0",
+			 "replies": [
+				{"text": "MSG_DAD_RUGBY_S0_R0", "sanity": 3.0, "goto": 1},
+				{"text": "MSG_DAD_RUGBY_S0_R1", "sanity": 6.0, "goto": 2},
+				{"text": "MSG_DAD_RUGBY_S0_R2", "sanity": 5.0, "goto": 3}]},
+			{"them": "MSG_DAD_RUGBY_S1",
+			 "replies": [
+				{"text": "MSG_DAD_RUGBY_S1_R0", "sanity": 6.0, "goto": 4}]},
+			{"them": "MSG_DAD_RUGBY_S2",
+			 "replies": [
+				{"text": "MSG_DAD_RUGBY_S2_R0", "sanity": 7.0, "goto": 4}]},
+			{"them": "MSG_DAD_RUGBY_S3",
+			 "replies": [
+				{"text": "MSG_DAD_RUGBY_S3_R0", "sanity": 4.0, "goto": 1},
+				{"text": "MSG_DAD_RUGBY_S3_R1", "sanity": 7.0, "goto": 2}]},
+		]},
+	{
+		"id": "dad_driving", "sender": "Dad", "avatar": "DA", "arrives": 33, "pace": "slow",
+		"steps": [
+			{"them": "MSG_DAD_DRIVING_S0",
+			 "replies": [
+				{"text": "MSG_DAD_DRIVING_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "MSG_DAD_DRIVING_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "MSG_DAD_DRIVING_S1",
+			 "replies": [
+				{"text": "MSG_DAD_DRIVING_S1_R0", "sanity": 7.0, "goto": 3}]},
+			{"them": "MSG_DAD_DRIVING_S2",
+			 "replies": [
+				{"text": "MSG_DAD_DRIVING_S2_R0", "sanity": 7.0, "goto": 3},
+				{"text": "MSG_DAD_DRIVING_S2_R1", "sanity": 4.0, "goto": 4}]},
+			{"them": "MSG_DAD_DRIVING_S3",
+			 "replies": [
+				{"text": "MSG_DAD_DRIVING_S3_R0", "sanity": 8.0, "goto": 5}]},
+			{"them": "MSG_DAD_DRIVING_S4",
+			 "replies": [
+				{"text": "MSG_DAD_DRIVING_S4_R0", "sanity": 6.0}]},
+		]},
+	{
+		"id": "dad_money", "sender": "Dad", "avatar": "DA", "arrives": 58, "pace": "slow",
+		"steps": [
+			{"them": "MSG_DAD_MONEY_S0",
+			 "replies": [
+				{"text": "MSG_DAD_MONEY_S0_R0", "sanity": 9.0, "goto": 1, "money": 50.0},
+				{"text": "MSG_DAD_MONEY_S0_R1", "sanity": 5.0, "goto": 2}]},
+			{"them": "MSG_DAD_MONEY_S1",
+			 "replies": [
+				{"text": "MSG_DAD_MONEY_S1_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "MSG_DAD_MONEY_S2",
+			 "replies": [
+				{"text": "MSG_DAD_MONEY_S2_R0", "sanity": 8.0, "money": 50.0}]},
+		]},
+	{
+		"id": "dad_last", "sender": "Dad", "avatar": "DA", "arrives": 88, "pace": "slow",
+		"steps": [
+			{"them": "MSG_DAD_LAST_S0",
+			 "replies": [
+				{"text": "MSG_DAD_LAST_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "MSG_DAD_LAST_S0_R1", "sanity": 6.0, "goto": 2}]},
+			{"them": "MSG_DAD_LAST_S1",
+			 "replies": [
+				{"text": "MSG_DAD_LAST_S1_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "MSG_DAD_LAST_S2",
+			 "replies": [
+				{"text": "MSG_DAD_LAST_S2_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "nan_tech", "sender": "Nan", "avatar": "NA", "arrives": 15, "pace": "slow",
+		"steps": [
+			{"them": "MSG_NAN_TECH_S0",
+			 "replies": [
+				{"text": "MSG_NAN_TECH_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "MSG_NAN_TECH_S0_R1", "sanity": 6.0, "goto": 2}]},
+			{"them": "MSG_NAN_TECH_S1",
+			 "replies": [
+				{"text": "MSG_NAN_TECH_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "MSG_NAN_TECH_S2",
+			 "replies": [
+				{"text": "MSG_NAN_TECH_S2_R0", "sanity": 7.0, "goto": 1}]},
+			{"them": "MSG_NAN_TECH_S3",
+			 "replies": [
+				{"text": "MSG_NAN_TECH_S3_R0", "sanity": 9.0},
+				{"text": "MSG_NAN_TECH_S3_R1", "sanity": 10.0}]},
+		]},
+	{
+		"id": "nan_money", "sender": "Nan", "avatar": "NA", "arrives": 45, "pace": "slow",
+		"steps": [
+			{"them": "MSG_NAN_MONEY_S0",
+			 "replies": [
+				{"text": "MSG_NAN_MONEY_S0_R0", "sanity": 10.0, "goto": 1, "money": 20.0},
+				{"text": "MSG_NAN_MONEY_S0_R1", "sanity": 7.0, "goto": 2, "money": 20.0}]},
+			{"them": "MSG_NAN_MONEY_S1",
+			 "replies": [
+				{"text": "MSG_NAN_MONEY_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "MSG_NAN_MONEY_S2",
+			 "replies": [
+				{"text": "MSG_NAN_MONEY_S2_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "nan_garden", "sender": "Nan", "avatar": "NA", "arrives": 68, "pace": "slow",
+		"steps": [
+			{"them": "MSG_NAN_GARDEN_S0",
+			 "replies": [
+				{"text": "MSG_NAN_GARDEN_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "MSG_NAN_GARDEN_S0_R1", "sanity": 7.0, "goto": 1}]},
+			{"them": "MSG_NAN_GARDEN_S1",
+			 "replies": [
+				{"text": "MSG_NAN_GARDEN_S1_R0", "sanity": 11.0, "goto": 2},
+				{"text": "MSG_NAN_GARDEN_S1_R1", "sanity": 10.0, "goto": 3}]},
+			{"them": "MSG_NAN_GARDEN_S2",
+			 "replies": [
+				{"text": "MSG_NAN_GARDEN_S2_R0", "sanity": 12.0, "goto": 3}]},
+			{"them": "MSG_NAN_GARDEN_S3",
+			 "replies": [
+				{"text": "MSG_NAN_GARDEN_S3_R0", "sanity": 11.0}]},
+		]},
+	{
+		"id": "nan_luck", "sender": "Nan", "avatar": "NA", "arrives": 79, "pace": "slow",
+		"steps": [
+			{"them": "MSG_NAN_LUCK_S0",
+			 "replies": [
+				{"text": "MSG_NAN_LUCK_S0_R0", "sanity": 9.0, "goto": 1},
+				{"text": "MSG_NAN_LUCK_S0_R1", "sanity": 9.0, "goto": 2}]},
+			{"them": "MSG_NAN_LUCK_S1",
+			 "replies": [
+				{"text": "MSG_NAN_LUCK_S1_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "MSG_NAN_LUCK_S2",
+			 "replies": [
+				{"text": "MSG_NAN_LUCK_S2_R0", "sanity": 10.0, "goto": 1}]},
+		]},
+	{
+		"id": "wiremu_trial", "sender": "Wiremu", "avatar": "WI", "arrives": 22,
+		"steps": [
+			{"them": "MSG_WIREMU_TRIAL_S0",
+			 "replies": [
+				{"text": "MSG_WIREMU_TRIAL_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "MSG_WIREMU_TRIAL_S0_R1", "sanity": 6.0, "goto": 2}]},
+			{"them": "MSG_WIREMU_TRIAL_S1",
+			 "replies": [
+				{"text": "MSG_WIREMU_TRIAL_S1_R0", "sanity": 9.0, "goto": 3},
+				{"text": "MSG_WIREMU_TRIAL_S1_R1", "sanity": 8.0, "goto": 3}]},
+			{"them": "MSG_WIREMU_TRIAL_S2",
+			 "replies": [
+				{"text": "MSG_WIREMU_TRIAL_S2_R0", "sanity": 8.0, "goto": 1}]},
+			{"wait": 30.0, "them": "MSG_WIREMU_TRIAL_S3",
+			 "replies": [
+				{"text": "MSG_WIREMU_TRIAL_S3_R0", "sanity": 11.0},
+				{"text": "MSG_WIREMU_TRIAL_S3_R1", "sanity": 10.0}]},
+		]},
+	{
+		"id": "wiremu_injury", "sender": "Wiremu", "avatar": "WI", "arrives": 46,
+		"steps": [
+			{"them": "MSG_WIREMU_INJURY_S0",
+			 "replies": [
+				{"text": "MSG_WIREMU_INJURY_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_WIREMU_INJURY_S0_R1", "sanity": 6.0, "goto": 2}]},
+			{"them": "MSG_WIREMU_INJURY_S1",
+			 "replies": [
+				{"text": "MSG_WIREMU_INJURY_S1_R0", "sanity": 7.0, "goto": 2}]},
+			{"them": "MSG_WIREMU_INJURY_S2",
+			 "replies": [
+				{"text": "MSG_WIREMU_INJURY_S2_R0", "sanity": 9.0, "goto": 3},
+				{"text": "MSG_WIREMU_INJURY_S2_R1", "sanity": 4.0, "goto": 4}]},
+			{"them": "MSG_WIREMU_INJURY_S3",
+			 "replies": [
+				{"text": "MSG_WIREMU_INJURY_S3_R0", "sanity": 10.0, "goto": 5}]},
+			{"them": "MSG_WIREMU_INJURY_S4",
+			 "replies": [
+				{"text": "MSG_WIREMU_INJURY_S4_R0", "sanity": 7.0, "goto": 3}]},
+		]},
+	{
+		"id": "wiremu_apprentice", "sender": "Wiremu", "avatar": "WI", "arrives": 82,
+		"steps": [
+			{"them": "MSG_WIREMU_APPRENTICE_S0",
+			 "replies": [
+				{"text": "MSG_WIREMU_APPRENTICE_S0_R0", "sanity": 6.0, "goto": 1}]},
+			{"them": "MSG_WIREMU_APPRENTICE_S1",
+			 "replies": [
+				{"text": "MSG_WIREMU_APPRENTICE_S1_R0", "sanity": 12.0, "goto": 2, "flag": "wiremu_apprentice"},
+				{"text": "MSG_WIREMU_APPRENTICE_S1_R1", "sanity": 5.0, "goto": 3, "flag": "wiremu_apprentice"}]},
+			{"them": "MSG_WIREMU_APPRENTICE_S2",
+			 "replies": [
+				{"text": "MSG_WIREMU_APPRENTICE_S2_R0", "sanity": 12.0, "goto": 4}]},
+			{"them": "MSG_WIREMU_APPRENTICE_S3",
+			 "replies": [
+				{"text": "MSG_WIREMU_APPRENTICE_S3_R0", "sanity": 10.0, "goto": 2}]},
+		]},
+	{
+		"id": "ball_week", "sender": "Year 13 groupchat", "avatar": "Y13", "arrives": 50,
+		"requires": "flag:ball_ticket",
+		"steps": [
+			{"from": "Chloe", "them": "MSG_BALL_WEEK_S0",
+			 "replies": [
+				{"text": "MSG_BALL_WEEK_S0_R0", "sanity": 8.0, "goto": 1, "commit": {"kind": "school_event", "label": "COMMIT_BALL", "in": 2, "flag": "went_to_ball", "miss_flag": "missed_ball"}},
+				{"text": "MSG_BALL_WEEK_S0_R1", "sanity": 5.0, "goto": 2}]},
+			{"from": "Sione", "them": "MSG_BALL_WEEK_S1",
+			 "replies": [
+				{"text": "MSG_BALL_WEEK_S1_R0", "sanity": 8.0, "goto": 3},
+				{"text": "MSG_BALL_WEEK_S1_R1", "sanity": 9.0, "goto": 3}]},
+			{"from": "Chloe", "them": "MSG_BALL_WEEK_S2",
+			 "replies": [
+				{"text": "MSG_BALL_WEEK_S2_R0", "sanity": 7.0, "goto": 1, "commit": {"kind": "school_event", "label": "COMMIT_BALL", "in": 2, "flag": "went_to_ball", "miss_flag": "missed_ball"}},
+				{"text": "MSG_BALL_WEEK_S2_R1", "sanity": 3.0, "goto": 3}]},
+			{"from": "Ana", "them": "MSG_BALL_WEEK_S3",
+			 "replies": [
+				{"text": "MSG_BALL_WEEK_S3_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "chloe_after_ball", "sender": "Chloe", "avatar": "CH", "arrives": 54,
+		"requires": "flag:went_to_ball",
+		"steps": [
+			{"them": "MSG_CHLOE_AFTER_BALL_S0",
+			 "replies": [
+				{"text": "MSG_CHLOE_AFTER_BALL_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "MSG_CHLOE_AFTER_BALL_S0_R1", "sanity": 8.0, "goto": 1}]},
+			{"them": "MSG_CHLOE_AFTER_BALL_S1",
+			 "replies": [
+				{"text": "MSG_CHLOE_AFTER_BALL_S1_R0", "sanity": 11.0, "goto": 2}]},
+			{"them": "MSG_CHLOE_AFTER_BALL_S2",
+			 "replies": [
+				{"text": "MSG_CHLOE_AFTER_BALL_S2_R0", "sanity": 11.0},
+				{"text": "MSG_CHLOE_AFTER_BALL_S2_R1", "sanity": 8.0}]},
+		]},
+	{
+		"id": "chloe_missed_ball", "sender": "Chloe", "avatar": "CH", "arrives": 54,
+		"requires": "flag:missed_ball",
+		"steps": [
+			{"them": "MSG_CHLOE_MISSED_BALL_S0",
+			 "replies": [
+				{"text": "MSG_CHLOE_MISSED_BALL_S0_R0", "sanity": 3.0, "goto": 1},
+				{"text": "MSG_CHLOE_MISSED_BALL_S0_R1", "sanity": 2.0, "goto": 1}]},
+			{"them": "MSG_CHLOE_MISSED_BALL_S1",
+			 "replies": [
+				{"text": "MSG_CHLOE_MISSED_BALL_S1_R0", "sanity": 5.0, "goto": 2},
+				{"text": "MSG_CHLOE_MISSED_BALL_S1_R1", "sanity": 6.0, "goto": 2}]},
+			{"them": "MSG_CHLOE_MISSED_BALL_S2",
+			 "replies": [
+				{"text": "MSG_CHLOE_MISSED_BALL_S2_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "chloe_halloway", "sender": "Chloe", "avatar": "CH", "arrives": 66,
+		"steps": [
+			{"them": "MSG_CHLOE_HALLOWAY_S0",
+			 "replies": [
+				{"text": "MSG_CHLOE_HALLOWAY_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_CHLOE_HALLOWAY_S0_R1", "sanity": 6.0, "goto": 2}]},
+			{"them": "MSG_CHLOE_HALLOWAY_S1",
+			 "replies": [
+				{"text": "MSG_CHLOE_HALLOWAY_S1_R0", "sanity": 8.0, "goto": 3},
+				{"text": "MSG_CHLOE_HALLOWAY_S1_R1", "sanity": 9.0, "goto": 4}]},
+			{"them": "MSG_CHLOE_HALLOWAY_S2",
+			 "replies": [
+				{"text": "MSG_CHLOE_HALLOWAY_S2_R0", "sanity": 6.0, "goto": 1}]},
+			{"them": "MSG_CHLOE_HALLOWAY_S3",
+			 "replies": [
+				{"text": "MSG_CHLOE_HALLOWAY_S3_R0", "sanity": 10.0, "goto": 5, "flag": "halloway_card"}]},
+			{"them": "MSG_CHLOE_HALLOWAY_S4",
+			 "replies": [
+				{"text": "MSG_CHLOE_HALLOWAY_S4_R0", "sanity": 9.0},
+				{"text": "MSG_CHLOE_HALLOWAY_S4_R1", "sanity": 10.0, "flag": "halloway_card"}]},
+		]},
+	{
+		"id": "sione_eggs", "sender": "Sione", "avatar": "SI", "arrives": 29,
+		"steps": [
+			{"them": "MSG_SIONE_EGGS_S0",
+			 "replies": [
+				{"text": "MSG_SIONE_EGGS_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_SIONE_EGGS_S0_R1", "sanity": 7.0, "goto": 1}]},
+			{"them": "MSG_SIONE_EGGS_S1",
+			 "replies": [
+				{"text": "MSG_SIONE_EGGS_S1_R0", "sanity": 7.0, "goto": 2},
+				{"text": "MSG_SIONE_EGGS_S1_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "MSG_SIONE_EGGS_S2",
+			 "replies": [
+				{"text": "MSG_SIONE_EGGS_S2_R0", "sanity": 9.0, "flag": "gym_with_sione"},
+				{"text": "MSG_SIONE_EGGS_S2_R1", "sanity": 6.0}]},
+		]},
+	{
+		"id": "sione_pb", "sender": "Sione", "avatar": "SI", "arrives": 57,
+		"steps": [
+			{"them": "MSG_SIONE_PB_S0",
+			 "replies": [
+				{"text": "MSG_SIONE_PB_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "MSG_SIONE_PB_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "MSG_SIONE_PB_S1",
+			 "replies": [
+				{"text": "MSG_SIONE_PB_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "MSG_SIONE_PB_S2",
+			 "replies": [
+				{"text": "MSG_SIONE_PB_S2_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "MSG_SIONE_PB_S3",
+			 "replies": [
+				{"text": "MSG_SIONE_PB_S3_R0", "sanity": 7.0},
+				{"text": "MSG_SIONE_PB_S3_R1", "sanity": 8.0}]},
+		]},
+	{
+		"id": "josh_tutor", "sender": "Josh (maths)", "avatar": "JO", "arrives": 43,
+		"steps": [
+			{"them": "MSG_JOSH_TUTOR_S0",
+			 "replies": [
+				{"text": "MSG_JOSH_TUTOR_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "MSG_JOSH_TUTOR_S0_R1", "sanity": 5.0, "goto": 2},
+				{"text": "MSG_JOSH_TUTOR_S0_R2", "sanity": 3.0, "goto": 3}]},
+			{"them": "MSG_JOSH_TUTOR_S1",
+			 "replies": [
+				{"text": "MSG_JOSH_TUTOR_S1_R0", "sanity": 8.0, "goto": 4, "commit": {"kind": "school_event", "label": "COMMIT_TUTOR_JOSH", "in": 2, "money": 30.0, "flag": "tutored_josh", "miss_flag": "stood_up_josh"}}]},
+			{"them": "MSG_JOSH_TUTOR_S2",
+			 "replies": [
+				{"text": "MSG_JOSH_TUTOR_S2_R0", "sanity": 9.0, "goto": 1}]},
+			{"them": "MSG_JOSH_TUTOR_S3",
+			 "replies": [
+				{"text": "MSG_JOSH_TUTOR_S3_R0", "sanity": 4.0}]},
+		]},
+	{
+		"id": "josh_thanks", "sender": "Josh (maths)", "avatar": "JO", "arrives": 74,
+		"requires": "flag:tutored_josh",
+		"steps": [
+			{"them": "MSG_JOSH_THANKS_S0",
+			 "replies": [
+				{"text": "MSG_JOSH_THANKS_S0_R0", "sanity": 12.0, "goto": 1},
+				{"text": "MSG_JOSH_THANKS_S0_R1", "sanity": 12.0, "goto": 1}]},
+			{"them": "MSG_JOSH_THANKS_S1",
+			 "replies": [
+				{"text": "MSG_JOSH_THANKS_S1_R0", "sanity": 10.0, "goto": 2}]},
+			{"them": "MSG_JOSH_THANKS_S2",
+			 "replies": [
+				{"text": "MSG_JOSH_THANKS_S2_R0", "sanity": 9.0, "money": 10.0},
+				{"text": "MSG_JOSH_THANKS_S2_R1", "sanity": 9.0, "money": 10.0}]},
+		]},
+	{
+		"id": "manaia_halls", "sender": "Manaia (cousin)", "avatar": "MA", "arrives": 36,
+		"steps": [
+			{"them": "MSG_MANAIA_HALLS_S0",
+			 "replies": [
+				{"text": "MSG_MANAIA_HALLS_S0_R0", "sanity": 5.0, "goto": 1},
+				{"text": "MSG_MANAIA_HALLS_S0_R1", "sanity": 6.0, "goto": 2}]},
+			{"them": "MSG_MANAIA_HALLS_S1",
+			 "replies": [
+				{"text": "MSG_MANAIA_HALLS_S1_R0", "sanity": 7.0, "goto": 2}]},
+			{"them": "MSG_MANAIA_HALLS_S2",
+			 "replies": [
+				{"text": "MSG_MANAIA_HALLS_S2_R0", "sanity": 9.0, "goto": 3},
+				{"text": "MSG_MANAIA_HALLS_S2_R1", "sanity": 5.0, "goto": 3}]},
+			{"them": "MSG_MANAIA_HALLS_S3",
+			 "replies": [
+				{"text": "MSG_MANAIA_HALLS_S3_R0", "sanity": 7.0},
+				{"text": "MSG_MANAIA_HALLS_S3_R1", "sanity": 7.0}]},
+		]},
+	{
+		"id": "manaia_exam", "sender": "Manaia (cousin)", "avatar": "MA", "arrives": 69,
+		"steps": [
+			{"them": "MSG_MANAIA_EXAM_S0",
+			 "replies": [
+				{"text": "MSG_MANAIA_EXAM_S0_R0", "sanity": 5.0, "goto": 1},
+				{"text": "MSG_MANAIA_EXAM_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "MSG_MANAIA_EXAM_S1",
+			 "replies": [
+				{"text": "MSG_MANAIA_EXAM_S1_R0", "sanity": 9.0, "goto": 2}]},
+			{"them": "MSG_MANAIA_EXAM_S2",
+			 "replies": [
+				{"text": "MSG_MANAIA_EXAM_S2_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "deb_compliment", "sender": "Deb (work)", "avatar": "DE", "arrives": 35,
+		"requires": "still_employed",
+		"steps": [
+			{"them": "MSG_DEB_COMPLIMENT_S0",
+			 "replies": [
+				{"text": "MSG_DEB_COMPLIMENT_S0_R0", "sanity": 9.0, "goto": 1},
+				{"text": "MSG_DEB_COMPLIMENT_S0_R1", "sanity": 9.0, "goto": 2}]},
+			{"them": "MSG_DEB_COMPLIMENT_S1",
+			 "replies": [
+				{"text": "MSG_DEB_COMPLIMENT_S1_R0", "sanity": 7.0, "goto": 3}]},
+			{"them": "MSG_DEB_COMPLIMENT_S2",
+			 "replies": [
+				{"text": "MSG_DEB_COMPLIMENT_S2_R0", "sanity": 9.0, "goto": 1}]},
+		]},
+	{
+		"id": "deb_exam_hours", "sender": "Deb (work)", "avatar": "DE", "arrives": 65,
+		"requires": "still_employed",
+		"steps": [
+			{"them": "MSG_DEB_EXAM_HOURS_S0",
+			 "replies": [
+				{"text": "MSG_DEB_EXAM_HOURS_S0_R0", "sanity": 12.0, "goto": 1, "flag": "work_cut_hours"},
+				{"text": "MSG_DEB_EXAM_HOURS_S0_R1", "sanity": 4.0, "goto": 2}]},
+			{"them": "MSG_DEB_EXAM_HOURS_S1",
+			 "replies": [
+				{"text": "MSG_DEB_EXAM_HOURS_S1_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "MSG_DEB_EXAM_HOURS_S2",
+			 "replies": [
+				{"text": "MSG_DEB_EXAM_HOURS_S2_R0", "sanity": 7.0}]},
+		]},
+	{
+		"id": "y13_mufti", "sender": "Year 13 groupchat", "avatar": "Y13", "arrives": 9,
+		"steps": [
+			{"from": "Chloe", "them": "MSG_Y13_MUFTI_S0",
+			 "replies": [
+				{"text": "MSG_Y13_MUFTI_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "MSG_Y13_MUFTI_S0_R1", "sanity": 7.0, "goto": 1},
+				{"text": "MSG_Y13_MUFTI_S0_R2", "sanity": 5.0, "goto": 2}]},
+			{"from": "Tane", "them": "MSG_Y13_MUFTI_S1",
+			 "replies": [
+				{"text": "MSG_Y13_MUFTI_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"from": "Chloe", "them": "MSG_Y13_MUFTI_S2",
+			 "replies": [
+				{"text": "MSG_Y13_MUFTI_S2_R0", "sanity": 7.0, "goto": 1}]},
+			{"from": "Ana", "them": "MSG_Y13_MUFTI_S3",
+			 "replies": [
+				{"text": "MSG_Y13_MUFTI_S3_R0", "sanity": 9.0},
+				{"text": "MSG_Y13_MUFTI_S3_R1", "sanity": 9.0}]},
+		]},
+	{
+		"id": "y13_hoodie", "sender": "Year 13 groupchat", "avatar": "Y13", "arrives": 28,
+		"steps": [
+			{"from": "Chloe", "them": "MSG_Y13_HOODIE_S0",
+			 "replies": [
+				{"text": "MSG_Y13_HOODIE_S0_R0", "sanity": 8.0, "goto": 1, "flag": "hoodie", "money": -55.0},
+				{"text": "MSG_Y13_HOODIE_S0_R1", "sanity": 4.0, "goto": 2}]},
+			{"from": "Sione", "them": "MSG_Y13_HOODIE_S1",
+			 "replies": [
+				{"text": "MSG_Y13_HOODIE_S1_R0", "sanity": 8.0, "goto": 4}]},
+			{"from": "Chloe", "them": "MSG_Y13_HOODIE_S2",
+			 "replies": [
+				{"text": "MSG_Y13_HOODIE_S2_R0", "sanity": 8.0, "goto": 1, "flag": "hoodie", "money": -55.0},
+				{"text": "MSG_Y13_HOODIE_S2_R1", "sanity": 4.0, "goto": 3}]},
+			{"from": "Ana", "them": "MSG_Y13_HOODIE_S3",
+			 "replies": [
+				{"text": "MSG_Y13_HOODIE_S3_R0", "sanity": 6.0}]},
+		]},
+	{
+		"id": "y13_last_day", "sender": "Year 13 groupchat", "avatar": "Y13", "arrives": 81,
+		"steps": [
+			{"from": "Chloe", "them": "MSG_Y13_LAST_DAY_S0",
+			 "replies": [
+				{"text": "MSG_Y13_LAST_DAY_S0_R0", "sanity": 9.0, "goto": 1},
+				{"text": "MSG_Y13_LAST_DAY_S0_R1", "sanity": 9.0, "goto": 2}]},
+			{"from": "Tane", "them": "MSG_Y13_LAST_DAY_S1",
+			 "replies": [
+				{"text": "MSG_Y13_LAST_DAY_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"from": "Ana", "them": "MSG_Y13_LAST_DAY_S2",
+			 "replies": [
+				{"text": "MSG_Y13_LAST_DAY_S2_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "MSG_Y13_LAST_DAY_S3",
+			 "replies": [
+				{"text": "MSG_Y13_LAST_DAY_S3_R0", "sanity": 10.0},
+				{"text": "MSG_Y13_LAST_DAY_S3_R1", "sanity": 11.0}]},
+		]},
+	{
+		"id": "notices_careers", "sender": "School Notices", "avatar": "SN", "arrives": 20,
+		"steps": [
+			{"them": "MSG_NOTICES_CAREERS_S0",
+			 "replies": [
+				{"text": "MSG_NOTICES_CAREERS_S0_R0", "sanity": 3.0},
+				{"text": "MSG_NOTICES_CAREERS_S0_R1", "temptation": 2.0}]},
+		]},
+	{
+		"id": "notices_leavers", "sender": "School Notices", "avatar": "SN", "arrives": 83,
+		"steps": [
+			{"them": "MSG_NOTICES_LEAVERS_S0",
+			 "replies": [
+				{"text": "MSG_NOTICES_LEAVERS_S0_R0", "sanity": 4.0},
+				{"text": "MSG_NOTICES_LEAVERS_S0_R1", "sanity": 2.0}]},
+		]},
+	{
+		"id": "scam_ird", "sender": "Unknown number", "avatar": "??", "arrives": 76,
+		"steps": [
+			{"them": "MSG_SCAM_IRD_S0",
+			 "replies": [
+				{"text": "MSG_SCAM_IRD_S0_R0", "sanity": 4.0, "goto": 1},
+				{"text": "MSG_SCAM_IRD_S0_R1", "temptation": 4.0, "goto": 2}]},
+			{"them": "MSG_SCAM_IRD_S1",
+			 "replies": [
+				{"text": "MSG_SCAM_IRD_S1_R0", "sanity": 5.0, "goto": 3}]},
+			{"them": "MSG_SCAM_IRD_S2",
+			 "replies": [
+				{"text": "MSG_SCAM_IRD_S2_R0", "sanity": 5.0, "goto": 1},
+				{"text": "MSG_SCAM_IRD_S2_R1", "sanity": 4.0, "goto": 1}]},
+		]},
+	{
+		"id": "ravi_cricket", "sender": "Ravi (dairy)", "avatar": "RA", "arrives": 24,
+		"requires": "done:dairy_owner", "pace": "slow",
+		"steps": [
+			{"them": "MSG_RAVI_CRICKET_S0",
+			 "replies": [
+				{"text": "MSG_RAVI_CRICKET_S0_R0", "sanity": 4.0, "goto": 1},
+				{"text": "MSG_RAVI_CRICKET_S0_R1", "sanity": 5.0, "goto": 2}]},
+			{"them": "MSG_RAVI_CRICKET_S1",
+			 "replies": [
+				{"text": "MSG_RAVI_CRICKET_S1_R0", "sanity": 7.0, "goto": 4},
+				{"text": "MSG_RAVI_CRICKET_S1_R1", "sanity": 7.0, "goto": 4}]},
+			{"them": "MSG_RAVI_CRICKET_S2",
+			 "replies": [
+				{"text": "MSG_RAVI_CRICKET_S2_R0", "sanity": 8.0, "goto": 4},
+				{"text": "MSG_RAVI_CRICKET_S2_R1", "sanity": 4.0, "goto": 3}]},
+			{"them": "MSG_RAVI_CRICKET_S3",
+			 "replies": [
+				{"text": "MSG_RAVI_CRICKET_S3_R0", "sanity": 8.0}]},
+		]},
+	{
+		"id": "ravi_help", "sender": "Ravi (dairy)", "avatar": "RA", "arrives": 39,
+		"requires": "done:dairy_owner",
+		"steps": [
+			{"them": "MSG_RAVI_HELP_S0",
+			 "replies": [
+				{"text": "MSG_RAVI_HELP_S0_R0", "sanity": 7.0, "goto": 1, "commit": {"kind": "dairy_help", "label": "COMMIT_RAVI_SHOP", "in": 2, "money": 30.0, "flag": "minded_ravi_shop", "miss_flag": "let_ravi_down"}},
+				{"text": "MSG_RAVI_HELP_S0_R1", "sanity": 5.0, "goto": 2},
+				{"text": "MSG_RAVI_HELP_S0_R2", "sanity": 3.0, "goto": 3}]},
+			{"them": "MSG_RAVI_HELP_S1",
+			 "replies": [
+				{"text": "MSG_RAVI_HELP_S1_R0", "sanity": 7.0, "goto": 4}]},
+			{"them": "MSG_RAVI_HELP_S2",
+			 "replies": [
+				{"text": "MSG_RAVI_HELP_S2_R0", "sanity": 7.0, "goto": 1, "commit": {"kind": "dairy_help", "label": "COMMIT_RAVI_SHOP", "in": 2, "money": 30.0, "flag": "minded_ravi_shop", "miss_flag": "let_ravi_down"}},
+				{"text": "MSG_RAVI_HELP_S2_R1", "sanity": 3.0, "goto": 3}]},
+			{"them": "MSG_RAVI_HELP_S3",
+			 "replies": [
+				{"text": "MSG_RAVI_HELP_S3_R0", "sanity": 4.0}]},
+		]},
+	{
+		"id": "ravi_daughter", "sender": "Ravi (dairy)", "avatar": "RA", "arrives": 62,
+		"requires": "done:dairy_owner",
+		"steps": [
+			{"them": "MSG_RAVI_DAUGHTER_S0",
+			 "replies": [
+				{"text": "MSG_RAVI_DAUGHTER_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_RAVI_DAUGHTER_S0_R1", "sanity": 7.0, "goto": 2}]},
+			{"them": "MSG_RAVI_DAUGHTER_S1",
+			 "replies": [
+				{"text": "MSG_RAVI_DAUGHTER_S1_R0", "sanity": 9.0, "goto": 3, "flag": "advised_asha"},
+				{"text": "MSG_RAVI_DAUGHTER_S1_R1", "sanity": 9.0, "goto": 3, "flag": "advised_asha"},
+				{"text": "MSG_RAVI_DAUGHTER_S1_R2", "sanity": 9.0, "goto": 3, "flag": "advised_asha"}]},
+			{"them": "MSG_RAVI_DAUGHTER_S2",
+			 "replies": [
+				{"text": "MSG_RAVI_DAUGHTER_S2_R0", "sanity": 9.0, "goto": 3, "flag": "advised_asha"},
+				{"text": "MSG_RAVI_DAUGHTER_S2_R1", "sanity": 9.0, "goto": 3, "flag": "advised_asha"}]},
+			{"them": "MSG_RAVI_DAUGHTER_S3",
+			 "replies": [
+				{"text": "MSG_RAVI_DAUGHTER_S3_R0", "sanity": 9.0},
+				{"text": "MSG_RAVI_DAUGHTER_S3_R1", "sanity": 10.0}]},
+		]},
+	{
+		"id": "ravi_last", "sender": "Ravi (dairy)", "avatar": "RA", "arrives": 87,
+		"requires": "done:dairy_owner", "pace": "slow",
+		"steps": [
+			{"them": "MSG_RAVI_LAST_S0",
+			 "replies": [
+				{"text": "MSG_RAVI_LAST_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "MSG_RAVI_LAST_S0_R1", "sanity": 9.0, "goto": 2}]},
+			{"them": "MSG_RAVI_LAST_S1",
+			 "replies": [
+				{"text": "MSG_RAVI_LAST_S1_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "MSG_RAVI_LAST_S2",
+			 "replies": [
+				{"text": "MSG_RAVI_LAST_S2_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "halloway_reference", "sender": "Mr Halloway", "avatar": "MH", "arrives": 52,
+		"steps": [
+			{"them": "MSG_HALLOWAY_REFERENCE_S0",
+			 "replies": [
+				{"text": "MSG_HALLOWAY_REFERENCE_S0_R0", "sanity": 9.0, "goto": 1, "flag": "halloway_reference"},
+				{"text": "MSG_HALLOWAY_REFERENCE_S0_R1", "sanity": 5.0, "goto": 2}]},
+			{"them": "MSG_HALLOWAY_REFERENCE_S1",
+			 "replies": [
+				{"text": "MSG_HALLOWAY_REFERENCE_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "MSG_HALLOWAY_REFERENCE_S2",
+			 "replies": [
+				{"text": "MSG_HALLOWAY_REFERENCE_S2_R0", "sanity": 8.0, "goto": 1, "flag": "halloway_reference"},
+				{"text": "MSG_HALLOWAY_REFERENCE_S2_R1", "sanity": 4.0}]},
+		]},
+	{
+		"id": "wrong_number_2", "sender": "Unknown number", "avatar": "??", "arrives": 28,
+		"requires": "done:wrong_number",
+		"steps": [
+			{"them": "MSG_WRONG_NUMBER_2_S0",
+			 "replies": [
+				{"text": "MSG_WRONG_NUMBER_2_S0_R0", "sanity": 7.0, "goto": 1},
+				{"text": "MSG_WRONG_NUMBER_2_S0_R1", "sanity": 2.0, "goto": 2}]},
+			{"them": "MSG_WRONG_NUMBER_2_S1",
+			 "replies": [
+				{"text": "MSG_WRONG_NUMBER_2_S1_R0", "sanity": 9.0, "goto": 3, "flag": "wrong_friend"},
+				{"text": "MSG_WRONG_NUMBER_2_S1_R1", "sanity": 5.0, "goto": 3, "flag": "wrong_friend"}]},
+			{"them": "MSG_WRONG_NUMBER_2_S2",
+			 "replies": [
+				{"text": "MSG_WRONG_NUMBER_2_S2_R0", "sanity": 3.0, "goto": 4}]},
+			{"them": "MSG_WRONG_NUMBER_2_S3",
+			 "replies": [
+				{"text": "MSG_WRONG_NUMBER_2_S3_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "wrong_number_3", "sender": "Unknown number", "avatar": "??", "arrives": 47,
+		"requires": "flag:wrong_friend",
+		"steps": [
+			{"them": "MSG_WRONG_NUMBER_3_S0",
+			 "replies": [
+				{"text": "MSG_WRONG_NUMBER_3_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "MSG_WRONG_NUMBER_3_S0_R1", "sanity": 6.0, "goto": 2}]},
+			{"them": "MSG_WRONG_NUMBER_3_S1",
+			 "replies": [
+				{"text": "MSG_WRONG_NUMBER_3_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "MSG_WRONG_NUMBER_3_S2",
+			 "replies": [
+				{"text": "MSG_WRONG_NUMBER_3_S2_R0", "sanity": 6.0}]},
+		]},
+	{
+		"id": "wrong_number_4", "sender": "Unknown number", "avatar": "??", "arrives": 71,
+		"requires": "flag:wrong_friend",
+		"steps": [
+			{"them": "MSG_WRONG_NUMBER_4_S0",
+			 "replies": [
+				{"text": "MSG_WRONG_NUMBER_4_S0_R0", "sanity": 9.0, "goto": 1},
+				{"text": "MSG_WRONG_NUMBER_4_S0_R1", "sanity": 9.0, "goto": 1}]},
+			{"them": "MSG_WRONG_NUMBER_4_S1",
+			 "replies": [
+				{"text": "MSG_WRONG_NUMBER_4_S1_R0", "sanity": 13.0}]},
+		]},
+	{
+		"id": "wrong_number_final", "sender": "Unknown number", "avatar": "??", "arrives": 89,
+		"requires": "flag:wrong_friend",
+		"steps": [
+			{"them": "MSG_WRONG_NUMBER_FINAL_S0",
+			 "replies": [
+				{"text": "MSG_WRONG_NUMBER_FINAL_S0_R0", "sanity": 10.0},
+				{"text": "MSG_WRONG_NUMBER_FINAL_S0_R1", "sanity": 10.0}]},
+		]},
+	{
+		"id": "tuiloma_bread", "sender": "Mrs Tuiloma", "avatar": "MT", "arrives": 56,
+		"requires": "done:neighbour_lawns",
+		"steps": [
+			{"them": "MSG_TUILOMA_BREAD_S0",
+			 "replies": [
+				{"text": "MSG_TUILOMA_BREAD_S0_R0", "sanity": 10.0, "goto": 1},
+				{"text": "MSG_TUILOMA_BREAD_S0_R1", "sanity": 8.0, "goto": 2}]},
+			{"them": "MSG_TUILOMA_BREAD_S1",
+			 "replies": [
+				{"text": "MSG_TUILOMA_BREAD_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "MSG_TUILOMA_BREAD_S2",
+			 "replies": [
+				{"text": "MSG_TUILOMA_BREAD_S2_R0", "sanity": 11.0}]},
+		]},
+	{
+		"id": "tuiloma_quiet", "sender": "Mrs Tuiloma", "avatar": "MT", "arrives": 78,
+		"requires": "done:neighbour_lawns", "pace": "slow",
+		"steps": [
+			{"them": "MSG_TUILOMA_QUIET_S0",
+			 "replies": [
+				{"text": "MSG_TUILOMA_QUIET_S0_R0", "sanity": 6.0, "goto": 1},
+				{"text": "MSG_TUILOMA_QUIET_S0_R1", "sanity": 9.0, "goto": 1}]},
+			{"them": "MSG_TUILOMA_QUIET_S1",
+			 "replies": [
+				{"text": "MSG_TUILOMA_QUIET_S1_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "reti_after", "sender": "Reti (work)", "avatar": "RE", "arrives": 84,
+		"requires": ["done:reti_shift_swap", "still_employed"],
+		"steps": [
+			{"them": "MSG_RETI_AFTER_S0",
+			 "replies": [
+				{"text": "MSG_RETI_AFTER_S0_R0", "sanity": 9.0, "goto": 1},
+				{"text": "MSG_RETI_AFTER_S0_R1", "sanity": 8.0, "goto": 1}]},
+			{"them": "MSG_RETI_AFTER_S1",
+			 "replies": [
+				{"text": "MSG_RETI_AFTER_S1_R0", "sanity": 9.0}]},
+		]},
+	{
+		"id": "ana_exam_eve_low", "sender": "Ana", "avatar": "AN", "arrives": 75,
+		"requires": ["low_sanity", "!arrived:ana_exam_eve_ok"], "sticky": true,
+		"steps": [
+			{"them": "MSG_ANA_EXAM_EVE_LOW_S0",
+			 "replies": [
+				{"text": "MSG_ANA_EXAM_EVE_LOW_S0_R0", "sanity": 8.0, "goto": 1},
+				{"text": "MSG_ANA_EXAM_EVE_LOW_S0_R1", "sanity": 8.0, "temptation": -6.0, "goto": 1},
+				{"text": "MSG_ANA_EXAM_EVE_LOW_S0_R2", "sanity": 4.0, "goto": 2}]},
+			{"them": "MSG_ANA_EXAM_EVE_LOW_S1",
+			 "replies": [
+				{"text": "MSG_ANA_EXAM_EVE_LOW_S1_R0", "sanity": 10.0, "goto": 3}]},
+			{"them": "MSG_ANA_EXAM_EVE_LOW_S2",
+			 "replies": [
+				{"text": "MSG_ANA_EXAM_EVE_LOW_S2_R0", "sanity": 8.0, "goto": 1},
+				{"text": "MSG_ANA_EXAM_EVE_LOW_S2_R1", "sanity": 8.0, "temptation": -6.0, "goto": 1}]},
+		]},
+	{
+		"id": "ana_exam_eve_ok", "sender": "Ana", "avatar": "AN", "arrives": 75,
+		"requires": ["doing_ok", "!arrived:ana_exam_eve_low"], "sticky": true,
+		"steps": [
+			{"them": "MSG_ANA_EXAM_EVE_OK_S0",
+			 "replies": [
+				{"text": "MSG_ANA_EXAM_EVE_OK_S0_R0", "sanity": 9.0, "goto": 1},
+				{"text": "MSG_ANA_EXAM_EVE_OK_S0_R1", "sanity": 8.0, "goto": 2}]},
+			{"them": "MSG_ANA_EXAM_EVE_OK_S1",
+			 "replies": [
+				{"text": "MSG_ANA_EXAM_EVE_OK_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "MSG_ANA_EXAM_EVE_OK_S2",
+			 "replies": [
+				{"text": "MSG_ANA_EXAM_EVE_OK_S2_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "josh_exam", "sender": "Josh (maths)", "avatar": "JO", "arrives": 78,
+		"requires": "flag:tutored_josh",
+		"steps": [
+			{"them": "MSG_JOSH_EXAM_S0",
+			 "replies": [
+				{"text": "MSG_JOSH_EXAM_S0_R0", "sanity": 10.0},
+				{"text": "MSG_JOSH_EXAM_S0_R1", "sanity": 10.0}]},
+		]},
+	{
+		"id": "mika_lift", "sender": "Mika", "avatar": "MI", "arrives": 44,
+		"requires": "done:mika_driving",
+		"steps": [
+			{"them": "MSG_MIKA_LIFT_S0",
+			 "replies": [
+				{"text": "MSG_MIKA_LIFT_S0_R0", "sanity": 9.0, "goto": 1, "flag": "rode_with_mika"},
+				{"text": "MSG_MIKA_LIFT_S0_R1", "sanity": 4.0, "goto": 2}]},
+			{"them": "MSG_MIKA_LIFT_S1",
+			 "replies": [
+				{"text": "MSG_MIKA_LIFT_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "MSG_MIKA_LIFT_S2",
+			 "replies": [
+				{"text": "MSG_MIKA_LIFT_S2_R0", "sanity": 6.0}]},
+		]},
+	{
+		"id": "sione_last", "sender": "Sione", "avatar": "SI", "arrives": 87,
+		"steps": [
+			{"them": "MSG_SIONE_LAST_S0",
+			 "replies": [
+				{"text": "MSG_SIONE_LAST_S0_R0", "sanity": 9.0, "goto": 1},
+				{"text": "MSG_SIONE_LAST_S0_R1", "sanity": 9.0, "goto": 2}]},
+			{"them": "MSG_SIONE_LAST_S1",
+			 "replies": [
+				{"text": "MSG_SIONE_LAST_S1_R0", "sanity": 8.0, "goto": 3}]},
+			{"them": "MSG_SIONE_LAST_S2",
+			 "replies": [
+				{"text": "MSG_SIONE_LAST_S2_R0", "sanity": 10.0}]},
+		]},
+	{
+		"id": "chloe_summer", "sender": "Chloe", "avatar": "CH", "arrives": 89,
+		"steps": [
+			{"them": "MSG_CHLOE_SUMMER_S0",
+			 "replies": [
+				{"text": "MSG_CHLOE_SUMMER_S0_R0", "sanity": 10.0, "goto": 1},
+				{"text": "MSG_CHLOE_SUMMER_S0_R1", "sanity": 10.0, "goto": 1}]},
+			{"them": "MSG_CHLOE_SUMMER_S1",
+			 "replies": [
+				{"text": "MSG_CHLOE_SUMMER_S1_R0", "sanity": 11.0}]},
+		]},
+	{
+		"id": "dad_charger", "sender": "Dad", "avatar": "DA", "arrives": 72, "pace": "slow",
+		"steps": [
+			{"them": "MSG_DAD_CHARGER_S0",
+			 "replies": [
+				{"text": "MSG_DAD_CHARGER_S0_R0", "sanity": 10.0, "goto": 1},
+				{"text": "MSG_DAD_CHARGER_S0_R1", "sanity": 8.0, "goto": 2}]},
+			{"them": "MSG_DAD_CHARGER_S1",
+			 "replies": [
+				{"text": "MSG_DAD_CHARGER_S1_R0", "sanity": 9.0, "goto": 3}]},
+			{"them": "MSG_DAD_CHARGER_S2",
+			 "replies": [
+				{"text": "MSG_DAD_CHARGER_S2_R0", "sanity": 9.0}]},
+		]},
 	{
 		"id": "studylink_approved", "sender": "StudyLink", "avatar": "SL", "arrives": 999,
 		"steps": [
@@ -1045,8 +2297,8 @@ var threads: Array = [
 				{"text": "MSG_WORK_FIRED_S1_R1", "sanity": 4.0, "goto": 3}]},
 			{"them": "MSG_WORK_FIRED_S2",
 			 "replies": [
-				{"text": "MSG_WORK_FIRED_S2_R0", "sanity": 8.0},
-				{"text": "MSG_WORK_FIRED_S2_R1", "sanity": 9.0}]},
+				{"text": "MSG_WORK_FIRED_S2_R0", "sanity": 8.0, "goto": 4},
+				{"text": "MSG_WORK_FIRED_S2_R1", "sanity": 9.0, "goto": 4}]},
 			{"them": "MSG_WORK_FIRED_S3",
 			 "replies": [
 				{"text": "MSG_WORK_FIRED_S3_R0", "sanity": 4.0, "goto": 2}]},
@@ -1088,8 +2340,8 @@ var threads: Array = [
 				{"text": "MSG_ROCK_BOTTOM_S2_R1", "sanity": 10.0, "goto": 1}]},
 			{"them": "MSG_ROCK_BOTTOM_S3",
 			 "replies": [
-				{"text": "MSG_ROCK_BOTTOM_S3_R0", "sanity": 20.0},
-				{"text": "MSG_ROCK_BOTTOM_S3_R1", "sanity": 22.0}]},
+				{"text": "MSG_ROCK_BOTTOM_S3_R0", "sanity": 20.0, "goto": 5},
+				{"text": "MSG_ROCK_BOTTOM_S3_R1", "sanity": 22.0, "goto": 5}]},
 			{"them": "MSG_ROCK_BOTTOM_S4",
 			 "replies": [
 				{"text": "MSG_ROCK_BOTTOM_S4_R0", "sanity": 16.0, "goto": 3},
@@ -1206,7 +2458,21 @@ const MAX_DELIVERIES_PER_DAY: int = 2
 # A thread can carry "requires": "<id>" and it is only delivered while that
 # condition holds. If it stops holding, the thread quietly never arrives.
 
-func _requirement_met(requirement: String) -> bool:
+func _requirement_met(requirement) -> bool:
+	if requirement is Array:
+		for r in requirement:
+			if not _requirement_met(r):
+				return false
+		return true
+	requirement = str(requirement)
+	if requirement.begins_with("flag:"):
+		return GameBackend.has_flag(requirement.substr(5))
+	if requirement.begins_with("!flag:"):
+		return not GameBackend.has_flag(requirement.substr(6))
+	if requirement.begins_with("done:"):
+		return GameBackend.is_done(requirement.substr(5))
+	if requirement.begins_with("!arrived:"):
+		return not GameBackend.has_arrived(requirement.substr(9))
 	match requirement:
 		"", "always":
 			return true
@@ -1226,6 +2492,12 @@ func _requirement_met(requirement: String) -> bool:
 			return GameBackend.results_phase == 0
 		"no_ue_yet":
 			return not GameBackend.has_university_entrance()
+		"low_sanity":
+			return GameBackend.sanity < 45.0
+		"doing_ok":
+			return GameBackend.sanity >= 45.0
+		"has_ball_ticket":
+			return GameBackend.has_flag("ball_ticket")
 	push_warning("MessageData: unknown requirement '%s'" % requirement)
 	return true
 
@@ -1238,7 +2510,11 @@ func thread_is_stale(thread_id: String) -> bool:
 	var t: Dictionary = thread_by_id(thread_id)
 	if t.is_empty():
 		return false
-	return not _requirement_met(str(t.get("requires", "")))
+	# A check-in about how you were doing that day still makes sense to read
+	# later, even if your mood has changed since.
+	if bool(t.get("sticky", false)):
+		return false
+	return not _requirement_met(t.get("requires", ""))
 
 
 ## Every thread that is due (its arrival day has come) and hasn't landed yet.
@@ -1254,7 +2530,7 @@ func due_ids(current_day: int) -> Array:
 			continue
 		# Still relevant? A text that contradicts what you've already done is
 		# worse than no text at all.
-		if not _requirement_met(str(t.get("requires", ""))):
+		if not _requirement_met(t.get("requires", "")):
 			continue
 		out.append(tid)
 	return out
