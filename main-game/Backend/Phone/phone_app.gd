@@ -7,11 +7,18 @@ extends CanvasLayer
 @onready var screen: Control = $Panel/CenterContainer/PhoneBody/Screen
 
 @onready var home_screen: Control = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen
-@onready var chirp_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/ChirpButton
-@onready var messages_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/MessagesButton
-@onready var bank_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/BankButton
-@onready var weather_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/WeatherButton
-@onready var close_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/CloseButton
+@onready var chirp_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/AppGridHolder/AppGrid/ChirpButton
+@onready var messages_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/AppGridHolder/AppGrid/MessagesButton
+@onready var bank_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/AppGridHolder/AppGrid/BankButton
+@onready var weather_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/AppGridHolder/AppGrid/WeatherButton
+@onready var close_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeBar/CloseButton
+## Phone chrome: wallpaper on the home screen, a plain background inside apps,
+## the clock/date and the status bar time.
+@onready var wallpaper: TextureRect = $Panel/CenterContainer/PhoneBody/Screen/Wallpaper
+@onready var app_background: TextureRect = $Panel/CenterContainer/PhoneBody/Screen/AppBackground
+@onready var status_time_label: Label = $Panel/CenterContainer/PhoneBody/Screen/StatusBar/TimeLabel
+@onready var clock_label: Label = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/TitleLabel
+@onready var date_label: Label = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/DateLabel
 
 @onready var doomscroll_screen: Control = $Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen
 @onready var feed_container: VBoxContainer = $Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen/FeedScroll/FeedContainer
@@ -51,7 +58,7 @@ extends CanvasLayer
 @onready var weather_detail_label: Label = $Panel/CenterContainer/PhoneBody/Screen/WeatherScreen/WeatherDetailLabel
 @onready var weather_back_button: Button = $Panel/CenterContainer/PhoneBody/Screen/WeatherScreen/WeatherBackButton
 
-@onready var games_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/GamesButton
+@onready var games_button: Button = $Panel/CenterContainer/PhoneBody/Screen/HomeScreen/AppGridHolder/AppGrid/GamesButton
 @onready var games_screen: Control = $Panel/CenterContainer/PhoneBody/Screen/GamesScreen
 @onready var game_info_label: Label = $Panel/CenterContainer/PhoneBody/Screen/GamesScreen/GameInfoLabel
 @onready var game_score_label: Label = $Panel/CenterContainer/PhoneBody/Screen/GamesScreen/GameScoreLabel
@@ -100,7 +107,7 @@ func _ready() -> void:
 	messages_button.pressed.connect(_open_messages)
 	bank_button.pressed.connect(_open_bank)
 	weather_button.pressed.connect(_open_weather)
-	close_button.pressed.connect(close)
+	close_button.pressed.connect(_on_home_bar_pressed)
 
 	keep_scrolling_button.pressed.connect(_refresh_feed)
 	doomscroll_back_button.pressed.connect(_show_home)
@@ -134,7 +141,7 @@ func _ready() -> void:
 
 	# The red circle on the Messages app icon. Notifier owns it, so it can
 	# never drift out of sync with the one on the hotbar.
-	_messages_badge = Notifier.attach_message_badge(messages_button, 22.0, Vector2(-2, 4))
+	_messages_badge = Notifier.attach_message_badge(messages_button, 22.0, Vector2(-14, -2))
 	_refresh_messages_badge()
 
 
@@ -143,8 +150,9 @@ func _refresh_messages_badge() -> void:
 	var n: int = GameBackend.unread_count
 	if _messages_badge != null and is_instance_valid(_messages_badge):
 		Notifier.set_badge_count(_messages_badge, n)
+	# The red badge on the icon shows the count, like a real phone.
 	if is_instance_valid(messages_button):
-		messages_button.text = tr("PHONE_MESSAGES") if n <= 0 else tr("PHONE_MESSAGES") + "  (%d)" % n
+		messages_button.text = tr("PHONE_MESSAGES")
 
 
 ## If a text lands from the person whose chat is already open and you've
@@ -191,6 +199,10 @@ func close() -> void:
 
 
 func _hide_all_screens() -> void:
+	# Inside an app: plain background, and the home bar takes you home.
+	wallpaper.visible = false
+	app_background.visible = true
+	close_button.text = tr("PHONE_BACK_HOME")
 	home_screen.visible = false
 	doomscroll_screen.visible = false
 	bank_screen.visible = false
@@ -202,6 +214,10 @@ func _hide_all_screens() -> void:
 func _show_home() -> void:
 	_hide_all_screens()
 	home_screen.visible = true
+	wallpaper.visible = true
+	app_background.visible = false
+	close_button.text = tr("PHONE_PUT_AWAY")
+	_update_clock()
 	# The label is first set at startup, before a language is picked.
 	_refresh_messages_badge()
 
@@ -420,6 +436,7 @@ func _make_contact_row(who: String) -> Button:
 	if unread > 0:
 		var pill := Panel.new()
 		pill.custom_minimum_size = Vector2(22, 22)
+		pill.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		pill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		var pill_style := StyleBoxFlat.new()
 		pill_style.bg_color = Color(0.898, 0.282, 0.302)
@@ -913,6 +930,9 @@ func _show_arcade() -> void:
 	_stop_all_games()
 	_game = ""
 	game_info_label.text = tr("ARCADE_PICK")
+	# On the game list the home bar takes you out; inside a game, Back
+	# returns to the list.
+	games_back_button.visible = false
 	game_score_label.text = ""
 	game_start_button.visible = false
 	game_start_button.text = tr("START_BUTTON")
@@ -953,6 +973,7 @@ func _record_best(game: String, value: int) -> bool:
 
 func _choose_game(game: String) -> void:
 	_game = game
+	games_back_button.visible = true
 	_clear_grid()
 	game_score_label.text = ""
 	game_start_button.visible = true
@@ -1313,3 +1334,65 @@ func _end_game_and_go_home() -> void:
 func _on_game_ended(_result: String) -> void:
 	_stop_all_games()
 	close()
+
+
+# --- Phone chrome -------------------------------------------------------------
+
+var _clock_tick: float = 0.0
+
+func _process(delta: float) -> void:
+	if not panel.visible:
+		return
+	_clock_tick += delta
+	if _clock_tick >= 0.5:
+		_clock_tick = 0.0
+		_update_clock()
+
+
+## The time comes from the game clock, the date from the last day/month the
+## town's sky clock reported.
+func _update_clock() -> void:
+	var h: float = fposmod(GameBackend.game_hour, 24.0)
+	var hh: int = int(h)
+	var mm: int = int((h - hh) * 60.0)
+	var t: String = "%d:%02d" % [hh, mm]
+	status_time_label.text = t
+	clock_label.text = t
+	var d: int = GameBackend.saved_day
+	var m: int = GameBackend.saved_month
+	var y: int = GameBackend.saved_year
+	if m < 1 or m > 12:
+		date_label.text = tr("COMMON_DAY") % GameBackend.get_elapsed_days()
+		return
+	date_label.text = tr("DATE_FORMAT").format({
+		"wd": tr("DAY_SHORT_" + _weekday(d, m, y)),
+		"d": d,
+		"m": tr("MONTH_SHORT_%d" % m),
+	})
+
+
+## Day of the week (Zeller's congruence), as the three-letter key suffix.
+func _weekday(d: int, m: int, y: int) -> String:
+	var mm: int = m
+	var yy: int = y
+	if mm < 3:
+		mm += 12
+		yy -= 1
+	var k: int = yy % 100
+	var j: int = yy / 100
+	var h: int = (d + (13 * (mm + 1)) / 5 + k + k / 4 + j / 4 + 5 * j) % 7
+	return ["SAT", "SUN", "MON", "TUE", "WED", "THU", "FRI"][h]
+
+
+## The bar at the bottom: puts the phone away on the home screen, and goes
+## back home from inside an app (finishing whatever was open first).
+func _on_home_bar_pressed() -> void:
+	if home_screen.visible:
+		close()
+		return
+	if messages_screen.visible:
+		_finish_thread()
+	if games_screen.visible:
+		_stop_all_games()
+		_game = ""
+	_show_home()

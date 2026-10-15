@@ -8,9 +8,18 @@ var player_name: String = "Name"
 var selected_university: String = ""
 
 # GameBackend.universities[GameBackend.selected_university]
+#
+# THE UNIVERSITY NUMBERS — tweak them here and the whole game follows
+# (the university select screen, HUD, journal, laptop and ending all read
+# from this one dictionary).
+#   money_needed  — first-year fees you need saved (or borrowed) by the end, in $
+#   grades_needed — the overall grade average (out of 100) needed to get in
+#   difficulty    — 1 easy, 2 medium, 3 hard; only used for the label on the
+#                   select screen, so keep it in step with the numbers above
 
 var universities = {
 	"Auckland": {
+		"difficulty": 3,
 		"money_needed": 8200,
 		"grades_needed": 72,
 		"location": "Auckland",
@@ -19,6 +28,7 @@ var universities = {
 	},
 
 	"Canterbury": {
+		"difficulty": 2,
 		"money_needed": 7400,
 		"grades_needed": 66,
 		"location": "Christchurch",
@@ -27,6 +37,7 @@ var universities = {
 	},
 
 	"Waikato": {
+		"difficulty": 1,
 		"money_needed": 6900,
 		"grades_needed": 60,
 		"location": "Hamilton",

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b86a2oyeqfeuq" path="res://Backend/Resource/Textures/stove.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://f6ok3wexm3bq" path="res://Backend/Resource/Textures/couch.png" id="5"]
 [ext_resource type="Texture2D" uid="uid://ccvgpxippoo76" path="res://Backend/Resource/Textures/tv.png" id="6"]
+[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/laptop.png" id="laptop_tex"]
 [ext_resource type="Texture2D" uid="uid://dk1whgisbmyva" path="res://Backend/Resource/Textures/item_phone.png" id="7"]
 [ext_resource type="Texture2D" uid="uid://bgc5u1xwno26m" path="res://Backend/Resource/Textures/item_water_bottle.png" id="8"]
 [ext_resource type="Texture2D" uid="uid://dwor670ddd7aa" path="res://Backend/Resource/Textures/player.png" id="9"]
@@ -178,7 +179,7 @@ text = "PROMPT_PICK_BOTTLE"
 position = Vector2(540, 196)
 
 [node name="Sprite2D" type="Sprite2D" parent="LaptopStation" unique_id=1309600187]
-texture = ExtResource("6")
+texture = ExtResource("laptop_tex")
 
 [node name="InteractArea" type="Area2D" parent="LaptopStation" unique_id=574805111]
 

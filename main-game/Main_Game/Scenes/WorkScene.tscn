@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://crj41v4jhq52b" path="res://Main_Game/Scripts/work_scene.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://c4dy8p4bcblqn" path="res://Backend/Resource/Textures/shelf.png" id="2"]
+[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/fridge.png" id="fridge_tex"]
+[ext_resource type="Texture2D" path="res://Backend/Resource/Textures/freezer.png" id="freezer_tex"]
 [ext_resource type="Texture2D" uid="uid://b7tbiaj4v3foj" path="res://Backend/Resource/Textures/checkout_counter.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://dwor670ddd7aa" path="res://Backend/Resource/Textures/player.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://4oo7gs1mj8co" path="res://Backend/Resource/Textures/customer_a.png" id="5"]
@@ -98,8 +100,7 @@ text = "PROMPT_RESTOCK"
 position = Vector2(650, 220)
 
 [node name="Sprite2D" type="Sprite2D" parent="FridgeStation1" unique_id=67163001]
-modulate = Color(0.65, 0.85, 1, 1)
-texture = ExtResource("2")
+texture = ExtResource("fridge_tex")
 
 [node name="InteractArea" type="Area2D" parent="FridgeStation1" unique_id=2015007773]
 
@@ -118,8 +119,7 @@ text = "PROMPT_RESTOCK"
 position = Vector2(900, 220)
 
 [node name="Sprite2D" type="Sprite2D" parent="FridgeStation2" unique_id=697160269]
-modulate = Color(0.65, 0.85, 1, 1)
-texture = ExtResource("2")
+texture = ExtResource("fridge_tex")
 
 [node name="InteractArea" type="Area2D" parent="FridgeStation2" unique_id=825605505]
 
@@ -138,8 +138,7 @@ text = "PROMPT_RESTOCK"
 position = Vector2(1200, 220)
 
 [node name="Sprite2D" type="Sprite2D" parent="FreezerStation1" unique_id=1812729935]
-modulate = Color(0.75, 0.9, 1, 1)
-texture = ExtResource("2")
+texture = ExtResource("freezer_tex")
 
 [node name="InteractArea" type="Area2D" parent="FreezerStation1" unique_id=360314015]
 
@@ -158,8 +157,7 @@ text = "PROMPT_RESTOCK"
 position = Vector2(1450, 220)
 
 [node name="Sprite2D" type="Sprite2D" parent="FreezerStation2" unique_id=1557928262]
-modulate = Color(0.75, 0.9, 1, 1)
-texture = ExtResource("2")
+texture = ExtResource("freezer_tex")
 
 [node name="InteractArea" type="Area2D" parent="FreezerStation2" unique_id=1003153602]
 

@@ -8,6 +8,7 @@ script = ExtResource("1")
 
 [node name="Panel" type="Control" parent="."]
 visible = false
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -15,52 +16,117 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Dim" type="ColorRect" parent="Panel"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.6)
+color = Color(0.04, 0.03, 0.06, 0.62)
 
-[node name="CenterContainer" type="CenterContainer" parent="Panel"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Book" type="PanelContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 1180.0
+offset_bottom = 760.0
 
-[node name="Box" type="PanelContainer" parent="Panel/CenterContainer"]
-custom_minimum_size = Vector2(560, 620)
+[node name="Margin" type="MarginContainer" parent="Panel/Book"]
 layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 24
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/CenterContainer/Box"]
+[node name="VBox" type="VBoxContainer" parent="Panel/Book/Margin"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="TitleLabel" type="Label" parent="Panel/CenterContainer/Box/VBoxContainer"]
+[node name="Header" type="HBoxContainer" parent="Panel/Book/Margin/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 28
-horizontal_alignment = 1
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="Panel/Book/Margin/VBox/Header"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 34
 text = "JOURNAL_TITLE"
 
-[node name="SummaryLabel" type="Label" parent="Panel/CenterContainer/Box/VBoxContainer"]
+[node name="DayChip" type="Label" parent="Panel/Book/Margin/VBox/Header"]
 layout_mode = 2
-autowrap_mode = 3
-text = ""
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 16
+text = "Day 1"
 
-[node name="HSeparator" type="HSeparator" parent="Panel/CenterContainer/Box/VBoxContainer"]
-layout_mode = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Panel/CenterContainer/Box/VBoxContainer"]
-custom_minimum_size = Vector2(0, 260)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="EntriesContainer" type="VBoxContainer" parent="Panel/CenterContainer/Box/VBoxContainer/ScrollContainer"]
+[node name="Spacer" type="Control" parent="Panel/Book/Margin/VBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 6
 
-[node name="CloseButton" type="Button" parent="Panel/CenterContainer/Box/VBoxContainer"]
+[node name="CloseButton" type="Button" parent="Panel/Book/Margin/VBox/Header"]
 layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
 text = "JOURNAL_CLOSE"
+
+[node name="Rule" type="ColorRect" parent="Panel/Book/Margin/VBox"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.63, 0.25, 0.18, 0.55)
+
+[node name="Columns" type="HBoxContainer" parent="Panel/Book/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 26
+
+[node name="SummaryColumn" type="VBoxContainer" parent="Panel/Book/Margin/VBox/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="SummaryTitle" type="Label" parent="Panel/Book/Margin/VBox/Columns/SummaryColumn"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "JOURNAL_SUMMARY"
+
+[node name="SummaryScroll" type="ScrollContainer" parent="Panel/Book/Margin/VBox/Columns/SummaryColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="SummaryPad" type="MarginContainer" parent="Panel/Book/Margin/VBox/Columns/SummaryColumn/SummaryScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 14
+
+[node name="SummaryList" type="VBoxContainer" parent="Panel/Book/Margin/VBox/Columns/SummaryColumn/SummaryScroll/SummaryPad"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="Divider" type="ColorRect" parent="Panel/Book/Margin/VBox/Columns"]
+custom_minimum_size = Vector2(2, 0)
+layout_mode = 2
+color = Color(0.63, 0.25, 0.18, 0.35)
+
+[node name="EventsColumn" type="VBoxContainer" parent="Panel/Book/Margin/VBox/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="EventsTitle" type="Label" parent="Panel/Book/Margin/VBox/Columns/EventsColumn"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "JOURNAL_EVENTS"
+
+[node name="EventsScroll" type="ScrollContainer" parent="Panel/Book/Margin/VBox/Columns/EventsColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="EventsPad" type="MarginContainer" parent="Panel/Book/Margin/VBox/Columns/EventsColumn/EventsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_right = 14
+
+[node name="EntriesContainer" type="VBoxContainer" parent="Panel/Book/Margin/VBox/Columns/EventsColumn/EventsScroll/EventsPad"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0

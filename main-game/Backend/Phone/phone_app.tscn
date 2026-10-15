@@ -1,6 +1,55 @@
-[gd_scene format=3 uid="uid://b4woxlv64qdrq"]
+[gd_scene format=3]
 
-[ext_resource type="Script" uid="uid://ddyssfdfeyykk" path="res://Backend/Phone/phone_app.gd" id="1"]
+[ext_resource type="Script" path="res://Backend/Phone/phone_app.gd" id="1"]
+[ext_resource type="Theme" path="res://Backend/Phone/phone_theme.tres" id="2_j8lu7"]
+[ext_resource type="Texture2D" path="res://Backend/Phone/ui/wallpaper.png" id="3_37bys"]
+[ext_resource type="Texture2D" path="res://Backend/Phone/ui/app_bg.png" id="4_lgo11"]
+[ext_resource type="Texture2D" path="res://Backend/Phone/ui/app_messages.png" id="5_jt4ar"]
+[ext_resource type="Texture2D" path="res://Backend/Phone/ui/app_chirp.png" id="6_ig343"]
+[ext_resource type="Texture2D" path="res://Backend/Phone/ui/app_bank.png" id="7_pkul6"]
+[ext_resource type="Texture2D" path="res://Backend/Phone/ui/app_arcade.png" id="8_hndhm"]
+[ext_resource type="Texture2D" path="res://Backend/Phone/ui/app_weather.png" id="9_5i8k4"]
+[ext_resource type="Texture2D" path="res://Backend/Phone/ui/status_icons.png" id="10_4ig1d"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fskl5"]
+content_margin_left = 12.0
+content_margin_top = 14.0
+content_margin_right = 12.0
+content_margin_bottom = 14.0
+bg_color = Color(0.04, 0.045, 0.055, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.2, 0.21, 0.25, 1)
+corner_radius_top_left = 46
+corner_radius_top_right = 46
+corner_radius_bottom_right = 46
+corner_radius_bottom_left = 46
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 26
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5nkp7"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gwbcx"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 0.85)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [node name="PhoneApp" type="CanvasLayer" unique_id=1531335918]
 layer = 15
@@ -21,7 +70,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.55)
+color = Color(0, 0, 0, 0.6)
 
 [node name="CenterContainer" type="CenterContainer" parent="Panel" unique_id=1189008417]
 layout_mode = 0
@@ -31,51 +80,124 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="PhoneBody" type="PanelContainer" parent="Panel/CenterContainer" unique_id=1806832015]
-custom_minimum_size = Vector2(340, 600)
+custom_minimum_size = Vector2(360, 720)
 layout_mode = 2
+theme = ExtResource("2_j8lu7")
+theme_override_styles/panel = SubResource("StyleBoxFlat_fskl5")
 
 [node name="Screen" type="Control" parent="Panel/CenterContainer/PhoneBody" unique_id=486599761]
+clip_contents = true
 layout_mode = 2
+
+[node name="Wallpaper" type="TextureRect" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=637755551]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("3_37bys")
+expand_mode = 1
+
+[node name="AppBackground" type="TextureRect" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=2068704534]
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("4_lgo11")
+expand_mode = 1
 
 [node name="HomeScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=856135328]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 38.0
+offset_right = -14.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 14
-alignment = 1
+theme_override_constants/separation = 2
+
+[node name="TopGap" type="Control" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=332596268]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
 
 [node name="TitleLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=1727265709]
 layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "PHONE_TITLE"
+theme_override_font_sizes/font_size = 62
+text = "9:41"
 horizontal_alignment = 1
 
-[node name="ChirpButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=1230838179]
+[node name="DateLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=2005026808]
 layout_mode = 2
-text = "PHONE_CHIRP_APP"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 1, 1, 0.85)
+text = "Tue 5 Mar"
+horizontal_alignment = 1
 
-[node name="MessagesButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=43541065]
+[node name="Gap" type="Control" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=2058624031]
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
+
+[node name="AppGridHolder" type="CenterContainer" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=1438905154]
+layout_mode = 2
+
+[node name="AppGrid" type="GridContainer" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen/AppGridHolder" unique_id=1351394871]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 18
+columns = 3
+
+[node name="MessagesButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen/AppGridHolder/AppGrid" unique_id=43541065]
+custom_minimum_size = Vector2(96, 92)
+layout_mode = 2
+theme_type_variation = &"AppIcon"
 text = "PHONE_MESSAGES"
+icon = ExtResource("5_jt4ar")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
 
-[node name="BankButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=397756561]
+[node name="ChirpButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen/AppGridHolder/AppGrid" unique_id=1230838179]
+custom_minimum_size = Vector2(96, 92)
 layout_mode = 2
+theme_type_variation = &"AppIcon"
+text = "Chirp"
+icon = ExtResource("6_ig343")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="BankButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen/AppGridHolder/AppGrid" unique_id=397756561]
+custom_minimum_size = Vector2(96, 92)
+layout_mode = 2
+theme_type_variation = &"AppIcon"
 text = "PHONE_BANK"
+icon = ExtResource("7_pkul6")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
 
-[node name="GamesButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=263393012]
+[node name="GamesButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen/AppGridHolder/AppGrid" unique_id=263393012]
+custom_minimum_size = Vector2(96, 92)
 layout_mode = 2
-text = "PHONE_GAMES"
+theme_type_variation = &"AppIcon"
+text = "PHONE_GAME_TITLE"
+icon = ExtResource("8_hndhm")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
 
-[node name="WeatherButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=158023654]
+[node name="WeatherButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen/AppGridHolder/AppGrid" unique_id=158023654]
+custom_minimum_size = Vector2(96, 92)
 layout_mode = 2
+theme_type_variation = &"AppIcon"
 text = "PHONE_WEATHER"
-
-[node name="CloseButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeScreen" unique_id=384585392]
-layout_mode = 2
-text = "PHONE_PUT_AWAY"
+icon = ExtResource("9_5i8k4")
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
 
 [node name="DoomscrollScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=1293462456]
 visible = false
@@ -83,13 +205,17 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 38.0
+offset_right = -14.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
 
 [node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen" unique_id=548522152]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_type_variation = &"AppHeader"
 text = "Chirp"
 horizontal_alignment = 1
 
@@ -105,10 +231,13 @@ theme_override_constants/separation = 8
 
 [node name="KeepScrollingButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen" unique_id=1966583944]
 layout_mode = 2
+theme_type_variation = &"PrimaryButton"
 text = "PHONE_REFRESH_FEED"
 
 [node name="DoomscrollBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/DoomscrollScreen" unique_id=242701741]
+visible = false
 layout_mode = 2
+theme_type_variation = &"SecondaryButton"
 text = "COMMON_BACK"
 
 [node name="BankScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=1133932141]
@@ -117,13 +246,17 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 38.0
+offset_right = -14.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 10
 
 [node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=380135646]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_type_variation = &"AppHeader"
 text = "PHONE_BANK"
 horizontal_alignment = 1
 
@@ -176,6 +309,7 @@ text = "PHONE_CLEAR"
 
 [node name="DepositButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=511854523]
 layout_mode = 2
+theme_type_variation = &"PrimaryButton"
 text = "PHONE_DEPOSIT"
 
 [node name="WithdrawButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=2146961450]
@@ -187,7 +321,9 @@ layout_mode = 2
 text = "PHONE_TERM_DEPOSIT_BUTTON"
 
 [node name="BankBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/BankScreen" unique_id=828645723]
+visible = false
 layout_mode = 2
+theme_type_variation = &"SecondaryButton"
 text = "COMMON_BACK"
 
 [node name="MessagesScreen" type="Control" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=1558543300]
@@ -196,6 +332,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 38.0
+offset_right = -14.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -210,7 +350,7 @@ theme_override_constants/separation = 6
 
 [node name="InboxTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen/InboxView" unique_id=749908062]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_type_variation = &"AppHeader"
 text = "PHONE_MESSAGES"
 horizontal_alignment = 1
 
@@ -225,7 +365,9 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
 [node name="InboxBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen/InboxView" unique_id=1455105926]
+visible = false
 layout_mode = 2
+theme_type_variation = &"SecondaryButton"
 text = "PHONE_BACK_HOME"
 
 [node name="ThreadView" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen" unique_id=1337840780]
@@ -240,7 +382,7 @@ theme_override_constants/separation = 6
 
 [node name="SenderLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen/ThreadView" unique_id=350759233]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_type_variation = &"AppHeader"
 horizontal_alignment = 1
 
 [node name="ThreadScroll" type="ScrollContainer" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen/ThreadView" unique_id=1532695182]
@@ -259,6 +401,7 @@ theme_override_constants/separation = 4
 
 [node name="MessagesBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/MessagesScreen/ThreadView" unique_id=47227154]
 layout_mode = 2
+theme_type_variation = &"SecondaryButton"
 text = "PHONE_BACK_INBOX"
 
 [node name="WeatherScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=37310338]
@@ -267,6 +410,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 38.0
+offset_right = -14.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 14
@@ -274,13 +421,13 @@ alignment = 1
 
 [node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/WeatherScreen" unique_id=1238004940]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_type_variation = &"AppHeader"
 text = "PHONE_WEATHER"
 horizontal_alignment = 1
 
 [node name="WeatherLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/WeatherScreen" unique_id=283236464]
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
+theme_override_font_sizes/font_size = 96
 horizontal_alignment = 1
 
 [node name="WeatherDetailLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/WeatherScreen" unique_id=1064969786]
@@ -289,7 +436,9 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="WeatherBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/WeatherScreen" unique_id=1012686353]
+visible = false
 layout_mode = 2
+theme_type_variation = &"SecondaryButton"
 text = "COMMON_BACK"
 
 [node name="GamesScreen" type="VBoxContainer" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=958274404]
@@ -298,6 +447,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 38.0
+offset_right = -14.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 12
@@ -305,7 +458,7 @@ alignment = 1
 
 [node name="AppTitle" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/GamesScreen" unique_id=327949737]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+theme_type_variation = &"AppHeader"
 text = "PHONE_GAME_TITLE"
 horizontal_alignment = 1
 
@@ -327,8 +480,76 @@ columns = 3
 
 [node name="GameStartButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/GamesScreen" unique_id=221410165]
 layout_mode = 2
+theme_type_variation = &"PrimaryButton"
 text = "PHONE_START_GAME"
 
 [node name="GamesBackButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/GamesScreen" unique_id=1259230985]
 layout_mode = 2
+theme_type_variation = &"SecondaryButton"
 text = "COMMON_BACK"
+
+[node name="StatusBar" type="Control" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=1054734170]
+anchors_preset = 0
+anchor_right = 1.0
+offset_bottom = 32.0
+mouse_filter = 2
+
+[node name="TimeLabel" type="Label" parent="Panel/CenterContainer/PhoneBody/Screen/StatusBar" unique_id=608400695]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 8.0
+offset_right = 96.0
+offset_bottom = 31.0
+theme_override_font_sizes/font_size = 14
+text = "9:41"
+
+[node name="Notch" type="Panel" parent="Panel/CenterContainer/PhoneBody/Screen/StatusBar" unique_id=633280102]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -48.0
+offset_top = 6.0
+offset_right = 48.0
+offset_bottom = 28.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5nkp7")
+
+[node name="StatusIcons" type="TextureRect" parent="Panel/CenterContainer/PhoneBody/Screen/StatusBar" unique_id=801659346]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -86.0
+offset_top = 10.0
+offset_right = -26.0
+offset_bottom = 26.0
+mouse_filter = 2
+texture = ExtResource("10_4ig1d")
+
+[node name="HomeBar" type="Control" parent="Panel/CenterContainer/PhoneBody/Screen" unique_id=1664894646]
+anchors_preset = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -38.0
+
+[node name="Pill" type="Panel" parent="Panel/CenterContainer/PhoneBody/Screen/HomeBar" unique_id=725346950]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -62.0
+offset_top = -11.0
+offset_right = 62.0
+offset_bottom = -6.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gwbcx")
+
+[node name="CloseButton" type="Button" parent="Panel/CenterContainer/PhoneBody/Screen/HomeBar" unique_id=384585392]
+layout_mode = 0
+anchor_left = 0.2
+anchor_right = 0.8
+anchor_bottom = 1.0
+offset_bottom = -12.0
+theme_type_variation = &"HomeBarButton"
+text = "PHONE_PUT_AWAY"
