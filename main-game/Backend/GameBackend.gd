@@ -20,8 +20,8 @@ var selected_university: String = ""
 var universities = {
 	"Auckland": {
 		"difficulty": 3,
-		"money_needed": 8200,
-		"grades_needed": 72,
+		"money_needed": 10500,
+		"grades_needed": 82,
 		"location": "Auckland",
 		"full_name": "the University of Auckland",
 		"admissions": "University of Auckland — Admissions",
@@ -29,8 +29,8 @@ var universities = {
 
 	"Canterbury": {
 		"difficulty": 2,
-		"money_needed": 7400,
-		"grades_needed": 66,
+		"money_needed": 9400,
+		"grades_needed": 76,
 		"location": "Christchurch",
 		"full_name": "the University of Canterbury",
 		"admissions": "University of Canterbury — Admissions",
@@ -38,8 +38,8 @@ var universities = {
 
 	"Waikato": {
 		"difficulty": 1,
-		"money_needed": 6900,
-		"grades_needed": 60,
+		"money_needed": 8900,
+		"grades_needed": 68,
 		"location": "Hamilton",
 		"full_name": "the University of Waikato",
 		"admissions": "University of Waikato — Admissions",
