@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cql06pslengwj"]
 
 [ext_resource type="Script" uid="uid://djpt2l6xj3d78" path="res://MainMenu/Scripts/main_menu.gd" id="1_v1kw2"]
-[ext_resource type="Texture2D" uid="uid://b5qhwng0ceot3" path="res://MainMenu/Assets/Main_Menu_withplaceholdertitle.png" id="2_v1kw2"]
+[ext_resource type="Texture2D" uid="uid://cfdf3r7lsipyj" path="res://MainMenu/Assets/Main_Menu.png" id="2_y7nyg"]
 [ext_resource type="Texture2D" uid="uid://rth76m1bmapd" path="res://MainMenu/Assets/Settings icon.svg" id="3_y7nyg"]
 
 [node name="Main_Menu" type="Node2D" unique_id=1314528150]
@@ -10,7 +10,7 @@ script = ExtResource("1_v1kw2")
 [node name="MainMenu" type="Sprite2D" parent="." unique_id=604601179]
 position = Vector2(959.9999, 540)
 scale = Vector2(0.9999999, 0.9999999)
-texture = ExtResource("2_v1kw2")
+texture = ExtResource("2_y7nyg")
 
 [node name="Control" type="Control" parent="." unique_id=1763362267]
 layout_mode = 3
